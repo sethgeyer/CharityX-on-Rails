@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CharityX</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<%= yield %>
+
+</body>
+</html>
+
+
+
+tml>
+<head>
+  <meta charset="UTF-8">
+  <title>CharityX</title>
+
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+
+  <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css">
+  <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">-->
+  <link rel="stylesheet" type="text/css" href="/style.css">
+
+</head>
+
+<div class="wrapper">
+  <body>
+
+
+  <section class="navbar">
+    <article class="inline left nav_name">Charity Exchange</article>
+    <article class="inline right">
+      <article class="inline"> <a class="navbar_links" href="/charities">Charities</a> |</article>
+      <article class="inline"> <a class="navbar_links"  href="/mvps">MVPs</a> |</article>
+      <%if !session[:user_id]%>
+        <article class="inline">
+          <form  method="POST" action="/login">
+            <label for="username">Username:</label>
+            <input class="sm" id="username" name="username"/>
+            <label for="password">Password:</label>
+            <input class="xs" type="password" id="password" name="password"/>
+            <button class="btn">Login</button>
+          </form>
+        </article>
+        <article class="inline"><a class="navbar_links" href="/users/new">Sign Up</a></article>
+      <%else%>
+        <article class="inline">
+          <a class="navbar_links" href="/users/<%=session[:user_id]%>">Account Details</a> |
+        </article>
+        <article class="inline">
+          <a class="navbar_links" href="/users/<%=session[:user_id]%>/edit">Edit Profile &nbsp;&nbsp;&nbsp;</a>
+        </article>
+        <article class="inline">
+          <form method="POST" action="/logout" >
+            <button class="btn">Logout</button>
+          </form>
+        </article>
+
+      <%end%>
+    </article>
+  </section>
+
+  <%= flash[:notice] if flash[:notice]%>
+  <%= yield %>
+
+  </body>
+  <br/>
+  <br/>
+
+  <footer>
+
+  </footer>
+
+</div> <!--END content-->
+<br/>
+</html>
