@@ -1,0 +1,15 @@
+<div id="index_mvps">
+  <h1>Minimum Viable Products Released</h1>
+  <a href="/">Back to Home</a>
+
+  <%if @current_user%>
+    <%if @current_user.is_admin?%>
+      | <a href="/mvps/new">Add New</a>
+    <%end%>
+  <%end%>
+  <br/>
+  <%@mvps.each do |mvp|%>
+    <%=mvp.date%> - <%=mvp.description%><br/>
+  <%end%>
+
+</div>

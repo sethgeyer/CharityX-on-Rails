@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   get "/proposed_wagers/new", to: "proposed_wagers#new"
 
 
+  get "/mvps", to: "mvps#index"
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

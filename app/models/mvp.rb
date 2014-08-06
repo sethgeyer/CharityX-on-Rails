@@ -1,4 +1,4 @@
 
-# class Mvp < ActiveRecord::Base
-#
-# end
+class Mvp < ActiveRecord::Base
+
+end
