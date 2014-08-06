@@ -1,3 +1,6 @@
+require 'rails_helper'
+require 'capybara/rails'
+
 
 feature "view mvps"  do
 

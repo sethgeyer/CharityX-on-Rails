@@ -1,3 +1,8 @@
+require 'rails_helper'
+require 'capybara/rails'
+
+
+
 feature "editing user profile" do
   before(:each) do
     fill_in_registration_form("Stephen")

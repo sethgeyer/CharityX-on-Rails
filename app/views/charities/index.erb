@@ -1,3 +1,28 @@
 <div id="index_charities">
 
+  <a href="/charities/new">Register a new charity</a><br>
+  <a href="/">Back to Home</a>
+
+
+  <table>
+    <thead>
+    <th>Name</th>
+    <th>Tax ID</th>
+    <th>POC</th>
+    <th>POC Email</th>
+    <th>Status</th>
+    </thead>
+    <tbody>
+    <%@charities.each do |charity| %>
+      <tr>
+        <td><%=charity.name%></td>
+        <td><%=charity.tax_id%></td>
+        <td><%=charity.poc%></td>
+        <td><%=charity.poc_email%></td>
+        <td><%=charity.status%></td>
+      </tr>
+    <%end%>
+    </tbody>
+  </table>
+
 </div>

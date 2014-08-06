@@ -1,4 +1,4 @@
 
-# class Charity < ActiveRecord::Base
-#
-# end
+class Charity < ActiveRecord::Base
+
+end

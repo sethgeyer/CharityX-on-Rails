@@ -1,3 +1,7 @@
+require 'rails_helper'
+require 'capybara/rails'
+
+
 feature "User Show Page" do
   before(:each) do
     fill_in_registration_form("Stephen")
