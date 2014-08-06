@@ -31,7 +31,6 @@ feature "visitor registration" do
     fill_in "SSN", with: "377993333"
     fill_in "Email", with: name
     fill_in "Password", with: name.downcase
-    fill_in "Confirm", with: name.downcase
     click_on "Submit"
 
     expect(page).to have_css("#new_users")
@@ -47,8 +46,7 @@ feature "visitor registration" do
     fill_in "SSN", with: "377993333"
     fill_in "Email", with: name
     fill_in "Password", with: name.downcase
-    fill_in "Confirm", with: name.downcase
-    fill_in "Profile Picture", with: "http://google.com"
+    fill_in "Profile picture", with: "http://google.com"
     click_on "Submit"
 
     expect(page).to have_css("#new_users")

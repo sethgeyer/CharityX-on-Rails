@@ -8,44 +8,25 @@
       <%end%>
     </ul>
 
-    < %=form_for @user do |f|%>
+    <%=form_for @user do |f|%>
+      <%=f.label :username%><br/>
+      <%=f.text_field :username%><br/>
 
+      <%=f.label :ssn, "SSN"%><br/>
+      <%=f.text_field :ssn%><br/>
 
+      <%=f.label :email%><br/>
+      <%=f.email_field :email%><br/>
 
-    < %end%>
+      <%=f.label :password%><br/>
+      <%=f.text_field :password%><br/>
 
+      <%=f.label :profile_picture%><br/>
+      <%=f.text_field :profile_picture%><br/>
 
+      <%=f.submit "Submit"%>
+      <%=link_to "Cancel", "/"%>
+    <%end%>
 
-    <form method="POST" action="/users">
-      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
-      <label for="username">Username:</label>
-      <br/>
-      <input id="username" name="username" value="<%=@user.username%>"/>
-      <br/>
-      <label for="ssn">SSN:</label>
-      <br/>
-      <input id="ssn" name="ssn" value="<%=@user.ssn%>"/>
-      <br/>
-
-      <label for="email">Email:</label>
-      <br/>
-      <input type="email" id="email" name="email" value="<%=@user.email%>"/>
-      <br/>
-      <label for="password">Password:</label>
-      <br/>
-      <input type="password" id="password" name="password"/>
-      <br/>
-      <label for="confirmed_pword">Confirm:</label>
-      <br/>
-      <input type="password" id="confirmed_pword" name="confirmed_pword"/>
-      <br/>
-      <label for="profile_picture">Profile Picture:</label>
-      <br/>
-      <input id="profile_picture" name="profile_picture" value="<%=@user.profile_picture%>"/>
-      <br/><br>
-      <button>Submit</button>
-      <a href="/">Cancel</a>
-
-    </form>
 
 </div>

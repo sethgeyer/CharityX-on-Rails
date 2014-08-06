@@ -87,8 +87,7 @@ def fill_in_registration_form(name)
   fill_in "SSN", with: ssn
   fill_in "Email", with: "#{name}@gmail.com"
   fill_in "Password", with: name.downcase
-  fill_in "Confirm", with: name.downcase
-  fill_in "Profile Picture", with: "http://google.com"
+  fill_in "Profile picture", with: "http://google.com"
   click_on "Submit"
 end
 

@@ -6,13 +6,13 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new
-    @user.username = params[:username]
-    @user.ssn = params[:ssn].to_i
-    @user.email = params[:email]
-    @user.password = params[:password]
-    @user.profile_picture = params[:profile_picture]
+    @user.username = params[:user][:username]
+    @user.ssn = params[:user][:ssn].to_i
+    @user.email = params[:user][:email]
+    @user.password = params[:user][:password]
+    @user.profile_picture = params[:user][:profile_picture]
     if @user.save
-      set_the_session(User.find_by(username: params[:username]))
+      set_the_session(User.find_by(username: params[:user][:username]))
       account = Account.new
       account.user_id = session[:user_id]
       account.save!
