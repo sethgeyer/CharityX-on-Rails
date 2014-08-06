@@ -26,6 +26,45 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    if session[:user_id] == @user.id #params[:id].to_i
+      @account = Account.find_by(user_id: session[:user_id])
+      #UNTESTED ######################
+      @unallocated_chips = @account.chips.where(status: "available")
+      @distributed_chips = @account.chips.where(status: "distributed")
+      @wagered_chips = @account.chips.where(status: "wagered")
+      ###################
+      @deposit_total = @account.deposits.sum(:amount) / 100
+      @distribution_total = @account.distributions.sum(:amount) / 100
+      @wagered_total = @account.proposed_wagers.sum(:amount) / 100
+      @net_amount = @deposit_total - @distribution_total - @wagered_total
+      @proposed_wagers = @account.proposed_wagers
+      @wageree_wagers = ProposedWager.where(wageree_id: session[:user_id])
+
+      render :show
+
+      # erb :show_user, locals: {
+      #   account: account,
+      #   deposit_total: deposit_total,
+      #   distribution_total: distribution_total,
+      #   wagered_total: wagered_total,
+      #   net_amount: net_amount,
+      #   proposed_wagers: proposed_wagers,
+      #   wageree_wagers: wageree_wagers,
+      #   #UNTESTED ######################
+      #   unallocated_chips: unallocated_chips,
+      #   distributed_chips: distributed_chips,
+      #   wagered_chips: wagered_chips
+      #   ####################
+      # }
+    else
+      flash[:notice] = "You are not authorized to visit this page"
+      redirect "/"
+    end
+
+
+
+
+
   end
 
 

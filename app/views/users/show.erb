@@ -1,4 +1,59 @@
 <div id="show_users">
 
+  <h1>Account Details</h1>
+  <hr />
+
+  <table>
+    <thead>
+    <td>Deposits</td>
+    <td>Distributions</td>
+    <td>Wagers</td>
+    <td>Amount</td>
+    </thead>
+    <tbody>
+    <tr>
+      <td id="deposits">$<%=@deposit_total%>  </td>
+      <td id="distributions">$<%=@distribution_total%>--- Chips:<%=@distributed_chips.count%></td>
+      <td id="wagers">$<%=@wagered_total%>--- Chips:<%=@wagered_chips.count%></td>
+      <td id="net_amount">$<%=@net_amount%> ---- Chips:<%=@unallocated_chips.count%></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <a href="/deposits/new">Fund My Account</a> |
+  <a href="/distributions/new">Distribute Funds</a>
+  <a href="/proposed_wagers/new">Create a Wager</a>
+
+  <a href="/deposits">Show Deposit History</a>
+  <a href="/distributions">Show Distribution History</a>
+
+  <br/>
+  <br/>
+
+  <table id="proposed_wagers_table">
+    <thead>
+    <th>Title</th>
+    <th>Amount</th>
+    <th>Wageree</th>
+    </thead>
+    <tbody>
+    <%@proposed_wagers.each do |wager|%>
+      <tr>
+        <td><%=wager.title%></td>
+        <td><%=wager.amount / 100 %></td>
+        <td><%=wager.wageree_id%></td>
+      </tr>
+
+    <%end%>
+    <%@wageree_wagers.each do |wager|%>
+      <tr>
+        <td><%=wager.title%></td>
+        <td><%=wager.amount / 100%></td>
+        <td><%=Account.find_by(user_id: wager.wageree_id).user.email%></td>
+      </tr>
+    <%end%>
+    </tbody>
+  </table>
+
 
 </div>

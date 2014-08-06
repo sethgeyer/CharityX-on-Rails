@@ -1,5 +1,5 @@
 
-# class Chip < ActiveRecord::Base
+class Chip < ActiveRecord::Base
 #   def purchase(user_id, account_id, deposit_amount, deposit_create_date, availability = nil)
 #     number_of_chips = convert_from_pennies(deposit_amount)
 #
@@ -46,4 +46,4 @@
 #   end
 #
 #
-# end
+end

@@ -1,5 +1,5 @@
 
-# class ProposedWager < ActiveRecord::Base
+class ProposedWager < ActiveRecord::Base
 #   belongs_to :account
 #
-# end
+end

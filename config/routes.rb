@@ -10,6 +10,14 @@ Rails.application.routes.draw do
   get "/users/:id", to: "users#show"
   post "/logout", to: "sessions#destroy"
   post "/login", to: "sessions#create"
+
+  get "/deposits/new", to: "deposits#new"
+
+  get "/distributions/new", to: "distributions#new"
+
+  get "/proposed_wagers/new", to: "proposed_wagers#new"
+
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
