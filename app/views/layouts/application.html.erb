@@ -1,21 +1,6 @@
 <!DOCTYPE html>
+
 <html>
-<head>
-  <title>CharityX</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-
-<%= yield %>
-
-</body>
-</html>
-
-
-
-tml>
 <head>
   <meta charset="UTF-8">
   <title>CharityX</title>
@@ -59,6 +44,8 @@ tml>
         </article>
         <article class="inline">
           <form method="POST" action="/logout" >
+            <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+
             <button class="btn">Logout</button>
           </form>
         </article>

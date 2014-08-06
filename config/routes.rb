@@ -6,7 +6,10 @@ Rails.application.routes.draw do
   root 'home#index'
   get "/charities", to: "charities#index"
   get "/users/new", to: "users#new"
-
+  post "/users", to: "users#create"
+  get "/users/:id", to: "users#show"
+  post "/logout", to: "sessions#destroy"
+  post "/login", to: "sessions#create"
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

@@ -1,4 +1,51 @@
 <div id="new_users">
 
-  <a href = "">Cancel</a>
+    <h1>Register Here</h1>
+
+    <ul>
+      <%@user.errors.full_messages.each do |message|%>
+        <li style="color:red"><%=message%></li>
+      <%end%>
+    </ul>
+
+    < %=form_for @user do |f|%>
+
+
+
+    < %end%>
+
+
+
+    <form method="POST" action="/users">
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+      <label for="username">Username:</label>
+      <br/>
+      <input id="username" name="username" value="<%=@user.username%>"/>
+      <br/>
+      <label for="ssn">SSN:</label>
+      <br/>
+      <input id="ssn" name="ssn" value="<%=@user.ssn%>"/>
+      <br/>
+
+      <label for="email">Email:</label>
+      <br/>
+      <input type="email" id="email" name="email" value="<%=@user.email%>"/>
+      <br/>
+      <label for="password">Password:</label>
+      <br/>
+      <input type="password" id="password" name="password"/>
+      <br/>
+      <label for="confirmed_pword">Confirm:</label>
+      <br/>
+      <input type="password" id="confirmed_pword" name="confirmed_pword"/>
+      <br/>
+      <label for="profile_picture">Profile Picture:</label>
+      <br/>
+      <input id="profile_picture" name="profile_picture" value="<%=@user.profile_picture%>"/>
+      <br/><br>
+      <button>Submit</button>
+      <a href="/">Cancel</a>
+
+    </form>
+
 </div>

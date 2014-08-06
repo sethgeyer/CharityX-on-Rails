@@ -79,3 +79,21 @@ RSpec.configure do |config|
   end
 =end
 end
+
+def fill_in_registration_form(name)
+  ssn = rand(100000000..199999999)
+  visit "/users/new"
+  fill_in "Username", with: "#{name.downcase}y"
+  fill_in "SSN", with: ssn
+  fill_in "Email", with: "#{name}@gmail.com"
+  fill_in "Password", with: name.downcase
+  fill_in "Confirm", with: name.downcase
+  fill_in "Profile Picture", with: "http://google.com"
+  click_on "Submit"
+end
+
+def login_a_registered_user(name)
+  fill_in "username", with: "#{name.downcase}y"
+  fill_in "Password", with: name.downcase
+  click_on "Login"
+end
