@@ -4,32 +4,27 @@
 
  <%=form_for @charity do |f| %>
 
- <%end%>
+    <div>
+      <%=f.label :name, "Charity Name"%>
+      <%=f.text_field :name%>
+    </div>
+    <div>
+      <%=f.label :tax_id, "Federal Tax ID"%>
+      <%=f.text_field :tax_id%>
+    </div>
+    <div>
+      <%=f.label :poc, "Primary POC"%>
+      <%=f.text_field :poc%>
+    </div>
+    <div>
+      <%=f.label :poc_email, "POC Email"%>
+      <%=f.text_field :poc_email%>
+    </div>
+    <input type="hidden" name="status" value="unregistered"/>
+    <%=f.submit "Submit"%>
+    <%= link_to "Cancel", "/charities"%>
+  <%end%>
 
 
-
-<for m method="POST" action="/charities">
-  <label for="charity_name">Charity Name:</label>
-  <br/>
-  <input id="charity_name" name="name"/>
-  <br/>
-  <label for="tax_id">Federal Tax ID:</label>
-  <br/>
-  <input id="tax_id" name="tax_id"/>
-  <br/>
-  <label for="poc">Primary POC:</label>
-  <br/>
-  <input id="poc" name="poc"/>
-  <br/>
-  <label for="poc_email">POC Email:</label>
-  <br/>
-  <input id="poc_email" name="poc_email"/>
-  <br/>
-  <input type="hidden" name="status" value="unregistered"/>
-  <br><br>
-  <button>Submit</button>
-  <a href="/charities">Cancel</a>
-
-</form>
 
 </div>

@@ -8,7 +8,7 @@ class CharitiesController < ApplicationController
   end
 
   def create
-    Charity.create(name: params[:name], tax_id: params[:tax_id], poc: params[:poc], poc_email: params[:poc_email], status: params[:status])
+    Charity.create(name: params[:charity][:name], tax_id: params[:charity][:tax_id], poc: params[:charity][:poc], poc_email: params[:charity][:poc_email], status: params[:charity][:status])
     flash[:notice] = "Thanks for applying"
 
     redirect_to "/charities"
