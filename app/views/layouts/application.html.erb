@@ -27,12 +27,22 @@
       <%if !session[:user_id]%>
         <article class="inline">
           <form  method="POST" action="/login">
-            <label for="username">Username:</label>
+          <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+          <label for="username">Username:</label>
             <input class="sm" id="username" name="username"/>
             <label for="password">Password:</label>
             <input class="xs" type="password" id="password" name="password"/>
             <button class="btn">Login</button>
           </form>
+          <!--< %=form_for url: "/login", method:"POST" do |f|%>-->
+            <!--< %=f.label :username%>-->
+            <!--< %=f.text_field :username, class:"sm"%>-->
+            <!--< %=f.label :password%>-->
+            <!--< %=f.text_field :password, class:"xs"%>-->
+            <!--< %=f.submit "Login", class:"btn"%>-->
+          <!--< %end%>-->
+
+
         </article>
         <article class="inline"><a class="navbar_links" href="/users/new">Sign Up</a></article>
       <%else%>
@@ -45,7 +55,6 @@
         <article class="inline">
           <form method="POST" action="/logout" >
             <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
-
             <button class="btn">Logout</button>
           </form>
         </article>

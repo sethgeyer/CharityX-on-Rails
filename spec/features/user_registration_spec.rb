@@ -1,3 +1,7 @@
+require 'rails_helper'
+require 'capybara/rails'
+
+
 feature "visitor registration" do
 
   scenario "visitor fills in registration form completely and accurately" do

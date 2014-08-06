@@ -1,0 +1,52 @@
+
+.wrapper {
+    margin-left: 20px;
+    margin-right: 20px;
+    background-color:#EDEEF2;
+}
+
+
+.navbar {
+    padding-left: 10px;
+    border:2px solid black;
+    padding-top:10px;
+    padding-bottom:10px;
+    height:35px;
+    margin-bottom: 20px;
+    background-color:#0F2166;
+    color:white;
+}
+
+.navbar_links {
+    color:white;
+    text-decoration: none;
+}
+
+.inline {display:inline-block;}
+
+.right {
+    float:right;
+    margin-right: 10px;
+    margin-top: 4px;
+}
+
+.left {
+    float:left;
+}
+
+.nav_name {
+    font-size:30px;
+}
+
+.sm {
+    width:160px;
+}
+
+.xs {
+    width:80px;
+}
+
+.btn {
+    border-radius: 5px;
+    color:black
+}

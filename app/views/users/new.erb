@@ -9,6 +9,7 @@
     </ul>
 
     <%=form_for @user do |f|%>
+
       <%=f.label :username%><br/>
       <%=f.text_field :username%><br/>
 
@@ -26,7 +27,8 @@
 
       <%=f.submit "Submit"%>
       <%=link_to "Cancel", "/"%>
-    <%end%>
+
+  <%end%>
 
 
 </div>
