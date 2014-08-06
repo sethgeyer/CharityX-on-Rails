@@ -1,0 +1,29 @@
+<div id="edit_users">
+
+    <h1>Update Your Profile</h1>
+
+    <ul>
+      <%@user.errors.full_messages.each do |message|%>
+        <li style="color:red"><%=message%></li>
+      <%end%>
+    </ul>
+
+    <%=form_for @user, url:"/users/#{session[:user_id]}" do |f|%>
+      <div id="email">
+        <%=f.label :email%><br/>
+        <%=f.text_field :email%><br/>
+      </div>
+      <div id="password">
+        <%=f.label :password%><br/>
+        <%=f.text_field :password%><br/>
+      </div>
+      <div id="profile_picture">
+        <%=f.label :profile_picture%><br/>
+        <%=f.text_field :profile_picture%><br/>
+      </div>
+      <%=f.submit "Submit"%>
+      <%=link_to "Cancel", "/users/#{session[:user_id]}"%>
+
+    <%end%>
+
+  </div>

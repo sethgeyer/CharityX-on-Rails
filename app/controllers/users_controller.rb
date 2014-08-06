@@ -39,32 +39,35 @@ class UsersController < ApplicationController
       @net_amount = @deposit_total - @distribution_total - @wagered_total
       @proposed_wagers = @account.proposed_wagers
       @wageree_wagers = ProposedWager.where(wageree_id: session[:user_id])
-
       render :show
-
-      # erb :show_user, locals: {
-      #   account: account,
-      #   deposit_total: deposit_total,
-      #   distribution_total: distribution_total,
-      #   wagered_total: wagered_total,
-      #   net_amount: net_amount,
-      #   proposed_wagers: proposed_wagers,
-      #   wageree_wagers: wageree_wagers,
-      #   #UNTESTED ######################
-      #   unallocated_chips: unallocated_chips,
-      #   distributed_chips: distributed_chips,
-      #   wagered_chips: wagered_chips
-      #   ####################
-      # }
     else
       flash[:notice] = "You are not authorized to visit this page"
       redirect "/"
     end
+  end
 
+  def edit
+    @user = User.find(params[:id])
+  end
 
-
-
-
+  def update
+    if params[:user][:email] == ""
+      flash[:notice] = "Email can't be blank"
+      @user = User.find(session[:user_id])
+      render :edit
+    elsif params[:user][:password].length < 7
+      flash[:notice] = "Password must be at least 7 characters"
+      @user = User.find(session[:user_id])
+      render :edit
+    else
+      @user = User.find(params[:id].to_i)
+      @user.email = params[:user][:email]
+      @user.password = params[:user][:password]
+      @user.profile_picture = params[:user][:profile_picture]
+      @user.save!
+      flash[:notice] = "Your changes have been saved"
+      redirect_to "/users/#{session[:user_id]}"
+    end
   end
 
 

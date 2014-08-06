@@ -1,0 +1,58 @@
+feature "editing user profile" do
+  before(:each) do
+    fill_in_registration_form("Stephen")
+  end
+
+  scenario "user updates their user profile" do
+    click_on "Edit Profile"
+    fill_in "Email", with: "steve@gmail.com"
+    fill_in "Password", with: "stephen1"
+    fill_in "Profile picture", with: "www.google.com"
+    click_on "Submit"
+
+    expect(page).to have_content("Your changes have been saved")
+    expect(page).to have_css("#show_users")
+
+    click_on "Edit Profile"
+
+
+    expect(find("#password").value).to eq("stephen1")
+    expect(find("#email").value).to eq("steve@gmail.com")
+    expect(find("#profile_picture").value).to eq("www.google.com")
+  end
+
+  scenario "user leaves email blank when editing" do
+    click_on "Edit Profile"
+    fill_in "Email", with: ""
+    click_on "Submit"
+
+    expect(page).to have_css("#edit_users")
+    expect(page).to have_content("Email can't be blank")
+  end
+
+
+  scenario "user leaves password blank when editing" do
+    click_on "Edit Profile"
+    fill_in "Password", with: ""
+    click_on "Submit"
+
+    expect(page).to have_css("#edit_users")
+    expect(page).to have_content("Password must be at least 7 characters")
+  end
+
+
+  # scenario "anyone besides the user can not change the individual's profile via the direct url" do
+  #   visit "/users/5000/edit"
+  #
+  #   expect(page).to have_content("You are not authorized to visit this page")
+  #   expect(page).to have_css("#homepage")
+  # end
+
+  scenario "user decides to cancel their edits" do
+    click_on "Edit Profile"
+    click_on "Cancel"
+
+    expect(page).to have_css("#show_users")
+  end
+
+end
