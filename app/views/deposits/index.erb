@@ -1,0 +1,21 @@
+<div id="index_deposits">
+
+  <table>
+    <thead>
+    <th>Amount</th>
+    </thead>
+    <tbody>
+    <%@deposits.each do |deposit|%>
+      <tr>
+        <td>$<%=deposit.amount / 100%></td>
+      </tr>
+    <%end%>
+    </tbody>
+  </table>
+
+
+
+
+
+
+</div>

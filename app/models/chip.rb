@@ -1,21 +1,21 @@
 
 class Chip < ActiveRecord::Base
-#   def purchase(user_id, account_id, deposit_amount, deposit_create_date, availability = nil)
-#     number_of_chips = convert_from_pennies(deposit_amount)
-#
-#     number_of_chips.times {
-#       chip = Chip.new
-#       chip.account_id = account_id
-#       chip.owner_id = user_id
-#       chip.status = availability
-#       chip.l1_tag_id = nil
-#       chip.l2_tag_id = nil
-#       chip.charity_id = nil
-#       chip.purchase_date = deposit_create_date
-#       chip.cashed_in_date = nil
-#       chip.save!
-#     }
-#     end
+  def purchase(user_id, account_id, deposit_amount, deposit_create_date, availability = nil)
+    number_of_chips = convert_from_pennies(deposit_amount)
+
+    number_of_chips.times {
+      chip = Chip.new
+      chip.account_id = account_id
+      chip.owner_id = user_id
+      chip.status = availability
+      chip.l1_tag_id = nil
+      chip.l2_tag_id = nil
+      chip.charity_id = nil
+      chip.purchase_date = deposit_create_date
+      chip.cashed_in_date = nil
+      chip.save!
+    }
+    end
 #
 #   def cash_out(account_id, distribution_amount, distribution_date, charity_id)
 #     number_of_chips = convert_from_pennies(distribution_amount)
@@ -41,9 +41,9 @@ class Chip < ActiveRecord::Base
 #     Chip.where(account_id: account_id).where(status: "available")
 #   end
 #
-#   def convert_from_pennies(amount)
-#     amount / 100 / 10
-#   end
+  def convert_from_pennies(amount)
+    amount / 100 / 10
+  end
 #
 #
 end

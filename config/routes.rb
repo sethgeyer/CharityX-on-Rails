@@ -19,7 +19,9 @@ Rails.application.routes.draw do
   post "/logout", to: "sessions#destroy"
   post "/login", to: "sessions#create"
 
+  get "/deposits", to: "deposits#index"
   get "/deposits/new", to: "deposits#new"
+  post "/deposits", to: "deposits#create"
 
   get "/distributions/new", to: "distributions#new"
 
