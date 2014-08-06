@@ -16,9 +16,10 @@ feature "editing user profile" do
     click_on "Edit Profile"
 
 
-    expect(find("#password").value).to eq("stephen1")
-    expect(find("#email").value).to eq("steve@gmail.com")
-    expect(find("#profile_picture").value).to eq("www.google.com")
+    expect(page).to have_selector("input[value='stephen1']")
+    expect(page).to have_selector("input[value='steve@gmail.com']")
+    expect(page).to have_selector("input[value='www.google.com']")
+
   end
 
   scenario "user leaves email blank when editing" do
