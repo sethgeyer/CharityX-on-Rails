@@ -1,28 +1,58 @@
 <div id="new_deposits">
 
-  <form method="POST" action="/deposits">
+
+  <%=form_for @deposit do |f|%>
     <input type="hidden" name="account_id" value="<%=@account.id%>"/>
-    <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+    <div>
+      <%=f.label :amount%>
+      <%=f.text_field :amount%>
+    </div>
+    <div>
+      <%=f.label :cc_number, "Credit Card Number"%>
+      <%=f.text_field :cc_number%>
+    </div>
+
+    <div>
+      <%=f.label :exp_date, "Exp Date"%>
+      <%=f.text_field :exp_date %>
+    </div>
+
+    <div>
+      <%=f.label :name_on_card, "Name on Card"%>
+      <%=f.text_field :name_on_card%>
+    </div>
+
+    <%= f.radio_button :cc_type, "Visa" %>
+    <%= f.label :cc_type, "Visa", value:"visa" %>
+    <%= f.radio_button :cc_type, "Mastercard" %>
+    <%= f.label :cc_type, "Mastercard", value:"mastercard" %>
+
+    <div>
+      <%=f.submit "Submit"%>
+    </div>
 
 
-    <label for="amount">Amount:</label><br/>
-    <input id= "amount" name="amount"/><br/>
-    <label for="cc_number">Credit Card Number:</label><br/>
-    <input id= "cc_number" name="cc_number"/><br/>
-    <label for="exp_date">Exp Date:</label><br/>
-    <input id= "exp_date" name="exp_date" type="date"/><br/>
-    <label for="name_on_card">Name on Card:</label><br/>
-    <input id= "name_on_card" name="name_on_card"/><br/>
-    <input type="radio" name="radio_cc_type" id="visa" value="visa"/>
-    <label for="visa">Visa</label>
-    <input type="radio" name="radio_cc_type" id="mastercard" value="mastercard"/>
-    <label for="mastercard">MasterCard</label>
-    <br/>
-    <button>Submit</button>
-  </form>
+  <%end%>
+  <!--<form method="POST" action="/deposits">-->
+    <!--<input type="hidden" name="account_id" value="< %=@account.id%>"/>-->
+    <!--<input name="authenticity_token" type="hidden" value="< %= form_authenticity_token %>" />-->
+    <!--<label for="amount">Amount:</label><br/>-->
+    <!--<input id= "amount" name="amount"/><br/>-->
+    <!--<label for="cc_number">Credit Card Number:</label><br/>-->
+    <!--<input id= "cc_number" name="cc_number"/><br/>-->
+    <!--<label for="exp_date">Exp Date:</label><br/>-->
+    <!--<input id= "exp_date" name="exp_date" type="date"/><br/>-->
+    <!--<label for="name_on_card">Name on Card:</label><br/>-->
+    <!--<input id= "name_on_card" name="name_on_card"/><br/>-->
+
+    <!--<input type="radio" name="radio_cc_type" id="visa" value="visa"/>-->
+    <!--<label for="visa">Visa</label>-->
+    <!--<input type="radio" name="radio_cc_type" id="mastercard" value="mastercard"/>-->
+    <!--<label for="mastercard">MasterCard</label>-->
+    <!--<br/>-->
+    <!--<button>Submit</button>-->
+  <!--</form>-->
 
 
 </div>
 
-
-</div>

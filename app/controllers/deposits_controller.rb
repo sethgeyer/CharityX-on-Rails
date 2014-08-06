@@ -35,11 +35,11 @@ class DepositsController < ApplicationController
   def create
     deposit = Deposit.new
     deposit.account_id = params[:account_id].to_i
-    deposit.amount = params[:amount].to_i * 100
-    deposit.cc_number = params[:cc_number].to_i
-    deposit.exp_date =params[:exp_date]
-    deposit.name_on_card = params[:name_on_card]
-    deposit.cc_type = params[:radio_cc_type]
+    deposit.amount = params[:deposit][:amount].to_i * 100
+    deposit.cc_number = params[:deposit][:cc_number].to_i
+    deposit.exp_date =params[:deposit][:exp_date]
+    deposit.name_on_card = params[:deposit][:name_on_card]
+    deposit.cc_type = params[:deposit][:cc_type]
     deposit.date_created = Time.now
     deposit.save!
     newest_deposit = Deposit.where(account_id: params[:account_id].to_i).last
