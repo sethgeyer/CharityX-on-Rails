@@ -24,6 +24,8 @@ Rails.application.routes.draw do
   post "/deposits", to: "deposits#create"
 
   get "/distributions/new", to: "distributions#new"
+  post "/distributions", to: "distributions#create"
+  get "/distributions", to: "distributions#index"
 
   get "/proposed_wagers/new", to: "proposed_wagers#new"
 

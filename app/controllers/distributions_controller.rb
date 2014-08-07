@@ -1,5 +1,46 @@
 class DistributionsController < ApplicationController
+  def index
+    if session[:user_id] == nil
+      flash[:notice] = "You are not authorized to visit this page"
+      redirect_to "/"
+    else
+      @account = Account.find_by(user_id: session[:user_id])
+      if session[:user_id] == @account.user_id
+        @distributions = @account.distributions
+        render :index
+      else
+        flash[:notice] = "You are not authorized to visit this page"
+        redirect_to "/"
+      end
+    end
+
+  end
+
+
   def new
-    @distribution = Distribution.new
+    @charities_for_selection = Charity.all
+
+    if session[:user_id] == nil
+      flash[:notice] = "You are not authorized to visit this page"
+      redirect_to "/"
+    else
+      @account = Account.find_by(user_id: session[:user_id])
+      if session[:user_id] == @account.user_id
+        @distributions = Distribution.new
+      else
+        flash[:notice] = "You are not authorized to visit this page"
+        redirect_to "/"
+      end
+    end
+  end
+
+  def create
+    Distribution.create(account_id: params[:account_id].to_i, amount: params[:amount].to_i * 100, charity_id: params[:charity_dd])
+    newest_distribution = Distribution.where(account_id: params[:account_id].to_i).last
+    #UNTESTED ########################################################
+    Chip.new.cash_out(newest_distribution.account.id, newest_distribution.amount, newest_distribution.date, newest_distribution.charity.id)
+    #################
+    flash[:notice] = "Thank you for distributing $#{newest_distribution.amount.to_i / 100} from your account to #{newest_distribution.charity.name}"
+    redirect_to "/users/#{session[:user_id]}"
   end
 end

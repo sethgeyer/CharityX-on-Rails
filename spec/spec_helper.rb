@@ -114,3 +114,10 @@ def fund_my_account_with_a_credit_card(deposit_amount)
   within(page.find("#new_deposits")) { choose "Visa" }
   click_on "Submit"
 end
+
+def distribute_funds_from_my_account(distribution_amount, charity)
+  click_on "Distribute Funds"
+  fill_in "Amount", with: distribution_amount
+  select charity, from: "charity_dd"
+  click_on "Submit"
+end

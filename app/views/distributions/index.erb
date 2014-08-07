@@ -1,0 +1,20 @@
+<div id="index_distributions">
+
+  <table>
+    <thead>
+    <th>Amount</th>
+    <th>Charity</th>
+    </thead>
+    <tbody>
+    <%@distributions.each do |distribution|%>
+      <tr>
+        <td>$<%=distribution.amount / 100%></td>
+        <td><%=distribution.charity.name%></td>
+      </tr>
+    <%end%>
+    </tbody>
+  </table>
+
+
+
+</div>
