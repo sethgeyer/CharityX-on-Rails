@@ -26,7 +26,7 @@ class DistributionsController < ApplicationController
     else
       @account = Account.find_by(user_id: session[:user_id])
       if session[:user_id] == @account.user_id
-        @distributions = Distribution.new
+        @distribution = Distribution.new
       else
         flash[:notice] = "You are not authorized to visit this page"
         redirect_to "/"
@@ -35,7 +35,7 @@ class DistributionsController < ApplicationController
   end
 
   def create
-    Distribution.create(account_id: params[:account_id].to_i, amount: params[:amount].to_i * 100, charity_id: params[:charity_dd])
+    Distribution.create(account_id: params[:account_id].to_i, amount: params[:distribution][:amount].to_i * 100, charity_id: params[:distribution][:charity_id])
     newest_distribution = Distribution.where(account_id: params[:account_id].to_i).last
     #UNTESTED ########################################################
     Chip.new.cash_out(newest_distribution.account.id, newest_distribution.amount, newest_distribution.date, newest_distribution.charity.id)

@@ -118,6 +118,6 @@ end
 def distribute_funds_from_my_account(distribution_amount, charity)
   click_on "Distribute Funds"
   fill_in "Amount", with: distribution_amount
-  select charity, from: "charity_dd"
+  select charity, from: "Charity"
   click_on "Submit"
 end
