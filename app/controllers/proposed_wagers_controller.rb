@@ -3,7 +3,7 @@ class ProposedWagersController < ApplicationController
   def new
     if session[:user_id] == nil
       flash[:notice] = "You are not authorized to visit this page"
-      redirect_to "/"
+      redirect_to root_path
     else
       @account = Account.find_by(user_id: session[:user_id])
       if session[:user_id] == @account.user_id
@@ -15,7 +15,7 @@ class ProposedWagersController < ApplicationController
         render :new
       else
         flash[:notice] = "You are not authorized to visit this page"
-        redirect_to "/"
+        redirect_to root_path
       end
     end
   end
@@ -28,7 +28,7 @@ class ProposedWagersController < ApplicationController
     ################
     # wageree = User.find(params[:proposed_wager][:wageree_id].to_i)
     flash[:notice] = "You're proposed wager has been sent"#" to #{wageree["email"]}"
-    redirect_to "/users/#{session[:user_id]}"
+    redirect_to user_path(session[:user_id])
   end
 
 

@@ -17,7 +17,7 @@ class UsersController < ApplicationController
       account.user_id = session[:user_id]
       account.save!
       flash[:notice] = "Thanks for registering #{session[:username]}. You are now logged in."
-      redirect_to "/users/#{session[:user_id]}"
+      redirect_to user_path(session[:user_id])
     else
 
       render :new, layout:false
@@ -42,7 +42,7 @@ class UsersController < ApplicationController
       render :show
     else
       flash[:notice] = "You are not authorized to visit this page"
-      redirect "/"
+      redirect root_path
     end
   end
 
@@ -66,7 +66,7 @@ class UsersController < ApplicationController
       @user.profile_picture = params[:user][:profile_picture]
       @user.save!
       flash[:notice] = "Your changes have been saved"
-      redirect_to "/users/#{session[:user_id]}"
+      redirect_to user_path(session[:user_id])
     end
   end
 
@@ -75,25 +75,6 @@ class UsersController < ApplicationController
     session[:user_id] = current_user.id
     session[:username] = current_user.username
   end
-
-
-  # def render_page_or_redirect_to_homepage(session_id, name_of_erb_template)
-  #   if session_id == nil
-  #     flash[:notice] = "You are not authorized to visit this page"
-  #     redirect "/"
-  #   else
-  #     account = Account.find_by(user_id: session_id)
-  #     if session_id == account.user_id
-  #       deposits = account.deposits
-  #       distributions = account.distributions
-  #       erb name_of_erb_template.to_sym, locals: {account: account, deposits: deposits, distributions: distributions}
-  #     else
-  #       flash[:notice] = "You are not authorized to visit this page"
-  #       redirect "/"
-  #     end
-  #   end
-  # end
-
 
 
 end

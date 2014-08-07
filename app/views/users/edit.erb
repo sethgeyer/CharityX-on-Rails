@@ -8,7 +8,7 @@
       <%end%>
     </ul>
 
-    <%=form_for @user, url:"/users/#{session[:user_id]}" do |f|%>
+    <%=form_for @user  do |f|%>
       <div id="email">
         <%=f.label :email%><br/>
         <%=f.text_field :email%><br/>
@@ -22,7 +22,7 @@
         <%=f.text_field :profile_picture%><br/>
       </div>
       <%=f.submit "Submit"%>
-      <%=link_to "Cancel", "/users/#{session[:user_id]}"%>
+      <%=link_to "Cancel", user_path(session[:user_id])%>
 
     <%end%>
 

@@ -1,0 +1,20 @@
+<h1>Log an MVP</h1>
+
+
+<%=form_for @mvp do |f|%>
+
+  <div>
+    <%=f.label :date%>
+    <%=f.date_field :date%>
+  </div>
+
+  <div>
+    <%=f.label :description%>
+    <%=f.text_field :description%>
+  </div>
+
+  <%=f.submit "Submit"%>
+  <%= link_to "Cancel", root_path%>
+
+<%end%>
+

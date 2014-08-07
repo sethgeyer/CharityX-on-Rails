@@ -1,37 +1,30 @@
 Rails.application.routes.draw do
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
 
-  # You can have the root of your site routed with "root"
   root 'home#index'
-  get "/charities", to: "charities#index"
-  get "/charities/new", to: "charities#new"
-  post "/charities", to: "charities#create"
-
-
-  get "/users/new", to: "users#new"
-  post "/users", to: "users#create"
-  get "/users/:id", to: "users#show"
-  get "/users/:id/edit", to: "users#edit"
-  patch "/users/:id", to: "users#update"
-
 
   post "/logout", to: "sessions#destroy"
   post "/login", to: "sessions#create"
 
-  get "/deposits", to: "deposits#index"
-  get "/deposits/new", to: "deposits#new"
-  post "/deposits", to: "deposits#create"
-
-  get "/distributions/new", to: "distributions#new"
-  post "/distributions", to: "distributions#create"
-  get "/distributions", to: "distributions#index"
-
-  get "/proposed_wagers/new", to: "proposed_wagers#new"
-  post "/proposed_wagers", to: "proposed_wagers#create"
+  resources :users
 
 
-  get "/mvps", to: "mvps#index"
+  resources :deposits
+
+  resources :distributions
+
+  resources :proposed_wagers
+
+  resources :mvps
+
+  resources :charities
+
+
+
+
+
+
+
+
 
 
 

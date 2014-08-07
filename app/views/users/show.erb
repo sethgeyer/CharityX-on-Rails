@@ -20,12 +20,12 @@
     </tbody>
   </table>
 
-  <a href="/deposits/new">Fund My Account</a> |
-  <a href="/distributions/new">Distribute Funds</a>
-  <a href="/proposed_wagers/new">Create a Wager</a>
+  <%=link_to "Fund My Account", new_deposit_path%>
+  <%=link_to "Distribute Funds", new_distribution_path%>
+  <%=link_to "Create a Wager", new_proposed_wager_path%>
+  <%=link_to "Show Deposit History", deposits_path%>
+  <%=link_to "Show Distribution History", distributions_path%>
 
-  <a href="/deposits">Show Deposit History</a>
-  <a href="/distributions">Show Distribution History</a>
 
   <br/>
   <br/>

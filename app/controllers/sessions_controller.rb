@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
   def destroy
     session.delete(:user_id)
     session.delete(:email)
-    redirect_to "/"
+    redirect_to root_path
   end
 
   def create
@@ -10,10 +10,10 @@ class SessionsController < ApplicationController
     if current_user != nil
       set_the_session(current_user)
       flash[:notice] = "Welcome #{session[:username]}"
-      redirect_to "/users/#{session[:user_id]}"
+      redirect_to user_path(session[:user_id])
     else
       flash[:notice] = "The credentials you entered are incorrect.  Please try again."
-      redirect_to "/"
+      redirect_to root_path
     end
   end
 

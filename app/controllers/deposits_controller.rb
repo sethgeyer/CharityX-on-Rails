@@ -2,7 +2,7 @@ class DepositsController < ApplicationController
   def index
     if session[:user_id] == nil
       flash[:notice] = "You are not authorized to visit this page"
-      redirect_to "/"
+      redirect_to root_path
     else
       @account = Account.find_by(user_id: session[:user_id])
       if session[:user_id] == @account.user_id
@@ -11,7 +11,7 @@ class DepositsController < ApplicationController
         render :index
       else
         flash[:notice] = "You are not authorized to visit this page"
-        redirect_to "/"
+        redirect_to root_path
       end
     end
   end
@@ -19,7 +19,7 @@ class DepositsController < ApplicationController
   def new
     if session[:user_id] == nil
       flash[:notice] = "You are not authorized to visit this page"
-      redirect_to "/"
+      redirect_to root_path
     else
       @account = Account.find_by(user_id: session[:user_id])
       if session[:user_id] == @account.user_id
@@ -27,7 +27,7 @@ class DepositsController < ApplicationController
         render :new
       else
         flash[:notice] = "You are not authorized to visit this page"
-        redirect_to "/"
+        redirect_to root_path
       end
     end
   end
@@ -47,7 +47,7 @@ class DepositsController < ApplicationController
     Chip.new.purchase(session[:user_id], newest_deposit.account.id, newest_deposit.amount, newest_deposit.date_created, "available")
     #################
     flash[:notice] = "Thank you for depositing $#{newest_deposit.amount / 100} into your account"
-    redirect_to "/users/#{session[:user_id]}"
+    redirect_to user_path(session[:user_id])#"/users/#{session[:user_id]}"
   end
 
 
