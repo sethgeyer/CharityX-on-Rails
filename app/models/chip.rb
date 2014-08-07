@@ -27,16 +27,16 @@ class Chip < ActiveRecord::Base
       chip.save!
     end
   end
-#
-#   def change_status_to_wager(account_id, wagered_amount )
-#     number_of_chips = convert_from_pennies(wagered_amount)
-#     chips = find_the_available(account_id).first(number_of_chips)
-#     chips.each do |chip|
-#       chip.status = "wagered"
-#       chip.save!
-#     end
-#   end
-#
+
+  def change_status_to_wager(account_id, wagered_amount )
+    number_of_chips = convert_from_pennies(wagered_amount)
+    chips = find_the_available(account_id).first(number_of_chips)
+    chips.each do |chip|
+      chip.status = "wagered"
+      chip.save!
+    end
+  end
+
   def find_the_available(account_id)
     Chip.where(account_id: account_id).where(status: "available")
   end
@@ -44,6 +44,6 @@ class Chip < ActiveRecord::Base
   def convert_from_pennies(amount)
     amount / 100 / 10
   end
-#
-#
+
+
 end

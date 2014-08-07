@@ -121,3 +121,17 @@ def distribute_funds_from_my_account(distribution_amount, charity)
   select charity, from: "Charity"
   click_on "Submit"
 end
+
+def register_and_create_a_wager
+  fill_in_registration_form("Alexander")
+  click_on "Logout"
+  fill_in_registration_form("Stephen")
+  fund_my_account_with_a_credit_card(400)
+  visit "/proposed_wagers/new"
+  fill_in "Title", with: "Ping Pong Match between S & A"
+  fill_in "Date of Wager", with: "2014-07-31"
+  fill_in "Details", with: "Game to 21, standard rules apply"
+  fill_in "Amount", with: 100
+  select "alexandery", from: "Wageree"
+  click_on "Submit"
+end

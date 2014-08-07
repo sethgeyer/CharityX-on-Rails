@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   get "/distributions", to: "distributions#index"
 
   get "/proposed_wagers/new", to: "proposed_wagers#new"
+  post "/proposed_wagers", to: "proposed_wagers#create"
 
 
   get "/mvps", to: "mvps#index"
