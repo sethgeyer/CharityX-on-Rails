@@ -1,7 +1,7 @@
 <div id="new_deposits">
 
 
-  <%=form_for @deposit do |f|%>
+  <%=form_for [@account, @deposit] do |f|%>
     <input type="hidden" name="account_id" value="<%=@account.id%>"/>
     <div>
       <%=f.label :amount%>

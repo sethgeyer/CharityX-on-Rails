@@ -20,11 +20,11 @@
     </tbody>
   </table>
 
-  <%=link_to "Fund My Account", new_deposit_path%>
-  <%=link_to "Distribute Funds", new_distribution_path%>
-  <%=link_to "Create a Wager", new_proposed_wager_path%>
-  <%=link_to "Show Deposit History", deposits_path%>
-  <%=link_to "Show Distribution History", distributions_path%>
+  <%=link_to "Fund My Account", new_account_deposit_path(@account)%>
+  <%=link_to "Distribute Funds", new_account_distribution_path(@account)%>
+  <%=link_to "Create a Wager", new_account_proposed_wager_path(@account)%>
+  <%=link_to "Show Deposit History", account_deposits_path(@account)%>
+  <%=link_to "Show Distribution History", account_distributions_path(@account)%>
 
 
   <br/>

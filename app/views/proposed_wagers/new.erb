@@ -1,6 +1,6 @@
 <div id="new_proposed_wagers">
 
-  <%=form_for @proposed_wager do |f|%>
+  <%=form_for [@account, @proposed_wager] do |f|%>
     <div>
       <%=f.label :title %>
       <%=f.text_field :title%>

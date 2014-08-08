@@ -7,8 +7,8 @@ feature "View Index and Create Distribution" do
   end
 
   scenario "As a visitor, I should NOT be able to view a history of deposits" do
-    visit "/deposits"
-
+    # visit "/deposits"
+    visit "/accounts/1/deposits"
     expect(page).to have_content("You are not authorized to visit this page")
     expect(page).to have_css("#homepage")
   end
@@ -28,7 +28,7 @@ feature "View Index and Create Distribution" do
   end
 
   scenario "As a visitor, I should not be able to visit the new distributions page directly via typing in a uRL" do
-    visit "/distributions/new"
+    visit "/accounts/1/distributions/new"
 
     expect(page).to have_content("You are not authorized to visit this page")
     expect(page).to have_css("#homepage")

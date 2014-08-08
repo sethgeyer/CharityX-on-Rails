@@ -7,12 +7,11 @@ Rails.application.routes.draw do
 
   resources :users
 
-
-  resources :deposits
-
-  resources :distributions
-
-  resources :proposed_wagers
+  resources :accounts do
+    resources :deposits
+    resources :distributions
+    resources :proposed_wagers
+  end
 
   resources :mvps
 
