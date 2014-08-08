@@ -41,6 +41,42 @@ feature "visitor registration" do
     expect(page).to have_content("Username can't be blank")
   end
 
+
+  scenario "visitor fills in SSN in registration form with dashes included" do
+    name = "Stephen"
+    visit "/users/new"
+    fill_in "Username", with: "#{name.downcase}y"
+    fill_in "SSN", with: "377-99-3333"
+    fill_in "Email", with: name
+    fill_in "Password", with: name.downcase
+    click_on "Submit"
+
+    expect(page).to have_css("#show_users")
+    expect(page).to have_content("Thanks for registering stepheny.  You are now logged in.")
+
+  end
+
+
+  scenario "visitor fills in SSN in registration form with nonsense" do
+    name = "Stephen"
+    visit "/users/new"
+    fill_in "Username", with: "#{name.downcase}y"
+    fill_in "SSN", with: "aaa-bb-cccc"
+    fill_in "Email", with: name
+    fill_in "Password", with: name.downcase
+    click_on "Submit"
+
+    expect(page).to have_css("#new_users")
+    expect(page).to have_content("not a valid SSN.")
+
+  end
+
+
+
+
+
+
+
   scenario "visitor fills in registration form using a non-unique username" do
     fill_in_registration_form("Stephen")
     click_on "Logout"

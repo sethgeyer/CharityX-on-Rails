@@ -1,34 +1,75 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>CharityX</title>
+  <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css">
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+
+<div class="wrapper">
+<body>
+
 <div id="new_users">
 
     <h1>Register Here</h1>
 
-    <ul>
-      <%@user.errors.full_messages.each do |message|%>
-        <li style="color:red"><%=message%></li>
+      <%if @user.errors.full_messages.any?%>
+        <p class="errors">You're registration can not be completed</p>
+        <br/>
+        <br/>
       <%end%>
-    </ul>
 
     <%=form_for @user do |f|%>
+      <div>
+        <%=f.label :username%><br>
+        <%=f.text_field :username%>
+        <div class="errors"><%=@user.errors[:username].first if @user.errors[:username].any? %></div>
+      </div>
 
-      <%=f.label :username%><br/>
-      <%=f.text_field :username%><br/>
+      <div>
+        <%=f.label :ssn, "SSN"%><br/>
+        <%=f.text_field :ssn%>
+        <div class="errors"><%=@user.errors[:ssn].first if @user.errors[:ssn].any? %></div>
+      </div>
 
-      <%=f.label :ssn, "SSN"%><br/>
-      <%=f.text_field :ssn%><br/>
+      <div>
+        <%=f.label :email%><br/>
+        <%=f.email_field :email%>
+        <div class="errors"><%=@user.errors[:email].first if @user.errors[:email].any? %></div>
 
-      <%=f.label :email%><br/>
-      <%=f.email_field :email%><br/>
+      </div>
 
-      <%=f.label :password%><br/>
-      <%=f.text_field :password%><br/>
+      <div>
+        <%=f.label :password%><br/>
+        <%=f.text_field :password%>
+        <div class="errors"><%=@user.errors[:password].first if @user.errors[:password].any? %></div>
 
-      <%=f.label :profile_picture%><br/>
-      <%=f.text_field :profile_picture%><br/>
+      </div>
 
-      <%=f.submit "Submit"%>
-      <%=link_to "Cancel", root_path%>
+      <div>
+        <%=f.label :profile_picture%><br/>
+        <%=f.text_field :profile_picture%>
+      </div>
+      <br/>
 
+      <div>
+        <%=f.submit "Submit"%>
+        <%=link_to "Cancel", root_path%>
+      </div>
   <%end%>
-
-
 </div>
+</body>
+  <br/>
+  <br/>
+
+  <footer>
+
+  </footer>
+
+</div> <!--END content-->
+<br/>
+</html>

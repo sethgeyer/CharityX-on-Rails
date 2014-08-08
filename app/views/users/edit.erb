@@ -2,25 +2,30 @@
 
     <h1>Update Your Profile</h1>
 
-    <ul>
-      <%@user.errors.full_messages.each do |message|%>
-        <li style="color:red"><%=message%></li>
-      <%end%>
-    </ul>
+    <%if @user.errors.any?%>
+      <p class="errors">Your updates can not be saved</p>
+      <br/>
+      <br/>
+    <%end%>
 
     <%=form_for @user  do |f|%>
       <div id="email">
         <%=f.label :email%><br/>
-        <%=f.text_field :email%><br/>
+        <%=f.text_field :email%>
+        <div class="errors"><%=@user.errors[:email].first if @user.errors[:email].any? %></div>
       </div>
+
       <div id="password">
         <%=f.label :password%><br/>
-        <%=f.text_field :password%><br/>
+        <%=f.text_field :password%>
+        <div class="errors"><%=@user.errors[:password].first if @user.errors[:password].any? %></div>
       </div>
+
       <div id="profile_picture">
         <%=f.label :profile_picture%><br/>
-        <%=f.text_field :profile_picture%><br/>
+        <%=f.text_field :profile_picture%>
       </div>
+      <br/>
       <%=f.submit "Submit"%>
       <%=link_to "Cancel", user_path(session[:user_id])%>
 

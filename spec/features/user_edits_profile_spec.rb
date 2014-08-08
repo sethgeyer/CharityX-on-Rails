@@ -33,13 +33,13 @@ feature "editing user profile" do
     click_on "Submit"
 
     expect(page).to have_css("#edit_users")
-    expect(page).to have_content("Email can't be blank")
+    expect(page).to have_content("can't be blank")
   end
 
 
   scenario "user leaves password blank when editing" do
     click_on "Edit Profile"
-    fill_in "Password", with: ""
+    fill_in "Password", with: "sds"
     click_on "Submit"
 
     expect(page).to have_css("#edit_users")

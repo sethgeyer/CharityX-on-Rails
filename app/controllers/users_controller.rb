@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+
   def new
     @user = User.new
     render :new, layout:false
@@ -7,7 +8,8 @@ class UsersController < ApplicationController
   def create
     @user = User.new
     @user.username = params[:user][:username]
-    @user.ssn = params[:user][:ssn].to_i
+
+    @user.ssn = strip_off_dashes(params[:user][:ssn])
     @user.email = params[:user][:email]
     @user.password = params[:user][:password]
     @user.profile_picture = params[:user][:profile_picture]
@@ -51,22 +53,15 @@ class UsersController < ApplicationController
   end
 
   def update
-    if params[:user][:email] == ""
-      flash[:notice] = "Email can't be blank"
-      @user = User.find(session[:user_id])
-      render :edit
-    elsif params[:user][:password].length < 7
-      flash[:notice] = "Password must be at least 7 characters"
-      @user = User.find(session[:user_id])
-      render :edit
-    else
-      @user = User.find(params[:id].to_i)
-      @user.email = params[:user][:email]
-      @user.password = params[:user][:password]
-      @user.profile_picture = params[:user][:profile_picture]
-      @user.save!
+    @user = User.find(session[:user_id])
+    @user.email = params[:user][:email]
+    @user.password = params[:user][:password]
+    @user.profile_picture = params[:user][:profile_picture]
+    if @user.save
       flash[:notice] = "Your changes have been saved"
       redirect_to user_path(session[:user_id])
+    else
+      render :edit
     end
   end
 
@@ -74,6 +69,10 @@ class UsersController < ApplicationController
   def set_the_session(current_user)
     session[:user_id] = current_user.id
     session[:username] = current_user.username
+  end
+
+  def strip_off_dashes(ssn_as_a_string)
+    ssn_as_a_string.gsub("-", "").to_i
   end
 
 
