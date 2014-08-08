@@ -10,9 +10,9 @@ class SessionsController < ApplicationController
   end
 
   def create
-    current_user = User.find_by(username: params[:user][:username], password: params[:user][:password])
-    if current_user != nil
-      set_the_session(current_user)
+    the_dude = User.find_by(username: params[:user][:username], password: params[:user][:password])
+    if the_dude != nil
+      set_the_session(the_dude)
       flash[:notice] = "Welcome #{session[:username]}"
       redirect_to user_path(session[:user_id])
     else
@@ -22,8 +22,8 @@ class SessionsController < ApplicationController
   end
 
 
-  def set_the_session(current_user)
-    session[:user_id] = current_user.id
+  def set_the_session(the_dude)
+    session[:user_id] = the_dude.id
   end
 
 

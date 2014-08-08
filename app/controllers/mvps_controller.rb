@@ -1,14 +1,14 @@
 class MvpsController < ApplicationController
   def index
     @mvps = Mvp.all
-    @current_user = User.find(session[:user_id]) if session[:user_id]
+    @the_dude = User.find(session[:user_id]) if session[:user_id]
   end
 
 
  def new
    @mvp = Mvp.new
-    current_user = User.find(session[:user_id])
-    if current_user.is_admin?
+    the_dude = User.find(session[:user_id])
+    if the_dude.is_admin?
       render :new
     else
       flash[:notice] = "You don't have permissions to add an MVP"

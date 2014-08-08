@@ -66,9 +66,9 @@ class UsersController < ApplicationController
   end
 
 
-  def set_the_session(current_user)
-    session[:user_id] = current_user.id
-    session[:username] = current_user.username
+  def set_the_session(the_dude)
+    session[:user_id] = the_dude.id
+    session[:username] = the_dude.username
   end
 
   def strip_off_dashes(ssn_as_a_string)

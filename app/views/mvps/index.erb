@@ -3,8 +3,8 @@
   <!--<a href="/">Back to Home</a>-->
   <%= link_to "Back to Home", root_path%>
 
-  <%if @current_user%>
-    <%if @current_user.is_admin?%>
+  <%if @the_dude%>
+    <%if @the_dude.is_admin?%>
       | <%=link_to "Add New", new_mvp_path%>
     <%end%>
   <%end%>

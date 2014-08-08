@@ -46,11 +46,10 @@
           <a class="navbar_links" href=<%=user_path(session[:user_id])%>>Account Details</a> |
         </article>
         <article class="inline">
-          <a class="navbar_links" href=<%=edit_user_path(session[:user_id])%>>Edit Profile &nbsp;&nbsp;&nbsp;</a>
+          <a class="navbar_links" href=<%=edit_user_path(session[:user_id])%>>Edit Profile</a> |
         </article>
         <article class="inline">
-
-          <%= link_to "Logout", logout_path, {:method => :delete }%>
+          <%= link_to "Logout", logout_path, {:method => :delete, class:"navbar_links" } %>
         </article>
 
       <%end%>
