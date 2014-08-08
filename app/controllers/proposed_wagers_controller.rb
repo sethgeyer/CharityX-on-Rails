@@ -21,8 +21,7 @@ class ProposedWagersController < ApplicationController
   end
 
   def create
-    account = Account.find_by(user_id: session[:user_id])
-    proposed_wager = ProposedWager.create(account_id: account.id, title: params[:proposed_wager][:title], date_of_wager: params[:proposed_wager][:date_of_wager], details: params[:proposed_wager][:details], amount: params[:proposed_wager][:amount].to_i * 100, wageree_id: params[:proposed_wager][:wageree_id].to_i)
+    proposed_wager = ProposedWager.create(account_id: params[:account_id], title: params[:proposed_wager][:title], date_of_wager: params[:proposed_wager][:date_of_wager], details: params[:proposed_wager][:details], amount: params[:proposed_wager][:amount].to_i * 100, wageree_id: params[:proposed_wager][:wageree_id].to_i)
     #UNTESTED ########################################################
     Chip.new.change_status_to_wager(proposed_wager.account.id, proposed_wager.amount )
     ################

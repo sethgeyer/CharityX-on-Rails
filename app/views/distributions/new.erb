@@ -2,7 +2,6 @@
 
   <%=form_for [@account, @distribution] do |f|%>
   <div>
-    <input type="hidden" name="account_id" value="<%=@account.id%>"/>
     <%=f.label :amount%>
     <%=f.text_field :amount%>
     <%=f.label :charity_id%>
