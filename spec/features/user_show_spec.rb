@@ -32,7 +32,7 @@ feature "User Show Page" do
   end
 
   # scenario "non-logged in visitor attempts to visit show page" do
-  #   visit "/users/50000"
+  #   visit "/users/1"
   #
   #   expect(page).to have_content("You are not authorized to visit this page")
   #   expect(page).to have_css("#homepage")

@@ -10,28 +10,25 @@ class UsersController < ApplicationController
   def create
     @user = User.new
     @user.username = params[:user][:username]
-
     @user.ssn = strip_off_dashes(params[:user][:ssn])
     @user.email = params[:user][:email]
     @user.password = params[:user][:password]
     @user.profile_picture = params[:user][:profile_picture]
     if @user.save
-      set_the_session(User.find_by(username: params[:user][:username]))
+      session[:user_id] = @user.id
       account = Account.new
       account.user_id = session[:user_id]
       account.save!
-      flash[:notice] = "Thanks for registering #{session[:username]}. You are now logged in."
+      flash[:notice] = "Thanks for registering #{@user.username}. You are now logged in."
       redirect_to user_path(session[:user_id])
     else
-
       render :new, layout:false
     end
   end
 
   def show
-    @user = User.find(params[:id])
-    if session[:user_id] == @user.id #params[:id].to_i
-      @account = Account.find_by(user_id: session[:user_id])
+    if current_user == User.find(params[:id])   #<--- no test written to test whether a sessioned user can view someone else's view
+      @account = current_user.account
       #UNTESTED ######################
       @unallocated_chips = @account.chips.where(status: "available")
       @distributed_chips = @account.chips.where(status: "distributed")
@@ -42,20 +39,27 @@ class UsersController < ApplicationController
       @wagered_total = @account.proposed_wagers.sum(:amount) / 100
       @net_amount = @deposit_total - @distribution_total - @wagered_total
       @proposed_wagers = @account.proposed_wagers
-      @wageree_wagers = ProposedWager.where(wageree_id: session[:user_id])
+      @wageree_wagers = ProposedWager.where(wageree_id: current_user.id)
       render :show
     else
       flash[:notice] = "You are not authorized to visit this page"
-      redirect root_path
+      redirect_to root_path
     end
   end
 
   def edit
-    @user = User.find(params[:id])
-  end
+    if current_user == User.find(params[:id])
+      @user = current_user  #<--- no test written to test whether a sessioned user can view someone else's view
+      render :edit
+    else
+      flash[:notice] = "You are not authorized to visit this page"
+      redirect_to root_path
+    end
+
+    end
 
   def update
-    @user = User.find(session[:user_id])
+    @user = current_user
     @user.email = params[:user][:email]
     @user.password = params[:user][:password]
     @user.profile_picture = params[:user][:profile_picture]
@@ -65,12 +69,6 @@ class UsersController < ApplicationController
     else
       render :edit
     end
-  end
-
-
-  def set_the_session(the_dude)
-    session[:user_id] = the_dude.id
-    session[:username] = the_dude.username
   end
 
   def strip_off_dashes(ssn_as_a_string)

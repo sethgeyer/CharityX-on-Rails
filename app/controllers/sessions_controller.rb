@@ -12,26 +12,15 @@ class SessionsController < ApplicationController
   end
 
   def create
-    the_dude = User.find_by(username: params[:user][:username], password: params[:user][:password])
-    if the_dude != nil
-      set_the_session(the_dude)
-      flash[:notice] = "Welcome #{session[:username]}"
+    @user = User.find_by(username: params[:user][:username], password: params[:user][:password])
+    if @user != nil
+      session[:user_id] = @user.id
+      flash[:notice] = "Welcome #{@user.username}"
       redirect_to user_path(session[:user_id])
     else
       flash[:notice] = "The credentials you entered are incorrect.  Please try again."
       redirect_to root_path
     end
   end
-
-
-  def set_the_session(the_dude)
-    session[:user_id] = the_dude.id
-  end
-
-
-
-
-
-
 
 end
