@@ -3,7 +3,6 @@ feature "View and Create a Proposed Wagers" do
   scenario "As a visitor, I should not be able to visit the new proposed wager view directly via the URL " do
     visit "/accounts/1/proposed_wagers/new"
 
-    expect(page).to have_content("You are not authorized to visit this page")
     expect(page).to have_css("#homepage")
   end
 

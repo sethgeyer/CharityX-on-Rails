@@ -4,7 +4,6 @@ feature "Deposit and View Funds in an Account" do
     visit "/accounts/1/deposits/new"
 
     expect(page).to have_css("#homepage")
-    expect(page).to have_content("You are not authorized to visit this page")
   end
 
 
@@ -39,8 +38,6 @@ feature "Deposit and View Funds in an Account" do
 
   scenario "As a visitor, I should NOT be able to view a history of deposits" do
     visit "/accounts/1/deposits"
-
-    expect(page).to have_content("You are not authorized to visit this page")
     expect(page).to have_css("#homepage")
   end
 end

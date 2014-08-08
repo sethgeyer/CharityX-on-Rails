@@ -1,5 +1,7 @@
 class SessionsController < ApplicationController
 
+  skip_before_action :ensure_current_user, only: [:index, :create]
+
   def index
     @user = User.new
   end

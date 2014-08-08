@@ -1,4 +1,7 @@
 class DistributionsController < ApplicationController
+
+
+
   def index
     if session[:user_id] == nil
       flash[:notice] = "You are not authorized to visit this page"

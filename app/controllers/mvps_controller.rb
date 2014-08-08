@@ -1,4 +1,7 @@
 class MvpsController < ApplicationController
+
+  skip_before_action :ensure_current_user, only: [:index]
+
   def index
     @mvps = Mvp.all
     @the_dude = User.find(session[:user_id]) if session[:user_id]
