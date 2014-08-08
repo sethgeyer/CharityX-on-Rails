@@ -7,7 +7,7 @@ feature "visitor registration" do
   scenario "visitor fills in registration form completely and accurately" do
     fill_in_registration_form("Stephen")
     expect(page).to have_content("Thanks for registering stepheny.  You are now logged in.")
-    expect(page).to have_button("Logout")
+    expect(page).to have_link("Logout")
     expect(page).not_to have_button("Login")
     expect(page).not_to have_link("Sign Up")
     expect(page).to have_link("Edit Profile")
@@ -20,7 +20,7 @@ feature "visitor registration" do
     login_a_registered_user("Stephen")
 
     expect(page).to have_content("Welcome stepheny")
-    expect(page).to have_button("Logout")
+    expect(page).to have_link("Logout")
     expect(page).not_to have_button("Login")
     expect(page).not_to have_link("Sign Up")
     expect(page).to have_link("Edit Profile")

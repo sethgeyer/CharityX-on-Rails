@@ -11,6 +11,7 @@ feature "visitor login" do
     fill_in "Username", with: "stepheny"
     fill_in "Password", with: "123"
     click_on "Login"
+
     expect(page).to have_button("Login")
     expect(page).to have_content("The credentials you entered are incorrect.  Please try again.")
     expect(page).not_to have_button("Logout")

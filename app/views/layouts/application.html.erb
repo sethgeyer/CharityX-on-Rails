@@ -25,41 +25,32 @@
   <section class="navbar">
     <article class="inline left nav_name">Charity Exchange</article>
     <article class="inline right">
-      <article class="inline"> <a class="navbar_links" href="/charities">Charities</a> |</article>
-      <article class="inline"> <a class="navbar_links"  href="/mvps">MVPs</a> |</article>
+      <article class="inline"> <a class="navbar_links" href= <%=charities_path%>>Charities</a> |</article>
+      <article class="inline"> <a class="navbar_links"  href= <%=mvps_path%>>MVPs</a> |</article>
       <%if !session[:user_id]%>
         <article class="inline">
-          <form  method="POST" action="/login">
-          <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
-          <label for="username">Username:</label>
-            <input class="sm" id="username" name="username"/>
-            <label for="password">Password:</label>
-            <input class="xs" type="password" id="password" name="password"/>
-            <button class="btn">Login</button>
-          </form>
-          <!--< %=form_for url: "/login", method:"POST" do |f|%>-->
-            <!--< %=f.label :username%>-->
-            <!--< %=f.text_field :username, class:"sm"%>-->
-            <!--< %=f.label :password%>-->
-            <!--< %=f.text_field :password, class:"xs"%>-->
-            <!--< %=f.submit "Login", class:"btn"%>-->
-          <!--< %end%>-->
+          <%@user = User.new%>
+          <%=form_for @user, url: login_path do |f|%>
+            <%=f.label :username%>
+            <%=f.text_field :username%>
 
+            <%=f.label :password%>
+            <%=f.text_field :password%>
 
+            <%=f.submit "Login"%>
+          <%end%>
         </article>
-        <article class="inline"><a class="navbar_links" href="/users/new">Sign Up</a></article>
+        <article class="inline"><a class="navbar_links" href=<%=new_user_path%>>Sign Up</a></article>
       <%else%>
         <article class="inline">
-          <a class="navbar_links" href="/users/<%=session[:user_id]%>">Account Details</a> |
+          <a class="navbar_links" href=<%=user_path(session[:user_id])%>>Account Details</a> |
         </article>
         <article class="inline">
-          <a class="navbar_links" href="/users/<%=session[:user_id]%>/edit">Edit Profile &nbsp;&nbsp;&nbsp;</a>
+          <a class="navbar_links" href=<%=edit_user_path(session[:user_id])%>>Edit Profile &nbsp;&nbsp;&nbsp;</a>
         </article>
         <article class="inline">
-          <form method="POST" action="/logout" >
-            <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
-            <button class="btn">Logout</button>
-          </form>
+
+          <%= link_to "Logout", logout_path, {:method => :delete }%>
         </article>
 
       <%end%>

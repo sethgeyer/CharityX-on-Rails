@@ -92,7 +92,7 @@ def fill_in_registration_form(name)
 end
 
 def login_a_registered_user(name)
-  fill_in "username", with: "#{name.downcase}y"
+  fill_in "Username", with: "#{name.downcase}y"
   fill_in "Password", with: name.downcase
   click_on "Login"
 end
