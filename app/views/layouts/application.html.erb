@@ -43,10 +43,10 @@
         <article class="inline"><a class="navbar_links" href=<%=new_user_path%>>Sign Up</a></article>
       <%else%>
         <article class="inline">
-          <a class="navbar_links" href=<%=user_path(session[:user_id])%>>Account Details</a> |
+          <a class="navbar_links" href=<%=user_path(current_user)%>>Account Details</a> |
         </article>
         <article class="inline">
-          <a class="navbar_links" href=<%=edit_user_path(session[:user_id])%>>Edit Profile</a> |
+          <a class="navbar_links" href=<%=edit_user_path(current_user)%>>Edit Profile</a> |
         </article>
         <article class="inline">
           <%= link_to "Logout", logout_path, {:method => :delete, class:"navbar_links" } %>

@@ -3,31 +3,35 @@
 
   <%=form_for [@account, @deposit] do |f|%>
     <div>
-      <%=f.label :amount%>
+      <%=f.label :amount%><br/>
       <%=f.text_field :amount%>
     </div>
     <div>
-      <%=f.label :cc_number, "Credit Card Number"%>
+      <%=f.label :cc_number, "Credit Card Number"%><br/>
       <%=f.text_field :cc_number%>
     </div>
 
     <div>
-      <%=f.label :exp_date, "Exp Date"%>
+      <%=f.label :exp_date, "Exp Date"%><br/>
       <%=f.text_field :exp_date %>
     </div>
 
     <div>
-      <%=f.label :name_on_card, "Name on Card"%>
+      <%=f.label :name_on_card, "Name on Card"%><br/>
       <%=f.text_field :name_on_card%>
     </div>
-
-    <%= f.radio_button :cc_type, "Visa" %>
-    <%= f.label :cc_type, "Visa", value:"visa" %>
-    <%= f.radio_button :cc_type, "Mastercard" %>
-    <%= f.label :cc_type, "Mastercard", value:"mastercard" %>
+    <br/>
+    <div>
+      <%= f.radio_button :cc_type, "Visa" %>
+      <%= f.label :cc_type, "Visa", value:"visa" %>
+      <%= f.radio_button :cc_type, "Mastercard" %>
+      <%= f.label :cc_type, "Mastercard", value:"mastercard" %>
+    </div>
+    <br/>
 
     <div>
       <%=f.submit "Submit"%>
+      <%=link_to "Cancel", user_path(current_user)%>
     </div>
 
 

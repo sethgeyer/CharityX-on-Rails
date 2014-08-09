@@ -2,30 +2,32 @@
 
   <%=form_for [@account, @proposed_wager] do |f|%>
     <div>
-      <%=f.label :title %>
+      <%=f.label :title %><br/>
       <%=f.text_field :title%>
     </div>
     <div>
-      <%=f.label :date_of_wager, "Date of Wager"%>
+      <%=f.label :date_of_wager, "Date of Wager"%><br/>
       <%=f.date_field :date_of_wager %>
     </div>
     <div>
-      <%=f.label :details %>
+      <%=f.label :details %><br/>
       <%=f.text_field :details%>
     </div>
     <div>
-      <%=f.label :amount%>
+      <%=f.label :amount%><br/>
       <%=f.text_field :amount%>
     </div>
     <div>
-
-      <%=f.label :wageree_id%>
+      <%=f.label :wageree_id%><br/>
       <%=f.collection_select :wageree_id, @list_of_users, :id, :username%>
-
+    </div>
+    <br/>
+    <div>
+      <%=f.submit "Submit"%>
+      <%=link_to "Cancel", user_path(current_user)%>
     </div>
 
 
-    <%=f.submit "Submit"%>
   <%end%>
 
 </div>

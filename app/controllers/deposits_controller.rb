@@ -1,35 +1,25 @@
 class DepositsController < ApplicationController
 
   def index
-    if session[:user_id] == nil
+    if current_user.account.id == params[:account_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
+      @account = current_user.account
+      @deposits = @account.deposits
+      @distributions = @account.distributions
+      render :index
+    else
       flash[:notice] = "You are not authorized to visit this page"
       redirect_to root_path
-    else
-      @account = Account.find_by(user_id: session[:user_id])
-      if session[:user_id] == @account.user_id
-        @deposits = @account.deposits
-        @distributions = @account.distributions
-        render :index
-      else
-        flash[:notice] = "You are not authorized to visit this page"
-        redirect_to root_path
-      end
     end
   end
 
   def new
-    if session[:user_id] == nil
+    if current_user.account.id == params[:account_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
+      @account = current_user.account
+      @deposit = Deposit.new
+      render :new
+    else
       flash[:notice] = "You are not authorized to visit this page"
       redirect_to root_path
-    else
-      @account = Account.find_by(user_id: session[:user_id])
-      if session[:user_id] == @account.user_id
-        @deposit = Deposit.new
-        render :new
-      else
-        flash[:notice] = "You are not authorized to visit this page"
-        redirect_to root_path
-      end
     end
   end
 
@@ -45,10 +35,10 @@ class DepositsController < ApplicationController
     deposit.save!
     newest_deposit = Deposit.where(account_id: params[:account_id].to_i).last
     #UNTESTED ########################################################
-    Chip.new.purchase(session[:user_id], newest_deposit.account.id, newest_deposit.amount, newest_deposit.date_created, "available")
+    Chip.new.purchase(current_user.id, newest_deposit.account.id, newest_deposit.amount, newest_deposit.date_created, "available")
     #################
     flash[:notice] = "Thank you for depositing $#{newest_deposit.amount / 100} into your account"
-    redirect_to user_path(session[:user_id])#"/users/#{session[:user_id]}"
+    redirect_to user_path(current_user)#"/users/#{session[:user_id]}"
   end
 
 

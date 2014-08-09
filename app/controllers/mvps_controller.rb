@@ -4,13 +4,13 @@ class MvpsController < ApplicationController
 
   def index
     @mvps = Mvp.all
-    @the_dude = User.find(session[:user_id]) if session[:user_id]
+    @the_dude = current_user if current_user
   end
 
 
  def new
    @mvp = Mvp.new
-    the_dude = User.find(session[:user_id])
+    the_dude = current_user
     if the_dude.is_admin?
       render :new
     else

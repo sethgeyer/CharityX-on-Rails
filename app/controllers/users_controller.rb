@@ -20,7 +20,7 @@ class UsersController < ApplicationController
       account.user_id = session[:user_id]
       account.save!
       flash[:notice] = "Thanks for registering #{@user.username}. You are now logged in."
-      redirect_to user_path(session[:user_id])
+      redirect_to user_path(current_user)
     else
       render :new, layout:false
     end
@@ -65,7 +65,7 @@ class UsersController < ApplicationController
     @user.profile_picture = params[:user][:profile_picture]
     if @user.save
       flash[:notice] = "Your changes have been saved"
-      redirect_to user_path(session[:user_id])
+      redirect_to user_path(current_user)
     else
       render :edit
     end

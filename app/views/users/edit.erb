@@ -27,7 +27,7 @@
       </div>
       <br/>
       <%=f.submit "Submit"%>
-      <%=link_to "Cancel", user_path(session[:user_id])%>
+      <%=link_to "Cancel", user_path(current_user)%>
 
     <%end%>
 

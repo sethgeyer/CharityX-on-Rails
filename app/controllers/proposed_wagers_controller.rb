@@ -1,25 +1,22 @@
 class ProposedWagersController < ApplicationController
 
-
-
   def new
-    if session[:user_id] == nil
-      flash[:notice] = "You are not authorized to visit this page"
-      redirect_to root_path
-    else
-      @account = Account.find_by(user_id: session[:user_id])
-      if session[:user_id] == @account.user_id
+    # if !current_user
+    #   flash[:notice] = "You are not authorized to visit this page"
+    #   redirect_to root_path
+    # else
+
+      if current_user.account.id == params[:account_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
+        @account = current_user.account
+        @account = current_user.account
         @proposed_wager = ProposedWager.new
-        @list_of_users = User.where('id != ?', session[:user_id])
-        # deposits = account.deposits
-        # distributions = account.distributions
-        # erb name_of_erb_template.to_sym, locals: {account: account, deposits: deposits, distributions: distributions}
+        @list_of_users = User.where('id != ?', current_user.id)
         render :new
       else
         flash[:notice] = "You are not authorized to visit this page"
         redirect_to root_path
       end
-    end
+    # end
   end
 
   def create
@@ -29,7 +26,7 @@ class ProposedWagersController < ApplicationController
     ################
     # wageree = User.find(params[:proposed_wager][:wageree_id].to_i)
     flash[:notice] = "You're proposed wager has been sent"#" to #{wageree["email"]}"
-    redirect_to user_path(session[:user_id])
+    redirect_to user_path(current_user)
   end
 
 

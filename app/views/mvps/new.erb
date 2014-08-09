@@ -4,17 +4,18 @@
 <%=form_for @mvp do |f|%>
 
   <div>
-    <%=f.label :date%>
+    <%=f.label :date%><br/>
     <%=f.date_field :date%>
   </div>
 
   <div>
-    <%=f.label :description%>
+    <%=f.label :description%><br/>
     <%=f.text_field :description%>
   </div>
-
-  <%=f.submit "Submit"%>
-  <%= link_to "Cancel", root_path%>
-
+  <br/>
+  <div>
+    <%=f.submit "Submit"%>
+    <%= link_to "Cancel", root_path%>
+  </div>
 <%end%>
 
