@@ -6,11 +6,11 @@ class ProposedWagersController < ApplicationController
     #   redirect_to root_path
     # else
 
-      if current_user.account.id == params[:account_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
-        @account = current_user.account
-        @account = current_user.account
+      if kenny_loggins.account.id == params[:account_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
+        @account = kenny_loggins.account
+        @account = kenny_loggins.account
         @proposed_wager = ProposedWager.new
-        @list_of_users = User.where('id != ?', current_user.id)
+        @list_of_users = User.where('id != ?', kenny_loggins.id)
         render :new
       else
         flash[:notice] = "You are not authorized to visit this page"
@@ -26,7 +26,7 @@ class ProposedWagersController < ApplicationController
     ################
     # wageree = User.find(params[:proposed_wager][:wageree_id].to_i)
     flash[:notice] = "You're proposed wager has been sent"#" to #{wageree["email"]}"
-    redirect_to user_path(current_user)
+    redirect_to user_path(kenny_loggins)
   end
 
 

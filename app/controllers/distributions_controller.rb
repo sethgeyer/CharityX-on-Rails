@@ -2,8 +2,8 @@ class DistributionsController < ApplicationController
 
 
   def index
-    if current_user.account.id == params[:account_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
-      @account = current_user.account
+    if kenny_loggins.account.id == params[:account_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
+      @account = kenny_loggins.account
       @distributions = @account.distributions
       render :index
     else
@@ -14,8 +14,8 @@ class DistributionsController < ApplicationController
 
 
   def new
-    if current_user.account.id == params[:account_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
-      @account = current_user.account
+    if kenny_loggins.account.id == params[:account_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
+      @account = kenny_loggins.account
       @distribution = Distribution.new
       @charities_for_selection = Charity.all
       render :new
@@ -32,6 +32,6 @@ class DistributionsController < ApplicationController
     Chip.new.cash_out(newest_distribution.account.id, newest_distribution.amount, newest_distribution.date, newest_distribution.charity.id)
     #################
     flash[:notice] = "Thank you for distributing $#{newest_distribution.amount.to_i / 100} from your account to #{newest_distribution.charity.name}"
-    redirect_to user_path(current_user)
+    redirect_to user_path(kenny_loggins)
   end
 end

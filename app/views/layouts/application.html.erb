@@ -27,7 +27,7 @@
     <article class="inline right">
       <article class="inline"> <a class="navbar_links" href= <%=charities_path%>>Charities</a> |</article>
       <article class="inline"> <a class="navbar_links"  href= <%=mvps_path%>>MVPs</a> |</article>
-      <%if !current_user%>
+      <%if !kenny_loggins%>
         <article class="inline">
           <%@user = User.new%>
           <%=form_for @user, url: login_path do |f|%>
@@ -43,10 +43,10 @@
         <article class="inline"><a class="navbar_links" href=<%=new_user_path%>>Sign Up</a></article>
       <%else%>
         <article class="inline">
-          <a class="navbar_links" href=<%=user_path(current_user)%>>Account Details</a> |
+          <a class="navbar_links" href=<%=user_path(kenny_loggins)%>>Account Details</a> |
         </article>
         <article class="inline">
-          <a class="navbar_links" href=<%=edit_user_path(current_user)%>>Edit Profile</a> |
+          <a class="navbar_links" href=<%=edit_user_path(kenny_loggins)%>>Edit Profile</a> |
         </article>
         <article class="inline">
           <%= link_to "Logout", logout_path, {:method => :delete, class:"navbar_links" } %>

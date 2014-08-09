@@ -1,8 +1,8 @@
 class DepositsController < ApplicationController
 
   def index
-    if current_user.account.id == params[:account_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
-      @account = current_user.account
+    if kenny_loggins.account.id == params[:account_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
+      @account = kenny_loggins.account
       @deposits = @account.deposits
       @distributions = @account.distributions
       render :index
@@ -13,8 +13,8 @@ class DepositsController < ApplicationController
   end
 
   def new
-    if current_user.account.id == params[:account_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
-      @account = current_user.account
+    if kenny_loggins.account.id == params[:account_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
+      @account = kenny_loggins.account
       @deposit = Deposit.new
       render :new
     else
@@ -35,10 +35,10 @@ class DepositsController < ApplicationController
     deposit.save!
     newest_deposit = Deposit.where(account_id: params[:account_id].to_i).last
     #UNTESTED ########################################################
-    Chip.new.purchase(current_user.id, newest_deposit.account.id, newest_deposit.amount, newest_deposit.date_created, "available")
+    Chip.new.purchase(kenny_loggins.id, newest_deposit.account.id, newest_deposit.amount, newest_deposit.date_created, "available")
     #################
     flash[:notice] = "Thank you for depositing $#{newest_deposit.amount / 100} into your account"
-    redirect_to user_path(current_user)#"/users/#{session[:user_id]}"
+    redirect_to user_path(kenny_loggins)#"/users/#{session[:user_id]}"
   end
 
 
