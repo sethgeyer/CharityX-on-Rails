@@ -4,14 +4,12 @@ class MvpsController < ApplicationController
 
   def index
     @mvps = Mvp.all
-    @the_dude = current_user if current_user
   end
 
 
  def new
    @mvp = Mvp.new
-    the_dude = current_user
-    if the_dude.is_admin?
+    if current_user.is_admin?
       render :new
     else
       flash[:notice] = "You don't have permissions to add an MVP"
