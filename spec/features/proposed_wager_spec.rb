@@ -15,22 +15,64 @@ feature "View and Create a Proposed Wagers" do
     expect(page.find("#proposed_wagers_table")).not_to have_content(10000)
     expect(page.find("#proposed_wagers_table")).to have_content("alexandery")
     expect(page.find("#proposed_wagers_table")).to have_content("w/wageree")
+    expect(page.find("#proposed_wagers_table")).not_to have_link("Shake on it")
+    expect(page.find("#proposed_wagers_table")).to have_link("Withdraw")
     expect(page.find("#wagers")).to have_content(100)
     expect(page.find("#net_amount")).to have_content(300)
+  end
+
+  scenario "As a user I can withdraw a proposed wager that has not yet been accepted" do
+    register_users_and_create_a_wager("Alexander", "Stephen")
+    expect(page.find("#wagers")).to have_content("$100")
+    expect(page.find("#wagers")).to have_content("Chips:10")
+    click_on "Withdraw"
+    expect(page.find("#wagers")).to have_content("$0")
+    expect(page.find("#wagers")).to have_content("Chips:0")
+
+
+  end
+
+  scenario "As a wagerer, I can not 'withdraw' a proposed wager if it has been accepted" do
+    register_users_and_create_a_wager("Alexander", "Stephen")
+    click_on "Logout"
+    login_a_registered_user("Alexander")
+    click_on "Shake on it"
+    click_on "Logout"
+    login_a_registered_user("Stephen")
+    expect(page).to have_content("Ping Pong Match")
+    expect(page).not_to have_link("Withdraw")
+    expect(page.find("#wagers")).to have_content(100)
+    expect(page.find("#wagers")).to have_content("Chips:10")
   end
 
   scenario "As a user I can see a proposed wager in which I'm the wageree" do
     register_users_and_create_a_wager("Alexander", "Stephen")
     click_on "Logout"
-
     login_a_registered_user("Alexander")
     expect(page.find("#proposed_wagers_table")).to have_content("Ping Pong Match")
     expect(page.find("#proposed_wagers_table")).to have_content(100)
     expect(page.find("#proposed_wagers_table")).not_to have_content(10000)
     expect(page.find("#proposed_wagers_table")).to have_content("stepheny")
     expect(page.find("#proposed_wagers_table")).to have_content("w/wageree")
+    expect(page.find("#wagers")).to have_content(0)
   end
 
 
+  scenario "As a wageree, I can accept a proposed_wager" do
+    register_users_and_create_a_wager("Alexander", "Stephen")
+    click_on "Logout"
+    login_a_registered_user("Alexander")
+    expect(page.find("#wagers")).to have_content("$0")
+
+    click_on "Shake on it"
+
+    expect(page).to have_css("#show_users")
+    expect(page.find("#proposed_wagers_table")).not_to have_link("Shake on it")
+    expect(page.find("#proposed_wagers_table")).to have_content("accepted")
+    expect(page.find("#wagers")).to have_content(100)
+    expect(page.find("#wagers")).to have_content("Chips:10")
+    expect(page.find("#net_amount")).to have_content(900)
+    expect(page.find("#net_amount")).to have_content(900)
+  end
 
 end

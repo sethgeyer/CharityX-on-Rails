@@ -124,6 +124,7 @@ end
 
 def register_users_and_create_a_wager(wageree, wagerer)
   fill_in_registration_form(wageree)
+  fund_my_account_with_a_credit_card(1000)
   click_on "Logout"
   fill_in_registration_form(wagerer)
   fund_my_account_with_a_credit_card(400)

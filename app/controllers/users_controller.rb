@@ -30,13 +30,15 @@ class UsersController < ApplicationController
     if kenny_loggins == User.find(params[:id])   #<--- no test written to test whether a sessioned user can view someone else's view
       @account = kenny_loggins.account
       #UNTESTED ######################
+
       @unallocated_chips = @account.chips.where(status: "available")
       @distributed_chips = @account.chips.where(status: "distributed")
       @wagered_chips = @account.chips.where(status: "wagered")
+
       ###################
       @deposit_total = @account.deposits.sum(:amount) / 100
       @distribution_total = @account.distributions.sum(:amount) / 100
-      @wagered_total = @account.proposed_wagers.sum(:amount) / 100
+      @wagered_total = (@account.proposed_wagers.sum(:amount) / 100) + (ProposedWager.where(wageree_id: kenny_loggins.id, status: "accepted").sum(:amount) / 100)
       @net_amount = @deposit_total - @distribution_total - @wagered_total
       @proposed_wagers = @account.proposed_wagers
       @wageree_wagers = ProposedWager.where(wageree_id: kenny_loggins.id)

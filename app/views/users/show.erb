@@ -32,35 +32,50 @@
   <h3>Proposed Wagers</h3>
   <table id="proposed_wagers_table">
     <thead>
+    <th>Type</th>
     <th>I Bet</th>
     <th>With</th>
     <th>On </th>
     <th>Date</th>
     <th>Status</th>
+    <th>Action</th>
 
     </thead>
     <tbody>
 
-    <%@proposed_wagers.each do |wager|%>
+    <%@proposed_wagers.each do |proposed_wager|%>
 
       <tr>
-        <td><%=wager.amount / 100 %></td>
-        <td><%=User.find_by(id: wager.wageree_id).username%></td>
-        <td><%=wager.title%></td>
-        <td><%=wager.date_of_wager %></td>
-        <td><%=wager.status %></td>
+        <td>My Proposed Wagers</td>
+        <td><%=proposed_wager.amount / 100 %></td>
+        <td><%=User.find_by(id: proposed_wager.wageree_id).username%></td>
+        <td><%=link_to proposed_wager.title%></td>
+        <td><%=proposed_wager.date_of_wager %></td>
+        <td><%=proposed_wager.status %></td>
+        <%if proposed_wager.status != "accepted"%>
+          <td><%=link_to "Withdraw", [proposed_wager.account, proposed_wager], {method: :delete}%> </td>
+      <%else%>
+          <td></td>
+        <%end%>
 
       </tr>
 
     <%end%>
 
-    <%@wageree_wagers.each do |wager|%>
+    <%@wageree_wagers.each do |proposed_wager|%>
       <tr>
-        <td><%=wager.amount / 100%></td>
-        <td><%=wager.account.user.username%></td>
-        <td><%=wager.title%></td>
-        <td><%=wager.date_of_wager %></td>
-        <td><%=wager.status %></td>
+        <td>Proposed Wagers with me as the wageree</td>
+        <td><%=proposed_wager.amount / 100%></td>
+        <td><%=proposed_wager.account.user.username%></td>
+        <td><%=link_to proposed_wager.title%></td>
+        <td><%=proposed_wager.date_of_wager %></td>
+        <td><%=proposed_wager.status %></td>
+        <%if proposed_wager.status != "accepted"%>
+          <td><%=link_to "Shake on it", [proposed_wager.account, proposed_wager], {method: :patch}%> </td>
+          <td><%=link_to "Revise", edit_account_proposed_wager_path(proposed_wager.account, proposed_wager)%> </td>
+        <%else%>
+          <td></td>
+        <%end%>
 
       </tr>
     <%end%>

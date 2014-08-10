@@ -32,12 +32,12 @@ class DepositsController < ApplicationController
     deposit.name_on_card = params[:deposit][:name_on_card]
     deposit.cc_type = params[:deposit][:cc_type]
     deposit.date_created = Time.now
-    deposit.save!
-    newest_deposit = Deposit.where(account_id: params[:account_id].to_i).last
-    #UNTESTED ########################################################
-    Chip.new.purchase(kenny_loggins.id, newest_deposit.account.id, newest_deposit.amount, newest_deposit.date_created, "available")
-    #################
-    flash[:notice] = "Thank you for depositing $#{newest_deposit.amount / 100} into your account"
+    if deposit.save!
+      #UNTESTED ########################################################
+      Chip.new.purchase(kenny_loggins.id, deposit.account.id, deposit.amount, deposit.date_created, "available")
+      #################
+      flash[:notice] = "Thank you for depositing $#{deposit.amount / 100} into your account"
+    end
     redirect_to user_path(kenny_loggins)
   end
 

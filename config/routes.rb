@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     resources :deposits
     resources :distributions
     resources :proposed_wagers
+    resources :wagers
   end
 
   resources :mvps
