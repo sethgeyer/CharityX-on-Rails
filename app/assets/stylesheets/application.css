@@ -14,7 +14,6 @@
  *= require_self
  */
 
-
 .errors {
     color: red;
     margin-bottom: 1em;
@@ -28,7 +27,7 @@
 .wrapper {
     margin-left: 20px;
     margin-right: 20px;
-    background-color:#EDEEF2;
+    /*background-color:#EDEEF2;*/
 }
 
 
