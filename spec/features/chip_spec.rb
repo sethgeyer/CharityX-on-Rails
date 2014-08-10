@@ -61,7 +61,7 @@ describe Chip do
 
   describe "#convert_ dollars" do
     it "converts dollars into the equivalent numbrer of chips" do
-      chip_equivalancey = @chip.convert_from_pennies(12000)
+      chip_equivalancey = @chip.convert_from_pennies_to_chips(12000)
       expect(chip_equivalancey).to eq(12)
     end
   end

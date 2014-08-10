@@ -7,24 +7,30 @@ feature "View and Create a Proposed Wagers" do
   end
 
   scenario "As a user I can create a proposed wager" do
-    register_and_create_a_wager
-    # expect(page).to have_content("You're proposed wager has been sent to Alex")
+    register_users_and_create_a_wager("Alexander", "Stephen")
+    expect(page).to have_css("#show_users")
+    expect(page).to have_content("Your proposed wager has been sent to alexandery.")
     expect(page.find("#proposed_wagers_table")).to have_content("Ping Pong Match")
     expect(page.find("#proposed_wagers_table")).to have_content(100)
     expect(page.find("#proposed_wagers_table")).not_to have_content(10000)
+    expect(page.find("#proposed_wagers_table")).to have_content("alexandery")
+    expect(page.find("#proposed_wagers_table")).to have_content("w/wageree")
     expect(page.find("#wagers")).to have_content(100)
     expect(page.find("#net_amount")).to have_content(300)
   end
 
   scenario "As a user I can see a proposed wager in which I'm the wageree" do
-    register_and_create_a_wager
+    register_users_and_create_a_wager("Alexander", "Stephen")
     click_on "Logout"
 
     login_a_registered_user("Alexander")
     expect(page.find("#proposed_wagers_table")).to have_content("Ping Pong Match")
     expect(page.find("#proposed_wagers_table")).to have_content(100)
     expect(page.find("#proposed_wagers_table")).not_to have_content(10000)
-    expect(page.find("#proposed_wagers_table")).to have_content("Alexander")
+    expect(page.find("#proposed_wagers_table")).to have_content("stepheny")
+    expect(page.find("#proposed_wagers_table")).to have_content("w/wageree")
   end
+
+
 
 end

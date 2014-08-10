@@ -122,17 +122,17 @@ def distribute_funds_from_my_account(distribution_amount, charity)
   click_on "Submit"
 end
 
-def register_and_create_a_wager
-  fill_in_registration_form("Alexander")
+def register_users_and_create_a_wager(wageree, wagerer)
+  fill_in_registration_form(wageree)
   click_on "Logout"
-  fill_in_registration_form("Stephen")
+  fill_in_registration_form(wagerer)
   fund_my_account_with_a_credit_card(400)
   #visit "/proposed_wagers/new"
   click_on "Create a Wager"
-  fill_in "Title", with: "Ping Pong Match between S & A"
-  fill_in "Date of Wager", with: "2014-07-31"
-  fill_in "Details", with: "Game to 21, standard rules apply"
-  fill_in "Amount", with: 100
-  select "alexandery", from: "Wageree"
+  fill_in "proposed_wager_title", with: "Ping Pong Match between S & A"
+  fill_in "proposed_wager_date_of_wager", with: "2014-07-31"
+  fill_in "proposed_wager_details", with: "Game to 21, standard rules apply"
+  fill_in "proposed_wager_amount", with: 100
+  select "alexandery", from: "proposed_wager_wageree_id"
   click_on "Submit"
 end

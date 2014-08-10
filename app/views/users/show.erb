@@ -29,27 +29,39 @@
 
   <br/>
   <br/>
-
+  <h3>Proposed Wagers</h3>
   <table id="proposed_wagers_table">
     <thead>
-    <th>Title</th>
-    <th>Amount</th>
-    <th>Wageree</th>
+    <th>I Bet</th>
+    <th>With</th>
+    <th>On </th>
+    <th>Date</th>
+    <th>Status</th>
+
     </thead>
     <tbody>
+
     <%@proposed_wagers.each do |wager|%>
+
       <tr>
-        <td><%=wager.title%></td>
         <td><%=wager.amount / 100 %></td>
-        <td><%=wager.wageree_id%></td>
+        <td><%=User.find_by(id: wager.wageree_id).username%></td>
+        <td><%=wager.title%></td>
+        <td><%=wager.date_of_wager %></td>
+        <td><%=wager.status %></td>
+
       </tr>
 
     <%end%>
+
     <%@wageree_wagers.each do |wager|%>
       <tr>
-        <td><%=wager.title%></td>
         <td><%=wager.amount / 100%></td>
-        <td><%=Account.find_by(user_id: wager.wageree_id).user.email%></td>
+        <td><%=wager.account.user.username%></td>
+        <td><%=wager.title%></td>
+        <td><%=wager.date_of_wager %></td>
+        <td><%=wager.status %></td>
+
       </tr>
     <%end%>
     </tbody>

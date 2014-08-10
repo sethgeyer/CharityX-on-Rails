@@ -1,7 +1,7 @@
 
 class Chip < ActiveRecord::Base
   def purchase(user_id, account_id, deposit_amount, deposit_create_date, availability = nil)
-    number_of_chips = convert_from_pennies(deposit_amount)
+    number_of_chips = convert_from_pennies_to_chips(deposit_amount)
 
     number_of_chips.times {
       chip = Chip.new
@@ -18,7 +18,7 @@ class Chip < ActiveRecord::Base
     end
 
   def cash_out(account_id, distribution_amount, distribution_date, charity_id)
-    number_of_chips = convert_from_pennies(distribution_amount)
+    number_of_chips = convert_from_pennies_to_chips(distribution_amount)
     chips = find_the_available(account_id).first(number_of_chips)
     chips.each do |chip|
       chip.status = "distributed"
@@ -29,7 +29,7 @@ class Chip < ActiveRecord::Base
   end
 
   def change_status_to_wager(account_id, wagered_amount )
-    number_of_chips = convert_from_pennies(wagered_amount)
+    number_of_chips = convert_from_pennies_to_chips(wagered_amount)
     chips = find_the_available(account_id).first(number_of_chips)
     chips.each do |chip|
       chip.status = "wagered"
@@ -41,7 +41,7 @@ class Chip < ActiveRecord::Base
     Chip.where(account_id: account_id).where(status: "available")
   end
 
-  def convert_from_pennies(amount)
+  def convert_from_pennies_to_chips(amount)
     amount / 100 / 10
   end
 
