@@ -16,9 +16,15 @@ class DistributionsController < ApplicationController
   def new
     if kenny_loggins.account.id == params[:account_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
       @account = kenny_loggins.account
-      @distribution = Distribution.new
-      @charities_for_selection = Charity.all
-      render :new
+
+      if @account.chips.where(status: "available").count == 0
+        flash[:notice] = "Your account has a $0 balance.  You must fund your account before you can distribute funds."
+        redirect_to user_path(kenny_loggins)
+      else
+        @distribution = Distribution.new
+        @charities_for_selection = Charity.all
+        render :new
+      end
     else
       flash[:notice] = "You are not authorized to visit this page"
       redirect_to root_path

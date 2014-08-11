@@ -1,17 +1,16 @@
 class ProposedWagersController < ApplicationController
 
   def new
-    # if !current_user
-    #   flash[:notice] = "You are not authorized to visit this page"
-    #   redirect_to root_path
-    # else
-
       if kenny_loggins.account.id == params[:account_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
         @account = kenny_loggins.account
-        @account = kenny_loggins.account
+        if @account.chips.where(status: "available").count == 0
+          flash[:notice] = "Your account has a $0 balance.  You must fund your account before you can wager."
+          redirect_to user_path(kenny_loggins)
+        else
         @proposed_wager = ProposedWager.new
         @list_of_users = User.where('id != ?', kenny_loggins.id)
         render :new
+        end
       else
         flash[:notice] = "You are not authorized to visit this page"
         redirect_to root_path

@@ -21,6 +21,16 @@ feature "View and Create a Proposed Wagers" do
     expect(page.find("#net_amount")).to have_content(300)
   end
 
+  # scenario "As a wagerer, I can not create a proposed wager if I don't have adequate funds" do
+  #   fill_in_registration_form("AlexWageree")
+  #   fund_my_account_with_a_credit_card(1000)
+  #   click_on "Logout"
+  #   fill_in_registration_form("StephenWagerer")
+  #   fund_my_account_with_a_credit_card(0)
+  #   click_on "Create a Wager"
+  #   expect(page).to have_content("Your account has a $0 balance.  You must fund your account before you can wager.")
+  # end
+
   scenario "As a user I can withdraw a proposed wager that has not yet been accepted" do
     register_users_and_create_a_wager("Alexander", "Stephen")
     expect(page.find("#wagers")).to have_content("$100")

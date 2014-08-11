@@ -19,16 +19,38 @@ feature "User Show Page" do
     expect(page).to have_css("#new_deposits")
   end
 
-  scenario "As a logged_in user I can link to the 'create a wager' page to create a wager" do
+  scenario "As a logged_in user with a funded account I can link to the 'create a wager' page to create a wager" do
+    fund_my_account_with_a_credit_card(100)
     click_on "Create a Wager"
 
     expect(page).to have_css("#new_proposed_wagers")
   end
 
-  scenario "As a logged_in user I can link to the new distributions page to distribute funds from my account" do
-    click_on "Distribute Funds"
+  scenario "As a logged_in user with a non-funded account I can link to the 'create a wager' page to create a wager" do
+    click_on "Create a Wager"
 
+    expect(page).to have_css("#show_users")
+    expect(page).to have_content("Your account has a $0 balance.  You must fund your account before you can wager.")
+  end
+
+
+
+  scenario "As a logged_in user with unallocated funds available, I can link to the new distributions page to distribute funds from my account" do
+    fund_my_account_with_a_credit_card(100)
+    click_on "Distribute Funds"
     expect(page).to have_css("#new_distributions")
+  end
+
+  scenario "As a logged_in user without unallocated funds available, I can link to the new distributions page to distribute funds from my account" do
+    fund_my_account_with_a_credit_card(100)
+    visit "/charities"
+    click_on "Register a new charity"
+    complete_application("United Way")
+    click_on "Account Details"
+    distribute_funds_from_my_account(100, "United Way")
+    click_on "Distribute Funds"
+    expect(page).to have_css("#show_users")
+    expect(page).to have_content("Your account has a $0 balance.  You must fund your account before you can distribute funds.")
   end
 
   # scenario "non-logged in visitor attempts to visit show page" do

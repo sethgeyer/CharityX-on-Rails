@@ -7,7 +7,10 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 #
 User.destroy_all
-# TaskList.destroy_all
+Account.destroy_all
+Chip.destroy_all
+Deposit.destroy_all
+Charity.destroy_all
 
 
 
@@ -32,6 +35,9 @@ deposit3 = Deposit.create!(account_id: account3.id, amount: 30000, cc_number: 33
 30.times {
   Chip.create!(account_id: account3.id, owner_id: user3.id, status: "available", l1_tag_id: nil, l2_tag_id: nil, charity_id: nil, purchase_date: "2014-08-15", cashed_in_date: nil)
 }
+
+user4 = User.create!(username: "steve", email: "steve@gmail.com", ssn: "444556666", is_admin: false, password: 'password')
+account4 = Account.create!(user_id: user4.id)
 
 charity1 = Charity.create!(name: "United Way", tax_id: 333, poc: "Ulysess Williams", poc_email: "uw@unitedway.com", status: "registered")
 charity2 = Charity.create!(name: "Red Cross", tax_id: 444, poc: "Ray Crumb", poc_email: "rc@redcross.com", status: "registered")
