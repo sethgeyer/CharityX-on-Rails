@@ -75,7 +75,7 @@ feature "View and Create a Proposed Wagers" do
   end
 
 
-  scenario "As a wageree, I can accept a proposed_wager" do
+  scenario "As a wageree, I can accept a proposed_wager if I have sufficent funds to wager" do
     register_users_and_create_a_wager("Alexander", "Stephen")
     click_on "Logout"
     login_a_registered_user("Alexander")
@@ -91,5 +91,27 @@ feature "View and Create a Proposed Wagers" do
     expect(page.find("#net_amount")).to have_content(900)
     expect(page.find("#net_amount")).to have_content(900)
   end
+
+  scenario "As a wageree, I can NOT accept a proposed_wager if I don't have sufficient funds to wager" do
+    visit "/charities/new"
+    complete_application("United Way")
+    register_users_and_create_a_wager("Alexander", "Stephen")
+    click_on "Logout"
+    login_a_registered_user("Alexander")
+
+    distribute_funds_from_my_account(950, "United Way")
+    click_on "Shake on it"
+
+    expect(page).to have_css("#show_users")
+    expect(page).to have_content("You don't have adequate funds to accept this wager.  Please add additional funds to your account.")
+    expect(page.find("#net_amount")).to have_content("$50")
+
+  end
+
+
+
+
+
+
 
 end

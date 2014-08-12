@@ -20,7 +20,6 @@ class ProposedWagersController < ApplicationController
 
   def create
     @account = kenny_loggins.account
-    @list_of_users = User.where('id != ?', kenny_loggins.id)
     @proposed_wager = ProposedWager.new
     @proposed_wager.account_id = @account.id
     @proposed_wager.title = params[:proposed_wager][:title]
@@ -31,11 +30,11 @@ class ProposedWagersController < ApplicationController
     @proposed_wager.status = "w/wageree"
     if @account.chips.where(status: "available").count < (params[:proposed_wager][:amount].to_i / 10)
       @proposed_wager.amount = @account.chips.where(status: "available").count * 10
+      @list_of_users = User.where('id != ?', kenny_loggins.id)
       flash[:notice] = "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{@account.chips.where(status: "available").count * 10}"
       render :new
     else
       if @proposed_wager.save!
-        # @proposed_wager = ProposedWager.create!(account_id: params[:account_id], title: params[:proposed_wager][:title], date_of_wager: params[:proposed_wager][:date_of_wager], details: params[:proposed_wager][:details], amount: params[:proposed_wager][:amount].to_i * 100, wageree_id: params[:proposed_wager][:wageree_id].to_i, status: "w/wageree")
         #UNTESTED ########################################################
         Chip.new.change_status_to_wager(@proposed_wager.account.id, @proposed_wager.amount)
         ################
@@ -51,15 +50,22 @@ class ProposedWagersController < ApplicationController
   end
 
   def update
-    proposed_wager = ProposedWager.find(params[:id])
-    proposed_wager.status = "accepted"
-    proposed_wager.save!
-    # if shakes on it wout revisions
-    #UNTESTED ########################################################
-    Chip.new.change_status_to_wager(kenny_loggins.account.id, proposed_wager.amount)
-    ###############
+    @account = kenny_loggins.account
+    @proposed_wager = ProposedWager.find(params[:id])
+    @proposed_wager.status = "accepted"
+    if @account.chips.where(status: "available").count < (@proposed_wager.amount / 100 / 10)
+      flash[:notice] = "You don't have adequate funds to accept this wager.  Please add additional funds to your account."
+    else
+      if @proposed_wager.save!
+        # if shakes on it wout revisions
+        #UNTESTED ########################################################
+        Chip.new.change_status_to_wager(kenny_loggins.account.id, @proposed_wager.amount)
+        ###############
+      end
+    end
     redirect_to user_path(kenny_loggins)
   end
+
 
   def destroy
     # if wagerer withdraws the bet
