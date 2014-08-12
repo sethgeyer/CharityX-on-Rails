@@ -51,4 +51,18 @@ feature "View Index and Create Distribution" do
     expect(page.find("#net_amount")).to have_content("$250")
   end
 
+  scenario "As a user, I can not distribute more dollars than are currently available in my account" do
+    fill_in_registration_form("Stephen")
+    fund_my_account_with_a_credit_card(400)
+    distribute_funds_from_my_account(500, "United Way")
+
+    expect(page).to have_css("#new_distributions")
+    expect(page).to have_content("You don't have sufficient funds for the size of this distribution.  Unless you fund your account, the maximum you can distribute is $400")
+  end
+
+
+
+
+
+
 end

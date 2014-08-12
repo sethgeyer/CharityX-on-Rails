@@ -32,12 +32,26 @@ class DistributionsController < ApplicationController
   end
 
   def create
-    Distribution.create(account_id: params[:account_id].to_i, amount: params[:distribution][:amount].to_i * 100, charity_id: params[:distribution][:charity_id])
-    newest_distribution = Distribution.where(account_id: params[:account_id].to_i).last
-    #UNTESTED ########################################################
-    Chip.new.cash_out(newest_distribution.account.id, newest_distribution.amount, newest_distribution.date, newest_distribution.charity.id)
-    #################
-    flash[:notice] = "Thank you for distributing $#{newest_distribution.amount.to_i / 100} from your account to #{newest_distribution.charity.name}"
-    redirect_to user_path(kenny_loggins)
+    @account = kenny_loggins.account
+    @distribution = Distribution.new
+    @distribution.account_id = @account.id
+    @distribution.amount = params[:distribution][:amount].to_i * 100
+    @distribution.charity_id = params[:distribution][:charity_id]
+    if @account.chips.where(status: "available").count < (params[:distribution][:amount].to_i / 10)
+      @distribution.amount = @account.chips.where(status: "available").count * 10
+      flash[:notice] = "You don't have sufficient funds for the size of this distribution.  Unless you fund your account, the maximum you can distribute is $#{@account.chips.where(status: "available").count * 10}"
+      render :new
+    else
+      if @distribution.save!
+        # newest_distribution = Distribution.where(account_id: params[:account_id].to_i).last
+        #UNTESTED ########################################################
+        Chip.new.cash_out(@distribution.account.id, @distribution.amount, @distribution.date, @distribution.charity.id)
+        #################
+        flash[:notice] = "Thank you for distributing $#{@distribution.amount.to_i / 100} from your account to #{@distribution.charity.name}"
+        redirect_to user_path(kenny_loggins)
+      end
+    end
   end
+
 end
+
