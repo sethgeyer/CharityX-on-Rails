@@ -1,10 +1,12 @@
 <div id="index_charities">
+  <div class="activity-links row">
+    <%= link_to "Register a new charity", new_charity_path %> |
+    <%= link_to "Back to Home", root_path%> |
+  </div>
+  <br/>
 
-  <%= link_to "Register a new charity", new_charity_path %>
-  <%= link_to "Back to Home", root_path%>
-
-  <table>
-    <thead>
+  <table class="table table-hover table-striped">
+    <thead class="header">
     <th>Name</th>
     <th>Tax ID</th>
     <th>POC</th>

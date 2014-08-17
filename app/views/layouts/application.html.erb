@@ -6,59 +6,87 @@
   <title>CharityX</title>
 
 
-  <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css">
-
+  <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
 
 
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!--<link rel="stylesheet" type="text/css" href="/style.css">-->
+
 
 </head>
 
-<div class="wrapper">
+
+<nav class="navbar navbar-color" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Charity Exchange</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+
+        <li><%=link_to "Charities", charities_path%></li>
+        <li><%=link_to "MVPs", mvps_path%></li>
+        <%if !kenny_loggins%>
+          <li><%=link_to "Sign Up", new_user_path%></li>
+        <%else%>
+          <li><%=link_to "Account Details", user_path(kenny_loggins)%></li>
+          <li><%=link_to "Edit Profile", edit_user_path(kenny_loggins)%></li>
+          <li><%=link_to "Logout", logout_path, {:method => :delete }%></li>
+      <%end%>
+
+      </ul>
+      <%if !kenny_loggins%>
+
+        <%@user = User.new%>
+
+        <%=form_for @user, url: login_path, html: {class: "navbar-form navbar-right", role: 'form'}  do |f|%>
+          <div class="form-group">
+            <%=f.label :username, class:'sr-only'%>
+            <%=f.text_field :username, placeholder: "username", class:'form-control'%>
+          </div>
+          <div class="form-group">
+            <%=f.label :password, class:'sr-only'%>
+            <%=f.text_field :password, placeholder: "password", class:'form-control'%>
+          </div>
+          <%=f.submit "Login", class:'btn btn-default'%>
+        <%end%>
+
+      <%end%>
+
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+<div class="container-fluid">
+
   <body>
 
 
-  <section class="navbar">
-    <article class="inline left nav_name">Charity Exchange</article>
-    <article class="inline right">
-      <article class="inline"> <a class="navbar_links" href= <%=charities_path%>>Charities</a> |</article>
-      <article class="inline"> <a class="navbar_links"  href= <%=mvps_path%>>MVPs</a> |</article>
-      <%if !kenny_loggins%>
-        <article class="inline">
-          <%@user = User.new%>
-          <%=form_for @user, url: login_path do |f|%>
-            <%=f.label :username%>
-            <%=f.text_field :username%>
-
-            <%=f.label :password%>
-            <%=f.text_field :password%>
-
-            <%=f.submit "Login"%>
-          <%end%>
-        </article>
-        <article class="inline"><a class="navbar_links" href=<%=new_user_path%>>Sign Up</a></article>
-      <%else%>
-        <article class="inline">
-          <a class="navbar_links" href=<%=user_path(kenny_loggins)%>>Account Details</a> |
-        </article>
-        <article class="inline">
-          <a class="navbar_links" href=<%=edit_user_path(kenny_loggins)%>>Edit Profile</a> |
-        </article>
-        <article class="inline">
-          <%= link_to "Logout", logout_path, {:method => :delete, class:"navbar_links" } %>
-        </article>
-
-      <%end%>
-    </article>
-  </section>
-
   <%= flash[:notice] if flash[:notice]%>
   <%= yield %>
+
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
   </body>
   <br/>
@@ -68,6 +96,7 @@
 
   </footer>
 
-</div> <!--END content-->
+</div>
+
 <br/>
 </html>

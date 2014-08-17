@@ -14,6 +14,121 @@
  *= require_self
  */
 
+
+
+/*NAVBAR--------------------------------------*/
+
+/* navbar */
+.navbar-color {
+    background-color: #3C376B;
+    border-color: white;
+}
+
+/* title */
+.navbar-color .navbar-brand {
+    color: whitesmoke;
+}
+.navbar-color .navbar-brand:hover,
+.navbar-color .navbar-brand:focus {
+    color: white;
+}
+
+/* link */
+.navbar-color .navbar-nav > li > a {
+    color: whitesmoke;
+}
+.navbar-color .navbar-nav > li > a:hover,
+.navbar-color .navbar-nav > li > a:focus {
+    color:  #3C376B;
+}
+.navbar-color .navbar-nav > .active > a,
+.navbar-color .navbar-nav > .active > a:hover,
+.navbar-color .navbar-nav > .active > a:focus {
+    color: #D11134;
+    background-color: #D11134;
+}
+.navbar-color .navbar-nav > .open > a,
+.navbar-color .navbar-nav > .open > a:hover,
+.navbar-color .navbar-nav > .open > a:focus {
+    color: #D11134;
+    background-color: #D11134;
+}
+
+/* caret */
+.navbar-color .navbar-nav > .dropdown > a .caret {
+    border-top-color: #D11134;
+    border-bottom-color: #D11134;
+}
+.navbar-color .navbar-nav > .dropdown > a:hover .caret,
+.navbar-color .navbar-nav > .dropdown > a:focus .caret {
+    border-top-color: #D11134;
+    border-bottom-color: #D11134;
+}
+.navbar-color .navbar-nav > .open > a .caret,
+.navbar-color .navbar-nav > .open > a:hover .caret,
+.navbar-color .navbar-nav > .open > a:focus .caret {
+    border-top-color: #D11134;
+    border-bottom-color: #D11134;
+}
+
+ /*mobile version */
+.navbar-color .navbar-toggle {
+    border-color: #DDD;
+}
+.navbar-color .navbar-toggle:hover,
+.navbar-color .navbar-toggle:focus {
+    background-color: #DDD;
+}
+.navbar-color .navbar-toggle .icon-bar {
+    background-color: #CCC;
+}
+@media (max-width: 767px) {
+    .navbar-color .navbar-nav .open .dropdown-menu > li > a {
+        color: #777;
+    }
+    .navbar-color .navbar-nav .open .dropdown-menu > li > a:hover,
+    .navbar-color .navbar-nav .open .dropdown-menu > li > a:focus {
+        color: #333;
+    }
+}
+
+/*END NAVBAR-------------------------------*/
+
+
+h2, h3 {
+color:#3C376B;
+}
+
+.header {
+   color: whitesmoke;
+   background-color:#363633;
+}
+
+
+.activity-links {
+    padding-left: 12px;
+    background-color:#E69429;
+    opacity: 0.80;
+    border: 1px solid white;
+    border-radius: 3px;
+    margin-top: -20px;
+}
+
+.activity-links a {
+    text-decoration: none;
+    color:#363633
+}
+
+.highlight {
+    background-color: white;
+    color:black;
+}
+
+.highlight-row {
+    background-color: #FCD59B;
+}
+
+
 .errors {
     color: red;
     margin-bottom: 1em;
@@ -22,57 +137,4 @@
 
 .field_with_errors {
     display:inline
-}
-
-
-.wrapper {
-    margin-left: 20px;
-    margin-right: 20px;
-    /*background-color:#EDEEF2;*/
-}
-
-
-.navbar {
-    padding-left: 10px;
-    border:2px solid black;
-    padding-top:10px;
-    padding-bottom:10px;
-    height:35px;
-    margin-bottom: 20px;
-    background-color:#0F2166;
-    color:white;
-}
-
-.navbar_links {
-    color:white;
-    text-decoration: none;
-}
-
-.inline {display:inline-block;}
-
-.right {
-    float:right;
-    margin-right: 10px;
-    margin-top: 4px;
-}
-
-.left {
-    float:left;
-}
-
-.nav_name {
-    font-size:30px;
-}
-
-.sm {
-    width:160px;
-}
-
-.xs {
-    width:80px;
-}
-
-.btn {
-    border-radius: 5px;
-    color:black
 }

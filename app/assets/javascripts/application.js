@@ -14,3 +14,27 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+$(document).ready( function() {
+
+//  highlight an activity link on mouseover
+  $('.activity-links a').on('mouseover', function() {
+    $(this).toggleClass('highlight');
+  });
+
+  $('.activity-links a').on('mouseleave', function() {
+    $(this).toggleClass('highlight');
+  });
+
+//// highlight table on mouseover
+//  $('.table tr').on('mouseover', function() {
+//    $(this).addClass('highlight-row');
+//  });
+
+
+
+
+
+
+
+});

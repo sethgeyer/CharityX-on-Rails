@@ -1,14 +1,20 @@
 <div id="show_users">
+  <div class="activity-links row">
+    <%=link_to "Fund My Account", new_account_deposit_path(@account)%> |
+    <%=link_to "Distribute Funds", new_account_distribution_path(@account)%> |
+    <%=link_to "Create a Wager", new_account_proposed_wager_path(@account)%> |
+    <%=link_to "Show Deposit History", account_deposits_path(@account)%> |
+    <%=link_to "Show Distribution History", account_distributions_path(@account)%>
+  </div>
 
-  <h1>Account Details</h1>
-  <hr />
+  <h3>Net Activity</h3>
 
-  <table>
-    <thead>
+  <table class="table table-bordered" >
+    <thead class="header">
     <td>Deposits</td>
-    <td>Distributions</td>
-    <td>Wagers</td>
-    <td>Amount</td>
+    <td>- Distributions</td>
+    <td>+/- Wagers</td>
+    <td>Net Amount</td>
     </thead>
     <tbody>
     <tr>
@@ -20,18 +26,10 @@
     </tbody>
   </table>
 
-  <%=link_to "Fund My Account", new_account_deposit_path(@account)%>
-  <%=link_to "Distribute Funds", new_account_distribution_path(@account)%>
-  <%=link_to "Create a Wager", new_account_proposed_wager_path(@account)%>
-  <%=link_to "Show Deposit History", account_deposits_path(@account)%>
-  <%=link_to "Show Distribution History", account_distributions_path(@account)%>
-
-
-  <br/>
   <br/>
   <h3>Proposed Wagers</h3>
-  <table id="proposed_wagers_table">
-    <thead>
+  <table class="table table-striped table-bordered" id="proposed_wagers_table">
+    <thead class="header">
     <th>Type</th>
     <th>I Bet</th>
     <th>With</th>
