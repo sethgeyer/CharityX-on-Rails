@@ -16,6 +16,9 @@ feature "View and Create a Proposed Wagers" do
     expect(page.find("#proposed_wagers_table")).to have_content("alexandery")
     expect(page.find("#proposed_wagers_table")).to have_content("w/wageree")
     expect(page.find("#proposed_wagers_table")).not_to have_link("Shake on it")
+    expect(page.find("#proposed_wagers_table")).not_to have_link("I Won") # _______________________
+    expect(page.find("#proposed_wagers_table")).not_to have_link("I Lost") # _______________________
+
     expect(page.find("#proposed_wagers_table")).to have_link("Withdraw")
     expect(page.find("#wagers")).to have_content(100)
     expect(page.find("#net_amount")).to have_content(300)
@@ -108,8 +111,25 @@ feature "View and Create a Proposed Wagers" do
 
   end
 
+  scenario "As a wagerer, I can identify myself as winning or losing a bet" do
+    register_users_and_create_a_wager("Alexander", "Stephen")
+    click_on "Logout"
+    login_a_registered_user("Alexander")
+    click_on "Shake on it"
+    click_on "Logout"
+    login_a_registered_user("Stephen")
+    expect(page).to have_link("I Won")
+    expect(page).to have_link("I Lost")
+  end
 
-
+  scenario "As a wageree, I can identify myself as winning or losing a bet" do
+    register_users_and_create_a_wager("Alexander", "Stephen")
+    click_on "Logout"
+    login_a_registered_user("Alexander")
+    click_on "Shake on it"
+    expect(page).to have_link("I Won")
+    expect(page).to have_link("I Lost")
+  end
 
 
 

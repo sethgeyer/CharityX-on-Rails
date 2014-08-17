@@ -53,7 +53,7 @@
         <%if proposed_wager.status != "accepted"%>
           <td><%=link_to "Withdraw", [proposed_wager.account, proposed_wager], {method: :delete}%> </td>
       <%else%>
-          <td></td>
+          <td><%=link_to "I Won", user_path%> | <%=link_to "I Lost", user_path%></td>
         <%end%>
 
       </tr>
@@ -70,10 +70,9 @@
         <td><%=proposed_wager.status %></td>
         <%if proposed_wager.status != "accepted"%>
           <td><%=link_to "Shake on it", [proposed_wager.account, proposed_wager], {method: :patch}%> </td>
-          <td><%=link_to "Revise", edit_account_proposed_wager_path(proposed_wager.account, proposed_wager)%> </td>
         <%else%>
-          <td></td>
-        <%end%>
+          <td><%=link_to "I Won", user_path%> | <%=link_to "I Lost", user_path%></td>
+      <%end%>
 
       </tr>
     <%end%>
