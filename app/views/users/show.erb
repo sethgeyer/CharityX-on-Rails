@@ -6,10 +6,14 @@
 
   <h3>Net Activity</h3>
 
-  <div class="container">
+  <div class="container-fluid">
     <div class="row blue-bordered">
 
-      <div class="col-md-2 header">Deposits <%=link_to "Fund My Account", new_account_deposit_path(@account)%>
+      <div id="fund-my-account" class="col-md-2 header">
+        Deposits
+        <a href=<%= new_account_deposit_path(@account)%>>
+          <div class="round-button" >+</div>
+        </a>
         <div class="row">
           <div class="col-md-12 contents" id="deposits">
             $<%=@deposit_total%>
@@ -17,7 +21,11 @@
         </div>
       </div>
 
-      <div class="col-md-2 header">Distributions <%=link_to "Distribute Funds", new_account_distribution_path(@account)%>
+      <div id="distribute-funds" class="col-md-2 header">
+        Distributions
+        <a href=<%=new_account_distribution_path(@account)%>>
+          <div class="round-button">+</div>
+        </a>
         <div class="row">
           <div class="col-md-12 contents" id="distributions">
             $<%=@distribution_total%>--- Chips:<%=@distributed_chips.count%>
@@ -25,7 +33,11 @@
         </div>
       </div>
 
-      <div class="col-md-2 header">Active Wagers <%=link_to "Create a Wager", new_account_proposed_wager_path(@account)%>
+      <div id="wager-funds" class="col-md-2 header">
+        Active Wagers
+        <a href=<%=new_account_proposed_wager_path(@account)%>>
+          <div class="round-button">+</div>
+        </a>
         <div class="row">
           <div class="col-md-12 contents" id="wagers">
             $<%=@wagered_total%>--- Chips:<%=@wagered_chips.count%>
@@ -33,7 +45,9 @@
         </div>
       </div>
 
-      <div class="col-md-2 header">Winnings
+      <div class="col-md-2 header">
+        Winnings
+
         <div class="row">
           <div class="col-md-12 contents" id="winnings">
             $<%=@winnings_total%>--- Chips:<%=@winnings_chips.count%>

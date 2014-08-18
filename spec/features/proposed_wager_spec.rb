@@ -30,7 +30,7 @@ feature "View and Create a Proposed Wagers" do
     click_on "Logout"
     fill_in_registration_form("StephenWagerer")
     fund_my_account_with_a_credit_card(400)
-    click_on "Create a Wager"
+    within(page.find("#wager-funds")) {click_link "+"}
     fill_in "proposed_wager_title", with: "Ping Pong Match between S & A"
     fill_in "proposed_wager_date_of_wager", with: "2014-07-31"
     fill_in "proposed_wager_details", with: "Game to 21, standard rules apply"

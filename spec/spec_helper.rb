@@ -104,7 +104,7 @@ def complete_application(charity_name)
 end
 
 def fund_my_account_with_a_credit_card(deposit_amount)
-  click_on "Fund My Account"
+  within(page.find("#fund-my-account")) {click_link "+"}
   fill_in "Amount", with: deposit_amount
   fill_in "Credit Card Number", with: 123456789
   fill_in "Exp Date", with: "2014-07-31"
@@ -114,7 +114,7 @@ def fund_my_account_with_a_credit_card(deposit_amount)
 end
 
 def distribute_funds_from_my_account(distribution_amount, charity)
-  click_on "Distribute Funds"
+  within(page.find("#distribute-funds")) {click_link "+"}
   fill_in "Amount", with: distribution_amount
   select charity, from: "Charity"
   click_on "Submit"
@@ -127,7 +127,7 @@ def register_users_and_create_a_wager(wageree, wagerer)
   fill_in_registration_form(wagerer)
   fund_my_account_with_a_credit_card(400)
   #visit "/proposed_wagers/new"
-  click_on "Create a Wager"
+  within(page.find("#wager-funds")) {click_link "+"}
   fill_in "proposed_wager_title", with: "Ping Pong Match between S & A"
   fill_in "proposed_wager_date_of_wager", with: "2014-07-31"
   fill_in "proposed_wager_details", with: "Game to 21, standard rules apply"
