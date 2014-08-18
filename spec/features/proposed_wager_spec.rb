@@ -172,8 +172,8 @@ feature "View and Create a Proposed Wagers" do
     expect(page.find("#wagers")).to have_content("$0")
     expect(page.find("#wagers")).to have_content("Chips:0")
     # expect(page.find("#winnings")).to have_content("Chips:10")
-    expect(page.find("#net_amount")).to have_content(400)
-    expect(page.find("#net_amount")).to have_content("Chips:40")
+    expect(page.find("#net_amount")).to have_content(300)
+    expect(page.find("#net_amount")).to have_content("Chips:30")
   end
 
 

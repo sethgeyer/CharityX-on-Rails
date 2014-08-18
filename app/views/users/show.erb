@@ -55,6 +55,8 @@
 
         <%if proposed_wager.wageree_outcome == "Lose"%>
           <td>You Won!</td>
+        <%elsif proposed_wager.wagerer_outcome == "Lose"%>
+            <td>You Lost!</td>
         <%else%>
           <%if proposed_wager.status != "accepted"%>
             <td><%=link_to "Withdraw", [proposed_wager.account, proposed_wager], {method: :delete}%> </td>

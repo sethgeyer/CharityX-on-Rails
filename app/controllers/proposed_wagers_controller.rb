@@ -80,16 +80,30 @@ class ProposedWagersController < ApplicationController
           losers_chips = Chip.new
           losers_chips.change_status_to_over(kenny_loggins.account.id, @proposed_wager.account.id, @proposed_wager.amount )
           ###############
-
         end
-
-
-
-
-
         redirect_to user_path(kenny_loggins)
-
       end
+
+
+      if @account.id == @proposed_wager.account.id
+        @proposed_wager.wagerer_outcome = "Lose"
+        @proposed_wager.status = "over"
+        if @proposed_wager.save!
+          # if the player lost his chips
+          #UNTESTED ########################################################
+          winners_chips = Chip.new
+          winners_chips.change_status_to_available(Account.find_by(user_id: @proposed_wager.wageree_id).id, @proposed_wager.amount)
+          losers_chips = Chip.new
+          losers_chips.change_status_to_over(kenny_loggins.account.id, Account.find_by(user_id: @proposed_wager.wageree_id).id, @proposed_wager.amount )
+          ###############
+        end
+        redirect_to user_path(kenny_loggins)
+      end
+
+
+
+
+
     end
   end
 
