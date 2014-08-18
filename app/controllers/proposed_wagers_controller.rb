@@ -66,6 +66,7 @@ class ProposedWagersController < ApplicationController
         end
       end
       redirect_to user_path(kenny_loggins)
+
     elsif params[:commit] == "Lose"
       @proposed_wager = ProposedWager.where(id: params[:id].to_i, status:"accepted").first
       if @account.id != @proposed_wager.account.id

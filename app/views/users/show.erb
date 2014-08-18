@@ -79,7 +79,9 @@
         <td><%=link_to proposed_wager.title%></td>
         <td><%=proposed_wager.date_of_wager %></td>
         <td><%=proposed_wager.status %></td>
-
+        <%if proposed_wager.wageree_outcome == "Lose"%>
+          <td>You Lost!</td>
+        <%else%>
           <%=form_for [proposed_wager.account, proposed_wager] do |f|%>
             <%if proposed_wager.status != "accepted"%>
               <td>
@@ -93,6 +95,7 @@
               </td>
             <%end%>
           <%end%>
+        <%end%>
       </tr>
     <%end%>
     </tbody>
