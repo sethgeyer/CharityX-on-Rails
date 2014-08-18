@@ -31,7 +31,11 @@ $(document).ready( function() {
 //    $(this).addClass('highlight-row');
 //  });
 
-
+//  console.log("Shazam");
+//  $('input').on('click', function() {
+//    console.log($(this));
+//    $(this).prompt("Are sure you want to do this");
+//  });
 
 
 

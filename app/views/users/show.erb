@@ -1,8 +1,5 @@
 <div id="show_users">
   <div class="activity-links row">
-    <%=link_to "Fund My Account", new_account_deposit_path(@account)%> |
-    <%=link_to "Distribute Funds", new_account_distribution_path(@account)%> |
-    <%=link_to "Create a Wager", new_account_proposed_wager_path(@account)%> |
     <%=link_to "Show Deposit History", account_deposits_path(@account)%> |
     <%=link_to "Show Distribution History", account_distributions_path(@account)%>
   </div>
@@ -10,62 +7,49 @@
   <h3>Net Activity</h3>
 
   <div class="container">
-    <div class="row">
+    <div class="row blue-bordered">
 
-      <div class="col-sm-2 header">Deposits
+      <div class="col-md-2 header">Deposits <%=link_to "Fund My Account", new_account_deposit_path(@account)%>
         <div class="row">
-          <div class="col-sm-12 contents" id="deposits">
+          <div class="col-md-12 contents" id="deposits">
             $<%=@deposit_total%>
           </div>
         </div>
       </div>
-      <div class="col-sm-2 header">Distributions
-        <div class="row"></div>
-          <div class="col-sm-12 contents" id="distributions">
+
+      <div class="col-md-2 header">Distributions <%=link_to "Distribute Funds", new_account_distribution_path(@account)%>
+        <div class="row">
+          <div class="col-md-12 contents" id="distributions">
             $<%=@distribution_total%>--- Chips:<%=@distributed_chips.count%>
           </div>
-      </div>
-
-      <div class="col-sm-2 header">Active Wagers
-        <div class="row"></div>
-        <div class="col-sm-12 contents" id="wagers">
-          $<%=@wagered_total%>--- Chips:<%=@wagered_chips.count%>
         </div>
       </div>
 
-
-      <div class="col-sm-2 header">Winnings
+      <div class="col-md-2 header">Active Wagers <%=link_to "Create a Wager", new_account_proposed_wager_path(@account)%>
         <div class="row">
-          <div class="col-sm-12 contents" id="winnings">
+          <div class="col-md-12 contents" id="wagers">
+            $<%=@wagered_total%>--- Chips:<%=@wagered_chips.count%>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-2 header">Winnings
+        <div class="row">
+          <div class="col-md-12 contents" id="winnings">
             $<%=@winnings_total%>--- Chips:<%=@winnings_chips.count%>
           </div>
         </div>
       </div>
 
-
-
-      <div class="col-sm-2 header">Net Amount
+      <div class="col-md-2 header">Net Amount
         <div class="row">
-          <div class="col-sm-12 contents" id="net_amount">
+          <div class="col-md-12 contents" id="net_amount">
             $<%=@net_amount%> ---- Chips:<%=@unallocated_chips.count%>
           </div>
         </div>
       </div>
-
     </div>
   </div>
-
-  <br/>
-    <br/>
-
-
-
-
-
-
-
-
-
 
 
 
@@ -79,6 +63,7 @@
     <th>I Bet</th>
     <th>With</th>
     <th>On </th>
+    <th>Details</th>
     <th>Date</th>
     <th>Status</th>
     <th>Action</th>
@@ -93,22 +78,31 @@
         <td><%=proposed_wager.amount / 100 %></td>
         <td><%=User.find_by(id: proposed_wager.wageree_id).username%></td>
         <td><%=link_to proposed_wager.title%></td>
+        <%if proposed_wager.details == nil || proposed_wager.details == ""%>
+          <td>none</td>
+        <%else%>
+          <td><button>Show</button></td>
+        <%end%>
+
         <td><%=proposed_wager.date_of_wager %></td>
         <td><%=proposed_wager.status %></td>
+        <%if proposed_wager.wageree_outcome == "I Lost" || proposed_wager.wagerer_outcome == "I Lost"%>
 
-        <%if proposed_wager.wageree_outcome == "Lose"%>
-          <td>You Won!</td>
-        <%elsif proposed_wager.wagerer_outcome == "Lose"%>
-            <td>You Lost!</td>
+          <%if proposed_wager.wageree_outcome == "I Lost"%>
+            <td>You Won!
+          <%elsif proposed_wager.wagerer_outcome == "I Lost"%>
+            <td>You Lost!
+          <%end%>
+            <button><%=link_to "Rematch", new_account_proposed_wager_path(proposed_wager.account)%></button></td>
         <%else%>
           <%if proposed_wager.status != "accepted"%>
             <td><%=link_to "Withdraw", [proposed_wager.account, proposed_wager], {method: :delete}%> </td>
           <%else%>
             <%=form_for [proposed_wager.account, proposed_wager] do |f|%>
               <td>
-                <%=f.submit "Win"%>
-                <%=f.submit "Lose"%>
-                <%=f.submit "Draw"%>
+                <!--< %=f.submit "Win"%>-->
+                <%=f.submit "I Lost"%>
+                <!--< %=f.submit "Draw"%>-->
               </td>
             <%end%>
           <%end%>
@@ -122,13 +116,25 @@
         <td><%=proposed_wager.amount / 100%></td>
         <td><%=proposed_wager.account.user.username%></td>
         <td><%=link_to proposed_wager.title%></td>
+        <%if proposed_wager.details == nil || proposed_wager.details == ""%>
+          <td>none</td>
+        <%else%>
+          <td><button>Show</button></td>
+        <%end%>
         <td><%=proposed_wager.date_of_wager %></td>
         <td><%=proposed_wager.status %></td>
-        <%if proposed_wager.wageree_outcome == "Lose"%>
-          <td>You Lost!</td>
-        <%elsif proposed_wager.wagerer_outcome == "Lose"%>
-          <td>You Won!</td>
-        <%else%>
+
+        <%if proposed_wager.wageree_outcome == "I Lost" || proposed_wager.wagerer_outcome == "I Lost"%>
+
+
+          <%if proposed_wager.wageree_outcome == "I Lost"%>
+            <td>You Lost!
+          <%elsif proposed_wager.wagerer_outcome == "I Lost"%>
+            <td>You Won!
+          <%end%>
+          <button><%=link_to "Rematch", new_account_proposed_wager_path(proposed_wager.account)%></button></td>
+
+      <%else%>
           <%=form_for [proposed_wager.account, proposed_wager] do |f|%>
             <%if proposed_wager.status != "accepted"%>
               <td>
@@ -136,9 +142,9 @@
               </td>
             <%else%>
               <td>
-                <%=f.submit "Win"%>
-                <%=f.submit "Lose"%>
-                <%=f.submit "Draw"%>
+                <!--< %=f.submit "Win"%>-->
+                <%=f.submit "I Lost"%>
+                <!--< %=f.submit "Draw"%>-->
               </td>
             <%end%>
           <%end%>

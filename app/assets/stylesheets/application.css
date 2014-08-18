@@ -102,6 +102,11 @@ color:#3C376B;
 .header {
    color: whitesmoke;
    background-color:#363633;
+   border: 1px solid white
+}
+
+.blue-bordered {
+    border: 1px solid darkblue;
 }
 
 .contents{

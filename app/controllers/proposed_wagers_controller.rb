@@ -67,10 +67,10 @@ class ProposedWagersController < ApplicationController
       end
       redirect_to user_path(kenny_loggins)
 
-    elsif params[:commit] == "Lose"
+    elsif params[:commit] == "I Lost"
       @proposed_wager = ProposedWager.where(id: params[:id].to_i, status:"accepted").first
       if @account.id != @proposed_wager.account.id
-        @proposed_wager.wageree_outcome = "Lose"
+        @proposed_wager.wageree_outcome = "I Lost"
         @proposed_wager.status = "over"
         if @proposed_wager.save!
           # if the player lost his chips
@@ -86,7 +86,7 @@ class ProposedWagersController < ApplicationController
 
 
       if @account.id == @proposed_wager.account.id
-        @proposed_wager.wagerer_outcome = "Lose"
+        @proposed_wager.wagerer_outcome = "I Lost"
         @proposed_wager.status = "over"
         if @proposed_wager.save!
           # if the player lost his chips

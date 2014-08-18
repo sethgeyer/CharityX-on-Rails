@@ -12,13 +12,12 @@ feature "View and Create a Proposed Wagers" do
     expect(page).to have_content("Your proposed wager has been sent to alexandery.")
     expect(page.find("#proposed_wagers_table")).to have_content("Ping Pong Match")
     expect(page.find("#proposed_wagers_table")).to have_content(100)
+    expect(page.find("#proposed_wagers_table")).to have_button("Show")
     expect(page.find("#proposed_wagers_table")).not_to have_content(10000)
     expect(page.find("#proposed_wagers_table")).to have_content("alexandery")
     expect(page.find("#proposed_wagers_table")).to have_content("w/wageree")
     expect(page.find("#proposed_wagers_table")).not_to have_link("Shake on it")
-    expect(page.find("#proposed_wagers_table")).not_to have_button("Win") # _______________________
-    expect(page.find("#proposed_wagers_table")).not_to have_button("Lose") # _______________________
-    expect(page.find("#proposed_wagers_table")).not_to have_button("Draw") # _______________________
+    expect(page.find("#proposed_wagers_table")).not_to have_button("I Lost") # _______________________
 
     expect(page.find("#proposed_wagers_table")).to have_link("Withdraw")
     expect(page.find("#wagers")).to have_content(100)
@@ -112,41 +111,21 @@ feature "View and Create a Proposed Wagers" do
 
   end
 
-  scenario "As a wagerer, I can identify myself as winning or losing a bet" do
-    register_users_and_create_a_wager("Alexander", "Stephen")
-    click_on "Logout"
-    login_a_registered_user("Alexander")
-    click_on "Shake on it"
-    click_on "Logout"
-    login_a_registered_user("Stephen")
-    expect(page).to have_button("Win")
-    expect(page).to have_button("Lose")
-    expect(page).to have_button("Draw")
 
-  end
-
-  scenario "As a wageree, I can identify myself as winning or losing a bet" do
-    register_users_and_create_a_wager("Alexander", "Stephen")
-    click_on "Logout"
-    login_a_registered_user("Alexander")
-    click_on "Shake on it"
-    expect(page).to have_button("Win")
-    expect(page).to have_button("Lose")
-    expect(page).to have_button("Draw")
-
-  end
 
   scenario "As a wagerer that won the bet, I collect the money from the wageree" do
     register_users_and_create_a_wager("Alexander", "Stephen")
     click_on "Logout"
     login_a_registered_user("Alexander")
     click_on "Shake on it"
-    click_on "Lose"
+    click_on "I Lost"
     click_on "Logout"
     login_a_registered_user("Stephen")
     expect(page).to have_content("You Won")
-    expect(page).not_to have_link("Lose")
-    expect(page).not_to have_link("Win")
+    expect(page).not_to have_button("I Lost")
+    expect(page).to have_button("Rematch")
+    expect(page).not_to have_button("Shake on it")
+
 
     expect(page.find("#winnings")).to have_content(100)
     expect(page.find("#wagers")).to have_content("$0")
@@ -163,10 +142,11 @@ feature "View and Create a Proposed Wagers" do
     click_on "Shake on it"
     click_on "Logout"
     login_a_registered_user("Stephen")
-    click_on "Lose"
+    click_on "I Lost"
     expect(page).to have_content("You Lost")
-    expect(page).not_to have_link("Lose")
-    expect(page).not_to have_link("Win")
+    expect(page).not_to have_button("I Lost")
+    expect(page).to have_button("Rematch")
+    expect(page).not_to have_button("Shake on it")
 
     expect(page.find("#winnings")).to have_content(-100)
     expect(page.find("#wagers")).to have_content("$0")
@@ -186,11 +166,13 @@ feature "View and Create a Proposed Wagers" do
     click_on "Logout"
     login_a_registered_user("Alexander")
     click_on "Shake on it"
-    click_on "Lose"
+    click_on "I Lost"
 
     expect(page).to have_content("You Lost")
-    expect(page).not_to have_link("Lose")
-    expect(page).not_to have_link("Win")
+    expect(page).not_to have_button("I Lost")
+    expect(page).to have_button("Rematch")
+    expect(page).not_to have_button("Shake on it")
+
 
     expect(page.find("#winnings")).to have_content(-100)
     expect(page.find("#wagers")).to have_content("$0")
@@ -207,13 +189,14 @@ feature "View and Create a Proposed Wagers" do
     click_on "Shake on it"
     click_on "Logout"
     login_a_registered_user("Stephen")
-    click_on "Lose"
+    click_on "I Lost"
     click_on "Logout"
     login_a_registered_user("Alexander")
 
     expect(page).to have_content("You Won")
-    expect(page).not_to have_link("Lose")
-    expect(page).not_to have_link("Win")
+    expect(page).not_to have_link("I Lost")
+    expect(page).to have_button("Rematch")
+    expect(page).not_to have_button("Shake on it")
 
     expect(page.find("#winnings")).to have_content(100)
     expect(page.find("#wagers")).to have_content("$0")

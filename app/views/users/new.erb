@@ -45,7 +45,7 @@
 
       <div>
         <%=f.label :password%><br/>
-        <%=f.text_field :password%>
+        <%=f.text_field :password, type:"password"%>
         <div class="errors"><%=@user.errors[:password].first if @user.errors[:password].any? %></div>
 
       </div>

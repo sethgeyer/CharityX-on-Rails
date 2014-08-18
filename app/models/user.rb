@@ -1,5 +1,6 @@
 
 class User < ActiveRecord::Base
+  has_secure_password
   validates :username, presence: true, uniqueness: {message: "Username is not unique.  Please select another."}
 
   #<<<< turned these validations off during development
