@@ -15,6 +15,7 @@ Charity.destroy_all
 
 
 user1 = User.create!(username: "seth", email: "seth@gmail.com", ssn: "223334444", is_admin: true, password: 'password')
+user.password = "helo"
 account1 = Account.create!(user_id: user1.id)
 deposit1 = Deposit.create!(account_id: account1.id, amount: 40000, cc_number: 111, exp_date: "2019-07-15", name_on_card: "Seth Geyer", cc_type: "Visa", date_created: "2014-08-15")
 40.times {

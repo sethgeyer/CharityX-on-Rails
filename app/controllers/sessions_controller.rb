@@ -7,13 +7,14 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    session.delete(:user_id)
+    reset_session
+    # session.delete(:user_id)
     redirect_to root_path
   end
 
   def create
-    @user = User.find_by(username: params[:user][:username], password: params[:user][:password])
-    if @user != nil
+    @user = User.find_by(username: params[:user][:username])
+    if @user && @user.authenticate(params[:user][:password])
       session[:user_id] = @user.id
       flash[:notice] = "Welcome #{@user.username}"
       redirect_to user_path(kenny_loggins)
@@ -24,3 +25,4 @@ class SessionsController < ApplicationController
   end
 
 end
+

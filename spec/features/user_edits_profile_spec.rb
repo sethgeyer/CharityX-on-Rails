@@ -20,8 +20,6 @@ feature "editing user profile" do
 
     click_on "Edit Profile"
 
-
-    expect(page).to have_selector("input[value='stephen1']")
     expect(page).to have_selector("input[value='steve@gmail.com']")
     expect(page).to have_selector("input[value='www.google.com']")
 

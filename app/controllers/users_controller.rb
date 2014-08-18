@@ -10,7 +10,6 @@ class UsersController < ApplicationController
   def create
     @user = User.new
     @user.username = params[:user][:username]
-    @user.ssn = strip_off_dashes(params[:user][:ssn])
     @user.email = params[:user][:email]
     @user.password = params[:user][:password]
     @user.profile_picture = params[:user][:profile_picture]
@@ -25,6 +24,19 @@ class UsersController < ApplicationController
       render :new, layout:false
     end
   end
+
+
+  # @user = User.find_by(username: params[:user][:username])
+  # if @user && @user.authenticate(params[:user][:password])
+  #   session[:user_id] = @user.id
+  #   flash[:notice] = "Welcome #{@user.username}"
+  #   redirect_to user_path(kenny_loggins)
+  #
+  #
+
+
+
+
 
   def show
     if kenny_loggins == User.find(params[:id])   #<--- no test written to test whether a sessioned user can view someone else's view
@@ -67,7 +79,12 @@ class UsersController < ApplicationController
   def update
     @user = kenny_loggins
     @user.email = params[:user][:email]
-    @user.password = params[:user][:password]
+
+    if params[:user][:password] != ""
+      @user.password = params[:user][:password]
+
+    end
+
     @user.profile_picture = params[:user][:profile_picture]
     if @user.save
       flash[:notice] = "Your changes have been saved"
@@ -77,9 +94,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def strip_off_dashes(ssn_as_a_string)
-    ssn_as_a_string.gsub("-", "").to_i
-  end
+
 
 
 end

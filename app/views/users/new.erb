@@ -31,12 +31,6 @@
       </div>
 
       <div>
-        <%=f.label :ssn, "SSN"%><br/>
-        <%=f.text_field :ssn%>
-        <div class="errors"><%=@user.errors[:ssn].first if @user.errors[:ssn].any? %></div>
-      </div>
-
-      <div>
         <%=f.label :email%><br/>
         <%=f.email_field :email%>
         <div class="errors"><%=@user.errors[:email].first if @user.errors[:email].any? %></div>
