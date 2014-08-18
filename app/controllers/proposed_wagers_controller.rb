@@ -52,18 +52,44 @@ class ProposedWagersController < ApplicationController
   def update
     @account = kenny_loggins.account
     @proposed_wager = ProposedWager.find(params[:id])
-    @proposed_wager.status = "accepted"
-    if @account.chips.where(status: "available").count < (@proposed_wager.amount / 100 / 10)
-      flash[:notice] = "You don't have adequate funds to accept this wager.  Please add additional funds to your account."
-    else
-      if @proposed_wager.save!
-        # if shakes on it wout revisions
-        #UNTESTED ########################################################
-        Chip.new.change_status_to_wager(kenny_loggins.account.id, @proposed_wager.amount)
-        ###############
+
+    if params[:commit] == "Shake on it"
+      @proposed_wager.status = "accepted"
+      if @account.chips.where(status: "available").count < (@proposed_wager.amount / 100 / 10)
+        flash[:notice] = "You don't have adequate funds to accept this wager.  Please add additional funds to your account."
+      else
+        if @proposed_wager.save!
+          # if shakes on it wout revisions
+          #UNTESTED ########################################################
+          Chip.new.change_status_to_wager(kenny_loggins.account.id, @proposed_wager.amount)
+          ###############
+        end
+      end
+      redirect_to user_path(kenny_loggins)
+    elsif params[:commit] == "Lose"
+      @proposed_wager = ProposedWager.where(id: params[:id].to_i, status:"accepted").first
+      if @account.id != @proposed_wager.account.id
+        @proposed_wager.wageree_outcome = "Lose"
+        @proposed_wager.status = "over"
+        if @proposed_wager.save!
+          # if the player lost his chips
+          #UNTESTED ########################################################
+          winners_chips = Chip.new
+          winners_chips.change_status_to_available(@proposed_wager.account.id, @proposed_wager.amount)
+          losers_chips = Chip.new
+          losers_chips.change_status_to_over(kenny_loggins.account.id, @proposed_wager.account.id, @proposed_wager.amount )
+          ###############
+
+        end
+
+
+
+
+
+        redirect_to user_path(kenny_loggins)
+
       end
     end
-    redirect_to user_path(kenny_loggins)
   end
 
 

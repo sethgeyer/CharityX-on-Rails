@@ -11,6 +11,8 @@ feature "User Show Page" do
     expect(page).to have_css("#deposits")
     expect(page).to have_css("#distributions")
     expect(page).to have_css("#net_amount")
+    expect(page).to have_css("#winnings")
+
   end
 
   scenario "As a logged_in user I can link to the new deposits page to fund my account" do

@@ -54,8 +54,15 @@ class Chip < ActiveRecord::Base
   end
 
 
-
-
+  def change_status_to_over(loser_account_id, winner_account_id, wagered_amount)
+    number_of_chips = convert_from_pennies_to_chips(wagered_amount)
+    chips = find_the_available(loser_account_id).first(number_of_chips)
+    chips.each do |chip|
+      chip.status = "available"
+      chip.account_id = winner_account_id
+      chip.save!
+    end
+  end
 
   def find_the_available(account_id)
     Chip.where(account_id: account_id).where(status: "available")
