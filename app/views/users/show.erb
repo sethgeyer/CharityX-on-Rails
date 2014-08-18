@@ -83,6 +83,8 @@
         <td><%=proposed_wager.status %></td>
         <%if proposed_wager.wageree_outcome == "Lose"%>
           <td>You Lost!</td>
+        <%elsif proposed_wager.wagerer_outcome == "Lose"%>
+          <td>You Won!</td>
         <%else%>
           <%=form_for [proposed_wager.account, proposed_wager] do |f|%>
             <%if proposed_wager.status != "accepted"%>

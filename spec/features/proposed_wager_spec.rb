@@ -200,6 +200,32 @@ feature "View and Create a Proposed Wagers" do
     expect(page.find("#net_amount")).to have_content("Chips:90")
   end
 
+  scenario "As a wageree that won the bet, I receive the money from the wagerer" do
+    register_users_and_create_a_wager("Alexander", "Stephen")
+    click_on "Logout"
+    login_a_registered_user("Alexander")
+    click_on "Shake on it"
+    click_on "Logout"
+    login_a_registered_user("Stephen")
+    click_on "Lose"
+    click_on "Logout"
+    login_a_registered_user("Alexander")
+
+    expect(page).to have_content("You Won")
+    expect(page).not_to have_link("Lose")
+    expect(page).not_to have_link("Win")
+
+    expect(page.find("#winnings")).to have_content(100)
+    expect(page.find("#wagers")).to have_content("$0")
+    expect(page.find("#wagers")).to have_content("Chips:0")
+    # expect(page.find("#winnings")).to have_content("Chips:10")
+    expect(page.find("#net_amount")).to have_content(1100)
+    expect(page.find("#net_amount")).to have_content("Chips:110")
+  end
+
+
+
+
 
 
 end
