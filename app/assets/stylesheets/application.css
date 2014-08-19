@@ -44,14 +44,13 @@
 .navbar-color .navbar-nav > .active > a,
 .navbar-color .navbar-nav > .active > a:hover,
 .navbar-color .navbar-nav > .active > a:focus {
-    color: #D11134;
     background-color: #D11134;
 }
 .navbar-color .navbar-nav > .open > a,
 .navbar-color .navbar-nav > .open > a:hover,
 .navbar-color .navbar-nav > .open > a:focus {
     color: #D11134;
-    background-color: #D11134;
+    background-color: whitesmoke;
 }
 
 /* caret */
@@ -71,9 +70,9 @@
     border-bottom-color: #D11134;
 }
 
- /*mobile version */
-.navbar-color .navbar-toggle {
-    border-color: #DDD;
+     /*mobile version */
+    .navbar-color .navbar-toggle {
+        border-color: #DDD;
 }
 .navbar-color .navbar-toggle:hover,
 .navbar-color .navbar-toggle:focus {
@@ -84,7 +83,7 @@
 }
 @media (max-width: 767px) {
     .navbar-color .navbar-nav .open .dropdown-menu > li > a {
-        color: #777;
+        color: whitesmoke;
     }
     .navbar-color .navbar-nav .open .dropdown-menu > li > a:hover,
     .navbar-color .navbar-nav .open .dropdown-menu > li > a:focus {
@@ -94,6 +93,9 @@
 
 /*END NAVBAR-------------------------------*/
 
+body {
+    background-color: #E6E7F2;
+}
 
 h2, h3 {
 color:#3C376B;
@@ -102,17 +104,29 @@ color:#3C376B;
 .header {
    color: whitesmoke;
    background-color:#363633;
-   border: 1px solid white;
-   
-}
-
-.blue-bordered {
-    border: 1px solid darkblue;
+   display:inline-block;
+   padding-top: 8px;
+   height: 40px;
+   min-width: 175px;
+   margin: 2px;
 }
 
 .contents{
     color: #363633;
+    text-align: center;
+    padding-top: 8px;
+    display:inline-block;
+    height: 40px;
+    min-width: 175px;
+    max-width: 200px;
+    margin: 2px;
+}
+
+.blue-bordered {
     background-color:whitesmoke;
+    border: 1px solid darkblue;
+    border-radius: 3px;
+    margin-bottom: 5px;
 }
 
 .round-button {
@@ -124,7 +138,7 @@ color:#3C376B;
     padding-left: 6px;
     padding-right: 6px;
     padding-bottom: 1px;
-    margin: 5px;
+    float:right;
 }
 
 
@@ -151,6 +165,16 @@ color:#3C376B;
     background-color: #FCD59B;
 }
 
+.wager-border {
+    border: 1px solid darkblue;
+    background-color: whitesmoke;
+    padding: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 3px;
+
+
+}
 
 .errors {
     color: red;
