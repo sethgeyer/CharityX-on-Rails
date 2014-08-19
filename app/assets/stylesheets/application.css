@@ -106,8 +106,9 @@ color:#3C376B;
    background-color:#363633;
    display:inline-block;
    padding-top: 8px;
-   height: 40px;
-   min-width: 175px;
+   padding-left: 4px;
+    height: 40px;
+   min-width: 140px;
    margin: 2px;
 }
 
@@ -117,9 +118,8 @@ color:#3C376B;
     padding-top: 8px;
     display:inline-block;
     height: 40px;
-    min-width: 175px;
-    max-width: 200px;
-    margin: 2px;
+    min-width: 120px;
+    max-width: 1230px;
 }
 
 .blue-bordered {
@@ -138,6 +138,7 @@ color:#3C376B;
     padding-left: 6px;
     padding-right: 6px;
     padding-bottom: 1px;
+    margin-right: 5px;
     float:right;
 }
 
