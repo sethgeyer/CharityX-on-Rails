@@ -12,7 +12,7 @@ feature "View and Create a Proposed Wagers" do
     expect(page).to have_content("Your proposed wager has been sent to alexandery.")
     expect(page.find("#proposed_wagers_table")).to have_content("Ping Pong Match")
     expect(page.find("#proposed_wagers_table")).to have_content(100)
-    expect(page.find("#proposed_wagers_table")).to have_button("Show")
+    expect(page.find("#proposed_wagers_table")).to have_link("Show")
     expect(page.find("#proposed_wagers_table")).not_to have_content(10000)
     expect(page.find("#proposed_wagers_table")).to have_content("alexandery")
     expect(page.find("#proposed_wagers_table")).to have_content("w/wageree")
@@ -123,7 +123,7 @@ feature "View and Create a Proposed Wagers" do
     login_a_registered_user("Stephen")
     expect(page).to have_content("You Won")
     expect(page).not_to have_button("I Lost")
-    expect(page).to have_button("Rematch")
+    expect(page).to have_link("Rematch")
     expect(page).not_to have_button("Shake on it")
 
 
@@ -145,7 +145,7 @@ feature "View and Create a Proposed Wagers" do
     click_on "I Lost"
     expect(page).to have_content("You Lost")
     expect(page).not_to have_button("I Lost")
-    expect(page).to have_button("Rematch")
+    expect(page).to have_link("Rematch")
     expect(page).not_to have_button("Shake on it")
 
     expect(page.find("#winnings")).to have_content(-100)
@@ -170,7 +170,7 @@ feature "View and Create a Proposed Wagers" do
 
     expect(page).to have_content("You Lost")
     expect(page).not_to have_button("I Lost")
-    expect(page).to have_button("Rematch")
+    expect(page).to have_link("Rematch")
     expect(page).not_to have_button("Shake on it")
 
 
@@ -195,7 +195,7 @@ feature "View and Create a Proposed Wagers" do
 
     expect(page).to have_content("You Won")
     expect(page).not_to have_link("I Lost")
-    expect(page).to have_button("Rematch")
+    expect(page).to have_link("Rematch")
     expect(page).not_to have_button("Shake on it")
 
     expect(page.find("#winnings")).to have_content(100)

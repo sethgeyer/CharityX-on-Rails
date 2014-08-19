@@ -68,8 +68,8 @@
         <%if proposed_wager.details == nil || proposed_wager.details == ""%>
           none
         <%else%>
-          <button class="btn btn-xs btn-danger">Show</button>
-        <%end%>
+          <%=link_to "Show", ""%>
+      <%end%>
         Status: <%=proposed_wager.status %>
         <%if proposed_wager.wageree_outcome == "I Lost" || proposed_wager.wagerer_outcome == "I Lost"%>
 
@@ -78,7 +78,7 @@
           <%elsif proposed_wager.wagerer_outcome == "I Lost"%>
             You Lost!
           <%end%>
-          <button><%=link_to "Rematch", new_account_proposed_wager_path(proposed_wager.account)%></button>
+            <%=link_to "Rematch", new_account_proposed_wager_path(proposed_wager.account)%>
         <%else%>
           <%if proposed_wager.status != "accepted"%>
             <%=link_to "Withdraw", [proposed_wager.account, proposed_wager], {method: :delete}%>
@@ -101,7 +101,7 @@
         <%if proposed_wager.details == nil || proposed_wager.details == ""%>
           none
         <%else%>
-          <button>Show</button>
+          <%=link_to "Show", ""%>
         <%end%>
         Status: <%=proposed_wager.status %>
         <%if proposed_wager.wageree_outcome == "I Lost" || proposed_wager.wagerer_outcome == "I Lost"%>
@@ -112,7 +112,7 @@
           <%elsif proposed_wager.wagerer_outcome == "I Lost"%>
             <td>You Won!
           <%end%>
-          <button><%=link_to "Rematch", new_account_proposed_wager_path(proposed_wager.account)%></button></td>
+          <%=link_to "Rematch", new_account_proposed_wager_path(proposed_wager.account)%></td>
 
         <%else%>
           <%=form_for [proposed_wager.account, proposed_wager] do |f|%>
