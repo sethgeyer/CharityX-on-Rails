@@ -23,7 +23,7 @@
         </a>
       </div>
       <div class="contents" id="distributions">
-        $<%=@distribution_total%>--- Chips:<%=@distributed_chips.count%>
+        $<%=@distribution_total%>
       </div>
     </div>
 
@@ -36,7 +36,7 @@
       </div>
       <div class="contents" id="wagers">
 
-        $<%=@wagered_total%>--- Chips:<%=@wagered_chips.count%>
+        $<%=@wagered_total%>
       </div>
     </div>
 
@@ -46,7 +46,7 @@
         Winnings
       </div>
       <div class="contents" id="winnings">
-        $<%=@winnings_total%>--- Chips:<%=@winnings_chips.count%>
+        $<%=@winnings_total%>
       </div>
     </div>
 
@@ -54,7 +54,7 @@
       <div class="header">Net Amount
       </div>
       <div class="contents" id="net_amount">
-        $<%=@net_amount%> ---- Chips:<%=@unallocated_chips.count%>
+        $<%=@net_amount%>
       </div>
     </div>
    </div>
@@ -137,7 +137,14 @@
 
   <br/>
 
+  <div id="chip-count">
+    <b>CHIP COUNT</b>
+    <div id="dist-chips">DISTRIBUTED Chips:<%=@distributed_chips.count%></div>
+    <div id="wagered-chips">WAGERS Chips:<%=@wagered_chips.count%></div>
+    <div id="won-chips">WON Chips:<%=@winnings_chips.count%></div>
+    <div id="net-chips">NET Chips:<%=@unallocated_chips.count%></div>
 
+  </div>
 
   <!--<h3>Proposed Wagers</h3>-->
   <!--<table class="table table-striped table-bordered" id="proposed_wagers_table">-->

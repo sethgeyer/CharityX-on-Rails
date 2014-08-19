@@ -45,10 +45,10 @@ feature "View and Create a Proposed Wagers" do
   scenario "As a user I can withdraw a proposed wager that has not yet been accepted" do
     register_users_and_create_a_wager("Alexander", "Stephen")
     expect(page.find("#wagers")).to have_content("$100")
-    expect(page.find("#wagers")).to have_content("Chips:10")
+    expect(page.find("#wagered-chips")).to have_content("Chips:10")
     click_on "Withdraw"
     expect(page.find("#wagers")).to have_content("$0")
-    expect(page.find("#wagers")).to have_content("Chips:0")
+    expect(page.find("#wagered-chips")).to have_content("Chips:0")
 
 
   end
@@ -63,7 +63,7 @@ feature "View and Create a Proposed Wagers" do
     expect(page).to have_content("Ping Pong Match")
     expect(page).not_to have_link("Withdraw")
     expect(page.find("#wagers")).to have_content(100)
-    expect(page.find("#wagers")).to have_content("Chips:10")
+    expect(page.find("#wagered-chips")).to have_content("Chips:10")
   end
 
   scenario "As a user I can see a proposed wager in which I'm the wageree" do
@@ -92,7 +92,7 @@ feature "View and Create a Proposed Wagers" do
     expect(page.find("#proposed_wagers_table")).not_to have_link("Shake on it")
     expect(page.find("#proposed_wagers_table")).to have_content("accepted")
     expect(page.find("#wagers")).to have_content(100)
-    expect(page.find("#wagers")).to have_content("Chips:10")
+    expect(page.find("#wagered-chips")).to have_content("Chips:10")
     expect(page.find("#net_amount")).to have_content(900)
     expect(page.find("#net_amount")).to have_content(900)
   end
@@ -131,10 +131,10 @@ feature "View and Create a Proposed Wagers" do
 
     expect(page.find("#winnings")).to have_content(100)
     expect(page.find("#wagers")).to have_content("$0")
-    expect(page.find("#wagers")).to have_content("Chips:0")
+    expect(page.find("#wagered-chips")).to have_content("Chips:0")
     # expect(page.find("#winnings")).to have_content("Chips:10")
     expect(page.find("#net_amount")).to have_content(500)
-    expect(page.find("#net_amount")).to have_content("Chips:50")
+    expect(page.find("#net-chips")).to have_content("Chips:50")
   end
 
   scenario "As a wagerer that lost the bet, I transfer the money to the wageree" do
@@ -152,10 +152,10 @@ feature "View and Create a Proposed Wagers" do
 
     expect(page.find("#winnings")).to have_content(-100)
     expect(page.find("#wagers")).to have_content("$0")
-    expect(page.find("#wagers")).to have_content("Chips:0")
+    expect(page.find("#wagered-chips")).to have_content("Chips:0")
     # expect(page.find("#winnings")).to have_content("Chips:10")
     expect(page.find("#net_amount")).to have_content(300)
-    expect(page.find("#net_amount")).to have_content("Chips:30")
+    expect(page.find("#net-chips")).to have_content("Chips:30")
   end
 
 
@@ -178,10 +178,10 @@ feature "View and Create a Proposed Wagers" do
 
     expect(page.find("#winnings")).to have_content(-100)
     expect(page.find("#wagers")).to have_content("$0")
-    expect(page.find("#wagers")).to have_content("Chips:0")
+    expect(page.find("#wagered-chips")).to have_content("Chips:0")
     # expect(page.find("#winnings")).to have_content("Chips:10")
     expect(page.find("#net_amount")).to have_content(900)
-    expect(page.find("#net_amount")).to have_content("Chips:90")
+    expect(page.find("#net-chips")).to have_content("Chips:90")
   end
 
   scenario "As a wageree that won the bet, I receive the money from the wagerer" do
@@ -202,10 +202,10 @@ feature "View and Create a Proposed Wagers" do
 
     expect(page.find("#winnings")).to have_content(100)
     expect(page.find("#wagers")).to have_content("$0")
-    expect(page.find("#wagers")).to have_content("Chips:0")
+    expect(page.find("#dist-chips")).to have_content("Chips:0")
     # expect(page.find("#winnings")).to have_content("Chips:10")
     expect(page.find("#net_amount")).to have_content(1100)
-    expect(page.find("#net_amount")).to have_content("Chips:110")
+    expect(page.find("#net-chips")).to have_content("Chips:110")
   end
 
 
