@@ -1,3 +1,6 @@
+require 'rails_helper'
+require 'capybara/rails'
+
 feature "Deposit and View Funds in an Account" do
 
   scenario "As a visitor, I should not be able to visit the new_deposits page directly via typing in a URL" do
@@ -6,8 +9,12 @@ feature "Deposit and View Funds in an Account" do
     expect(page).to have_css("#homepage")
   end
 
+  scenario "As a visitor, I should NOT be able to view a history of deposits" do
+    visit "/accounts/1/deposits"
+    expect(page).to have_css("#homepage")
+  end
 
-  scenario "As a user I can add funds to my account" do
+  scenario "As a user, I can add funds to my account and see deposit totals" do
     fill_in_registration_form("Stephen")
     fund_my_account_with_a_credit_card(400)
 
@@ -36,8 +43,5 @@ feature "Deposit and View Funds in an Account" do
     # expect(page).to have_content("$500")
   end
 
-  scenario "As a visitor, I should NOT be able to view a history of deposits" do
-    visit "/accounts/1/deposits"
-    expect(page).to have_css("#homepage")
-  end
+
 end

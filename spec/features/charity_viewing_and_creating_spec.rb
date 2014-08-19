@@ -8,7 +8,6 @@ feature "viewing and creating charities" do
   end
 
   scenario "As a charity, I can apply to register my charity with charity exchange" do
-    expect(page).to have_link("Register a new charity")
     click_on "Register a new charity"
     complete_application("United Way")
 
