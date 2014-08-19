@@ -10,7 +10,7 @@
           <div class="round-button" >+</div>
         </a>
       </div>
-      <div class="col-md-9 contents" id="deposits">
+      <div class="contents" id="deposits">
         $<%=@deposit_total%>
       </div>
     </div>
@@ -22,7 +22,7 @@
           <div class="round-button">+</div>
         </a>
       </div>
-      <div class="col-md-9 contents" id="distributions">
+      <div class="contents" id="distributions">
         $<%=@distribution_total%>--- Chips:<%=@distributed_chips.count%>
       </div>
     </div>
@@ -34,7 +34,7 @@
           <div class="round-button">+</div>
         </a>
       </div>
-      <div class="col-md-9 contents" id="wagers">
+      <div class="contents" id="wagers">
 
         $<%=@wagered_total%>--- Chips:<%=@wagered_chips.count%>
       </div>
@@ -45,7 +45,7 @@
       <div class=" header">
         Winnings
       </div>
-      <div class="col-md-9 contents" id="winnings">
+      <div class="contents" id="winnings">
         $<%=@winnings_total%>--- Chips:<%=@winnings_chips.count%>
       </div>
     </div>
@@ -96,7 +96,7 @@
     <%end%>
     <%@wageree_wagers.each do |proposed_wager|%>
       <div class="row  wager-border">
-        <b><%="#{User.find_by(id: proposed_wager.wageree_id).username.capitalize} bet me $#{proposed_wager.amount / 100} on #{proposed_wager.title}"%></b>
+        <b><%="#{User.find_by(id: proposed_wager.account.user_id).username.capitalize} bet me $#{proposed_wager.amount / 100} on #{proposed_wager.title}"%></b>
         Date:  <%=proposed_wager.date_of_wager %>
         Details:
         <%if proposed_wager.details == nil || proposed_wager.details == ""%>
