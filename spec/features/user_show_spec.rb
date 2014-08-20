@@ -12,32 +12,24 @@ feature "User Show Page" do
     expect(page).to have_css("#distributions")
     expect(page).to have_css("#net_amount")
     expect(page).to have_css("#winnings")
-
   end
 
   scenario "As a logged_in user I can link to the new deposits page to fund my account" do
     within(page.find("#fund-my-account")) {click_on "+"}
-
-
     expect(page).to have_css("#new_deposits")
   end
 
   scenario "As a logged_in user with a funded account I can link to the 'create a wager' page to create a wager" do
     fund_my_account_with_a_credit_card(100)
     within(page.find("#wager-funds")) {click_link "+"}
-
     expect(page).to have_css("#new_proposed_wagers")
   end
 
   scenario "As a logged_in user with a non-funded account I can link to the 'create a wager' page to create a wager" do
     within(page.find("#wager-funds")) {click_link "+"}
-
-
     expect(page).to have_css("#show_users")
     expect(page).to have_content("Your account has a $0 balance.  You must fund your account before you can wager.")
   end
-
-
 
   scenario "As a logged_in user with unallocated funds available, I can link to the new distributions page to distribute funds from my account" do
     fund_my_account_with_a_credit_card(100)

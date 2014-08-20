@@ -18,7 +18,6 @@ feature "visitor registration" do
     fill_in_registration_form("Stephen")
     click_on "Logout"
     login_a_registered_user("Stephen")
-
     expect(page).to have_content("Welcome stepheny")
     expect(page).to have_link("Logout")
     expect(page).not_to have_button("Login")
@@ -35,7 +34,6 @@ feature "visitor registration" do
     fill_in "Email", with: name
     fill_in "Password", with: name.downcase
     click_on "Submit"
-
     expect(page).to have_css("#new_users")
     expect(page).to have_content("Username can't be blank")
   end
@@ -50,7 +48,6 @@ feature "visitor registration" do
     fill_in "Password", with: name.downcase
     fill_in "Profile picture", with: "http://google.com"
     click_on "Submit"
-
     expect(page).to have_css("#new_users")
     expect(page).to have_content("Username is not unique.  Please select another.")
   end

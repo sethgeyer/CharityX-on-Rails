@@ -14,12 +14,9 @@ feature "editing user profile" do
     fill_in "Password", with: "stephen1"
     fill_in "Profile picture", with: "www.google.com"
     click_on "Submit"
-
     expect(page).to have_content("Your changes have been saved")
     expect(page).to have_css("#show_users")
-
     click_on "Edit Profile"
-
     expect(page).to have_selector("input[value='steve@gmail.com']")
     expect(page).to have_selector("input[value='www.google.com']")
 
@@ -29,7 +26,6 @@ feature "editing user profile" do
     click_on "Edit Profile"
     fill_in "Email", with: ""
     click_on "Submit"
-
     expect(page).to have_css("#edit_users")
     expect(page).to have_content("can't be blank")
   end
@@ -39,7 +35,6 @@ feature "editing user profile" do
     click_on "Edit Profile"
     fill_in "Password", with: "sds"
     click_on "Submit"
-
     expect(page).to have_css("#edit_users")
     expect(page).to have_content("Password must be at least 7 characters")
   end
@@ -55,7 +50,6 @@ feature "editing user profile" do
   scenario "user decides to cancel their edits" do
     click_on "Edit Profile"
     click_on "Cancel"
-
     expect(page).to have_css("#show_users")
   end
 
