@@ -28,7 +28,7 @@ class Chip < ActiveRecord::Base
     end
   end
 
-  def change_status_to_wager(account_id, wagered_amount )
+  def change_status_to_wagered(account_id, wagered_amount )
     number_of_chips = convert_from_pennies_to_chips(wagered_amount)
 
     chips = find_the_available(account_id).first(number_of_chips)
@@ -54,7 +54,7 @@ class Chip < ActiveRecord::Base
   end
 
 
-  def change_status_to_over(loser_account_id, winner_account_id, wagered_amount)
+  def reassign_to_winner(loser_account_id, winner_account_id, wagered_amount)
     number_of_chips = convert_from_pennies_to_chips(wagered_amount)
     chips = find_the_wagered(loser_account_id).first(number_of_chips)
     chips.each do |chip|

@@ -46,14 +46,13 @@ class UsersController < ApplicationController
       @unallocated_chips = @account.chips.where(status: "available")
       @distributed_chips = @account.chips.where(status: "distributed")
       @wagered_chips = @account.chips.where(status: "wagered")
-      @winnings_chips = @account.chips.where(status: "over")   #<<<<<<this is a plug-----------------------------
 
       ###################
       @deposit_total = @account.deposits.sum(:amount) / 100
       @distribution_total = @account.distributions.sum(:amount) / 100
       @wagered_total = (@account.proposed_wagers.where(wageree_outcome: nil).where(wagerer_outcome: nil).sum(:amount) / 100) + (ProposedWager.where(wageree_id: kenny_loggins.id, status: "accepted").where(wageree_outcome: nil).where(wagerer_outcome: nil).sum(:amount) / 100)
 
-      @winnings_total = (@account.proposed_wagers.where(wageree_outcome: "I Lost").where(status: "over").sum(:amount) / 100) + (ProposedWager.where(wageree_id: kenny_loggins.id, status: "over").where(wagerer_outcome: "I Lost").sum(:amount) / 100) - ( (@account.proposed_wagers.where(wagerer_outcome: "I Lost").where(status: "over").sum(:amount) / 100) + (ProposedWager.where(wageree_id: kenny_loggins.id, status: "over").where(wageree_outcome: "I Lost").sum(:amount) / 100))
+      @winnings_total = (@account.proposed_wagers.where(wageree_outcome: "I Lost").where(status: "completed").sum(:amount) / 100) + (ProposedWager.where(wageree_id: kenny_loggins.id, status: "completed").where(wagerer_outcome: "I Lost").sum(:amount) / 100) - ( (@account.proposed_wagers.where(wagerer_outcome: "I Lost").where(status: "completed").sum(:amount) / 100) + (ProposedWager.where(wageree_id: kenny_loggins.id, status: "completed").where(wageree_outcome: "I Lost").sum(:amount) / 100))
 
       @net_amount = @deposit_total - @distribution_total - @wagered_total + @winnings_total
       @proposed_wagers = @account.proposed_wagers

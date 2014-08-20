@@ -115,6 +115,47 @@ feature "View and Create a Proposed Wagers" do
 
   context "A bet was placed by the wagerer and accepted by the wageree" do
 
+    scenario "As a wagerer that won the bet, I collect the money from the wageree" do
+      register_users_and_create_a_wager("Alexander", "Stephen")
+      click_on "Logout"
+      login_a_registered_user("Alexander")
+      click_on "Shake on it"
+      click_on "I Lost"
+      click_on "Logout"
+      login_a_registered_user("Stephen")
+      expect(page).to have_content("You Won")
+      expect(page).not_to have_button("I Lost")
+      expect(page).to have_link("Rematch")
+      expect(page).not_to have_button("Shake on it")
+      expect(page.find("#winnings")).to have_content(100)
+      expect(page.find("#wagers")).to have_content("$0")
+      expect(page.find("#wagered-chips")).to have_content("Chips:0")
+      # expect(page.find("#winnings")).to have_content("Chips:10")
+      expect(page.find("#net_amount")).to have_content(500)
+      expect(page.find("#net-chips")).to have_content("Chips:50")
+    end
+
+    scenario "As a wagerer that lost the bet, I transfer the money to the wageree" do
+      register_users_and_create_a_wager("Alexander", "Stephen")
+      click_on "Logout"
+      login_a_registered_user("Alexander")
+      click_on "Shake on it"
+      click_on "Logout"
+      login_a_registered_user("Stephen")
+      click_on "I Lost"
+      expect(page).to have_content("You Lost")
+      expect(page).not_to have_button("I Lost")
+      expect(page).to have_link("Rematch")
+      expect(page).not_to have_button("Shake on it")
+      expect(page.find("#winnings")).to have_content(-100)
+      expect(page.find("#wagers")).to have_content("$0")
+      expect(page.find("#wagered-chips")).to have_content("Chips:0")
+      # expect(page.find("#winnings")).to have_content("Chips:10")
+      expect(page.find("#net_amount")).to have_content(300)
+      expect(page.find("#net-chips")).to have_content("Chips:30")
+    end
+
+
     scenario "As a wageree that lost the bet, I transfer the money to the wagerer" do
       register_users_and_create_a_wager("Alexander", "Stephen")
       click_on "Logout"
