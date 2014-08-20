@@ -20,7 +20,6 @@ feature "View and Create a Proposed Wagers" do
     expect(page).to have_content("Your proposed wager has been sent to alexandery.")
     expect(page.find("#proposed_wagers_table")).to have_content("Ping Pong Match")
     expect(page.find("#proposed_wagers_table")).to have_content(100)
-    expect(page.find("#proposed_wagers_table")).to have_link("Show")
     expect(page.find("#proposed_wagers_table")).not_to have_content(10000)
     expect(page.find("#proposed_wagers_table")).to have_content("Alexandery")
     expect(page.find("#proposed_wagers_table")).to have_content("I bet Alexandery")

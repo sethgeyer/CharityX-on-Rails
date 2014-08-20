@@ -17,6 +17,8 @@
 
 $(document).ready( function() {
 
+  src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js">
+
 //  highlight an activity link on mouseover
   $('.activity-links a').on('mouseover', function() {
     $(this).toggleClass('highlight');
@@ -38,7 +40,15 @@ $(document).ready( function() {
 //  });
 
 
+  $('.wager-border').on('click', function() {
+    $(this).find('.wager-details').toggle();
+    $(this).siblings().find('.wager-details').hide();
 
+  });
 
+  $('#proposed_wagers_table').selectable( function() {
 
+  })
+
+  //  $('#proposed_wagers_table').accordion({collapsible: true, active: false});
 });

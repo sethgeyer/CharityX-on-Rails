@@ -110,6 +110,8 @@ color:#3C376B;
     height: 40px;
    min-width: 140px;
    margin: 2px;
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
 }
 
 .contents{
@@ -125,7 +127,7 @@ color:#3C376B;
 .blue-bordered {
     background-color:whitesmoke;
     border: 1px solid darkblue;
-    border-radius: 3px;
+    border-radius: 10px;
     margin-bottom: 5px;
 }
 
@@ -157,14 +159,14 @@ color:#3C376B;
     color:#363633
 }
 
-.highlight {
-    background-color: white;
-    color:black;
-}
+/*.highlight {*/
+    /*background-color: white;*/
+    /*color:black;*/
+/*}*/
 
-.highlight-row {
-    background-color: #FCD59B;
-}
+/*.highlight-row {*/
+    /*background-color: #FCD59B;*/
+/*}*/
 
 .wager-border {
     border: 1px solid darkblue;
@@ -172,10 +174,27 @@ color:#3C376B;
     padding: 5px;
     margin-top: 5px;
     margin-bottom: 5px;
-    border-radius: 3px;
+    border-radius: 10px;
+}
 
+.wager-title {
+    background-color: #3C376B;
+    color:whitesmoke;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    padding-left: 5px;
 
 }
+
+.wager-details {
+    display:none;
+}
+
+#proposed_wagers_table .ui-selected {
+    background-color:#E4EBBC;
+}
+
+
 
 .errors {
     color: red;
