@@ -16,7 +16,11 @@ class ProposedWagersController < ApplicationController
             if rematch_wager.account == @account  || rematch_wager.wageree_id == kenny_loggins.id
               @proposed_wager.title = rematch_wager.title
               @proposed_wager.details = rematch_wager.details
-              @proposed_wager.wageree_id = rematch_wager.wageree_id
+              @proposed_wager.wageree_id = if rematch_wager.account == @account
+                                             rematch_wager.wageree_id
+                                           else
+                                             rematch_wager.account.user_id
+                                           end
               @proposed_wager.amount = rematch_wager.amount / 100
 
             end

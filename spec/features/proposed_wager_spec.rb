@@ -6,6 +6,7 @@ feature "View and Create a Proposed Wagers" do
   before(:each) do
     visit "/charities/new"
     complete_application("United Way")
+
   end
 
   scenario "As a visitor, I should not be able to visit the new proposed wager view directly via the URL " do
@@ -199,6 +200,14 @@ feature "View and Create a Proposed Wagers" do
 
     context "Proposing Rematches" do
       scenario "As a wagerer, I can propose a rematch for a game that I just played" do
+
+        fill_in_registration_form("Aarones")
+        fund_my_account_with_a_credit_card(1000)
+        click_on "Logout"
+        fill_in_registration_form("Zekeees")
+        fund_my_account_with_a_credit_card(1000)
+        click_on "Logout"
+
         register_users_and_create_a_wager("Alexander", "Stephen")
         click_on "Logout"
         login_a_registered_user("Alexander")
@@ -216,6 +225,13 @@ feature "View and Create a Proposed Wagers" do
       end
 
       scenario "As a wageree, I can propose a rematch for a game that I just played" do
+        fill_in_registration_form("Aarones")
+        fund_my_account_with_a_credit_card(1000)
+        click_on "Logout"
+        fill_in_registration_form("Zekeees")
+        fund_my_account_with_a_credit_card(1000)
+        click_on "Logout"
+
         register_users_and_create_a_wager("Alexander", "Stephen")
         click_on "Logout"
         login_a_registered_user("Alexander")
