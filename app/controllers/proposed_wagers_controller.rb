@@ -1,15 +1,27 @@
 class ProposedWagersController < ApplicationController
 
   def new
+
+
       if kenny_loggins.account.id == params[:account_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
         @account = kenny_loggins.account
         if @account.chips.where(status: "available").count == 0
           flash[:notice] = "Your account has a $0 balance.  You must fund your account before you can wager."
           redirect_to user_path(kenny_loggins)
         else
-        @proposed_wager = ProposedWager.new
-        @list_of_users = User.where('id != ?', kenny_loggins.id)
-        render :new
+          @proposed_wager = ProposedWager.new
+          @list_of_users = User.where('id != ?', kenny_loggins.id)
+          if params[:pwid]
+            rematch_wager = ProposedWager.find(params[:pwid])
+            if rematch_wager.account == @account  || rematch_wager.wageree_id == kenny_loggins.id
+              @proposed_wager.title = rematch_wager.title
+              @proposed_wager.details = rematch_wager.details
+              @proposed_wager.wageree_id = rematch_wager.wageree_id
+              @proposed_wager.amount = rematch_wager.amount / 100
+
+            end
+          end
+          render :new
         end
       else
         flash[:notice] = "You are not authorized to visit this page"
@@ -87,6 +99,8 @@ class ProposedWagersController < ApplicationController
         @proposed_wager.status = "completed"
 
         if @proposed_wager.save!
+
+          #convert these to class methods
           winners_chips = Chip.new
           winners_chips.change_status_to_available(@proposed_wager.account.id, @proposed_wager.amount)
           losers_chips = Chip.new

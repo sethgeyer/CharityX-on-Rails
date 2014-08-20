@@ -1,3 +1,6 @@
+require 'rails_helper'
+require 'capybara/rails'
+
 feature "View and Create a Proposed Wagers" do
 
   before(:each) do
@@ -125,7 +128,6 @@ feature "View and Create a Proposed Wagers" do
       login_a_registered_user("Stephen")
       expect(page).to have_content("You Won")
       expect(page).not_to have_button("I Lost")
-      expect(page).to have_link("Rematch")
       expect(page).not_to have_button("Shake on it")
       expect(page.find("#winnings")).to have_content(100)
       expect(page.find("#wagers")).to have_content("$0")
@@ -145,7 +147,6 @@ feature "View and Create a Proposed Wagers" do
       click_on "I Lost"
       expect(page).to have_content("You Lost")
       expect(page).not_to have_button("I Lost")
-      expect(page).to have_link("Rematch")
       expect(page).not_to have_button("Shake on it")
       expect(page.find("#winnings")).to have_content(-100)
       expect(page.find("#wagers")).to have_content("$0")
@@ -193,9 +194,52 @@ feature "View and Create a Proposed Wagers" do
       expect(page.find("#net_amount")).to have_content(1100)
       expect(page.find("#net-chips")).to have_content("Chips:110")
     end
-
   end
 
+
+    context "Proposing Rematches" do
+      scenario "As a wagerer, I can propose a rematch for a game that I just played" do
+        register_users_and_create_a_wager("Alexander", "Stephen")
+        click_on "Logout"
+        login_a_registered_user("Alexander")
+        click_on "Shake on it"
+        click_on "I Lost"
+        click_on "Logout"
+        login_a_registered_user("Stephen")
+        expect(page).to have_link("Rematch")
+        click_on "Rematch"
+        expect(page).to have_css("#new_proposed_wagers")
+        click_on "Submit"
+        expect(page).to have_css("#show_users")
+        expect(page).to have_content("Your proposed wager has been sent to alexandery.")
+
+      end
+
+      scenario "As a wageree, I can propose a rematch for a game that I just played" do
+        register_users_and_create_a_wager("Alexander", "Stephen")
+        click_on "Logout"
+        login_a_registered_user("Alexander")
+        click_on "Shake on it"
+        click_on "Logout"
+        login_a_registered_user("Stephen")
+        click_on "I Lost"
+        click_on "Logout"
+        login_a_registered_user("Alexander")
+        click_on "Rematch"
+        expect(page).to have_css("#new_proposed_wagers")
+        click_on "Submit"
+        expect(page).to have_css("#show_users")
+        expect(page).to have_content("Your proposed wager has been sent to stepheny.")
+
+
+      end
+
+
+
+
+
+
+    end
 
 
 end

@@ -59,6 +59,8 @@
     </div>
    </div>
 
+
+
 <h3>Wagers</h3>
   <div class="container-fluid" id="proposed_wagers_table">
     <%@proposed_wagers.each do |proposed_wager|%>
@@ -79,7 +81,7 @@
           <%elsif proposed_wager.wagerer_outcome == "I Lost"%>
             You Lost!
           <%end%>
-            <%=link_to "Rematch", new_account_proposed_wager_path(proposed_wager.account)%>
+            <%=link_to "Rematch", new_account_proposed_wager_path(proposed_wager.account, pwid: proposed_wager)%>
         <%else%>
           <%if proposed_wager.status != "accepted"%>
             <%=link_to "Withdraw", [proposed_wager.account, proposed_wager], {method: :delete}%>
@@ -113,7 +115,7 @@
           <%elsif proposed_wager.wagerer_outcome == "I Lost"%>
             <td>You Won!
           <%end%>
-          <%=link_to "Rematch", new_account_proposed_wager_path(proposed_wager.account)%></td>
+          <%=link_to "Rematch", new_account_proposed_wager_path(@account, pwid: proposed_wager)%></td>
 
         <%else%>
           <%=form_for [proposed_wager.account, proposed_wager] do |f|%>
