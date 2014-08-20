@@ -103,9 +103,7 @@ class ProposedWagersController < ApplicationController
     # if wagerer withdraws the bet
     proposed_wager = ProposedWager.find(params[:id])
     proposed_wager.destroy
-    #UNTESTED ########################################################
     Chip.new.change_status_to_available(kenny_loggins.account.id, proposed_wager.amount)
-    ###############
     redirect_to user_path(kenny_loggins)
   end
 

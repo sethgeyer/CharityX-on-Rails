@@ -26,18 +26,6 @@ class UsersController < ApplicationController
   end
 
 
-  # @user = User.find_by(username: params[:user][:username])
-  # if @user && @user.authenticate(params[:user][:password])
-  #   session[:user_id] = @user.id
-  #   flash[:notice] = "Welcome #{@user.username}"
-  #   redirect_to user_path(kenny_loggins)
-  #
-  #
-
-
-
-
-
   def show
     if kenny_loggins == User.find(params[:id])   #<--- no test written to test whether a sessioned user can view someone else's view
       @account = kenny_loggins.account
