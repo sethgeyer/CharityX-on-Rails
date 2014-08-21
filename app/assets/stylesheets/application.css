@@ -156,6 +156,70 @@ margin-top: -5px;
     border-radius: 10px;
 }
 
+#proposed_wagers_table .btn {
+    margin-top: 4px;
+}
+
+
+.my-btn {
+    color:white;
+    border: 1px darkgray solid;
+    opacity:0.85;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-top: 5px;
+    text-decoration: none;
+}
+
+
+.my-active-btn {
+    color:white;
+    border: 1px darkgray solid;
+    opacity:1;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-top: 5px;
+    text-decoration: none;
+}
+
+.my-btn-maroon { background-color: maroon;}
+
+.my-btn-gray { background-color: darkgray;}
+
+.outcome-flag {
+    display:none;
+}
+
+.outcome-show-loss {
+    background-color: red;
+    display:inline-block;
+    width:13px;
+    height:13px;
+    border-radius:3px;
+    border:1px solid white
+}
+
+.outcome-show-victory {
+    background-color: darkgreen;
+    display:inline-block;
+    width:13px;
+    height:13px;
+    border-radius:100%;
+    border:1px solid white
+
+}
+
+.outcome-show-pending {
+    background-color: darkgoldenrod;
+    display:inline-block;
+    width:13px;
+    height:13px;
+    border-radius:100%;
+    border:1px solid white
+
+}
+
+
 .wager-title {
     background-color: #3C376B;
     color:whitesmoke;
@@ -174,7 +238,15 @@ margin-top: -5px;
     background-color:#E4EBBC;
 }
 
+.expand-icon {
+    margin-top: 4px
+}
 
+.close {
+    background-color: red;
+    width:25px;
+    height:25px;
+}
 
 .errors {
     color: red;

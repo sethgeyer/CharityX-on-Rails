@@ -17,38 +17,49 @@
 
 $(document).ready( function() {
 
-  src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js">
+  src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"
 
-//  highlight an activity link on mouseover
-  $('.activity-links a').on('mouseover', function() {
-    $(this).toggleClass('highlight');
+
+  var wagers = $('#proposed_wagers_table .wager-border');
+
+  wagers.each(function() {
+    $wager = $(this);
+    var outcome = $wager.find('.outcome')
+    if (outcome.html() == 'I Lost!') {
+      $wager.find('.outcome-flag').addClass('outcome-show-loss')
+    }
+    else if (outcome.html() == 'I Won!') {
+      $wager.find('.outcome-flag').addClass('outcome-show-victory')
+    }
+    else  {
+      $wager.find('.outcome-flag').addClass('outcome-show-pending')
+    }
   });
 
-  $('.activity-links a').on('mouseleave', function() {
-    $(this).toggleClass('highlight');
-  });
 
-//// highlight table on mouseover
-//  $('.table tr').on('mouseover', function() {
-//    $(this).addClass('highlight-row');
-//  });
-
-//  console.log("Shazam");
-//  $('input').on('click', function() {
-//    console.log($(this));
-//    $(this).prompt("Are sure you want to do this");
-//  });
-
-
-  $('.wager-border').on('click', function() {
-    $(this).find('.wager-details').toggle();
-    $(this).siblings().find('.wager-details').hide();
+  $('.expand-icon').on('click', function() {
+    $(this).toggleClass('glyphicon-circle-arrow-down').toggleClass('glyphicon-circle-arrow-up')
+    $(this).parents('.wager-border').find('.wager-details').toggle();
+    $(this).parents('.wager-border').siblings().find('.wager-details').hide();
+    $(this).parents('.wager-border').siblings().find('.expand-icon').removeClass('glyphicon-circle-arrow-up').addClass('glyphicon-circle-arrow-down');
 
   });
 
-  $('#proposed_wagers_table').selectable( function() {
 
+  $('.my-btn').on('mouseover', function() {
+    $(this).toggleClass('my-active-btn')
+  });
+
+  $('.my-btn').on('mouseleave', function() {
+    $(this).toggleClass('my-active-btn')
   })
 
-  //  $('#proposed_wagers_table').accordion({collapsible: true, active: false});
+
+
+//$('#proposed_wagers_table').selectable()
+
+
+
+
+
 });

@@ -126,7 +126,7 @@ feature "View and Create a Proposed Wagers" do
       click_on "I Lost"
       click_on "Logout"
       login_a_registered_user("Stephen")
-      expect(page).to have_content("You Won")
+      expect(page).to have_content("I Won")
       expect(page).not_to have_button("I Lost")
       expect(page).not_to have_button("Shake on it")
       expect(page.find("#winnings")).to have_content(100)
@@ -145,7 +145,7 @@ feature "View and Create a Proposed Wagers" do
       click_on "Logout"
       login_a_registered_user("Stephen")
       click_on "I Lost"
-      expect(page).to have_content("You Lost")
+      expect(page).to have_content("I Lost")
       expect(page).not_to have_button("I Lost")
       expect(page).not_to have_button("Shake on it")
       expect(page.find("#winnings")).to have_content(-100)
@@ -163,7 +163,7 @@ feature "View and Create a Proposed Wagers" do
       login_a_registered_user("Alexander")
       click_on "Shake on it"
       click_on "I Lost"
-      expect(page).to have_content("You Lost")
+      expect(page).to have_content("I Lost")
       expect(page).not_to have_button("I Lost")
       expect(page).to have_link("Rematch")
       expect(page).not_to have_button("Shake on it")
@@ -184,7 +184,7 @@ feature "View and Create a Proposed Wagers" do
       click_on "I Lost"
       click_on "Logout"
       login_a_registered_user("Alexander")
-      expect(page).to have_content("You Won")
+      expect(page).to have_content("I Won")
       expect(page).not_to have_link("I Lost")
       expect(page).to have_link("Rematch")
       expect(page).not_to have_button("Shake on it")
