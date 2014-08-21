@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
-    render :new, layout:false
+    render :new
   end
 
   def create
@@ -21,7 +21,7 @@ class UsersController < ApplicationController
       flash[:notice] = "Thanks for registering #{@user.username}. You are now logged in."
       redirect_to user_path(kenny_loggins)
     else
-      render :new, layout:false
+      render :new
     end
   end
 

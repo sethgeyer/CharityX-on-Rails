@@ -1,36 +1,39 @@
 <div id="new_deposits">
+  <h3>Deposit Funds</h3>
+  <p>All deposits to your account are immediately treated as tax deductible charitable contributions for the current tax year.</p>
 
-
-  <%=form_for [@account, @deposit] do |f|%>
-    <div>
+  <%=form_for [@account, @deposit], html: {class: "form-horizontal col-xs-8 col-md-2"}, role:"form" do |f|%>
+    <div class="form-group">
       <%=f.label :amount%><br/>
-      <%=f.text_field :amount%>
-    </div>
-    <div>
-      <%=f.label :cc_number, "Credit Card Number"%><br/>
-      <%=f.text_field :cc_number%>
+      <%=f.text_field :amount, class:"form-control"%>
     </div>
 
-    <div>
-      <%=f.label :exp_date, "Exp Date"%><br/>
-      <%=f.text_field :exp_date %>
+    <div class="form-group">
+      <b>Credit Card Information</b>
+      <%=f.label :cc_number, "Credit Card Number", class:"sr-only"%>
+      <%=f.text_field :cc_number, class:"form-control", placeholder:"Credit Card Number"%>
     </div>
 
-    <div>
-      <%=f.label :name_on_card, "Name on Card"%><br/>
-      <%=f.text_field :name_on_card%>
+    <div class="form-group">
+      <%=f.label :exp_date, "Exp Date", class:"sr-only"%>
+      <%=f.text_field :exp_date, class:"form-control", placeholder:"Expiration Date" %>
     </div>
-    <br/>
-    <div>
-      <%= f.radio_button :cc_type, "Visa" %>
+
+    <div class="form-group">
+      <%=f.label :name_on_card, "Name on Card", class:"sr-only"%>
+      <%=f.text_field :name_on_card, class:"form-control", placeholder:"Name on Card"%>
+    </div>
+
+    <div class="form-group">
+      <%= f.radio_button :cc_type, "Visa"%>
       <%= f.label :cc_type, "Visa", value:"visa" %>
-      <%= f.radio_button :cc_type, "Mastercard" %>
+      <%= f.radio_button :cc_type, "Mastercard"%>
       <%= f.label :cc_type, "Mastercard", value:"mastercard" %>
     </div>
     <br/>
 
-    <div>
-      <%=f.submit "Submit"%>
+    <div class="form-group">
+      <%=f.submit "Submit", class:"btn btn-success"%>
       <%=link_to "Cancel", user_path(kenny_loggins)%>
     </div>
 

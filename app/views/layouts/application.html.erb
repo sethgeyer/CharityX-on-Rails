@@ -98,11 +98,12 @@
 <div class="container-fluid">
 
   <body>
-
-
-  <%= flash[:notice] if flash[:notice]%>
+  <%if flash[:notice]%>
+  <%= flash[:notice]%>
+  <br/>
+  <br/>
+  <%end%>
   <%= yield %>
-
 
   <!-- Latest compiled and minified JavaScript -->
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>

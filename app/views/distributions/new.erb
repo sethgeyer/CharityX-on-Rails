@@ -1,18 +1,17 @@
 <div id="new_distributions">
 
-  <%=form_for [@account, @distribution] do |f|%>
-    <div>
-      <%=f.label :amount%><br/>
-      <%=f.text_field :amount%>
+  <h3>Give to a Charity</h3>
+  <%=form_for [@account, @distribution], html: {class: "form-horizontal col-xs-8 col-md-2"}, role:"form"  do |f|%>
+    <div class="form-group">
+      <%=f.label :amount%>
+      <%=f.text_field :amount, class:"form-control"%>
     </div>
-    <br/>
-    <div>
-      <%=f.label :charity_id%><br/>
-      <%=f.collection_select :charity_id, Charity.all, :id, :name%>
+    <div class="form-group">
+      <%=f.label :charity_id%><br>
+      <%=f.collection_select :charity_id, Charity.all, :id, :name, class:"form-control"%>
     </div>
-    <br/>
-    <div>
-      <%=f.submit "Submit"%>
+    <div class="form-group">
+      <%=f.submit "Submit", class:"btn btn-success"%>
       <%=link_to "Cancel", user_path(kenny_loggins)%>
     </div>
 

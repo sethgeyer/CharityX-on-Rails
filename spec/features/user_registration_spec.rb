@@ -30,11 +30,10 @@ feature "visitor registration" do
   scenario "visitor fills in registration form only partially" do
     name = "Stephen"
     visit "/users/new"
-    # fill_in "Username", with: "#{name.downcase}y"
-    fill_in "Email", with: name
-    fill_in "Password", with: name.downcase
-    click_on "Submit"
-    expect(page).to have_css("#new_users")
+    within(page.find(".registration")) { fill_in "Email", with: "#{name}@gmail.com" }
+    within(page.find(".registration")) { fill_in "Password", with: name.downcase }
+    within(page.find(".registration")) { click_on "Submit" }
+    expect(page).to have_css(".registration")
     expect(page).to have_content("Username can't be blank")
   end
 
@@ -43,11 +42,11 @@ feature "visitor registration" do
     click_on "Logout"
     name = "Stephen"
     visit "/users/new"
-    fill_in "Username", with: "#{name.downcase}y"
-    fill_in "Email", with: name
-    fill_in "Password", with: name.downcase
-    fill_in "Profile picture", with: "http://google.com"
-    click_on "Submit"
+    within(page.find(".registration")) { fill_in "Username", with: "#{name.downcase}y" }
+    within(page.find(".registration")) { fill_in "Email", with: "#{name}@gmail.com" }
+    within(page.find(".registration")) { fill_in "Password", with: name.downcase }
+    within(page.find(".registration")) { fill_in "Profile picture", with: "http://google.com" }
+    within(page.find(".registration")) { click_on "Submit" }
     expect(page).to have_css("#new_users")
     expect(page).to have_content("Username is not unique.  Please select another.")
   end
