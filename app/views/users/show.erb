@@ -1,8 +1,9 @@
 <div id="show_users">
+  <div class="container">
 
   <h3>Net Activity</h3>
 
-  <div class="container-fluid">
+
     <div class="row blue-bordered">
       <div id="fund-my-account" class="header">
         Deposits
@@ -57,14 +58,14 @@
         $<%= @net_amount %>
       </div>
     </div>
-  </div>
+
 
   <br/>
   <br/>
 
   <h3>Wagers</h3>
 
-  <div class="container-fluid" id="proposed_wagers_table">
+  <div id="proposed_wagers_table">
     <% @proposed_wagers.each do |proposed_wager| %>
       <div class="row wager-border" data-attribute-status=<%=proposed_wager.status%>>
         <div class="wager-title">
@@ -84,18 +85,19 @@
 
         <div>
           <% if proposed_wager.wageree_outcome == "I Lost" || proposed_wager.wagerer_outcome == "I Lost" %>
-            <%= link_to "Rematch?", new_account_proposed_wager_path(proposed_wager.account, pwid: proposed_wager), class:"btn btn-primary btn-xs" %>
             <% if proposed_wager.wageree_outcome == "I Lost" %>
-              <div class="btn outcome">I Won!</div>
+              <div class="outcome">I Won!</div>
             <% elsif proposed_wager.wagerer_outcome == "I Lost" %>
-              <div class="btn outcome">I Lost!</div>
+              <div class="outcome">I Lost!</div>
             <% end %>
-          <% else %>
+            <%= link_to "Rematch?", new_account_proposed_wager_path(proposed_wager.account, pwid: proposed_wager)%>
+
+        <% else %>
             <% if proposed_wager.status != "accepted" %>
-              <%= link_to "Withdraw", [proposed_wager.account, proposed_wager], {method: :delete, class:"btn btn-info btn-xs"} %>
+              <%= link_to "Withdraw", [proposed_wager.account, proposed_wager], {method: :delete, class:"btn btn-primary btn-xs"} %>
             <% else %>
               <%= form_for [proposed_wager.account, proposed_wager] do |f| %>
-                <%= f.submit "I Lost", class: "my-btn my-btn-maroon" %>
+                <%= f.submit "I Lost", class: "btn btn-primary btn-xs" %>
               <% end %>
             <% end %>
           <% end %>
@@ -124,14 +126,14 @@
 
         <div>
           <% if proposed_wager.wageree_outcome == "I Lost" || proposed_wager.wagerer_outcome == "I Lost" %>
-            <%= link_to "Rematch?", new_account_proposed_wager_path(@account, pwid: proposed_wager), class:"btn btn-primary btn-xs"  %>
 
             <% if proposed_wager.wageree_outcome == "I Lost" %>
-              <div class="btn outcome">I Lost!</div>
+              <div class="outcome">I Lost!</div>
             <% elsif proposed_wager.wagerer_outcome == "I Lost" %>
-              <div class="btn outcome">I Won!</div>
+              <div class="outcome">I Won!</div>
             <% end %>
-          <% else %>
+            <%= link_to "Rematch?", new_account_proposed_wager_path(@account, pwid: proposed_wager) %>
+        <% else %>
             <%= form_for [proposed_wager.account, proposed_wager] do |f| %>
               <% if proposed_wager.status != "accepted" %>
                 <td>
@@ -140,7 +142,7 @@
               <% else %>
                 <td>
                   <!--< %=f.submit "Win"%>-->
-                  <%= f.submit "I Lost", class: "btn btn-xs btn-maroon" %>
+                  <%= f.submit "I Lost", class: "btn btn-xs btn-primary" %>
                   <!--< %=f.submit "Draw"%>-->
                 </td>
               <% end %>
@@ -160,4 +162,5 @@
     <div id="net-chips">NET Chips:<%= @unallocated_chips.count %></div>
   </div>
 
-</div>
+  </div>
+  </div>
