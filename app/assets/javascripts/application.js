@@ -73,6 +73,4 @@ $('.wager-border').draggable()
 
 
 
-
-
 });
