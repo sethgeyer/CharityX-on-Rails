@@ -38,6 +38,7 @@ feature "View and Create a Proposed Wagers" do
     register_users_and_create_a_wager("Alexander", "Stephen")
     expect(page).to have_css("#show_users")
     expect(page).to have_content("Your proposed wager has been sent to alexandery.")
+    # save_and_open_page
     expect(page.find("#proposed_wagers_table")).to have_content("Ping Pong Match")
     expect(page.find("#proposed_wagers_table")).to have_content(100)
     expect(page.find("#proposed_wagers_table")).not_to have_content(10000)
