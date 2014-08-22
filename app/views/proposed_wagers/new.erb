@@ -1,11 +1,15 @@
 <div id="new_proposed_wagers">
   <h3>Create a Wager</h3>
 
-  <%=form_for [@account, @proposed_wager], html: {class: "form-horizontal col-xs-8 col-md-2"}, role:"form"  do |f|%>
+  <%=form_for [@account, @proposed_wager], html: {class: "form-horizontal col-xs-8 col-md-3"}, role:"form"  do |f|%>
 
     <div class="form-group">
       <%=f.label :amount, "I want to bet"%><br/>
-      <%=f.text_field :amount, class:"form-control", placeholder:"amount"%>
+      <%=f.text_field :amount, class:"form-control", placeholder:"$ amount in $10 increments"%>
+      <div class="errors">
+        <%=flash[:amount] if flash[:amount]%>
+      </div>
+
     </div>
 
     <div class="form-group">

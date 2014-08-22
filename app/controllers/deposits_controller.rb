@@ -24,26 +24,30 @@ class DepositsController < ApplicationController
   end
 
   def create
-    if params[:deposit][:amount].to_i % 10 == 0 && params[:deposit][:amount].to_i <= 1000
-      deposit = Deposit.new
-      deposit.account_id = params[:account_id].to_i
-      deposit.amount = params[:deposit][:amount].to_i * 100
-      deposit.cc_number = params[:deposit][:cc_number].to_i
-      deposit.exp_date =params[:deposit][:exp_date]
-      deposit.name_on_card = params[:deposit][:name_on_card]
-      deposit.cc_type = params[:deposit][:cc_type]
-      deposit.date_created = Time.now
-      if deposit.save!
+    amount = params[:deposit][:amount].gsub("$", "").gsub(",", "").to_i
+    @deposit = Deposit.new
+    @deposit.account_id = params[:account_id].to_i
+    @deposit.cc_number = params[:deposit][:cc_number].to_i
+    @deposit.exp_date =params[:deposit][:exp_date]
+    @deposit.name_on_card = params[:deposit][:name_on_card]
+    @deposit.cc_type = params[:deposit][:cc_type]
+    @deposit.date_created = Time.now
+    if amount % 10 == 0 && amount <= 1000 && amount >=10
+      @deposit.amount = amount * 100
+      if @deposit.save!
         #UNTESTED ########################################################
-        Chip.new.purchase(kenny_loggins.id, deposit.account.id, deposit.amount, deposit.date_created, "available")
+        Chip.new.purchase(kenny_loggins.id, @deposit.account.id, @deposit.amount, @deposit.date_created, "available")
         #################
-        flash[:notice] = "Thank you for depositing $#{deposit.amount / 100} into your account"
+        flash[:notice] = "Thank you for depositing $#{@deposit.amount / 100} into your account"
+        redirect_to user_path(kenny_loggins)
+      else
+        @account = kenny_loggins.account
+        @deposit = @deposit
+        render :new
       end
-      redirect_to user_path(kenny_loggins)
     else
       @account = kenny_loggins.account
-      @deposit = Deposit.new
-      flash[:notice] = "All deposits must be in increments of $10 and no more than $1000."
+      flash[:amount] = "All deposits must be in increments of $10 and no more than $1,000."
       render :new
     end
 

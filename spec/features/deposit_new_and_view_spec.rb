@@ -19,14 +19,14 @@ feature "Deposit and View Funds in an Account" do
       fill_in_registration_form("Stephen")
       fund_my_account_with_a_credit_card(1001)
       expect(page).to have_css("#new_deposits")
-      expect(page).to have_content("All deposits must be in increments of $10 and no more than $1000.")
+      expect(page).to have_content("All deposits must be in increments of $10 and no more than $1,000.")
     end
 
     scenario "As a user, I can not make a deposit worth more than $1000" do
       fill_in_registration_form("Stephen")
       fund_my_account_with_a_credit_card(9)
       expect(page).to have_css("#new_deposits")
-      expect(page).to have_content("All deposits must be in increments of $10 and no more than $1000.")
+      expect(page).to have_content("All deposits must be in increments of $10 and no more than $1,000.")
     end
 
   end

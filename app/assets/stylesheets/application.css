@@ -102,6 +102,19 @@ color:#3C376B;
 margin-top: -5px;
 }
 
+
+.errors {
+    color:red;
+    display:inline-block;
+
+
+}
+
+.field_with_errors .form-control {
+    display:inline-block;
+    border:1px solid red;
+}
+
 .header {
    color: whitesmoke;
    background-color:#363633;

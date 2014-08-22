@@ -32,16 +32,16 @@ class DistributionsController < ApplicationController
   end
 
   def create
-    if params[:distribution][:amount].to_i % 10 == 0 #&& params[:distribution][:amount].to_i <= 1000
-
-      @account = kenny_loggins.account
-      @distribution = Distribution.new
-      @distribution.account_id = @account.id
-      @distribution.amount = params[:distribution][:amount].to_i * 100
-      @distribution.charity_id = params[:distribution][:charity_id]
-      if @account.chips.where(status: "available").count < (params[:distribution][:amount].to_i / 10)
+    amount = params[:distribution][:amount].gsub("$", "").gsub(",", "").to_i
+    @account = kenny_loggins.account
+    @distribution = Distribution.new
+    @distribution.account_id = @account.id
+    @distribution.charity_id = params[:distribution][:charity_id]
+    if amount % 10 == 0 && amount >=10
+      @distribution.amount = amount * 100
+      if @account.chips.where(status: "available").count < (amount / 10)
         @distribution.amount = @account.chips.where(status: "available").count * 10
-        flash[:notice] = "You don't have sufficient funds for the size of this distribution.  Unless you fund your account, the maximum you can distribute is $#{@account.chips.where(status: "available").count * 10}"
+        flash[:amount] = "You don't have sufficient funds for the size of this distribution.  Unless you fund your account, the maximum you can distribute is $#{@account.chips.where(status: "available").count * 10}"
         render :new
       else
         if @distribution.save!
@@ -54,10 +54,8 @@ class DistributionsController < ApplicationController
         end
       end
     else
-      @account = kenny_loggins.account
-      @distribution = Distribution.new
       @charities_for_selection = Charity.all
-      flash[:notice] = "All distributions must be in increments of $10."
+      flash[:amount] = "All distributions must be in increments of $10."
       render :new
 
     end

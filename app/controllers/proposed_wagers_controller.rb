@@ -35,22 +35,21 @@ class ProposedWagersController < ApplicationController
   end
 
   def create
-
-    if params[:proposed_wager][:amount].to_i % 10 == 0 #&& params[:distribution][:amount].to_i <= 1000
-
-      @account = kenny_loggins.account
-      @proposed_wager = ProposedWager.new
-      @proposed_wager.account_id = @account.id
-      @proposed_wager.title = params[:proposed_wager][:title]
-      @proposed_wager.date_of_wager = params[:proposed_wager][:date_of_wager]
-      @proposed_wager.details = params[:proposed_wager][:details]
-      @proposed_wager.amount = params[:proposed_wager][:amount].to_i * 100
-      @proposed_wager.wageree_id = params[:proposed_wager][:wageree_id].to_i
-      @proposed_wager.status = "w/wageree"
-      if @account.chips.where(status: "available").count < (params[:proposed_wager][:amount].to_i / 10)
+    amount = params[:proposed_wager][:amount].gsub("$", "").gsub(",", "").to_i
+    @account = kenny_loggins.account
+    @proposed_wager = ProposedWager.new
+    @proposed_wager.account_id = @account.id
+    @proposed_wager.title = params[:proposed_wager][:title]
+    @proposed_wager.date_of_wager = params[:proposed_wager][:date_of_wager]
+    @proposed_wager.details = params[:proposed_wager][:details]
+    @proposed_wager.wageree_id = params[:proposed_wager][:wageree_id].to_i
+    @proposed_wager.status = "w/wageree"
+    if amount % 10 == 0 && amount >=10
+      @proposed_wager.amount = amount * 100
+      if @account.chips.where(status: "available").count < (amount / 10)
         @proposed_wager.amount = @account.chips.where(status: "available").count * 10
         @list_of_users = User.where('id != ?', kenny_loggins.id)
-        flash[:notice] = "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{@account.chips.where(status: "available").count * 10}"
+        flash[:amount] = "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{@account.chips.where(status: "available").count * 10}"
         render :new
       else
         if @proposed_wager.save!
@@ -63,10 +62,8 @@ class ProposedWagersController < ApplicationController
         end
       end
     else
-      @account = kenny_loggins.account
-      @proposed_wager = ProposedWager.new
       @list_of_users = User.where('id != ?', kenny_loggins.id)
-      flash[:notice] = "All wagers must be in increments of $10."
+      flash[:amount] = "All wagers must be in increments of $10."
       render :new
 
     end
