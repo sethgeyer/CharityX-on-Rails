@@ -93,6 +93,7 @@ class ProposedWagersController < ApplicationController
       #if the current user initiated the wager (aka: current user == wagerer)
       if @account.id == @proposed_wager.account.id
         @proposed_wager.wagerer_outcome = "I Lost"
+        @proposed_wager.winner_id = @proposed_wager.wageree_id
         @proposed_wager.status = "completed"
 
         if @proposed_wager.save!
@@ -108,6 +109,7 @@ class ProposedWagersController < ApplicationController
       #if the current user did not initiate the wager (aka: current user == wageree)
       if @account.id != @proposed_wager.account.id
         @proposed_wager.wageree_outcome = "I Lost"
+        @proposed_wager.winner_id = @proposed_wager.account.user_id
         @proposed_wager.status = "completed"
 
         if @proposed_wager.save!
