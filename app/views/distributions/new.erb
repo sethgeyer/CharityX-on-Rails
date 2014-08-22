@@ -8,14 +8,15 @@
     </div>
     <div class="form-group">
       <%=f.label :charity_id%><br>
-      <%=f.collection_select :charity_id, Charity.all, :id, :name, class:"form-control"%>
+      <%=f.collection_select :charity_id, Charity.all, :id, :name, {}, class:"form-control"%>
     </div>
     <div class="form-group">
       <%=f.submit "Submit", class:"btn btn-success"%>
       <%=link_to "Cancel", user_path(kenny_loggins)%>
     </div>
 
-
   <%end%>
+
+
 
 </div>
