@@ -20,32 +20,27 @@ $(document).ready( function() {
   src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"
 
 
-//  Show an outcome flag based on whether the match has been won, lost or is still pending.
+//  Show an outcome flag based on whether the match has been won, lost or is still pending and highlight the row if the due date has passed.
   var wagers = $('#proposed_wagers_table .wager-border');
   wagers.each(function() {
     $wager = $(this);
-    var outcome = $wager.find('.outcome')
 
-    if (outcome.html().indexOf('I Lost!') != -1) {
 
-      $wager.find('.outcome-flag').addClass('outcome-show').addClass('loss')
-    }
-    else if (outcome.html().indexOf('I Won!') != -1) {
-      $wager.find('.outcome-flag').addClass('outcome-show').addClass('victory')
-    }
-    else  {
-      $wager.find('.outcome-flag').addClass('outcome-show').addClass('pending')
-    }
-  });
-//end
-
-  var wagers = $('#proposed_wagers_table .wager-border');
-  wagers.each(function() {
-    $wager = $(this);
     var outcome = $wager.find('.outcome');
     var date = $wager.attr('data-attribute-date');
+
+
+    if (outcome.html() == null)  {
+      $wager.find('.outcome-flag').addClass('outcome-show').addClass('pending');
+    }
+    else if (outcome.html().indexOf('I Lost!') != -1) {
+      $wager.find('.outcome-flag').addClass('outcome-show').addClass('loss');
+    }
+    else if (outcome.html().indexOf('I Won!') != -1) {
+      $wager.find('.outcome-flag').addClass('outcome-show').addClass('victory');
+    }
     if (outcome.html() == null && date < 0) {
-      $wager.addClass('past-due-outcome')
+      $wager.addClass('past-due-outcome');
     }
   });
 
@@ -69,7 +64,7 @@ $(document).ready( function() {
 
 
 
-//$('.wager-border').draggable()
+$('.wager-border').draggable()
 
 
 

@@ -1,7 +1,7 @@
 <div id="show_users">
   <div class="container">
 
-  <h3>Net Activity</h3>
+    <h3>Net Activity</h3>
 
 
     <div class="row blue-bordered">
@@ -60,89 +60,85 @@
     </div>
 
 
-  <br/>
-  <br/>
+    <br/>
+    <br/>
 
-  <% if @proposed_wagers.count > 0 %>
+    <% if @proposed_wagers.count > 0 %>
 
-  <h3>Wagers</h3>
+      <h3>Wagers</h3>
 
-  <div id="proposed_wagers_table">
-    <% @proposed_wagers.each do |proposed_wager| %>
-      <div class="row wager-border" data-attribute-date=<%=(proposed_wager.date_of_wager - Date.today).to_i%>>
+      <div id="proposed_wagers_table">
+        <% @proposed_wagers.each do |proposed_wager| %>
+          <div class="row wager-border" data-attribute-date=<%= (proposed_wager.date_of_wager - Date.today).to_i %>>
 
-        <div class="wager-title">
-          <div class="expand-icon glyphicon glyphicon-th-list"></div>
-          <div class="outcome-flag"></div>
-          <%if kenny_loggins.account == proposed_wager.account%>
-            <%="I bet #{User.find_by(id: proposed_wager.wageree_id).username.capitalize} $#{proposed_wager.amount / 100} on #{proposed_wager.title}"%>
-          <%else%>
-            <%= "#{User.find_by(id: proposed_wager.account.user_id).username.capitalize} bet me $#{proposed_wager.amount / 100} on #{proposed_wager.title}" %>
-          <%end%>
-        </div>
-
-
-
-        <div class="wager-details">
-          Date: <%= proposed_wager.date_of_wager %> |
-          Status: <%= proposed_wager.status %>
-          <% if proposed_wager.details == nil || proposed_wager.details == "" %>
-          <% else %>
-            <br/>
-            <i>Details: <%= proposed_wager.details %></i>
-          <% end %>
-        </div>
-
-
-
-
-        <div>
-          <% if proposed_wager.winner_id%>
-            <div class="outcome">
-              <% if kenny_loggins.id == proposed_wager.winner_id%>
-                I Won!
-              <%else%>
-                I Lost!
-              <%end%>
-            </div>
-            <% if kenny_loggins.account == proposed_wager.account%>
-              <%= link_to "Rematch?", new_account_proposed_wager_path(proposed_wager.account, pwid: proposed_wager)%>
-            <% else%>
-              <%= link_to "Rematch?", new_account_proposed_wager_path(@account, pwid: proposed_wager) %>
-            <%end%>
-          <% else %>
-            <% if kenny_loggins.account == proposed_wager.account %>
-              <% if proposed_wager.status != "accepted" %>
-                <%= link_to "Withdraw", [proposed_wager.account, proposed_wager], {method: :delete, class: "btn btn-primary btn-xs"} %>
+            <div class="wager-title">
+              <div class="expand-icon glyphicon glyphicon-th-list"></div>
+              <div class="outcome-flag"></div>
+              <% if kenny_loggins.account == proposed_wager.account %>
+                <%= "I bet #{User.find_by(id: proposed_wager.wageree_id).username.capitalize} $#{proposed_wager.amount / 100} on #{proposed_wager.title}" %>
               <% else %>
-                <%= form_for [proposed_wager.account, proposed_wager] do |f| %>
-                  <%= f.submit "I Lost", class: "btn btn-primary btn-xs" %>
-                <% end %>
+                <%= "#{User.find_by(id: proposed_wager.account.user_id).username.capitalize} bet me $#{proposed_wager.amount / 100} on #{proposed_wager.title}" %>
               <% end %>
-            <% else %>
-              <%= form_for [proposed_wager.account, proposed_wager] do |f| %>
-                <% if proposed_wager.status != "accepted" %>
-                  <%= f.submit "Shake on it", class: "btn btn-xs btn-success" %>
+            </div>
+
+            <div class="wager-details">
+              Date: <%= proposed_wager.date_of_wager %> |
+              Status: <%= proposed_wager.status %>
+              <% if proposed_wager.details == nil || proposed_wager.details == "" %>
+              <% else %>
+                <br/>
+                <i>Details: <%= proposed_wager.details %></i>
+              <% end %>
+            </div>
+
+            <div>
+              <% if proposed_wager.winner_id %>
+                <div class="outcome">
+                  <% if kenny_loggins.id == proposed_wager.winner_id %>
+                    I Won!
+                  <% else %>
+                    I Lost!
+                  <% end %>
+                </div>
+                <% if kenny_loggins.account == proposed_wager.account %>
+                  <%= link_to "Rematch?", new_account_proposed_wager_path(proposed_wager.account, pwid: proposed_wager) %>
                 <% else %>
-                  <%= f.submit "I Lost", class: "btn btn-xs btn-primary" %>
+                  <%= link_to "Rematch?", new_account_proposed_wager_path(@account, pwid: proposed_wager) %>
+                <% end %>
+              <% else %>
+                <% if kenny_loggins.account == proposed_wager.account %>
+                  <% if proposed_wager.status != "accepted" %>
+                    <%= link_to "Withdraw", [proposed_wager.account, proposed_wager], {method: :delete, class: "btn btn-primary btn-xs"} %>
+                  <% else %>
+                    <%= form_for [proposed_wager.account, proposed_wager] do |f| %>
+                      <%= f.submit "I Lost", class: "btn btn-primary btn-xs" %>
+                    <% end %>
+                  <% end %>
+                <% else %>
+                  <%= form_for [proposed_wager.account, proposed_wager] do |f| %>
+                    <% if proposed_wager.status != "accepted" %>
+                      <%= f.submit "Shake on it", class: "btn btn-xs btn-success" %>
+                    <% else %>
+                      <%= f.submit "I Lost", class: "btn btn-xs btn-primary" %>
+                    <% end %>
+                  <% end %>
                 <% end %>
               <% end %>
-            <% end %>
-          <% end %>
-        </div>
+            </div>
+          </div>
+        <% end %>
+
       </div>
+      <br/>
+
     <% end %>
+    <div id="chip-count">
+      <b>CHIP COUNT</b>
+
+      <div id="dist-chips">DISTRIBUTED Chips:<%= @distributed_chips.count %></div>
+      <div id="wagered-chips">WAGERS Chips:<%= @wagered_chips.count %></div>
+      <div id="net-chips">NET Chips:<%= @unallocated_chips.count %></div>
+    </div>
 
   </div>
-  <br/>
-
-    <%end%>
-  <div id="chip-count">
-    <b>CHIP COUNT</b>
-    <div id="dist-chips">DISTRIBUTED Chips:<%= @distributed_chips.count %></div>
-    <div id="wagered-chips">WAGERS Chips:<%= @wagered_chips.count %></div>
-    <div id="net-chips">NET Chips:<%= @unallocated_chips.count %></div>
-  </div>
-
-  </div>
-  </div>
+</div>
