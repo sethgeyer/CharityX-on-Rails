@@ -238,6 +238,7 @@ feature "View and Create a Proposed Wagers" do
         expect(page).to have_link("Rematch")
         click_on "Rematch"
         expect(page).to have_css("#new_proposed_wagers")
+        fill_in "proposed_wager_date_of_wager", with: "2017-07-31"
         click_on "Submit"
         expect(page).to have_css("#show_users")
         expect(page).to have_content("Your proposed wager has been sent to alexandery.")
@@ -263,6 +264,7 @@ feature "View and Create a Proposed Wagers" do
         login_a_registered_user("Alexander")
         click_on "Rematch"
         expect(page).to have_css("#new_proposed_wagers")
+        fill_in "proposed_wager_date_of_wager", with: "2017-07-31"
         click_on "Submit"
         expect(page).to have_css("#show_users")
         expect(page).to have_content("Your proposed wager has been sent to stepheny.")

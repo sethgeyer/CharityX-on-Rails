@@ -69,10 +69,10 @@
 
   <div id="proposed_wagers_table">
     <% @proposed_wagers.each do |proposed_wager| %>
-      <div class="row wager-border" data-attribute-status=<%=proposed_wager.status%>>
+      <div class="row wager-border" data-attribute-date=<%=(proposed_wager.date_of_wager - Date.today).to_i%>>
 
         <div class="wager-title">
-          <div class="expand-icon glyphicon glyphicon-circle-arrow-down"></div>
+          <div class="expand-icon glyphicon glyphicon-th-list"></div>
           <div class="outcome-flag"></div>
           <%if kenny_loggins.account == proposed_wager.account%>
             <%="I bet #{User.find_by(id: proposed_wager.wageree_id).username.capitalize} $#{proposed_wager.amount / 100} on #{proposed_wager.title}"%>
@@ -98,12 +98,13 @@
 
         <div>
           <% if proposed_wager.winner_id%>
-            <% if kenny_loggins.id == proposed_wager.winner_id%>
-              <div class="outcome">I Won!</div>
-            <%else%>
-              <div class="outcome">I Lost!</div>
-            <%end%>
-
+            <div class="outcome">
+              <% if kenny_loggins.id == proposed_wager.winner_id%>
+                I Won!
+              <%else%>
+                I Lost!
+              <%end%>
+            </div>
             <% if kenny_loggins.account == proposed_wager.account%>
               <%= link_to "Rematch?", new_account_proposed_wager_path(proposed_wager.account, pwid: proposed_wager)%>
             <% else%>

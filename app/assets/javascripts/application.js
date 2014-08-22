@@ -20,28 +20,41 @@ $(document).ready( function() {
   src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"
 
 
+//  Show an outcome flag based on whether the match has been won, lost or is still pending.
   var wagers = $('#proposed_wagers_table .wager-border');
-
   wagers.each(function() {
     $wager = $(this);
     var outcome = $wager.find('.outcome')
-    if (outcome.html() == 'I Lost!') {
-      $wager.find('.outcome-flag').addClass('outcome-show-loss')
+
+    if (outcome.html().indexOf('I Lost!') != -1) {
+
+      $wager.find('.outcome-flag').addClass('outcome-show').addClass('loss')
     }
-    else if (outcome.html() == 'I Won!') {
-      $wager.find('.outcome-flag').addClass('outcome-show-victory')
+    else if (outcome.html().indexOf('I Won!') != -1) {
+      $wager.find('.outcome-flag').addClass('outcome-show').addClass('victory')
     }
     else  {
-      $wager.find('.outcome-flag').addClass('outcome-show-pending')
+      $wager.find('.outcome-flag').addClass('outcome-show').addClass('pending')
+    }
+  });
+//end
+
+  var wagers = $('#proposed_wagers_table .wager-border');
+  wagers.each(function() {
+    $wager = $(this);
+    var outcome = $wager.find('.outcome');
+    var date = $wager.attr('data-attribute-date');
+    if (outcome.html() == null && date < 0) {
+      $wager.addClass('past-due-outcome')
     }
   });
 
 
   $('.expand-icon').on('click', function() {
-    $(this).toggleClass('glyphicon-circle-arrow-down').toggleClass('glyphicon-circle-arrow-up')
+    $(this).toggleClass('glyphicon-th-list').toggleClass('glyphicon-circle-arrow-up')
     $(this).parents('.wager-border').find('.wager-details').toggle();
     $(this).parents('.wager-border').siblings().find('.wager-details').hide();
-    $(this).parents('.wager-border').siblings().find('.expand-icon').removeClass('glyphicon-circle-arrow-up').addClass('glyphicon-circle-arrow-down');
+    $(this).parents('.wager-border').siblings().find('.expand-icon').removeClass('glyphicon-circle-arrow-up').addClass('glyphicon-th-list');
 
   });
 
@@ -56,7 +69,7 @@ $(document).ready( function() {
 
 
 
-//$('#proposed_wagers_table').selectable()
+$('.wager-border').draggable()
 
 
 

@@ -156,7 +156,7 @@ margin-top: -5px;
     padding-bottom: 1px;
     margin-right: 5px;
     float:right;
-    margin-top:-1px
+    margin-top:-1px;
 }
 
 
@@ -170,34 +170,34 @@ margin-top: -5px;
 }
 
 #proposed_wagers_table .btn {
-    margin-top: 4px;
+    margin-top: 9px;
 }
 
 
-.my-btn {
-    color:white;
-    border: 1px darkgray solid;
-    opacity:0.85;
-    border-radius: 4px;
-    font-size: 12px;
-    margin-top: 5px;
-    text-decoration: none;
-}
+/*.my-btn {*/
+    /*color:white;*/
+    /*border: 1px darkgray solid;*/
+    /*opacity:0.85;*/
+    /*border-radius: 4px;*/
+    /*font-size: 12px;*/
+    /*margin-top: 5px;*/
+    /*text-decoration: none;*/
+/*}*/
 
 
-.my-active-btn {
-    color:white;
-    border: 1px darkgray solid;
-    opacity:1;
-    border-radius: 4px;
-    font-size: 12px;
-    margin-top: 5px;
-    text-decoration: none;
-}
+/*.my-active-btn {*/
+    /*color:white;*/
+    /*border: 1px darkgray solid;*/
+    /*opacity:1;*/
+    /*border-radius: 4px;*/
+    /*font-size: 12px;*/
+    /*margin-top: 5px;*/
+    /*text-decoration: none;*/
+/*}*/
 
-.my-btn-maroon { background-color: maroon;}
+/*.my-btn-maroon { background-color: maroon;}*/
 
-.my-btn-gray { background-color: darkgray;}
+/*.my-btn-gray { background-color: darkgray;}*/
 
 .outcome {
     display:inline-block;
@@ -207,43 +207,64 @@ margin-top: -5px;
     display:none;
 }
 
-.outcome-show-loss {
+/*.outcome-show-loss {*/
+    /*background-color: maroon;*/
+    /*display:inline-block;*/
+    /*width:13px;*/
+    /*height:13px;*/
+    /*border-radius:3px;*/
+    /*border:1px solid white;*/
+    /*opacity:.5;*/
+/*}*/
+
+/*.outcome-show-victory {*/
+    /*background-color: darkgreen;*/
+    /*display:inline-block;*/
+    /*width:13px;*/
+    /*height:13px;*/
+    /*border-radius:100%;*/
+    /*border:1px solid white;*/
+    /*opacity:.5;*/
+/*}*/
+
+/*.outcome-show-pending {*/
+    /*background-color: darkgoldenrod;*/
+    /*display:inline-block;*/
+    /*width:13px;*/
+    /*height:13px;*/
+    /*border-radius:100%;*/
+    /*border:1px solid white;*/
+    /*opacity:.5;*/
+/*}*/
+
+
+.outcome-show {
+    display:inline-block;
+    width:13px;
+    height:13px;
+    border:1px solid white;
+    opacity:.5;
+    margin-bottom: -1px
+}
+
+.loss {
     background-color: maroon;
-    display:inline-block;
-    width:13px;
-    height:13px;
-    border-radius:3px;
-    border:1px solid white;
-    opacity:.5;
-}
-
-.outcome-show-victory {
-    background-color: darkgreen;
-    display:inline-block;
-    width:13px;
-    height:13px;
-    border-radius:100%;
-    border:1px solid white;
-    opacity:.5;
-
-
-
-
 
 }
 
-.outcome-show-pending {
+.pending {
     background-color: darkgoldenrod;
-    display:inline-block;
-    width:13px;
-    height:13px;
     border-radius:100%;
-    border:1px solid white;
-    opacity:.5;
 
 
 }
 
+.victory {
+    background-color: darkgreen;
+    border-radius:100%;
+
+
+}
 
 .wager-title {
     background-color:#778077;
@@ -259,12 +280,19 @@ margin-top: -5px;
     display:none;
 }
 
+
+.past-due-outcome {
+    background-color:#E4EBBC;
+}
+
+
 #proposed_wagers_table .ui-selected {
     background-color:#E4EBBC;
 }
 
 .expand-icon {
-    margin-top: 4px
+    margin-top: 4px;
+    margin-right: 4px
 }
 
 .close {
