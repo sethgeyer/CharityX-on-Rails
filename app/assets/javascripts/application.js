@@ -69,7 +69,7 @@ $(document).ready( function() {
 
 
 
-$('.wager-border').draggable()
+//$('.wager-border').draggable()
 
 
 
