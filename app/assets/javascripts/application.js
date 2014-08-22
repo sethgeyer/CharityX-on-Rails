@@ -12,13 +12,10 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
+// require turbolinks
 //= require_tree .
 
 $(document).ready( function() {
-
-  src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"
-
 
 //  Show an outcome flag based on whether the match has been won, lost or is still pending and highlight the row if the due date has passed.
   var wagers = $('#proposed_wagers_table .wager-border');
