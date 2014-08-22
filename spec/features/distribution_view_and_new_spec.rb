@@ -38,6 +38,13 @@ feature "View Index and Create Distributions" do
       # expect(page).to have_content("$200")
     end
 
+    context "Distributions not in increments of $10" do
+      scenario "I should be able to view my history of distributions" do
+        fund_my_account_with_a_credit_card(500)
+        distribute_funds_from_my_account(98, "United Way")
+        expect(page).to have_content("All distributions must be in increments of $10.")
+      end
+    end
     scenario "I can distribute funds from my account" do
       distribute_funds_from_my_account(100, "United Way")
       expect(page).to have_css("#show_users")

@@ -14,6 +14,26 @@ feature "View and Create a Proposed Wagers" do
     expect(page).to have_css("#homepage")
   end
 
+  context "Proposed Wagers not in increments of $10" do
+    scenario "As a user, I can not create a wager that is NOT in increments of 10" do
+      fill_in_registration_form("Alexander")
+      fund_my_account_with_a_credit_card(1000)
+      click_on "Logout"
+      fill_in_registration_form("Stephen")
+      fund_my_account_with_a_credit_card(400)
+      within(page.find("#wager-funds")) {click_link "+"}
+      fill_in "proposed_wager_title", with: "Ping Pong Match between S & A"
+      fill_in "proposed_wager_date_of_wager", with: "2014-07-31"
+      fill_in "proposed_wager_details", with: "Game to 21, standard rules apply"
+      fill_in "proposed_wager_amount", with: 109
+      select "alexandery", from: "proposed_wager_wageree_id"
+      click_on "Submit"
+      expect(page).to have_content("All wagers must be in increments of $10.")
+    end
+
+  end
+
+
   scenario "As a user I can create a proposed wager" do
     register_users_and_create_a_wager("Alexander", "Stephen")
     expect(page).to have_css("#show_users")

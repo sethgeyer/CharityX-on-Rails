@@ -14,6 +14,22 @@ feature "Deposit and View Funds in an Account" do
     expect(page).to have_css("#homepage")
   end
 
+  context "Deposits greater than $1000 or not in increments of $10" do``
+    scenario "As a user, I can not make a deposit worth more than $1000" do
+      fill_in_registration_form("Stephen")
+      fund_my_account_with_a_credit_card(1001)
+      expect(page).to have_css("#new_deposits")
+      expect(page).to have_content("All deposits must be in increments of $10 and no more than $1000.")
+    end
+
+    scenario "As a user, I can not make a deposit worth more than $1000" do
+      fill_in_registration_form("Stephen")
+      fund_my_account_with_a_credit_card(9)
+      expect(page).to have_css("#new_deposits")
+      expect(page).to have_content("All deposits must be in increments of $10 and no more than $1000.")
+    end
+
+  end
   scenario "As a user, I can add funds to my account and see deposit totals" do
     fill_in_registration_form("Stephen")
     fund_my_account_with_a_credit_card(400)
