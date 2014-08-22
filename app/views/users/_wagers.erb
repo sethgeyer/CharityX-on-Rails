@@ -1,0 +1,37 @@
+
+
+  <% if kenny_loggins.account%>
+    <% if proposed_wager.wagerer_outcome == "I Lost"%>
+      <div class="outcome">I Lost!</div>
+    <%else%>
+      <div class="outcome">I Won!</div>
+    <%end%>
+    <%= link_to "Rematch?", new_account_proposed_wager_path(proposed_wager.account, pwid: proposed_wager)%>
+  <%else%>
+    <% if proposed_wager.wagerer_outcome == "I Lost"%>
+      <div class="outcome">I Won!</div>
+    <%else%>
+      <div class="outcome">I Lost!</div>
+    <%end%>
+    <%= link_to "Rematch?", new_account_proposed_wager_path(@account, pwid: proposed_wager) %>
+  <%end%>
+
+
+
+
+
+
+  <% if kenny_loggins.account == proposed_wager.account && proposed_wager.wagerer_outcome == "I Lost" %>
+    <div class="outcome">I Lost!</div>
+  <% elsif kenny_loggins.account == proposed_wager.account && proposed_wager.wageree_outcome == "I Lost"%>
+    <div class="outcome">I Won!</div>
+  <% elsif kenny_loggins.account != proposed_wager.account && proposed_wager.wagerer_outcome == "I Lost"%>
+    <div class="outcome">I Won!</div>
+  <% elsif kenny_loggins.account != proposed_wager.account && proposed_wager.wageree_outcome == "I Lost"%>
+    <div class="outcome">I Lost!</div>
+  <%end%>
+  <% if kenny_loggins.account == proposed_wager.account %>
+    <%= link_to "Rematch?", new_account_proposed_wager_path(proposed_wager.account, pwid: proposed_wager)%>
+  <%else%>
+    <%= link_to "Rematch?", new_account_proposed_wager_path(@account, pwid: proposed_wager) %>
+  <%end%>
