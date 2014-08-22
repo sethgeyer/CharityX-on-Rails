@@ -63,6 +63,8 @@
   <br/>
   <br/>
 
+  <% if !@proposed_wagers == [] || !@wageree_wagers == [] %>
+
   <h3>Wagers</h3>
 
   <div id="proposed_wagers_table">
@@ -161,6 +163,6 @@
     <div id="wagered-chips">WAGERS Chips:<%= @wagered_chips.count %></div>
     <div id="net-chips">NET Chips:<%= @unallocated_chips.count %></div>
   </div>
-
+<%end%>
   </div>
   </div>
