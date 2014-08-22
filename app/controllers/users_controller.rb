@@ -43,8 +43,8 @@ class UsersController < ApplicationController
       @winnings_total = (@account.proposed_wagers.where(wageree_outcome: "I Lost").where(status: "completed").sum(:amount) / 100) + (ProposedWager.where(wageree_id: kenny_loggins.id, status: "completed").where(wagerer_outcome: "I Lost").sum(:amount) / 100) - ( (@account.proposed_wagers.where(wagerer_outcome: "I Lost").where(status: "completed").sum(:amount) / 100) + (ProposedWager.where(wageree_id: kenny_loggins.id, status: "completed").where(wageree_outcome: "I Lost").sum(:amount) / 100))
 
       @net_amount = @deposit_total - @distribution_total - @wagered_total + @winnings_total
-      @proposed_wagers = @account.proposed_wagers
-      @wageree_wagers = ProposedWager.where(wageree_id: kenny_loggins.id)
+      @proposed_wagers = @account.proposed_wagers + ProposedWager.where(wageree_id: kenny_loggins.id)
+      # @wageree_wagers = ProposedWager.where(wageree_id: kenny_loggins.id)
     else
       flash[:notice] = "You are not authorized to visit this page"
       redirect_to root_path
