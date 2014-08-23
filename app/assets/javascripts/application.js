@@ -25,22 +25,31 @@ $(document).ready( function() {
 
     var outcome = $wager.find('.outcome');
     var date = $wager.attr('data-attribute-date');
+    var status = $wager.attr('data-attribute-status');
+    console.log(status)
+    if (status == 'w/wageree') {
+      if (date < 0) {
+        $wager.find('.outcome-flag').addClass('outcome-show').addClass('expired');
+      }
+      else {
+        $wager.find('.outcome-flag').addClass('outcome-show').addClass('pending');
+      }
+    }
 
+    else if (status == 'accepted') {
+        $wager.find('.outcome-flag').addClass('outcome-show').addClass('accepted');
+      }
 
-    if (outcome.html() == null)  {
-      $wager.find('.outcome-flag').addClass('outcome-show').addClass('pending');
-    }
-    else if (outcome.html().indexOf('I Lost!') != -1) {
-      $wager.find('.outcome-flag').addClass('outcome-show').addClass('loss');
-    }
-    else if (outcome.html().indexOf('I Won!') != -1) {
-      $wager.find('.outcome-flag').addClass('outcome-show').addClass('victory');
-    }
+    else if (status == 'completed') {
+      $wager.find('.outcome-flag').addClass('outcome-show').addClass('completed');
+    };
+
     if (outcome.html() == null && date < 0) {
       $wager.addClass('past-due-outcome');
-    }
-  });
+      $wager.find(".wager-actions").append("The outcome date has passed.  Identify whether you won or lost this wager.")
+    };
 
+  });
 
   $('.expand-icon').on('click', function() {
     $(this).toggleClass('glyphicon-th-list').toggleClass('glyphicon-circle-arrow-up')
@@ -58,11 +67,5 @@ $(document).ready( function() {
   $('.my-btn').on('mouseleave', function() {
     $(this).toggleClass('my-active-btn')
   })
-
-
-
-$('.wager-border').draggable()
-
-
 
 });

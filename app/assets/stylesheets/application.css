@@ -135,7 +135,7 @@ margin-top: -5px;
     display:inline-block;
     height: 40px;
     min-width: 120px;
-    max-width: 1230px;
+    max-width: 230px;
 }
 
 .blue-bordered {
@@ -207,35 +207,6 @@ margin-top: -5px;
     display:none;
 }
 
-/*.outcome-show-loss {*/
-    /*background-color: maroon;*/
-    /*display:inline-block;*/
-    /*width:13px;*/
-    /*height:13px;*/
-    /*border-radius:3px;*/
-    /*border:1px solid white;*/
-    /*opacity:.5;*/
-/*}*/
-
-/*.outcome-show-victory {*/
-    /*background-color: darkgreen;*/
-    /*display:inline-block;*/
-    /*width:13px;*/
-    /*height:13px;*/
-    /*border-radius:100%;*/
-    /*border:1px solid white;*/
-    /*opacity:.5;*/
-/*}*/
-
-/*.outcome-show-pending {*/
-    /*background-color: darkgoldenrod;*/
-    /*display:inline-block;*/
-    /*width:13px;*/
-    /*height:13px;*/
-    /*border-radius:100%;*/
-    /*border:1px solid white;*/
-    /*opacity:.5;*/
-/*}*/
 
 
 .outcome-show {
@@ -247,8 +218,9 @@ margin-top: -5px;
     margin-bottom: -1px
 }
 
-.loss {
+.completed {
     background-color: maroon;
+    border-radius:100%;
 
 }
 
@@ -259,7 +231,14 @@ margin-top: -5px;
 
 }
 
-.victory {
+.expired {
+    background-color: black;
+    border-radius:100%;
+
+
+}
+
+.accepted {
     background-color: darkgreen;
     border-radius:100%;
 
@@ -282,7 +261,7 @@ margin-top: -5px;
 
 
 .past-due-outcome {
-    background-color:#E4EBBC;
+    background-color:#E8A5AB;
 }
 
 
