@@ -120,10 +120,10 @@ margin-top: -5px;
    background-color:#363633;
    display:inline-block;
    padding-top: 8px;
-   padding-left: 4px;
-    height: 40px;
-   min-width: 140px;
-   margin: 2px;
+   height: 40px;
+   margin-top: 2px;
+    margin-bottom: 2px;
+    margin-left: 2px;
     border-top-left-radius: 7px;
     border-bottom-left-radius: 7px;
 }
@@ -131,18 +131,20 @@ margin-top: -5px;
 .contents{
     color: #363633;
     text-align: center;
-    padding-top: 8px;
+    padding-top: 12px;
     display:inline-block;
     height: 40px;
-    min-width: 120px;
-    max-width: 230px;
+    margin-right: -4px;
+    text-align: center;
+
 }
 
 .blue-bordered {
     background-color:whitesmoke;
     border: 1px solid darkblue;
     border-radius: 10px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+    /*padding-top: 8px;*/
 }
 
 .round-button {
@@ -164,40 +166,13 @@ margin-top: -5px;
     border: 1px solid darkblue;
     background-color: whitesmoke;
     padding: 5px;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     border-radius: 10px;
 }
 
 #proposed_wagers_table .btn {
     margin-top: 9px;
 }
-
-
-/*.my-btn {*/
-    /*color:white;*/
-    /*border: 1px darkgray solid;*/
-    /*opacity:0.85;*/
-    /*border-radius: 4px;*/
-    /*font-size: 12px;*/
-    /*margin-top: 5px;*/
-    /*text-decoration: none;*/
-/*}*/
-
-
-/*.my-active-btn {*/
-    /*color:white;*/
-    /*border: 1px darkgray solid;*/
-    /*opacity:1;*/
-    /*border-radius: 4px;*/
-    /*font-size: 12px;*/
-    /*margin-top: 5px;*/
-    /*text-decoration: none;*/
-/*}*/
-
-/*.my-btn-maroon { background-color: maroon;}*/
-
-/*.my-btn-gray { background-color: darkgray;}*/
 
 .outcome {
     display:inline-block;

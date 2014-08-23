@@ -1,9 +1,9 @@
 class UserMailer < ActionMailer::Base
-  default from: 'seth.geyer@gmail.com'
+  default from: 'charity-x admin -no reply'
 
   def welcome_email(user)
     @user = user
-    @url = 'http://google.com'
+    @url = 'http://charity-x.herokuapp.com/'
     mail(to: @user.email, subject: "Welcome to Charity-X")
   end
 
