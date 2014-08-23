@@ -147,6 +147,10 @@ margin-top: -5px;
     /*padding-top: 8px;*/
 }
 
+.net-amount {
+    background-color: #80BD89;
+}
+
 .round-button {
     background-color:#3C376B;
     border: 3px solid whitesmoke;

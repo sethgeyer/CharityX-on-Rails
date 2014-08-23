@@ -19,7 +19,9 @@ Rails.application.routes.draw do
 
   resources :charities
 
+  resources :password_resets
 
+  # get "/reset_password/:uid", to: "password_resets#edit"
 
 
 

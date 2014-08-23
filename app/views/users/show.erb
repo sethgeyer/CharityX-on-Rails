@@ -14,7 +14,7 @@
             <%=link_to "+", new_account_deposit_path(@account), class:"round-button"%>
           </div>
           <div id="deposits" class="contents col-xs-5" >
-            $<%= @deposit_total %>
+            $<%=@deposit_total%>
           </div>
         </div>
 
@@ -24,7 +24,7 @@
             <%=link_to "+", new_account_proposed_wager_path(@account), class:"round-button"  %>
           </div>
           <div id="wagers" class="contents col-xs-5" >
-            $<%= @wagered_total %>
+            $<%=@wagered_total%>
           </div>
         </div>
 
@@ -34,7 +34,7 @@
             <%=link_to "+", new_account_distribution_path(@account), class:"round-button"%>
           </div>
           <div id="distributions" class="contents col-xs-5" >
-            $<%= @distribution_total %>
+            $<%=@distribution_total%>
           </div>
         </div>
 
@@ -43,16 +43,16 @@
             Winnings
           </div>
           <div id="winnings" class="contents col-xs-5" >
-            $<%= @winnings_total %>
+            $<%=@winnings_total%>
           </div>
         </div>
 
-        <div class=" blue-bordered row">
+        <div class=" blue-bordered net-amount row">
           <div class="header col-xs-7">
             Net Amount
           </div>
           <div id="net_amount" class="contents col-xs-5" >
-            $<%= @net_amount %>
+            <b>$<%=@net_amount%></b>
           </div>
         </div>
 

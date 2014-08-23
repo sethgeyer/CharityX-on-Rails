@@ -1,0 +1,24 @@
+<div id="new-password-resets">
+
+  <%if @password_reset_request.errors.full_messages.any?%>
+    <p class="errors">Your request can not be completed.</p>
+    <br/>
+    <br/>
+  <%end%>
+
+  <%=form_for @password_reset_request, html: {class: "form-horizontal col-xs-8 col-md-2 registration"}, role:"form" do |f|%>
+
+    <div class="form-group">
+      <%=f.label :email%><br/>
+      <%=f.email_field :email, class:"form-control"%>
+      <div class="errors"><%=@password_reset_request.errors[:email].first if @password_reset_request.errors[:email].any? %></div>
+
+    </div>
+
+    <div class="form-group">
+      <%=f.submit "Submit", class:"btn btn-success"%>
+      <%=link_to "Cancel", root_path%>
+    </div>
+  <%end%>
+
+</div>

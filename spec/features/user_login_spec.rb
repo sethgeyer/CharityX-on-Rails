@@ -31,5 +31,35 @@ feature "visitor login" do
     expect(page).to have_css("#show_users")
   end
 
+  context "Visitor forgot their password and wishes to reset it" do
+    before(:each) do
+      fill_in_registration_form("Stephen")
+      click_on "Logout"
+      expect(page).to have_content("Forgot Password")
+      click_on "Forgot Password"
+    end
+
+    scenario "registrered user can reset their forgotten password" do
+      expect(page).to have_css("#new-password-resets")
+      fill_in "Email", with: ""
+      click_on "Submit"
+      expect(page).to have_css("#new-password-resets")
+      expect(page).to have_content("Your request can not be completed.")
+    end
+
+    scenario "registrered user can reset their forgotten password" do
+      expect(page).to have_css("#new-password-resets")
+      fill_in "Email", with: "stephen@gmail.com"
+      click_on "Submit"
+      expect(page).to have_css("#homepage")
+      expect(page).to have_content("Password reset instructions have been sent to stephen@gmail.com")
+    end
+
+
+
+  end
+
+
+
 end
 
