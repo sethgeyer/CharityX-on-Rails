@@ -1,8 +1,11 @@
+
+<h3>New Password</h3>
+
 <%=form_for @requester, html: {class: "form-horizontal col-xs-8 col-md-2"}, role:"form"  do |f|%>
 
   <div id="password" class="form-group">
     <label for="password">Password</label><br>
-    <input id="password" name="password"><br><br>
+    <input id="password" name="password" type="password"><br><br>
     <input type="hidden" name="email" value="<%=@requester.email%>">
     <div class="errors"><%=@requester.errors[:password].first if @requester.errors[:password].any? %></div>
   </div>
