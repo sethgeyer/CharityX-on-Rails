@@ -17,7 +17,7 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       account = Account.new
       account.user_id = session[:user_id]
-      account.save!
+      if account.save
       flash[:notice] = "Thanks for registering #{@user.username}. You are now logged in."
       UserMailer.welcome_email(@user).deliver
       redirect_to user_path(kenny_loggins)
