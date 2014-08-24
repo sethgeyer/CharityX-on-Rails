@@ -8,11 +8,11 @@ class UserMailer < ActionMailer::Base
   end
 
 
-  # def password_reset_email(requester)
-  #   @requester = requester
-  #   @unique_identifier = requester.unique_identifier
-  #   mail(to: @requester.email, subject: "Welcome to Charity-X")
-  # end
+  def password_reset_email(requester)
+    @requester = requester
+    @unique_identifier = requester.unique_identifier
+    mail(to: @requester.email, subject: "Welcome to Charity-X")
+  end
 
 
 
