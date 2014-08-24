@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default from: 'charity-x admin -no reply'
+  default from: 'seth.geyer@gmail.com'
 
   def welcome_email(user)
     @user = user
