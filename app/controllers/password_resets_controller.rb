@@ -26,20 +26,22 @@ class PasswordResetsController < ApplicationController
   end
 
   def update
-    @user = User.find_by(email: params[:email])
-    if params[:password] != ""
+    @user = User.where(email: params[:email]).last
+
+    # if PasswordReset.where(email: params[:email]).last.unique_identifier != params[:id]
+    #   flash[:notice] = "This link is no longer valid"
+    #   redirect_to root_path
+    # else
       @user.password = params[:password]
-    end
-
-    if @user.save
-      flash[:notice] = "Your password has been updated"
-      redirect_to root_path
-    else
-      flash[:notice] = "Your password must be at least 7 characters"
-
-      @requester = PasswordReset.where(email: params[:email]).first
-      render :edit
-    end
+      if @user.save
+        flash[:notice] = "Your password has been updated"
+        redirect_to root_path
+      else
+        flash[:notice] = "Your password must be at least 7 characters"
+        @requester = PasswordReset.where(email: params[:email]).first
+        render :edit
+      end
+    # end
   end
 
 end

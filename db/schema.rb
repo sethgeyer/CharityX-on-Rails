@@ -76,9 +76,9 @@ ActiveRecord::Schema.define(version: 20140823214954) do
   end
 
   create_table "password_resets", force: true do |t|
-    t.string  "email"
-    t.integer "unique_identifier"
-    t.date    "expiration_date"
+    t.string "email"
+    t.string "unique_identifier"
+    t.date   "expiration_date"
   end
 
   create_table "proposed_wagers", force: true do |t|
