@@ -30,11 +30,6 @@ class PasswordResetsController < ApplicationController
     @user = User.where(email: params[:email]).last
 
     if PasswordReset.find_by(unique_identifier: params[:secret_uid]).expiration_date < Time.now
-      puts ""
-      p "T/F: + #{PasswordReset.find_by(unique_identifier: params[:secret_uid]).expiration_date < Time.now}"
-      p PasswordReset.find_by(unique_identifier: params[:secret_uid])
-      p "Exp Date #{PasswordReset.find_by(unique_identifier: params[:secret_uid]).expiration_date}"
-      p "Now: #{Time.now}"
       flash[:notice] = "Your password reset request has expired.  Please create another request"
       redirect_to root_path
 

@@ -26,7 +26,7 @@ feature "View and Create a Proposed Wagers" do
       fill_in "proposed_wager_date_of_wager", with: "2014-07-31"
       fill_in "proposed_wager_details", with: "Game to 21, standard rules apply"
       fill_in "proposed_wager_amount", with: 109
-      select "alexandery", from: "proposed_wager_wageree_id"
+      fill_in "With:", with: "alexandery"
       click_on "Submit"
       expect(page).to have_content("All wagers must be in increments of $10.")
     end
@@ -67,7 +67,7 @@ feature "View and Create a Proposed Wagers" do
       fill_in "proposed_wager_date_of_wager", with: "2014-07-31"
       fill_in "proposed_wager_details", with: "Game to 21, standard rules apply"
       fill_in "proposed_wager_amount", with: 500
-      select "alexandery", from: "proposed_wager_wageree_id"
+      fill_in "With:", with: "alexandery"
       click_on "Submit"
       expect(page).to have_css("#new_proposed_wagers")
       expect(page).to have_content("You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $300")

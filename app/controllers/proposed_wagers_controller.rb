@@ -16,10 +16,10 @@ class ProposedWagersController < ApplicationController
             if rematch_wager.account == @account  || rematch_wager.wageree_id == kenny_loggins.id
               @proposed_wager.title = rematch_wager.title
               @proposed_wager.details = rematch_wager.details
-              @proposed_wager.wageree_id = if rematch_wager.account == @account
-                                             rematch_wager.wageree_id
+              @wageree_username = if rematch_wager.account == @account
+                                             User.find(rematch_wager.wageree_id).username
                                            else
-                                             rematch_wager.account.user_id
+                                             rematch_wager.account.user.username
                                            end
               @proposed_wager.amount = rematch_wager.amount / 100
 
@@ -42,7 +42,7 @@ class ProposedWagersController < ApplicationController
     @proposed_wager.title = params[:proposed_wager][:title]
     @proposed_wager.date_of_wager = params[:proposed_wager][:date_of_wager]
     @proposed_wager.details = params[:proposed_wager][:details]
-    @proposed_wager.wageree_id = params[:proposed_wager][:wageree_id].to_i
+    @proposed_wager.wageree_id = User.find_by(username: params[:wageree_username]).id
     @proposed_wager.status = "w/wageree"
     if amount % 10 == 0 && amount >=10
       @proposed_wager.amount = amount * 100
@@ -56,7 +56,10 @@ class ProposedWagersController < ApplicationController
           #UNTESTED ########################################################
           Chip.new.change_status_to_wagered(@proposed_wager.account.id, @proposed_wager.amount)
           ################
-          wageree = User.find(params[:proposed_wager][:wageree_id].to_i)
+          # wageree = User.find(params[:proposed_wager][:wageree_id].to_i)
+          wageree = User.find_by(username: params[:wageree_username])
+
+
           flash[:notice] = "Your proposed wager has been sent to #{wageree.username}."
           redirect_to user_path(kenny_loggins)
         end

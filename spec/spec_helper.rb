@@ -132,6 +132,6 @@ def register_users_and_create_a_wager(wageree, wagerer)
   fill_in "proposed_wager_date_of_wager", with: "2017-07-31"
   fill_in "proposed_wager_details", with: "Game to 21, standard rules apply"
   fill_in "proposed_wager_amount", with: 100
-  select "alexandery", from: "proposed_wager_wageree_id"
+  fill_in "With:", with: "alexandery"
   click_on "Submit"
 end
