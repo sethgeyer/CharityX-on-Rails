@@ -27,7 +27,7 @@ feature "password reset" do
 
   context "registered user receives the reset password email" do
     before(:each) do
-      PasswordReset.create(email: "stephen@gmail.com", unique_identifier: "9999")
+      PasswordReset.create(email: "stephen@gmail.com", unique_identifier: "9999", expiration_date: Time.now + 1.day)
     end
 
 
@@ -56,8 +56,8 @@ feature "password reset" do
 
   context "registered user receives two reset password email" do
     before(:each) do
-      first_notice = PasswordReset.create(email: "stephen@gmail.com", unique_identifier: "9998")
-      second_notice = PasswordReset.create(email: "stephen@gmail.com", unique_identifier: "9999")
+      first_notice = PasswordReset.create(email: "stephen@gmail.com", unique_identifier: "9998", expiration_date: Time.now + 1.day)
+      second_notice = PasswordReset.create(email: "stephen@gmail.com", unique_identifier: "9999", expiration_date: Time.now + 1.day)
     end
 
 
@@ -67,14 +67,32 @@ feature "password reset" do
       click_on "Submit"
       expect(page).to have_css("#homepage")
       expect(page).to have_content("This link is no longer valid")
+    end
+
+    scenario "registered user can only ever use the most recent link" do
+      visit "/password_resets/9999/edit"
+      fill_in "New Password", with: "password"
+      click_on "Submit"
+      expect(page).to have_css("#homepage")
+      expect(page).to have_content("Your password has been updated")
+    end
+  end
+
+  context "PasswordReset Token has passed its expiration date" do
+    before(:each) do
+      expired_notice = PasswordReset.create(email: "stephen@gmail.com", unique_identifier: "9999", expiration_date: Time.now - 1.day)
+    end
+
+    scenario "Registered user can not reset their password" do
+      visit "/password_resets/9999/edit"
+      fill_in "New Password", with: "password"
+      click_on "Submit"
+      expect(page).to have_css("#homepage")
+      expect(page).to have_content("Your password reset request has expired.")
 
     end
 
-
-
   end
-
-
 end
 
 

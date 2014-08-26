@@ -7,6 +7,7 @@
     <label for="password">New Password</label><br>
     <input id="password" name="password" type="password"><br><br>
     <input type="hidden" name="email" value="<%=@requester.email%>">
+    <input type="hidden" name="secret_uid" value="<%=@secret_uid%>">
     <div class="errors"><%=@requester.errors[:password].first if @requester.errors[:password].any? %></div>
   </div>
 

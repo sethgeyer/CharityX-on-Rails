@@ -21,27 +21,41 @@ class PasswordResetsController < ApplicationController
   end
 
   def edit
-    @requester = PasswordReset.where(unique_identifier: params[:id]).first
+    @secret_uid = params[:id]
+    @requester = PasswordReset.where(unique_identifier: @secret_uid).first
     # @user = User.find_by(email: user_email)
   end
 
   def update
     @user = User.where(email: params[:email]).last
 
-    # if PasswordReset.where(email: params[:email]).last.unique_identifier != params[:id]
-    #   flash[:notice] = "This link is no longer valid"
-    #   redirect_to root_path
-    # else
+    if PasswordReset.find_by(unique_identifier: params[:secret_uid]).expiration_date < Time.now
+      puts ""
+      p "T/F: + #{PasswordReset.find_by(unique_identifier: params[:secret_uid]).expiration_date < Time.now}"
+      p PasswordReset.find_by(unique_identifier: params[:secret_uid])
+      p "Exp Date #{PasswordReset.find_by(unique_identifier: params[:secret_uid]).expiration_date}"
+      p "Now: #{Time.now}"
+      flash[:notice] = "Your password reset request has expired.  Please create another request"
+      redirect_to root_path
+
+    elsif PasswordReset.where(email: params[:email]).last.unique_identifier != params[:secret_uid]
+      flash[:notice] = "This link is no longer valid."
+      redirect_to root_path
+
+    else
       @user.password = params[:password]
+
       if @user.save
-        flash[:notice] = "Your password has been updated"
+        flash[:notice] = "Your password has been updated."
         redirect_to root_path
       else
-        flash[:notice] = "Your password must be at least 7 characters"
+        flash[:notice] = "Your password must be at least 7 characters."
         @requester = PasswordReset.where(email: params[:email]).first
         render :edit
       end
-    # end
+
+    end
+
   end
 
 end
