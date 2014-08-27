@@ -32,7 +32,7 @@ class PasswordResetsController < ApplicationController
       flash[:notice] = "Your password reset request has expired.  Please create another request"
       redirect_to root_path
 
-    elsif PasswordReset.where(email: params[:email]).last.unique_identifier != params[:secret_uid]
+    elsif PasswordReset.where(email: params[:email]).order("id ASC").last.unique_identifier != params[:secret_uid]
       flash[:notice] = "This link is no longer valid."
       redirect_to root_path
 
