@@ -282,6 +282,13 @@ feature "View and Create a Proposed Wagers" do
         click_on "Logout"
         login_a_registered_user("Alexander")
         expect(page.find("#public-wagers")).to have_content("Public Ping Pong")
+        click_on "Shake on it"
+        expect(page.find("#wagers")).to have_content("$100")
+        expect(page.find("#wagers")).not_to have_content("$10000")
+        expect(page.find("#wagered-chips")).to have_content("Chips:10")
+        expect(page.find("#net_amount")).to have_content(900)
+        expect(page.find("#net-chips")).to have_content("Chips:90")
+
 
       end
     end

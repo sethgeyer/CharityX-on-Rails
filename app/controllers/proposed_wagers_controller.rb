@@ -92,7 +92,7 @@ class ProposedWagersController < ApplicationController
       else
 
         #test this _________________________________________________________________________
-        # @proposed_wager.wageree_id = @account.user_id if @proposed_wager.wageree_id == nil
+        @proposed_wager.wageree_id = @account.user_id if @proposed_wager.wageree_id == nil
         #-------------------------------------
         @proposed_wager.status = "accepted"
         Chip.new.change_status_to_wagered(kenny_loggins.account.id, @proposed_wager.amount) if @proposed_wager.save!
