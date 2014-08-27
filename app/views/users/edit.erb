@@ -26,7 +26,7 @@
         <%=f.text_field :profile_picture, class:"form-control"%>
       </div>
       <div class="form-group">
-        <%=f.submit "Submit", class:"btn btn-success"%>
+        <%=f.submit "Submit", class:"btn btn-success", data: { disable_with: "Please Wait..." }%>
         <%=link_to "Cancel", user_path(kenny_loggins)%>
       </div>
     <%end%>

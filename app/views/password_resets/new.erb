@@ -17,7 +17,7 @@
     </div>
 
     <div class="form-group">
-      <%=f.submit "Submit", class:"btn btn-success"%>
+      <%=f.submit "Submit", class:"btn btn-success", data: { disable_with: "Please Wait..." }%>
       <%=link_to "Cancel", root_path%>
     </div>
   <%end%>

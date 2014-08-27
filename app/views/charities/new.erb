@@ -22,7 +22,7 @@
     </div>
     <input type="hidden" name="status" value="unregistered"/>
     <div class="form-group">
-      <%=f.submit "Submit", class:"btn btn-success"%>
+      <%=f.submit "Submit", class:"btn btn-success", data: { disable_with: "Please Wait..." }%>
       <%= link_to "Cancel", charities_path%>
     </div>
   <%end%>
