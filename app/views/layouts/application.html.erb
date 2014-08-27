@@ -78,7 +78,7 @@
         <%=form_for @user, url: login_path, html: {class: "navbar-form navbar-right", role: 'form'}  do |f|%>
           <div class="form-group">
             <%=f.label :username, class:'sr-only'%>
-            <%=f.text_field :username, placeholder: "username", class:'form-control'%>
+            <%=f.text_field :username, placeholder: "username or email", class:'form-control'%>
           </div>
           <div class="form-group">
             <%=f.label :password, class:'sr-only'%>

@@ -24,10 +24,19 @@ feature "visitor login" do
     expect(page).to have_css("#show_users")
   end
 
-  scenario "registered user logs in" do
+  scenario "registered user logs in using their username" do
     fill_in_registration_form("Stephen")
     click_on "Logout"
     login_a_registered_user("Stephen")
+    expect(page).to have_css("#show_users")
+  end
+
+  scenario "registered user logs in using their email" do
+    fill_in_registration_form("Stephen")
+    click_on "Logout"
+    fill_in "Username", with: "stephen@gmail.com"
+    fill_in "Password", with: "stephen"
+    click_on "Login"
     expect(page).to have_css("#show_users")
   end
 

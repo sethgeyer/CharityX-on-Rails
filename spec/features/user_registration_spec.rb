@@ -30,6 +30,9 @@ feature "visitor registration" do
     expect(page).to have_css("#show_users")
   end
 
+
+
+
   scenario "visitor fills in registration form only partially" do
     name = "Stephen"
     visit "/users/new"
@@ -65,5 +68,21 @@ feature "visitor registration" do
     expect(page).to have_css("#new_users")
     expect(page).to have_content("Username is not unique.  Please select another.")
   end
+
+  scenario "visitor fills in registration form using a non-unique email" do
+    fill_in_registration_form("Stephen")
+    click_on "Logout"
+    name = "Stephen"
+    visit "/users/new"
+    within(page.find(".registration")) { fill_in "Username", with: "lancey" }
+    within(page.find(".registration")) { fill_in "Email", with: "#{name.downcase}@gmail.com" }
+    within(page.find(".registration")) { fill_in "Password", with: name.downcase }
+    within(page.find(".registration")) { fill_in "Profile picture", with: "http://google.com" }
+    within(page.find(".registration")) { click_on "Submit" }
+    expect(page).to have_css("#new_users")
+    expect(page).to have_content("already exists")
+  end
+
+
 
 end
