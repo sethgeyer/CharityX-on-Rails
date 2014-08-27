@@ -79,7 +79,12 @@
                 <div class="expand-icon glyphicon glyphicon-th-list"></div>
                 <div class="outcome-flag"></div>
                 <% if kenny_loggins.account == proposed_wager.account %>
-                  <%= "I bet #{User.find_by(id: proposed_wager.wageree_id).username.capitalize} $#{proposed_wager.amount / 100} on #{proposed_wager.title}" %>
+                  <%wageree = if proposed_wager.wageree_id%>
+                                <%User.find_by(id: proposed_wager.wageree_id).username.capitalize%>
+                              <%else%>
+                                <%"the Public"%>
+                              <%end%>
+                  <%= "I bet #{wageree} $#{proposed_wager.amount / 100} on #{proposed_wager.title}" %>
                 <% else %>
                   <%= "#{User.find_by(id: proposed_wager.account.user_id).username.capitalize} bet me $#{proposed_wager.amount / 100} on #{proposed_wager.title}" %>
                 <% end %>
@@ -136,6 +141,73 @@
         <br/>
 
       <% end %>
+
+
+
+
+      <% if @public_wagers.count > 0 %>
+
+        <div class="row">
+          <h3>Public Wagers</h3>
+        </div>
+
+        <div id="public-wagers" class="row">
+          <% @public_wagers.each do |proposed_wager| %>
+            <div class="wager-border" data-attribute-status=<%= proposed_wager.status %> data-attribute-date=<%= (proposed_wager.date_of_wager - Date.today).to_i %>>
+
+              <div class="wager-title">
+                <div class="expand-icon glyphicon glyphicon-th-list"></div>
+                <div class="outcome-flag"></div>
+                  <%= "#{User.find_by(id: proposed_wager.account.user_id).username.capitalize} bet the Public $#{proposed_wager.amount / 100} on #{proposed_wager.title}" %>
+              </div>
+
+              <div class="wager-details">
+                Date: <%= proposed_wager.date_of_wager %> |
+                Status: <%= proposed_wager.status %>
+                <% if proposed_wager.details == nil || proposed_wager.details == "" %>
+                <% else %>
+                  <br/>
+                  <i>Details: <%= proposed_wager.details %></i>
+                <% end %>
+              </div>
+
+              <div class="wager-actions">
+                <%= form_for [proposed_wager.account, proposed_wager] do |f| %>
+                  <%= f.submit "Shake on it", class: "btn btn-xs btn-success" %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+
+        </div>
+        <br/>
+
+      <% end %>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       <div id="chip-count">
         <b>CHIP COUNT</b>
 

@@ -28,8 +28,7 @@ class PasswordResetsController < ApplicationController
 
   def update
     @user = User.where(email: params[:email]).last
-
-    if PasswordReset.find_by(unique_identifier: params[:secret_uid]).expiration_date < Time.now
+    if PasswordReset.find_by(unique_identifier: params[:secret_uid]).expiration_date < Time.now.to_date
       flash[:notice] = "Your password reset request has expired.  Please create another request"
       redirect_to root_path
 

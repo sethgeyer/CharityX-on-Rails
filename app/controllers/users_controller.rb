@@ -46,11 +46,13 @@ class UsersController < ApplicationController
 
       @net_amount = @deposit_total - @distribution_total - @wagered_total + @winnings_total
       @proposed_wagers = @account.proposed_wagers + ProposedWager.where(wageree_id: kenny_loggins.id)
+      @public_wagers = ProposedWager.where(wageree_id: nil).where('account_id != ?', @account.id )
       # @wageree_wagers = ProposedWager.where(wageree_id: kenny_loggins.id)
     else
       flash[:notice] = "You are not authorized to visit this page"
       redirect_to root_path
     end
+
   end
 
   def edit

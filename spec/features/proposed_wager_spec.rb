@@ -268,16 +268,22 @@ feature "View and Create a Proposed Wagers" do
         click_on "Submit"
         expect(page).to have_css("#show_users")
         expect(page).to have_content("Your proposed wager has been sent to stepheny.")
-
-
       end
-
-
-
-
-
 
     end
 
+
+    context "User does not have a person to bet with" do
+      scenario "As a user I can create a wager w/out a known wageree " do
+        create_a_public_wager("Alexander", "Michael", "Stephen")
+        expect(page).to have_css("#show_users")
+        expect(page).to have_content("No username was provided.  Your wager is listed in the public wagers section")
+        expect(page).to have_content("Public Ping Pong")
+        click_on "Logout"
+        login_a_registered_user("Alexander")
+        expect(page.find("#public-wagers")).to have_content("Public Ping Pong")
+
+      end
+    end
 
 end

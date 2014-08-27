@@ -42,7 +42,10 @@ class ProposedWagersController < ApplicationController
     @proposed_wager.title = params[:proposed_wager][:title]
     @proposed_wager.date_of_wager = params[:proposed_wager][:date_of_wager]
     @proposed_wager.details = params[:proposed_wager][:details]
-    @proposed_wager.wageree_id = User.find_by(username: params[:wageree_username]).id
+    if User.find_by(username: params[:wageree_username])
+      @proposed_wager.wageree_id = User.find_by(username: params[:wageree_username]).id
+    end
+
     @proposed_wager.status = "w/wageree"
     if amount % 10 == 0 && amount >=10
       @proposed_wager.amount = amount * 100
@@ -57,10 +60,12 @@ class ProposedWagersController < ApplicationController
           Chip.new.change_status_to_wagered(@proposed_wager.account.id, @proposed_wager.amount)
           ################
           # wageree = User.find(params[:proposed_wager][:wageree_id].to_i)
-          wageree = User.find_by(username: params[:wageree_username])
-
-
-          flash[:notice] = "Your proposed wager has been sent to #{wageree.username}."
+          if User.find_by(username: params[:wageree_username])
+            wageree = User.find_by(username: params[:wageree_username])
+            flash[:notice] = "Your proposed wager has been sent to #{wageree.username}."
+          else
+            flash[:notice] = "No username was provided.  Your wager is listed in the public wagers section"
+          end
           redirect_to user_path(kenny_loggins)
         end
       end
@@ -85,6 +90,10 @@ class ProposedWagersController < ApplicationController
       if @account.chips.where(status: "available").count < (@proposed_wager.amount / 100 / 10)
         flash[:notice] = "You don't have adequate funds to accept this wager.  Please add additional funds to your account."
       else
+
+        #test this _________________________________________________________________________
+        # @proposed_wager.wageree_id = @account.user_id if @proposed_wager.wageree_id == nil
+        #-------------------------------------
         @proposed_wager.status = "accepted"
         Chip.new.change_status_to_wagered(kenny_loggins.account.id, @proposed_wager.amount) if @proposed_wager.save!
       end
