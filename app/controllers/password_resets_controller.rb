@@ -1,5 +1,6 @@
 class PasswordResetsController < ApplicationController
 
+  require 'securerandom'
   skip_before_action :ensure_current_user, only: [:new, :create, :edit, :update]
 
   def new
