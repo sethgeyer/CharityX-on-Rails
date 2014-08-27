@@ -268,3 +268,8 @@ margin-top: -5px;
 .field_with_errors {
     display:inline
 }
+
+.shade-out {
+    background-color: red;
+    width:90%;
+}

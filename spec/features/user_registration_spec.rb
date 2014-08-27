@@ -14,6 +14,9 @@ feature "visitor registration" do
     expect(page).to have_css("#show_users")
   end
 
+
+
+
   scenario "registered visitor completes login form correctly and routes to show page for the user" do
     fill_in_registration_form("Stephen")
     click_on "Logout"
@@ -33,8 +36,20 @@ feature "visitor registration" do
     within(page.find(".registration")) { fill_in "Email", with: "#{name}@gmail.com" }
     within(page.find(".registration")) { fill_in "Password", with: name.downcase }
     within(page.find(".registration")) { click_on "Submit" }
-    expect(page).to have_css(".registration")
+    expect(page).to have_css("#new_users")
     expect(page).to have_content("Username can't be blank")
+  end
+
+
+  scenario "visitor fills in registration form using an '@' symbol" do
+    name = "Stephen"
+    visit "/users/new"
+    within(page.find(".registration")) { fill_in "Username", with: "@#{name.downcase}y" }
+    within(page.find(".registration")) { fill_in "Email", with: "#{name}@gmail.com" }
+    within(page.find(".registration")) { fill_in "Password", with: name.downcase }
+    within(page.find(".registration")) { click_on "Submit" }
+    expect(page).to have_css("#new_users")
+    expect(page).to have_content("can only be letters, underscore, or numbers")
   end
 
   scenario "visitor fills in registration form using a non-unique username" do
