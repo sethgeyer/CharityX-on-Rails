@@ -273,7 +273,7 @@ feature "View and Create a Proposed Wagers" do
     end
 
 
-    context "User does not have a person to bet with" do
+    context "User does not have another registered user to bet with" do
       scenario "As a user I can create a wager w/out a known wageree " do
         create_a_public_wager("Alexander", "Michael", "Stephen")
         expect(page).to have_css("#show_users")
@@ -288,9 +288,30 @@ feature "View and Create a Proposed Wagers" do
         expect(page.find("#wagered-chips")).to have_content("Chips:10")
         expect(page.find("#net_amount")).to have_content(900)
         expect(page.find("#net-chips")).to have_content("Chips:90")
+      end
 
+      context "User wants to solicit a non-registered-friend to join the site by proposing a wager to the friend"
+
+      scenario "As a user, I can solicit a non-registered user to bet w/ me" do
+        user_creates_a_solicitation_wager("AlexTheUser", "BillTheNonUser")
+        expect(page).to have_css("#show_users")
+        expect(page).to have_content("A solicitation email has been sent to billthenonuser@gmail.com")
+        expect(page).to have_content("Solicit Ping Pong")
+      end
+
+      scenario "As a non-registered-friend, I can accept a friend's solicitation to wager" do
+        user_creates_a_solicitation_wager("AlexTheUser", "BillTheNonUser")
+        click_on "logout"
+        #click on emailed link
+        #can say, no thanks
+        #can say, yes
+        #can create a registration
+        #can accept the wager
 
       end
+
+
+
     end
 
 end

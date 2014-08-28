@@ -155,3 +155,15 @@ def create_a_public_wager(potential_wageree1, potential_wageree2, wagerer)
   fill_in "With:", with: ""
   click_on "Submit"
 end
+
+def user_creates_a_solicitation_wager(wagererTheUser, wagereeTheNonUser)
+  fill_in_registration_form(wagererTheUser)
+  fund_my_account_with_a_credit_card(1000)
+  within(page.find("#wager-funds")) {click_link "+"}
+  fill_in "proposed_wager_title", with: "Solicit Ping Pong"
+  fill_in "proposed_wager_date_of_wager", with: "2017-07-31"
+  fill_in "proposed_wager_details", with: "Game to 21, standard rules apply"
+  fill_in "proposed_wager_amount", with: 100
+  fill_in "With:", with: "#{wagereeTheNonUser.downcase}@gmail.com"
+  click_on "Submit"
+end
