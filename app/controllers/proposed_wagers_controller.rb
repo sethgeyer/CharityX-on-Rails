@@ -47,7 +47,12 @@ class ProposedWagersController < ApplicationController
     if User.find_by(username: params[:wageree_username]) #|| User.find_by(email: params[:user][:username].downcase)
       @proposed_wager.wageree_id = User.find_by(username: params[:wageree_username]).id #|| User.find_by(email: params[:user][:username].downcase).id
     elsif params[:wageree_username].include?("@")
-      # @proposed_wager.wageree_id = SecureRandom.uuid
+      # non_registered_user_wageree_id = SecureRandom.uuid
+      # @proposed_wager.wageree_id = non_registered_user_wageree_id
+      # new_wager_with_non_registered_user = NonRegisteredWager.new
+      # new_wager_with_non_registered_user.unique_id = non_registered_user_wageree_id
+      # new_wager_with_non_registered_user.non_registered_user = params[:wageree_username]
+      # new_wager_with_non_registered_user.save!
     else
 
     end
@@ -70,6 +75,7 @@ class ProposedWagersController < ApplicationController
             wageree = User.find_by(username: params[:wageree_username])
             flash[:notice] = "Your proposed wager has been sent to #{wageree.username}."
           elsif params[:wageree_username].include?("@")
+            @non_registered_wageree_id = @proposed_wager.wageree_id
             flash[:notice] = "A solicitation email has been sent to #{params[:wageree_username]}"
           else
             flash[:notice] = "No username was provided.  Your wager is listed in the public wagers section"

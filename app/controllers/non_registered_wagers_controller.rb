@@ -1,0 +1,3 @@
+class NonRegisteredWagersController < ApplicationController
+
+end

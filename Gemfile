@@ -50,5 +50,7 @@ group :development, :test do
   gem "pry-byebug"
   gem "pry-rails"
   gem "launchy"
+  gem "database_cleaner"
+  gem "selenium-webdriver"
 end
 
