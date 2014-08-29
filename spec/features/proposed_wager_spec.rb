@@ -53,6 +53,16 @@ feature "View and Create a Proposed Wagers" do
     expect(page.find("#net_amount")).to have_content(300)
   end
 
+  scenario "As a user I can not create a proposed wager w/out a date" do
+
+  end
+
+
+
+
+
+
+
 
   context "As a wagerer," do
     before(:each) do

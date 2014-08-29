@@ -76,6 +76,8 @@ class ProposedWagersController < ApplicationController
             new_wager_with_non_registered_user.non_registered_user = params[:wageree_username]
             new_wager_with_non_registered_user.save!
 
+            # WagerMailer.set_default_from(kenny_loggins.email)
+
             WagerMailer.send_non_registered_user_wager(new_wager_with_non_registered_user).deliver
 
 
