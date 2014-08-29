@@ -71,10 +71,10 @@ class WagersController < ApplicationController
 
 
 
-            new_wager_with_non_registered_user = NonRegisteredWager.new
+            new_wager_with_non_registered_user = NonRegisteredUser.new
             new_wager_with_non_registered_user.wager_id = @wager.id
-            new_wager_with_non_registered_user.unique_id = SecureRandom.uuid
-            new_wager_with_non_registered_user.non_registered_user = params[:wageree_username]
+            # new_wager_with_non_registered_user.unique_id = SecureRandom.uuid
+            new_wager_with_non_registered_user.email = params[:wageree_username]
             new_wager_with_non_registered_user.save!
 
             # WagerMailer.set_default_from(kenny_loggins.email)
