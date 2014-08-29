@@ -10,6 +10,9 @@ class UsersController < ApplicationController
   def create
     @user = User.new
     @user.username = params[:user][:username]
+    @user.first_name = params[:user][:last_name]
+    @user.last_name = params[:user][:last_name]
+
     @user.email = params[:user][:email].downcase
     @user.password = params[:user][:password]
     @user.profile_picture = params[:user][:profile_picture]
@@ -81,6 +84,8 @@ class UsersController < ApplicationController
   def update
     @user = kenny_loggins
     @user.email = params[:user][:email].downcase
+    @user.first_name = params[:user][:first_name]
+    @user.last_name = params[:user][:last_name]
 
     if params[:user][:password] != ""
       @user.password = params[:user][:password]
