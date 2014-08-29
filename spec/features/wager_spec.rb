@@ -54,7 +54,35 @@ feature "View and Create a Proposed Wagers" do
   end
 
   scenario "As a user I can not create a proposed wager w/out a date" do
+    fill_in_registration_form("Alexander")
+    fund_my_account_with_a_credit_card(1000)
+    click_on "Logout"
+    fill_in_registration_form("Stephen")
+    fund_my_account_with_a_credit_card(400)
+    within(page.find("#wager-funds")) {click_link "+"}
+    fill_in "wager_title", with: "Ping Pong Match between S & A"
+    # fill_in "wager_date_of_wager", with: "2014-07-31"
+    fill_in "wager_details", with: "Game to 21, standard rules apply"
+    fill_in "wager_amount", with: 100
+    fill_in "With:", with: "alexandery"
+    click_on "Submit"
+    expect(page).to have_content("can't be blank")
+  end
 
+  scenario "As a user I can not create a proposed wager w/out a title" do
+    fill_in_registration_form("Alexander")
+    fund_my_account_with_a_credit_card(1000)
+    click_on "Logout"
+    fill_in_registration_form("Stephen")
+    fund_my_account_with_a_credit_card(400)
+    within(page.find("#wager-funds")) {click_link "+"}
+    # fill_in "wager_title", with: "Ping Pong Match between S & A"
+    fill_in "wager_date_of_wager", with: "2014-07-31"
+    fill_in "wager_details", with: "Game to 21, standard rules apply"
+    fill_in "wager_amount", with: 100
+    fill_in "With:", with: "alexandery"
+    click_on "Submit"
+    expect(page).to have_content("can't be blank")
   end
 
 

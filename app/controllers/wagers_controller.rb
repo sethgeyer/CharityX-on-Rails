@@ -10,7 +10,7 @@ class WagersController < ApplicationController
           redirect_to user_path(kenny_loggins)
         else
           @wager = Wager.new
-          @list_of_users = User.where('id != ?', kenny_loggins.id)
+          # @list_of_users = User.where('id != ?', kenny_loggins.id)
           if params[:pwid]
             rematch_wager = Wager.find(params[:pwid])
             if rematch_wager.account == @account  || rematch_wager.wageree_id == kenny_loggins.id
@@ -46,17 +46,21 @@ class WagersController < ApplicationController
     #The || needs to be tested
     if User.find_by(username: params[:wageree_username]) #|| User.find_by(email: params[:user][:username].downcase)
       @wager.wageree_id = User.find_by(username: params[:wageree_username]).id #|| User.find_by(email: params[:user][:username].downcase).id
+    else
+      @wager.wageree_id = nil
     end
     @wager.status = "w/wageree"
     if amount % 10 == 0 && amount >=10
       @wager.amount = amount * 100
       if @account.chips.where(status: "available").count < (amount / 10)
         @wager.amount = @account.chips.where(status: "available").count * 10
-        @list_of_users = User.where('id != ?', kenny_loggins.id)
+        # @list_of_users = User.where('id != ?', kenny_loggins.id)
         flash[:amount] = "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{@account.chips.where(status: "available").count * 10}"
+        @wageree_username = params[:wageree_username]
+        @wager.amount = amount
         render :new
       else
-        if @wager.save!
+        if @wager.save
           #UNTESTED ########################################################
           Chip.new.change_status_to_wagered(@wager.account.id, @wager.amount)
           ################
@@ -89,10 +93,16 @@ class WagersController < ApplicationController
             flash[:notice] = "No username was provided.  Your wager is listed in the public wagers section"
           end
           redirect_to user_path(kenny_loggins)
+        else
+          @wager.amount = amount
+          @wageree_username = params[:wageree_username]
+          render :new
         end
       end
     else
-      @list_of_users = User.where('id != ?', kenny_loggins.id)
+      @wager.amount = amount
+      @wageree_username = params[:wageree_username]
+      # @list_of_users = User.where('id != ?', kenny_loggins.id)
       flash[:amount] = "All wagers must be in increments of $10."
       render :new
 

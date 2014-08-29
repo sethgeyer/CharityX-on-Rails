@@ -24,11 +24,14 @@
     <div class="form-group">
       <%=f.label :title, "On: " %><br/>
       <%=f.text_field :title, class:"form-control", placeholder:"thing your wagering on"%>
+      <div class="errors"><%=@wager.errors[:title].first if @wager.errors[:title].any? %></div>
+
     </div>
 
     <div class="form-group">
       <%=f.label :date_of_wager, "Date of Wager"%><br/>
       <%=f.date_field :date_of_wager, class:"form-control"%>
+      <div class="errors"><%=@wager.errors[:date_of_wager].first if @wager.errors[:date_of_wager].any? %></div>
     </div>
 
     <div class="form-group">
