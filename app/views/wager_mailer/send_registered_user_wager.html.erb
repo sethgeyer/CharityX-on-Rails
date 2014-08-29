@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+  </head>
+  <body>
+  <h4>Charity-x is a non-profit organization focused on making giving more fun.  </h4>
+
+  <p><%=@wager.account.user.username.capitalize%> has propositioned you to wager on Charity-x.</p>
+
+  <div>Wagerer: <%=@wager.account.user.username.capitalize%></div>
+  <div>Wants to bet on: <%=@wager.title%></div>
+  <div>Amount: <%=@wager.amount%></div>
+  <div>Details: <%=@wager.details%></div>
+  <div>Date: <%=@wager.date_of_wager%></div>
+
+  <p>Click here to go to Charity-x:  <%=link_to "charity-x-login", @url, class:"btn btn-success"%>  </p>
+
+  </body>
+</html>

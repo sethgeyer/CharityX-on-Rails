@@ -64,6 +64,7 @@ class ProposedWagersController < ApplicationController
           if User.find_by(username: params[:wageree_username])
             wageree = User.find_by(username: params[:wageree_username])
             flash[:notice] = "Your proposed wager has been sent to #{wageree.username}."
+            WagerMailer.send_registered_user_wager(@proposed_wager).deliver
           elsif params[:wageree_username].include?("@")
 
 

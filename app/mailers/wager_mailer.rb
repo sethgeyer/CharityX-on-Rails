@@ -14,5 +14,12 @@ class WagerMailer < ActionMailer::Base
     mail(to: @non_registered_user, subject: "Wanna bet for a good cause?")
   end
 
+  def send_registered_user_wager(wager)
+    @wager = wager
+    @wageree = User.find(wager.wageree_id)
+    @url = 'http://charity-x.herokuapp.com/'
+    mail(to: @wageree.email, subject: "#{@wager.account.user.username.capitalize} wants to bet...")
+  end
+
 
 end
