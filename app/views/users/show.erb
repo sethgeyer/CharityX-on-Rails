@@ -80,7 +80,9 @@
                 <div class="outcome-flag"></div>
                 <% if kenny_loggins.account == proposed_wager.account %>
                   <%wageree = if proposed_wager.wageree_id%>
-                                <%User.find_by(id: proposed_wager.wageree_id).username.capitalize%>
+                                  <%User.find_by(id: proposed_wager.wageree_id).username.capitalize%>
+                              <%elsif proposed_wager.non_registered_wager%>
+                                <%proposed_wager.non_registered_wager.non_registered_user%>
                               <%else%>
                                 <%"the Public"%>
                               <%end%>

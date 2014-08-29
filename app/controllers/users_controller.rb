@@ -18,6 +18,18 @@ class UsersController < ApplicationController
       account = Account.new
       account.user_id = session[:user_id]
       account.save
+
+      if NonRegisteredWager.find_by(non_registered_user: @user.email)
+        non_registered_wager = NonRegisteredWager.find_by(non_registered_user: @user.email)
+        wager = ProposedWager.find(non_registered_wager.proposed_wager.id)
+        wager.wageree_id = @user.id
+        wager.save
+        non_registered_wager.destroy
+      end
+
+
+
+
       flash[:notice] = "Thanks for registering #{@user.username}. You are now logged in."
       UserMailer.welcome_email(@user).deliver
       redirect_to user_path(kenny_loggins)
@@ -46,7 +58,7 @@ class UsersController < ApplicationController
 
       @net_amount = @deposit_total - @distribution_total - @wagered_total + @winnings_total
       @proposed_wagers = @account.proposed_wagers + ProposedWager.where(wageree_id: kenny_loggins.id)
-      @public_wagers = ProposedWager.where(wageree_id: nil).where('account_id != ?', @account.id )
+      @public_wagers = ProposedWager.where(wageree_id: nil).where('account_id != ?', @account.id ).select { |wager| wager.non_registered_wager == nil}
       # @wageree_wagers = ProposedWager.where(wageree_id: kenny_loggins.id)
     else
       flash[:notice] = "You are not authorized to visit this page"

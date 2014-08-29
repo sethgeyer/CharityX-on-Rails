@@ -296,19 +296,20 @@ feature "View and Create a Proposed Wagers" do
         user_creates_a_solicitation_wager("AlexTheUser", "BillTheNonUser")
         expect(page).to have_css("#show_users")
         expect(page).to have_content("A solicitation email has been sent to billthenonuser@gmail.com")
-        expect(page.find("#proposed_wagers_table")).to have_content("I bet billthenonuser@gmail.com on Ping Pong")
-        expect(page).to have_content()
+        expect(page.find("#proposed_wagers_table")).to have_content("I bet billthenonuser@gmail.com $100 on Ping Pong")
       end
 
       scenario "As a non-registered-friend, I can accept a friend's solicitation to wager" do
         user_creates_a_solicitation_wager("AlexTheUser", "BillTheNonUser")
         click_on "Logout"
+        fill_in_registration_form("Michael")
+        expect(page).not_to have_content("Ping Pong")
+        click_on "Logout"
 
-        #click on emailed link
-        #can say, no thanks
-        #can say, yes
-        #can create a registration
-        #can accept the wager
+        fill_in_registration_form("BillTheNonUser")
+
+        expect(page.find("#proposed_wagers_table")).to have_content("Ping Pong")
+        expect(page).to have_content("Alextheusery bet me $100 on Ping Pong")
 
       end
 
