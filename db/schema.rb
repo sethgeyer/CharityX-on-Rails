@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140829024708) do
+ActiveRecord::Schema.define(version: 20140829180131) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,28 +78,13 @@ ActiveRecord::Schema.define(version: 20140829024708) do
   create_table "non_registered_wagers", force: true do |t|
     t.string  "unique_id"
     t.string  "non_registered_user"
-    t.integer "proposed_wager_id"
+    t.integer "wager_id"
   end
 
   create_table "password_resets", force: true do |t|
     t.string "email"
     t.string "unique_identifier"
     t.date   "expiration_date"
-  end
-
-  create_table "proposed_wagers", force: true do |t|
-    t.integer  "account_id"
-    t.string   "title"
-    t.date     "date_of_wager"
-    t.string   "details"
-    t.integer  "amount"
-    t.integer  "wageree_id"
-    t.string   "status"
-    t.string   "wagerer_outcome"
-    t.string   "wageree_outcome"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "winner_id"
   end
 
   create_table "users", force: true do |t|
@@ -114,5 +99,20 @@ ActiveRecord::Schema.define(version: 20140829024708) do
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+
+  create_table "wagers", force: true do |t|
+    t.integer  "account_id"
+    t.string   "title"
+    t.date     "date_of_wager"
+    t.string   "details"
+    t.integer  "amount"
+    t.integer  "wageree_id"
+    t.string   "status"
+    t.string   "wagerer_outcome"
+    t.string   "wageree_outcome"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "winner_id"
+  end
 
 end

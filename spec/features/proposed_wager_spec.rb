@@ -10,7 +10,7 @@ feature "View and Create a Proposed Wagers" do
   end
 
   scenario "As a visitor, I should not be able to visit the new proposed wager view directly via the URL " do
-    visit "/accounts/1/proposed_wagers/new"
+    visit "/accounts/1/wagers/new"
     expect(page).to have_css("#homepage")
   end
 
@@ -22,10 +22,10 @@ feature "View and Create a Proposed Wagers" do
       fill_in_registration_form("Stephen")
       fund_my_account_with_a_credit_card(400)
       within(page.find("#wager-funds")) {click_link "+"}
-      fill_in "proposed_wager_title", with: "Ping Pong Match between S & A"
-      fill_in "proposed_wager_date_of_wager", with: "2014-07-31"
-      fill_in "proposed_wager_details", with: "Game to 21, standard rules apply"
-      fill_in "proposed_wager_amount", with: 109
+      fill_in "wager_title", with: "Ping Pong Match between S & A"
+      fill_in "wager_date_of_wager", with: "2014-07-31"
+      fill_in "wager_details", with: "Game to 21, standard rules apply"
+      fill_in "wager_amount", with: 109
       fill_in "With:", with: "alexandery"
       click_on "Submit"
       expect(page).to have_content("All wagers must be in increments of $10.")
@@ -73,10 +73,10 @@ feature "View and Create a Proposed Wagers" do
 
     scenario "I can not bet more dollars than are currently available in my account" do
       within(page.find("#wager-funds")) {click_link "+"}
-      fill_in "proposed_wager_title", with: "Ping Pong Match between S & A"
-      fill_in "proposed_wager_date_of_wager", with: "2014-07-31"
-      fill_in "proposed_wager_details", with: "Game to 21, standard rules apply"
-      fill_in "proposed_wager_amount", with: 500
+      fill_in "wager_title", with: "Ping Pong Match between S & A"
+      fill_in "wager_date_of_wager", with: "2014-07-31"
+      fill_in "wager_details", with: "Game to 21, standard rules apply"
+      fill_in "wager_amount", with: 500
       fill_in "With:", with: "alexandery"
       click_on "Submit"
       expect(page).to have_css("#new_proposed_wagers")
@@ -248,7 +248,7 @@ feature "View and Create a Proposed Wagers" do
         expect(page).to have_link("Rematch")
         click_on "Rematch"
         expect(page).to have_css("#new_proposed_wagers")
-        fill_in "proposed_wager_date_of_wager", with: "2017-07-31"
+        fill_in "wager_date_of_wager", with: "2017-07-31"
         click_on "Submit"
         expect(page).to have_css("#show_users")
         expect(page).to have_content("Your proposed wager has been sent to alexandery.")
@@ -274,7 +274,7 @@ feature "View and Create a Proposed Wagers" do
         login_a_registered_user("Alexander")
         click_on "Rematch"
         expect(page).to have_css("#new_proposed_wagers")
-        fill_in "proposed_wager_date_of_wager", with: "2017-07-31"
+        fill_in "wager_date_of_wager", with: "2017-07-31"
         click_on "Submit"
         expect(page).to have_css("#show_users")
         expect(page).to have_content("Your proposed wager has been sent to stepheny.")

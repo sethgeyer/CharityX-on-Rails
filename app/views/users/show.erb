@@ -21,7 +21,7 @@
         <div class="blue-bordered row">
           <div id="wager-funds" class="header col-xs-7">
             Active Wagers
-            <%=link_to "+", new_account_proposed_wager_path(@account), class:"round-button"  %>
+            <%=link_to "+", new_account_wager_path(@account), class:"round-button"  %>
           </div>
           <div id="wagers" class="contents col-xs-5" >
             $<%=@wagered_total%>
@@ -112,9 +112,9 @@
                     <% end %>
                   </div>
                   <% if kenny_loggins.account == proposed_wager.account %>
-                    <%= link_to "Rematch?", new_account_proposed_wager_path(proposed_wager.account, pwid: proposed_wager) %>
+                    <%= link_to "Rematch?", new_account_wager_path(proposed_wager.account, pwid: proposed_wager) %>
                   <% else %>
-                    <%= link_to "Rematch?", new_account_proposed_wager_path(@account, pwid: proposed_wager) %>
+                    <%= link_to "Rematch?", new_account_wager_path(@account, pwid: proposed_wager) %>
                   <% end %>
                 <% else %>
                   <% if kenny_loggins.account == proposed_wager.account %>

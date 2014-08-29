@@ -50,8 +50,8 @@ describe Chip do
     it "changes the status of the chips to wagered" do
       available_chips = Chip.where(account_id: @account.id).where(status: "available")
       expect(available_chips.count).to eq(20)
-      @proposed_wager = ProposedWager.create(account_id: @account.id, title: "Pong Match", date_of_wager: "2014-08-14", details: "A vs. S", amount: 2000, wageree_id: @wageree.id)
-      @chip.change_status_to_wagered(@proposed_wager.account.id, @proposed_wager.amount )
+      @wager = Wager.create(account_id: @account.id, title: "Pong Match", date_of_wager: "2014-08-14", details: "A vs. S", amount: 2000, wageree_id: @wageree.id)
+      @chip.change_status_to_wagered(@wager.account.id, @wager.amount )
       available_chips = Chip.where(account_id: @account.id).where(status: "available")
       expect(available_chips.count).to eq(18)
       wagered_chips = Chip.where(account_id: @account.id).where(status: "wagered")

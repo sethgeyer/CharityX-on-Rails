@@ -21,7 +21,7 @@ class UsersController < ApplicationController
 
       if NonRegisteredWager.find_by(non_registered_user: @user.email)
         non_registered_wager = NonRegisteredWager.find_by(non_registered_user: @user.email)
-        wager = ProposedWager.find(non_registered_wager.proposed_wager.id)
+        wager = Wager.find(non_registered_wager.wager.id)
         wager.wageree_id = @user.id
         wager.save
         non_registered_wager.destroy
@@ -51,14 +51,14 @@ class UsersController < ApplicationController
       ###################
       @deposit_total = @account.deposits.sum(:amount) / 100
       @distribution_total = @account.distributions.sum(:amount) / 100
-      @wagered_total = (@account.proposed_wagers.where(winner_id: nil).sum(:amount) / 100) + (ProposedWager.where(wageree_id: kenny_loggins.id, status: "accepted").where(winner_id: nil).sum(:amount) / 100)
+      @wagered_total = (@account.wagers.where(winner_id: nil).sum(:amount) / 100) + (Wager.where(wageree_id: kenny_loggins.id, status: "accepted").where(winner_id: nil).sum(:amount) / 100)
 
       # @winnings_total = (@account.proposed_wagers.where(winner_id: kenny_loggins.id).sum(:amount) / 100) + (ProposedWager.where(wageree_id: kenny_loggins.id).where(winner_id: kenny_loggins.id).sum(:amount) / 100) - ( (@account.proposed_wagers.where('winner_id != ?', kenny_loggins.id).sum(:amount) / 100) + (ProposedWager.where(wageree_id: kenny_loggins.id).where('winner_id != ?', kenny_loggins.id).sum(:amount) / 100))
-      @winnings_total = (ProposedWager.where(winner_id: kenny_loggins.id).sum(:amount) / 100) - ( (@account.proposed_wagers.where('winner_id != ?', kenny_loggins.id).sum(:amount) / 100) + (ProposedWager.where(wageree_id: kenny_loggins.id).where('winner_id != ?', kenny_loggins.id).sum(:amount) / 100))
+      @winnings_total = (Wager.where(winner_id: kenny_loggins.id).sum(:amount) / 100) - ( (@account.wagers.where('winner_id != ?', kenny_loggins.id).sum(:amount) / 100) + (Wager.where(wageree_id: kenny_loggins.id).where('winner_id != ?', kenny_loggins.id).sum(:amount) / 100))
 
       @net_amount = @deposit_total - @distribution_total - @wagered_total + @winnings_total
-      @proposed_wagers = @account.proposed_wagers + ProposedWager.where(wageree_id: kenny_loggins.id)
-      @public_wagers = ProposedWager.where(wageree_id: nil).where('account_id != ?', @account.id ).select { |wager| wager.non_registered_wager == nil}
+      @proposed_wagers = @account.wagers + Wager.where(wageree_id: kenny_loggins.id)
+      @public_wagers = Wager.where(wageree_id: nil).where('account_id != ?', @account.id ).select { |wager| wager.non_registered_wager == nil}
       # @wageree_wagers = ProposedWager.where(wageree_id: kenny_loggins.id)
     else
       flash[:notice] = "You are not authorized to visit this page"
