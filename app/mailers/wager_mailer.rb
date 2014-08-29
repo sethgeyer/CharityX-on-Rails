@@ -7,9 +7,9 @@ class WagerMailer < ActionMailer::Base
 
   default from: "wager-invitation@charity-x.com-no-reply"
 
-  def send_non_registered_user_wager(non_registered_wager)
-    @wager = Wager.find(non_registered_wager.wager.id)
-    @non_registered_user = non_registered_wager.email
+  def send_non_registered_user_wager(non_registered_user)
+    @wager = Wager.find(non_registered_user.wager.id)
+    @non_registered_user = non_registered_user.email
     @url = 'http://charity-x.herokuapp.com/'
     mail(to: @non_registered_user, subject: "Wanna bet for a good cause?")
   end

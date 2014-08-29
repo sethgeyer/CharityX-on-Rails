@@ -163,9 +163,9 @@ class WagersController < ApplicationController
 
   def destroy
     # if wagerer withdraws the bet
-    proposed_wager = Wager.find(params[:id])
-    proposed_wager.destroy
-    Chip.new.change_status_to_available(kenny_loggins.account.id, proposed_wager.amount)
+    wager = Wager.find(params[:id])
+    wager.destroy
+    Chip.new.change_status_to_available(kenny_loggins.account.id, wager.amount)
     redirect_to user_path(kenny_loggins)
   end
 
