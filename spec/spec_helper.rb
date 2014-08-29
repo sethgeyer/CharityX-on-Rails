@@ -82,6 +82,8 @@ end
 
 def fill_in_registration_form(name)
   visit "/users/new"
+  within(page.find(".registration")) {fill_in "First name", with: "Steve"}
+  within(page.find(".registration")) {fill_in "Last name", with: "Ward"}
   within(page.find(".registration")) { fill_in "Username", with: "#{name.downcase}y" }
   within(page.find(".registration")) { fill_in "Email", with: "#{name.downcase}@gmail.com" }
   within(page.find(".registration")) { fill_in "Password", with: name.downcase }

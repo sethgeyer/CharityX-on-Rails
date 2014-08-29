@@ -9,6 +9,20 @@
     <%end%>
 
     <%=form_for @user, html: {class: "form-horizontal col-xs-8 col-md-2"}, role:"form"  do |f|%>
+    <div id="first-name" class="form-group">
+      <%=f.label :first_name%><br/>
+      <%=f.text_field :first_name, class:"form-control"%>
+      <div class="errors"><%=@user.errors[:first_name].first if @user.errors[:first_name].any? %></div>
+    </div>
+
+    <div id="email" class="form-group">
+      <%=f.label :last_name%><br/>
+      <%=f.text_field :last_name, class:"form-control"%>
+      <div class="errors"><%=@user.errors[:last_name].first if @user.errors[:last_name].any? %></div>
+    </div>
+
+
+
       <div id="email" class="form-group">
         <%=f.label :email%><br/>
         <%=f.text_field :email, class:"form-control"%>
