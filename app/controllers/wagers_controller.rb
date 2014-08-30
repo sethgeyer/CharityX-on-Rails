@@ -44,8 +44,9 @@ class WagersController < ApplicationController
     @wager.details = params[:wager][:details]
 
     #The || needs to be tested
-    if User.find_by(username: params[:wageree_username]) || User.find_by(email: params[:user][:username])
-      @wager.wageree_id = User.find_by(username: params[:wageree_username]).id || User.find_by(email: params[:user][:username]).id
+    registered_user = User.find_by(username: params[:wageree_username]) || User.find_by(email: params[:wageree_username])
+    if registered_user
+      @wager.wageree_id = registered_user.id
     else
       @wager.wageree_id = nil
     end
@@ -65,9 +66,8 @@ class WagersController < ApplicationController
           Chip.new.change_status_to_wagered(@wager.account.id, @wager.amount)
           ################
           # wageree = User.find(params[:proposed_wager][:wageree_id].to_i)
-          if User.find_by(username: params[:wageree_username])
-            wageree = User.find_by(username: params[:wageree_username])
-            flash[:notice] = "Your proposed wager has been sent to #{wageree.username}."
+          if registered_user
+            flash[:notice] = "Your proposed wager has been sent to #{registered_user.username}."
             WagerMailer.send_registered_user_wager(@wager).deliver
           elsif params[:wageree_username].include?("@")
 
