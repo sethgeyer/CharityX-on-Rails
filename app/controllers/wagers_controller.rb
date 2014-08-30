@@ -44,8 +44,8 @@ class WagersController < ApplicationController
     @wager.details = params[:wager][:details]
 
     #The || needs to be tested
-    if User.find_by(username: params[:wageree_username]) #|| User.find_by(email: params[:user][:username].downcase)
-      @wager.wageree_id = User.find_by(username: params[:wageree_username]).id #|| User.find_by(email: params[:user][:username].downcase).id
+    if User.find_by(username: params[:wageree_username]) || User.find_by(email: params[:user][:username])
+      @wager.wageree_id = User.find_by(username: params[:wageree_username]).id || User.find_by(email: params[:user][:username]).id
     else
       @wager.wageree_id = nil
     end
