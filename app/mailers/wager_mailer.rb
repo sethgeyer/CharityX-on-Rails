@@ -18,7 +18,7 @@ class WagerMailer < ActionMailer::Base
     @wager = wager
     @wageree = User.find(wager.wageree_id)
     @url = 'http://charity-x.herokuapp.com/'
-    mail(to: @wageree.email, subject: "#{@wager.account.user.username.capitalize} wants to bet...")
+    mail(to: @wageree.email, subject: "#{@wager.account.user.username} wants to bet...")
   end
 
 

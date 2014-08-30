@@ -80,7 +80,7 @@
                 <div class="outcome-flag"></div>
                 <% if kenny_loggins.account == registered_wager.account %>
                   <%wageree = if registered_wager.wageree_id%>
-                                  <%User.find_by(id: registered_wager.wageree_id).username.capitalize%>
+                                  <%User.find_by(id: registered_wager.wageree_id).username%>
                               <%elsif registered_wager.non_registered_user%>
                                 <%registered_wager.non_registered_user.email%>
                               <%else%>
@@ -88,7 +88,7 @@
                               <%end%>
                   <%= "I bet #{wageree} $#{registered_wager.amount / 100} on #{registered_wager.title}" %>
                 <% else %>
-                  <%= "#{User.find_by(id: registered_wager.account.user_id).username.capitalize} bet me $#{registered_wager.amount / 100} on #{registered_wager.title}" %>
+                  <%= "#{User.find_by(id: registered_wager.account.user_id).username} bet me $#{registered_wager.amount / 100} on #{registered_wager.title}" %>
                 <% end %>
               </div>
 
@@ -160,7 +160,7 @@
               <div class="wager-title">
                 <div class="expand-icon glyphicon glyphicon-th-list"></div>
                 <div class="outcome-flag"></div>
-                  <%= "#{User.find_by(id: public_wager.account.user_id).username.capitalize} bet the Public $#{public_wager.amount / 100} on #{public_wager.title}" %>
+                  <%= "#{User.find_by(id: public_wager.account.user_id).username} bet the Public $#{public_wager.amount / 100} on #{public_wager.title}" %>
               </div>
 
               <div class="wager-details">
