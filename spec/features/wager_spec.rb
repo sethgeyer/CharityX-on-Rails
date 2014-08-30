@@ -42,8 +42,8 @@ feature "View and Create a Proposed Wagers" do
     expect(page.find("#proposed_wagers_table")).to have_content("Ping Pong Match")
     expect(page.find("#proposed_wagers_table")).to have_content(100)
     expect(page.find("#proposed_wagers_table")).not_to have_content(10000)
-    expect(page.find("#proposed_wagers_table")).to have_content("Alexandery")
-    expect(page.find("#proposed_wagers_table")).to have_content("I bet Alexandery")
+    expect(page.find("#proposed_wagers_table")).to have_content("alexandery")
+    expect(page.find("#proposed_wagers_table")).to have_content("I bet alexandery")
     expect(page.find("#proposed_wagers_table")).to have_content("w/wageree")
     expect(page.find("#proposed_wagers_table")).not_to have_link("Shake on it")
     expect(page.find("#proposed_wagers_table")).not_to have_button("I Lost") # _______________________
@@ -148,8 +148,8 @@ feature "View and Create a Proposed Wagers" do
       expect(page.find("#proposed_wagers_table")).to have_content("Ping Pong Match")
       expect(page.find("#proposed_wagers_table")).to have_content(100)
       expect(page.find("#proposed_wagers_table")).not_to have_content(10000)
-      expect(page.find("#proposed_wagers_table")).to have_content("Stepheny")
-      expect(page.find("#proposed_wagers_table")).to have_content("Stepheny bet me")
+      expect(page.find("#proposed_wagers_table")).to have_content("stepheny")
+      expect(page.find("#proposed_wagers_table")).to have_content("stepheny bet me")
       expect(page.find("#proposed_wagers_table")).to have_content("w/wageree")
       expect(page.find("#wagers")).to have_content(0)
     end
@@ -345,7 +345,7 @@ feature "View and Create a Proposed Wagers" do
         click_on "Logout"
         fill_in_registration_form("BillTheNonUser")
         expect(page.find("#proposed_wagers_table")).to have_content("Ping Pong")
-        expect(page).to have_content("Alextheusery bet me $100 on Ping Pong")
+        expect(page).to have_content("alextheusery bet me $100 on Ping Pong")
       end
 
 

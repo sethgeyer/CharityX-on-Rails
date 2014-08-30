@@ -273,3 +273,33 @@ margin-top: -5px;
     background-color: red;
     width:90%;
 }
+
+.question {
+    background-color: #1E521F;
+    color:white
+}
+
+.wager-notes {
+    background-color: whitesmoke;
+    border: 1px, solid, #1E521F;
+    border-radius: 3px;
+    padding: 7px;
+    display:none;
+    margin-top:5px;
+    font-size: 13px;
+}
+
+.plain-notes {
+    background-color: white;
+    padding: 5px;
+    border-radius: 3px;
+    margin-top:5px;
+}
+
+.color-notes {
+    background-color: #E1EBE1;
+    padding: 5px;
+    border-radius: 3px;
+    margin-top:5px;
+
+}

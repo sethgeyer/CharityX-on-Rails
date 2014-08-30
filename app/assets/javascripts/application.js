@@ -68,4 +68,13 @@ $(document).ready( function() {
     $(this).toggleClass('my-active-btn')
   })
 
+
+  var wagerNotes = $('.wager-notes')
+  var questionButton = $('.question')
+
+  questionButton.on("click", function() {
+    $(this).parents('#new_proposed_wagers').find('.wager-notes').toggle()
+  })
+
+
 });

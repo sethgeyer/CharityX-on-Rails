@@ -14,12 +14,22 @@
 
     <div class="form-group">
       <label for="wageree_username">With:</label><br/>
-      <input type="text" class="form-control" name="wageree_username" id="wageree_username" value="<%=@wageree_username%>" placeholder="username">
+      <div class="input-group">
+       <input type="text" class="form-control" name="wageree_username" id="wageree_username" value="<%=@wageree_username%>" placeholder="username">
+        <span class="input-group-addon question">?</span>
+      </div>
+      <div class="wager-notes">
+          <b>You have 3 options here:</b>
+          <div class="color-notes"><b>Leave blank</b> to create a public wager that any one can accept.</div>
+          <div class="plain-notes"><b>Input a username</b> to assign the wager to a specific person.</div>
+          <div class="color-notes"><b>Put in a non-registered friend's email.</b>  Upon submission, an email will be sent to your friend asking them to join Charity-x and accept your wager.</div>
+      </div>
 
-      <!--< %=f.label :wageree_username, "With:"%><br/>-->
-      <!--< %=f.text_field :wageree_username, class:"form-control"%>-->
-      <!--< %=f.collection_select :wageree_id, @list_of_users, :id, :username, {}, class:"form-control"%>-->
     </div>
+
+
+
+
 
     <div class="form-group">
       <%=f.label :title, "On: " %><br/>
