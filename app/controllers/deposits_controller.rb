@@ -39,7 +39,7 @@ class DepositsController < ApplicationController
         Chip.new.purchase(kenny_loggins.id, @deposit.account.id, @deposit.amount, @deposit.date_created, "available")
         #################
         flash[:notice] = "Thank you for depositing $#{@deposit.amount / 100} into your account"
-        redirect_to dashboard_path#user_path(kenny_loggins)
+        redirect_to dashboard_path
       else
         @account = kenny_loggins.account
         @deposit = @deposit

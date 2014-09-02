@@ -7,7 +7,7 @@ class WagersController < ApplicationController
         @account = kenny_loggins.account
         if @account.chips.where(status: "available").count == 0
           flash[:notice] = "Your account has a $0 balance.  You must fund your account before you can wager."
-          redirect_to dashboard_path #user_path(kenny_loggins)
+          redirect_to dashboard_path
         else
           @wager = Wager.new
           # @list_of_users = User.where('id != ?', kenny_loggins.id)
@@ -92,7 +92,7 @@ class WagersController < ApplicationController
           else
             flash[:notice] = "No username was provided.  Your wager is listed in the public wagers section"
           end
-          redirect_to dashboard_path#user_path(kenny_loggins)
+          redirect_to dashboard_path
         else
           @wager.amount = amount
           @wageree_username = params[:wageree_username]
@@ -129,7 +129,7 @@ class WagersController < ApplicationController
         @wager.status = "accepted"
         Chip.new.change_status_to_wagered(kenny_loggins.account.id, @wager.amount) if @wager.save!
       end
-      redirect_to dashboard_path#user_path(kenny_loggins)
+      redirect_to dashboard_path
 
     elsif params[:commit] == "I Lost"
       @wager = Wager.where(id: params[:id], status:"accepted").first
@@ -146,7 +146,7 @@ class WagersController < ApplicationController
           losers_chips = Chip.new
           losers_chips.reassign_to_winner(kenny_loggins.account.id, Account.find_by(user_id: @wager.wageree_id).id, @wager.amount )
         end
-        redirect_to dashboard_path#user_path(kenny_loggins)
+        redirect_to dashboard_path
       end
 
 
@@ -164,7 +164,7 @@ class WagersController < ApplicationController
           losers_chips = Chip.new
           losers_chips.reassign_to_winner(kenny_loggins.account.id, @wager.account.id, @wager.amount )
         end
-        redirect_to dashboard_path#user_path(kenny_loggins)
+        redirect_to dashboard_path
       end
 
     end
@@ -176,7 +176,7 @@ class WagersController < ApplicationController
     wager = Wager.find(params[:id])
     wager.destroy
     Chip.new.change_status_to_available(kenny_loggins.account.id, wager.amount)
-    redirect_to dashboard_path#user_path(kenny_loggins)
+    redirect_to dashboard_path
   end
 
 

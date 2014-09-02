@@ -1,0 +1,50 @@
+
+
+<div id="edit_profiles">
+
+  <h1>Update Your Profile</h1>
+
+  <%if @user.errors.any?%>
+    <p class="errors">Your updates can not be saved</p>
+    <br/>
+    <br/>
+  <%end%>
+
+  <%=form_for @user, html: {class: "form-horizontal col-xs-8 col-md-2"}, url: profile_path, role:"form"  do |f|%>
+    <div id="first-name" class="form-group">
+      <%=f.label :first_name%><br/>
+      <%=f.text_field :first_name, class:"form-control"%>
+      <div class="errors"><%=@user.errors[:first_name].first if @user.errors[:first_name].any? %></div>
+    </div>
+
+    <div id="email" class="form-group">
+      <%=f.label :last_name%><br/>
+      <%=f.text_field :last_name, class:"form-control"%>
+      <div class="errors"><%=@user.errors[:last_name].first if @user.errors[:last_name].any? %></div>
+    </div>
+
+
+
+    <div id="email" class="form-group">
+      <%=f.label :email%><br/>
+      <%=f.text_field :email, class:"form-control"%>
+      <div class="errors"><%=@user.errors[:email].first if @user.errors[:email].any? %></div>
+    </div>
+
+    <div id="password" class="form-group">
+      <%=f.label :password, "New Password"%><br/>
+      <%=f.text_field :password, type:"password", class:"form-control"%>
+      <div class="errors"><%=@user.errors[:password].first if @user.errors[:password].any? %></div>
+    </div>
+
+    <div id="profile_picture" class="form-group">
+      <%=f.label :profile_picture%><br/>
+      <%=f.text_field :profile_picture, class:"form-control"%>
+    </div>
+    <div class="form-group">
+      <%=f.submit "Submit", class:"btn btn-success", data: { disable_with: "Please Wait..." }%>
+      <%=link_to "Cancel", dashboard_path%>
+    </div>
+  <%end%>
+
+</div>

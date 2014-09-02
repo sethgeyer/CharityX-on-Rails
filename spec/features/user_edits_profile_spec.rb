@@ -26,7 +26,7 @@ feature "editing user profile" do
     click_on "Edit Profile"
     fill_in "Email", with: ""
     click_on "Submit"
-    expect(page).to have_css("#edit_users")
+    expect(page).to have_css("#edit_profiles")
     expect(page).to have_content("can't be blank")
   end
 
@@ -35,7 +35,7 @@ feature "editing user profile" do
     click_on "Edit Profile"
     fill_in "Password", with: "sds"
     click_on "Submit"
-    expect(page).to have_css("#edit_users")
+    expect(page).to have_css("#edit_profiles")
     expect(page).to have_content("Password must be at least 7 characters")
   end
 
