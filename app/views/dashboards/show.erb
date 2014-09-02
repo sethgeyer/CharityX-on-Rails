@@ -90,6 +90,7 @@
                 <% else %>
                   <%= "#{User.find_by(id: registered_wager.account.user_id).username} bet me $#{registered_wager.amount / 100} on #{registered_wager.title}" %>
                 <% end %>
+                <div class="delete-icon glyphicon glyphicon-remove-sign" ></div>
               </div>
 
               <div class="wager-details">
@@ -161,6 +162,8 @@
                 <div class="expand-icon glyphicon glyphicon-th-list"></div>
                 <div class="outcome-flag"></div>
                   <%= "#{User.find_by(id: public_wager.account.user_id).username} bet the Public $#{public_wager.amount / 100} on #{public_wager.title}" %>
+                <div class="delete-icon glyphicon glyphicon-remove-sign" ></div>
+
               </div>
 
               <div class="wager-details">

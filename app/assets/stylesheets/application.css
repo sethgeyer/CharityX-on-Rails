@@ -253,6 +253,12 @@ margin-top: -5px;
     margin-right: 4px
 }
 
+.delete-icon {
+    margin-top: 4px;
+    margin-right: 4px;
+    float: right;
+}
+
 .close {
     background-color: red;
     width:25px;
@@ -303,3 +309,4 @@ margin-top: -5px;
     margin-top:5px;
 
 }
+

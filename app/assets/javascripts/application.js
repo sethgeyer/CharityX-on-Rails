@@ -59,6 +59,12 @@ $(document).ready( function() {
 
   });
 
+  $('.delete-icon').on('click', function() {
+    $(this).parents('.wager-border').hide();
+
+  });
+
+
 
   $('.my-btn').on('mouseover', function() {
     $(this).toggleClass('my-active-btn')
