@@ -37,11 +37,11 @@ class DistributionsController < ApplicationController
     @distribution = Distribution.new
     @distribution.account_id = @account.id
     @distribution.charity_id = params[:distribution][:charity_id]
-    if amount % 10 == 0 && amount >=10
+    if amount % $ChipValue == 0 && amount >= $ChipValue
       @distribution.amount = amount * 100
-      if @account.chips.where(status: "available").count < (amount / 10)
-        @distribution.amount = @account.chips.where(status: "available").count * 10
-        flash[:amount] = "You don't have sufficient funds for the size of this distribution.  Unless you fund your account, the maximum you can distribute is $#{@account.chips.where(status: "available").count * 10}"
+      if @account.chips.where(status: "available").count < (amount / $ChipValue)
+        @distribution.amount = @account.chips.where(status: "available").count * $ChipValue
+        flash[:amount] = "You don't have sufficient funds for the size of this distribution.  Unless you fund your account, the maximum you can distribute is $#{@account.chips.where(status: "available").count * $ChipValue}"
         render :new
       else
         if @distribution.save!
@@ -55,7 +55,7 @@ class DistributionsController < ApplicationController
       end
     else
       @charities_for_selection = Charity.all
-      flash[:amount] = "All distributions must be in increments of $10."
+      flash[:amount] = "All distributions must be in increments of $#{$ChipValue}."
       render :new
 
     end

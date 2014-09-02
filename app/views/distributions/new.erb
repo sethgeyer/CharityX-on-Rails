@@ -5,7 +5,7 @@
   <%=form_for [@account, @distribution], html: {class: "form-horizontal col-xs-8 col-md-3"}, role:"form"  do |f|%>
     <div class="form-group">
       <%=f.label :amount%>
-      <%=f.text_field :amount, class:"form-control", placeholder: "$10 increments"%>
+      <%=f.text_field :amount, class:"form-control", placeholder: "$#{$ChipValue} increments"%>
       <div class="errors">
         <%=flash[:amount] if flash[:amount]%>
       </div>

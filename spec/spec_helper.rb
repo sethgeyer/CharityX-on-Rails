@@ -106,7 +106,6 @@ def complete_application(charity_name)
 end
 
 def fund_my_account_with_a_credit_card(deposit_amount)
-
   within(page.find("#fund-my-account")) {click_link "+"}
   fill_in "Amount", with: deposit_amount
   fill_in "Credit Card Number", with: 123456789

@@ -5,7 +5,7 @@
 
     <div class="form-group">
       <%=f.label :amount, "I want to bet"%><br/>
-      <%=f.text_field :amount, class:"form-control", placeholder:"$ amount in $10 increments"%>
+      <%=f.text_field :amount, class:"form-control", placeholder:"$ amount in $#{$ChipValue} increments"%>
       <div class="errors">
         <%=flash[:amount] if flash[:amount]%>
       </div>

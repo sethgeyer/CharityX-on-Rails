@@ -1,3 +1,6 @@
+require 'rails_helper'
+require 'capybara/rails'
+
 describe Chip do
   before(:each) do
    @user = User.create(email: "seth.geyer@gmail.com", password: "seth")
@@ -15,7 +18,7 @@ describe Chip do
     it "converts the deposited amount to chips" do
       expect(Chip.all.count).to eq(0)
       @chip.purchase(@user.id, @account.id, @deposit.amount, @deposit.date_created, "available")
-      expect(Chip.all.count).to eq(10)
+      expect(Chip.all.count).to eq(@deposit.amount / 100 / $ChipValue)
       expect(Chip.first.account_id).to eq(@account.id)
       expect(Chip.first.owner_id).to eq(@user.id)
     end
@@ -30,13 +33,13 @@ describe Chip do
 
     it "cashes out the chips upon distribution of dollars" do
       available_chips = Chip.where(account_id: @account.id).where(status: "available")
-      expect(available_chips.count).to eq(20)
+      expect(available_chips.count).to eq(20000 / 100 / $ChipValue)
       @distribution = Distribution.create(account_id: @account.id, amount: 11000, charity_id: @charity.id, date: "2014-08-30" )
       @chip.cash_out(@account.id, @distribution.amount, @distribution.date, @distribution.charity.id)
       available_chips = Chip.where(account_id: @account.id).where(status: "available")
-      expect(available_chips.count).to eq(9)
+      expect(available_chips.count).to eq((20000 - 11000) / 100 / $ChipValue)
       distributed_chips = Chip.where(account_id: @account.id).where(status: "distributed")
-      expect(distributed_chips.count).to eq(11)
+      expect(distributed_chips.count).to eq(11000 / 100 / $ChipValue)
       expect(Chip.first.charity_id).to eq(@charity.id)
     end
   end
@@ -49,20 +52,20 @@ describe Chip do
     end
     it "changes the status of the chips to wagered" do
       available_chips = Chip.where(account_id: @account.id).where(status: "available")
-      expect(available_chips.count).to eq(20)
+      expect(available_chips.count).to eq(20000 / 100 / $ChipValue)
       @wager = Wager.create(account_id: @account.id, title: "Pong Match", date_of_wager: "2014-08-14", details: "A vs. S", amount: 2000, wageree_id: @wageree.id)
       @chip.change_status_to_wagered(@wager.account.id, @wager.amount )
       available_chips = Chip.where(account_id: @account.id).where(status: "available")
-      expect(available_chips.count).to eq(18)
+      expect(available_chips.count).to eq((20000 - 2000) / 100 / $ChipValue)
       wagered_chips = Chip.where(account_id: @account.id).where(status: "wagered")
-      expect(wagered_chips.count).to eq(2)
+      expect(wagered_chips.count).to eq(2000 / 100 / $ChipValue)
     end
   end
 
   describe "#convert_ dollars" do
     it "converts dollars into the equivalent numbrer of chips" do
       chip_equivalancey = @chip.convert_from_pennies_to_chips(12000)
-      expect(chip_equivalancey).to eq(12)
+      expect(chip_equivalancey).to eq(12000 / 100 / $ChipValue)
     end
   end
 
@@ -74,9 +77,9 @@ describe Chip do
     end
 
     it "returns a all chips that have not been distributed or wagered" do
-      expect(Chip.all.count).to eq(26)
+      expect(Chip.all.count).to eq(26000 / 100 / $ChipValue)
       available_chips = @chip.find_the_available(@account.id)
-      expect(available_chips.count).to eq(20)
+      expect(available_chips.count).to eq(20000 / 100 / $ChipValue)
     end
   end
 

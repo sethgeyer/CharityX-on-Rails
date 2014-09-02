@@ -69,7 +69,7 @@ class Chip < ActiveRecord::Base
   end
 
   def convert_from_pennies_to_chips(amount)
-    amount / 100 / 10
+    amount / 100 / $ChipValue
   end
 
 

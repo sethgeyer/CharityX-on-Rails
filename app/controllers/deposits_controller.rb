@@ -32,7 +32,7 @@ class DepositsController < ApplicationController
     @deposit.name_on_card = params[:deposit][:name_on_card]
     @deposit.cc_type = params[:deposit][:cc_type]
     @deposit.date_created = Time.now
-    if amount % 10 == 0 && amount <= 1000 && amount >=10
+    if amount % $ChipValue == 0 && amount <= 1000 && amount >= $ChipValue
       @deposit.amount = amount * 100
       if @deposit.save!
         #UNTESTED ########################################################
@@ -47,7 +47,7 @@ class DepositsController < ApplicationController
       end
     else
       @account = kenny_loggins.account
-      flash[:amount] = "All deposits must be in increments of $10 and no more than $1,000."
+      flash[:amount] = "All deposits must be in increments of $#{$ChipValue} and no more than $1,000."
       render :new
     end
 

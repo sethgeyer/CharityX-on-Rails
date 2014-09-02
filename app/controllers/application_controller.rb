@@ -15,6 +15,6 @@ class ApplicationController < ActionController::Base
 
   helper_method :kenny_loggins
 
-
+  $ChipValue = 5
 
 end

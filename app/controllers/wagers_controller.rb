@@ -1,5 +1,7 @@
 class WagersController < ApplicationController
 
+
+
   def new
 
 
@@ -51,12 +53,12 @@ class WagersController < ApplicationController
       @wager.wageree_id = nil
     end
     @wager.status = "w/wageree"
-    if amount % 10 == 0 && amount >=10
+    if amount % $ChipValue == 0 && amount >= $ChipValue
       @wager.amount = amount * 100
-      if @account.chips.where(status: "available").count < (amount / 10)
-        @wager.amount = @account.chips.where(status: "available").count * 10
+      if @account.chips.where(status: "available").count < (amount / $ChipValue)
+        @wager.amount = @account.chips.where(status: "available").count * $ChipValue
         # @list_of_users = User.where('id != ?', kenny_loggins.id)
-        flash[:amount] = "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{@account.chips.where(status: "available").count * 10}"
+        flash[:amount] = "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{@account.chips.where(status: "available").count * $ChipValue}"
         @wageree_username = params[:wageree_username]
         @wager.amount = amount
         render :new
@@ -103,7 +105,7 @@ class WagersController < ApplicationController
       @wager.amount = amount
       @wageree_username = params[:wageree_username]
       # @list_of_users = User.where('id != ?', kenny_loggins.id)
-      flash[:amount] = "All wagers must be in increments of $10."
+      flash[:amount] = "All wagers must be in increments of $#{$ChipValue}."
       render :new
 
     end
@@ -119,7 +121,7 @@ class WagersController < ApplicationController
     if params[:commit] == "Shake on it"
       @wager = Wager.find(params[:id])
 
-      if @account.chips.where(status: "available").count < (@wager.amount / 100 / 10)
+      if @account.chips.where(status: "available").count < (@wager.amount / 100 / $ChipValue)
         flash[:notice] = "You don't have adequate funds to accept this wager.  Please add additional funds to your account."
       else
 
