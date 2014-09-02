@@ -60,7 +60,7 @@ class WagersController < ApplicationController
         # @list_of_users = User.where('id != ?', kenny_loggins.id)
         flash[:amount] = "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{@account.chips.where(status: "available").count * $ChipValue}"
         @wageree_username = params[:wageree_username]
-        @wager.amount = amount
+        @wager.amount = @account.chips.where(status: "available").count * $ChipValue
         render :new
       else
         if @wager.save

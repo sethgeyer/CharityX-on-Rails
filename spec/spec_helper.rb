@@ -124,48 +124,48 @@ end
 
 def register_users_and_create_a_wager(wageree, wagerer)
   fill_in_registration_form(wageree)
-  fund_my_account_with_a_credit_card(1000)
+  fund_my_account_with_a_credit_card(100)
   click_on "Logout"
   fill_in_registration_form(wagerer)
-  fund_my_account_with_a_credit_card(400)
+  fund_my_account_with_a_credit_card(40)
   #visit "/proposed_wagers/new"
   within(page.find("#wager-funds")) {click_link "+"}
   fill_in "wager_title", with: "Ping Pong Match between S & A"
   fill_in "wager_date_of_wager", with: "2017-07-31"
   fill_in "wager_details", with: "Game to 21, standard rules apply"
-  fill_in "wager_amount", with: 100
+  fill_in "wager_amount", with: 10
   fill_in "With:", with: "alexandery"
   click_on "Submit"
 end
 
 def create_a_public_wager(potential_wageree1, potential_wageree2, wagerer)
   fill_in_registration_form(potential_wageree1)
-  fund_my_account_with_a_credit_card(1000)
+  fund_my_account_with_a_credit_card(100)
   click_on "Logout"
   fill_in_registration_form(potential_wageree2)
-  fund_my_account_with_a_credit_card(1000)
+  fund_my_account_with_a_credit_card(100)
   click_on "Logout"
 
   fill_in_registration_form(wagerer)
-  fund_my_account_with_a_credit_card(400)
+  fund_my_account_with_a_credit_card(40)
 
   within(page.find("#wager-funds")) {click_link "+"}
   fill_in "wager_title", with: "Public Ping Pong"
   fill_in "wager_date_of_wager", with: "2017-07-31"
   fill_in "wager_details", with: "Game to 21, standard rules apply"
-  fill_in "wager_amount", with: 100
+  fill_in "wager_amount", with: 10
   fill_in "With:", with: ""
   click_on "Submit"
 end
 
 def user_creates_a_solicitation_wager(wagererTheUser, wagereeTheNonUser)
   fill_in_registration_form(wagererTheUser)
-  fund_my_account_with_a_credit_card(1000)
+  fund_my_account_with_a_credit_card(100)
   within(page.find("#wager-funds")) {click_link "+"}
   fill_in "wager_title", with: "Ping Pong"
   fill_in "wager_date_of_wager", with: "2017-07-31"
   fill_in "wager_details", with: "Game to 21, standard rules apply"
-  fill_in "wager_amount", with: 100
+  fill_in "wager_amount", with: 10
   fill_in "With:", with: "#{wagereeTheNonUser.downcase}@gmail.com"
   click_on "Submit"
 end

@@ -32,25 +32,25 @@ feature "Deposit and View Funds in an Account" do
   end
   scenario "As a user, I can add funds to my account and see deposit totals" do
     fill_in_registration_form("Stephen")
-    fund_my_account_with_a_credit_card(400)
+    fund_my_account_with_a_credit_card(40)
 
     expect(page).to have_css("#show_dashboards")
-    expect(page).to have_content("Thank you for depositing $400 into your account")
-    expect(page.find("#deposits")).to have_content("$400")
-    expect(page.find("#deposits")).not_to have_content("$40000")
-    expect(page.find("#net_amount")).to have_content("$400")
+    expect(page).to have_content("Thank you for depositing $40 into your account")
+    expect(page.find("#deposits")).to have_content("$40")
+    expect(page.find("#deposits")).not_to have_content("$4000")
+    expect(page.find("#net_amount")).to have_content("$40")
 
-    fund_my_account_with_a_credit_card(500)
+    fund_my_account_with_a_credit_card(50)
 
-    expect(page).to have_content("Thank you for depositing $500 into your account")
-    expect(page.find("#deposits")).to have_content("$900")
-    expect(page.find("#net_amount")).to have_content("$900")
+    expect(page).to have_content("Thank you for depositing $50 into your account")
+    expect(page.find("#deposits")).to have_content("$90")
+    expect(page.find("#net_amount")).to have_content("$90")
   end
 
   scenario "As a user, I should be able to view my history of deposits" do
     fill_in_registration_form("Stephen")
-    fund_my_account_with_a_credit_card(400)
-    fund_my_account_with_a_credit_card(500)
+    fund_my_account_with_a_credit_card(40)
+    fund_my_account_with_a_credit_card(50)
     #can't test this because 'show deposit history is in the navbar nested in a jscript dropdown
     # click_on "Show Deposit History"
     # expect(page).to have_css("#index_deposits")
