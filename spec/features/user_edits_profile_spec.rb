@@ -15,7 +15,7 @@ feature "editing user profile" do
     fill_in "Profile picture", with: "www.google.com"
     click_on "Submit"
     expect(page).to have_content("Your changes have been saved")
-    expect(page).to have_css("#show_users")
+    expect(page).to have_css("#show_dashboards")
     click_on "Edit Profile"
     expect(page).to have_selector("input[value='steve@gmail.com']")
     expect(page).to have_selector("input[value='www.google.com']")
@@ -50,7 +50,7 @@ feature "editing user profile" do
   scenario "user decides to cancel their edits" do
     click_on "Edit Profile"
     click_on "Cancel"
-    expect(page).to have_css("#show_users")
+    expect(page).to have_css("#show_dashboards")
   end
 
 end

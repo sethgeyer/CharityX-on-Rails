@@ -11,7 +11,7 @@ feature "visitor registration" do
     expect(page).not_to have_button("Login")
     expect(page).not_to have_link("Sign Up")
     expect(page).to have_link("Edit Profile")
-    expect(page).to have_css("#show_users")
+    expect(page).to have_css("#show_dashboards")
   end
 
 
@@ -27,7 +27,7 @@ feature "visitor registration" do
     expect(page).not_to have_link("Sign Up")
     expect(page).to have_link("Edit Profile")
     expect(page).to have_link("Charities")
-    expect(page).to have_css("#show_users")
+    expect(page).to have_css("#show_dashboards")
   end
 
 

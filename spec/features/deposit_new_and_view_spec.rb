@@ -34,7 +34,7 @@ feature "Deposit and View Funds in an Account" do
     fill_in_registration_form("Stephen")
     fund_my_account_with_a_credit_card(400)
 
-    expect(page).to have_css("#show_users")
+    expect(page).to have_css("#show_dashboards")
     expect(page).to have_content("Thank you for depositing $400 into your account")
     expect(page.find("#deposits")).to have_content("$400")
     expect(page.find("#deposits")).not_to have_content("$40000")

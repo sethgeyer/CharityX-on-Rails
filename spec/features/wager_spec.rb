@@ -36,7 +36,7 @@ feature "View and Create a Proposed Wagers" do
 
   scenario "As a user I can create a proposed wager" do
     register_users_and_create_a_wager("Alexander", "Stephen")
-    expect(page).to have_css("#show_users")
+    expect(page).to have_css("#show_dashboards")
     expect(page).to have_content("Your proposed wager has been sent to alexandery.")
     # save_and_open_page
     expect(page.find("#proposed_wagers_table")).to have_content("Ping Pong Match")
@@ -157,7 +157,7 @@ feature "View and Create a Proposed Wagers" do
     scenario "I can accept a proposed_wager if I have sufficent funds to wager" do
       expect(page.find("#wagers")).to have_content("$0")
       click_on "Shake on it"
-      expect(page).to have_css("#show_users")
+      expect(page).to have_css("#show_dashboards")
       expect(page.find("#proposed_wagers_table")).not_to have_link("Shake on it")
       expect(page.find("#proposed_wagers_table")).to have_content("accepted")
       expect(page.find("#wagers")).to have_content(100)
@@ -169,7 +169,7 @@ feature "View and Create a Proposed Wagers" do
     scenario "I can NOT accept a proposed_wager if I don't have sufficient funds to wager" do
       distribute_funds_from_my_account(950, "United Way")
       click_on "Shake on it"
-      expect(page).to have_css("#show_users")
+      expect(page).to have_css("#show_dashboards")
       expect(page).to have_content("You don't have adequate funds to accept this wager.  Please add additional funds to your account.")
       expect(page.find("#net_amount")).to have_content("$50")
     end
@@ -278,7 +278,7 @@ feature "View and Create a Proposed Wagers" do
         expect(page).to have_css("#new_proposed_wagers")
         fill_in "wager_date_of_wager", with: "2017-07-31"
         click_on "Submit"
-        expect(page).to have_css("#show_users")
+        expect(page).to have_css("#show_dashboards")
         expect(page).to have_content("Your proposed wager has been sent to alexandery.")
 
       end
@@ -304,7 +304,7 @@ feature "View and Create a Proposed Wagers" do
         expect(page).to have_css("#new_proposed_wagers")
         fill_in "wager_date_of_wager", with: "2017-07-31"
         click_on "Submit"
-        expect(page).to have_css("#show_users")
+        expect(page).to have_css("#show_dashboards")
         expect(page).to have_content("Your proposed wager has been sent to stepheny.")
       end
 
@@ -314,7 +314,7 @@ feature "View and Create a Proposed Wagers" do
     context "User does not have another registered user to bet with" do
       scenario "As a user I can create a wager w/out a known wageree " do
         create_a_public_wager("Alexander", "Michael", "Stephen")
-        expect(page).to have_css("#show_users")
+        expect(page).to have_css("#show_dashboards")
         expect(page).to have_content("No username was provided.  Your wager is listed in the public wagers section")
         expect(page).to have_content("Public Ping Pong")
         click_on "Logout"
@@ -332,7 +332,7 @@ feature "View and Create a Proposed Wagers" do
 
       scenario "As a user, I can solicit a non-registered user to bet w/ me" do
         user_creates_a_solicitation_wager("AlexTheUser", "BillTheNonUser")
-        expect(page).to have_css("#show_users")
+        expect(page).to have_css("#show_dashboards")
         expect(page).to have_content("A solicitation email has been sent to billthenonuser@gmail.com")
         expect(page.find("#proposed_wagers_table")).to have_content("I bet billthenonuser@gmail.com $100 on Ping Pong")
       end

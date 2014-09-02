@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   resources :users
 
-  resource :dashboard
+  resource :dashboard, :only => [:show]
 
   resources :accounts do
     resources :deposits

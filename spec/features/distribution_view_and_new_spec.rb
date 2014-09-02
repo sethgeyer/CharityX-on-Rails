@@ -47,7 +47,7 @@ feature "View Index and Create Distributions" do
     end
     scenario "I can distribute funds from my account" do
       distribute_funds_from_my_account(100, "United Way")
-      expect(page).to have_css("#show_users")
+      expect(page).to have_css("#show_dashboards")
       expect(page).to have_content("Thank you for distributing $100 from your account to United Way")
       expect(page.find("#deposits")).to have_content("$400")
       expect(page.find("#distributions")).to have_content("$100")

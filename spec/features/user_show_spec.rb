@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'capybara/rails'
 
 
-feature "User Show Page" do
+feature "User Dashboard Page" do
   before(:each) do
     fill_in_registration_form("Stephen")
   end
@@ -27,7 +27,7 @@ feature "User Show Page" do
 
   scenario "As a logged_in user with a non-funded account I can link to the 'create a wager' page to create a wager" do
     within(page.find("#wager-funds")) {click_link "+"}
-    expect(page).to have_css("#show_users")
+    expect(page).to have_css("#show_dashboards")
     expect(page).to have_content("Your account has a $0 balance.  You must fund your account before you can wager.")
   end
 
@@ -45,7 +45,7 @@ feature "User Show Page" do
     click_on "Account Details"
     distribute_funds_from_my_account(100, "United Way")
     within(page.find("#distribute-funds")) {click_link "+"}
-    expect(page).to have_css("#show_users")
+    expect(page).to have_css("#show_dashboards")
     expect(page).to have_content("Your account has a $0 balance.  You must fund your account before you can distribute funds.")
   end
 

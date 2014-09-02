@@ -21,14 +21,14 @@ feature "visitor login" do
   scenario "logged in user wants to see their account details" do
     fill_in_registration_form("Stephen")
     click_on "Account Details"
-    expect(page).to have_css("#show_users")
+    expect(page).to have_css("#show_dashboards")
   end
 
   scenario "registered user logs in using their username" do
     fill_in_registration_form("Stephen")
     click_on "Logout"
     login_a_registered_user("Stephen")
-    expect(page).to have_css("#show_users")
+    expect(page).to have_css("#show_dashboards")
   end
 
   scenario "registered user logs in using their email" do
@@ -37,7 +37,7 @@ feature "visitor login" do
     fill_in "Username", with: "stephen@gmail.com"
     fill_in "Password", with: "stephen"
     click_on "Login"
-    expect(page).to have_css("#show_users")
+    expect(page).to have_css("#show_dashboards")
   end
 
 
