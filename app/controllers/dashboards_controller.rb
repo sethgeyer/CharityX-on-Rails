@@ -19,14 +19,14 @@ class DashboardsController < ApplicationController
 
       @net_amount = @deposit_total - @distribution_total - @wagered_total + @winnings_total
 
-      # @wagers = (@account.wagers + Wager.where(wageree_id: kenny_loggins.id)).collect do  |wager|
-      #   if !WagerViewPreference.where(user_id: kenny_loggins.id, wager_id: wager.id, show:false).first
-      #     wager
-      #   end
-      # end
-      # @registered_wagers = @wagers.select { |wager| wager != nil }
+      @wagers = (@account.wagers + Wager.where(wageree_id: kenny_loggins.id)).collect do  |wager|
+        if !WagerViewPreference.where(user_id: kenny_loggins.id, wager_id: wager.id, show:false).first
+          wager
+        end
+      end
+      @registered_wagers = @wagers.select { |wager| wager != nil }
 
-      @registered_wagers = @account.wagers + Wager.where(wageree_id: kenny_loggins.id)
+      # @registered_wagers = @account.wagers + Wager.where(wageree_id: kenny_loggins.id)
       @public_wagers = Wager.where(wageree_id: nil).where('account_id != ?', @account.id ).select { |wager| wager.non_registered_user == nil}
 
   end

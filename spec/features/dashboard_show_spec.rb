@@ -3,6 +3,8 @@ require 'capybara/rails'
 
 
 feature "User Dashboard Page" do
+
+  context "A visitor logs in" do
   before(:each) do
     fill_in_registration_form("Stephen")
   end
@@ -55,6 +57,35 @@ feature "User Dashboard Page" do
   #   expect(page).to have_content("You are not authorized to visit this page")
   #   expect(page).to have_css("#homepage")
   # end
+
+  end
+
+  context "A logged in user has created a wager" do
+    before(:each) do
+      register_users_and_create_a_wager("Alexander", "Stephen")
+    end
+    scenario "A user can NOT hide a wager in which the outcome has not been determined" do
+      expect(page).to have_css("#show_dashboards")
+      expect(page).not_to have_css("#archive-button")
+    end
+
+    scenario "A user can hide a completed wager", js: true do
+      click_on "Logout"
+      login_a_registered_user("Alexander")
+      click_on "Shake on it"
+      click_on "Logout"
+
+      login_a_registered_user("Stephen")
+      click_on "I Lost"
+      expect(page).to have_css("#show_dashboards")
+      expect(page).to have_css("#archive-button")
+      find("#archive-button").click
+      click_on "Account Details"
+      expect(page).not_to have_content("Ping Pong Match")
+    end
+
+
+  end
 
 
 

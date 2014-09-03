@@ -90,8 +90,12 @@
                 <% else %>
                   <%= "#{User.find_by(id: registered_wager.account.user_id).username} bet me $#{registered_wager.amount / 100} on #{registered_wager.title}" %>
                 <% end %>
-                <div class="delete-icon glyphicon glyphicon-remove-sign" data-id=<%=registered_wager.id%> ></div>
-              </div>
+                <% if registered_wager.status == "completed" %>
+                  <div id='archive-button' class="delete-icon glyphicon glyphicon-remove-sign" data-id=<%=registered_wager.id%> ></div>
+                <%else%>
+                  <div></div>
+                <%end%>
+               </div>
 
               <div class="wager-details">
                 Date: <%= registered_wager.date_of_wager %> |
