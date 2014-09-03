@@ -16,6 +16,8 @@ Rails.application.routes.draw do
     resources :wagers
   end
 
+  resources :wager_view_preferences
+
   resources :mvps
 
   resources :charities

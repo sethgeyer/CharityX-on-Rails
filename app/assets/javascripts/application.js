@@ -60,13 +60,21 @@ $(document).ready( function() {
   });
 
   $('.delete-icon').on('click', function() {
-    var archiveMessage = "<div class='archive' style='color:red'>This wager was archived</div><br/>"
-//
-//    $(this).parents('.wager-border').after(archiveMessage);
-//    $('.archive').fadeOut(4000).remove()
-    $(this).parents('.wager-border').effect('bounce', {times: 5}, 100);
-    $(this).parents('.wager-border').effect('explode');
+    var $xButton = $(this)
+    var archiveMessage = "<div class='archive' style='color:red'>This wager is being archived</div><br/>"
+    var wagerID = $xButton.attr('data-id')
+    var postWagerPreferencePromise = $.post("/wager_view_preferences", {wager_id: wagerID})
 
+
+    postWagerPreferencePromise.success( function() {
+
+      $xButton.parents('.wager-border').after(archiveMessage);
+      $('.archive').fadeOut(2000)
+      $xButton.parents('.wager-border').fadeOut(2000)
+
+
+
+    });
 
 
   });

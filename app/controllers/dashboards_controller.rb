@@ -18,13 +18,16 @@ class DashboardsController < ApplicationController
       @winnings_total = (Wager.where(winner_id: kenny_loggins.id).sum(:amount) / 100) - ( (@account.wagers.where('winner_id != ?', kenny_loggins.id).sum(:amount) / 100) + (Wager.where(wageree_id: kenny_loggins.id).where('winner_id != ?', kenny_loggins.id).sum(:amount) / 100))
 
       @net_amount = @deposit_total - @distribution_total - @wagered_total + @winnings_total
+
+      # @wagers = (@account.wagers + Wager.where(wageree_id: kenny_loggins.id)).collect do  |wager|
+      #   if !WagerViewPreference.where(user_id: kenny_loggins.id, wager_id: wager.id, show:false).first
+      #     wager
+      #   end
+      # end
+      # @registered_wagers = @wagers.select { |wager| wager != nil }
+
       @registered_wagers = @account.wagers + Wager.where(wageree_id: kenny_loggins.id)
       @public_wagers = Wager.where(wageree_id: nil).where('account_id != ?', @account.id ).select { |wager| wager.non_registered_user == nil}
-      # @wageree_wagers = ProposedWager.where(wageree_id: kenny_loggins.id)
-    # else
-    #   flash[:notice] = "You are not authorized to visit this page"
-    #   redirect_to root_path
-    # end
 
   end
 
