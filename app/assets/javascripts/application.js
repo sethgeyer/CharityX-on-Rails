@@ -60,7 +60,14 @@ $(document).ready( function() {
   });
 
   $('.delete-icon').on('click', function() {
-    $(this).parents('.wager-border').hide();
+    var archiveMessage = "<div class='archive' style='color:red'>This wager was archived</div><br/>"
+//
+//    $(this).parents('.wager-border').after(archiveMessage);
+//    $('.archive').fadeOut(4000).remove()
+    $(this).parents('.wager-border').effect('bounce', {times: 5}, 100);
+    $(this).parents('.wager-border').effect('explode');
+
+
 
   });
 
