@@ -174,7 +174,11 @@ margin-top: -5px;
     border-radius: 10px;
 }
 
-#proposed_wagers_table .btn {
+#wagers_table .btn {
+    margin-top: 9px;
+}
+
+#public-wagers .btn {
     margin-top: 9px;
 }
 
@@ -184,6 +188,7 @@ margin-top: -5px;
 
 .outcome-flag {
     display:none;
+
 }
 
 
@@ -250,13 +255,22 @@ margin-top: -5px;
 
 .expand-icon {
     margin-top: 4px;
-    margin-right: 4px
+    margin-right: 4px;
+    display:inline-block;
+    font-size: 20px;
 }
+
+.title-text {
+    display:inline-block;
+}
+
 
 .delete-icon {
     margin-top: 4px;
     margin-right: 4px;
     float: right;
+    font-size: 20px;
+
 }
 
 .close {

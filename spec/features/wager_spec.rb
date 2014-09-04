@@ -39,17 +39,17 @@ feature "View and Create a Proposed Wagers" do
     expect(page).to have_css("#show_dashboards")
     expect(page).to have_content("Your proposed wager has been sent to alexandery.")
     # save_and_open_page
-    expect(page.find("#proposed_wagers_table")).to have_content("Ping Pong Match")
-    expect(page.find("#proposed_wagers_table")).to have_content(10)
-    expect(page.find("#proposed_wagers_table")).not_to have_content(1000)
-    expect(page.find("#proposed_wagers_table")).to have_content("alexandery")
-    expect(page.find("#proposed_wagers_table")).to have_content("I bet alexandery")
-    expect(page.find("#proposed_wagers_table")).to have_content("w/wageree")
-    expect(page.find("#proposed_wagers_table")).not_to have_button("Shake on it")
-    expect(page.find("#proposed_wagers_table")).not_to have_button("No Thx!")
-    expect(page.find("#proposed_wagers_table")).not_to have_button("I Lost") # _______________________
+    expect(page.find("#wagers_table")).to have_content("Ping Pong Match")
+    expect(page.find("#wagers_table")).to have_content(10)
+    expect(page.find("#wagers_table")).not_to have_content(1000)
+    expect(page.find("#wagers_table")).to have_content("alexandery")
+    expect(page.find("#wagers_table")).to have_content("I bet alexandery")
+    expect(page.find("#wagers_table")).to have_content("w/wageree")
+    expect(page.find("#wagers_table")).not_to have_button("Shake on it")
+    expect(page.find("#wagers_table")).not_to have_button("No Thx!")
+    expect(page.find("#wagers_table")).not_to have_button("I Lost") # _______________________
 
-    expect(page.find("#proposed_wagers_table")).to have_link("Withdraw")
+    expect(page.find("#wagers_table")).to have_link("Withdraw")
     expect(page.find("#wagers")).to have_content(10)
     expect(page.find("#net_amount")).to have_content(30)
   end
@@ -179,15 +179,15 @@ feature "View and Create a Proposed Wagers" do
     end
 
     scenario "I can see a proposed wager in which I'm the wageree" do
-      expect(page.find("#proposed_wagers_table")).to have_content("Ping Pong Match")
-      expect(page.find("#proposed_wagers_table")).to have_content(10)
-      expect(page.find("#proposed_wagers_table")).not_to have_content(1000)
-      expect(page.find("#proposed_wagers_table")).to have_content("stepheny")
-      expect(page.find("#proposed_wagers_table")).to have_content("stepheny bet me")
-      expect(page.find("#proposed_wagers_table")).to have_content("w/wageree")
+      expect(page.find("#wagers_table")).to have_content("Ping Pong Match")
+      expect(page.find("#wagers_table")).to have_content(10)
+      expect(page.find("#wagers_table")).not_to have_content(1000)
+      expect(page.find("#wagers_table")).to have_content("stepheny")
+      expect(page.find("#wagers_table")).to have_content("stepheny bet me")
+      expect(page.find("#wagers_table")).to have_content("w/wageree")
       expect(page.find("#wagers")).to have_content(0)
-      expect(page.find("#proposed_wagers_table")).to have_button("No Thx!")
-      expect(page.find("#proposed_wagers_table")).to have_button("Shake on it")
+      expect(page.find("#wagers_table")).to have_button("No Thx!")
+      expect(page.find("#wagers_table")).to have_button("Shake on it")
     end
 
 
@@ -195,8 +195,8 @@ feature "View and Create a Proposed Wagers" do
       expect(page.find("#wagers")).to have_content("$0")
       click_on "Shake on it"
       expect(page).to have_css("#show_dashboards")
-      expect(page.find("#proposed_wagers_table")).not_to have_button("Shake on it")
-      expect(page.find("#proposed_wagers_table")).to have_content("accepted")
+      expect(page.find("#wagers_table")).not_to have_button("Shake on it")
+      expect(page.find("#wagers_table")).to have_content("accepted")
       expect(page.find("#wagers")).to have_content(10)
       expect(page.find("#wagered-chips")).to have_content("Chips:#{10 / $ChipValue}")
       expect(page.find("#net_amount")).to have_content(90)
@@ -207,10 +207,10 @@ feature "View and Create a Proposed Wagers" do
       expect(page.find("#wagers")).to have_content("$0")
       click_on "No Thx!"
       expect(page).to have_css("#show_dashboards")
-      expect(page.find("#proposed_wagers_table")).not_to have_button("Shake on it")
-      expect(page.find("#proposed_wagers_table")).not_to have_button("No Thx!")
+      expect(page.find("#wagers_table")).not_to have_button("Shake on it")
+      expect(page.find("#wagers_table")).not_to have_button("No Thx!")
 
-      expect(page.find("#proposed_wagers_table")).to have_content("declined")
+      expect(page.find("#wagers_table")).to have_content("declined")
       expect(page.find("#wagers")).to have_content(0)
       expect(page.find("#wagered-chips")).to have_content("Chips:#{0 / $ChipValue}")
       expect(page.find("#net_amount")).to have_content(100)
@@ -399,7 +399,7 @@ feature "View and Create a Proposed Wagers" do
         user_creates_a_solicitation_wager("AlexTheUser", "BillTheNonUser")
         expect(page).to have_css("#show_dashboards")
         expect(page).to have_content("A solicitation email has been sent to billthenonuser@gmail.com")
-        expect(page.find("#proposed_wagers_table")).to have_content("I bet billthenonuser@gmail.com $10 that: Ping Pong")
+        expect(page.find("#wagers_table")).to have_content("I bet billthenonuser@gmail.com $10 that: Ping Pong")
       end
 
       scenario "As a non-registered-friend, I can accept a friend's solicitation to wager" do
@@ -409,7 +409,7 @@ feature "View and Create a Proposed Wagers" do
         expect(page).not_to have_content("Ping Pong")
         click_on "Logout"
         fill_in_registration_form("BillTheNonUser")
-        expect(page.find("#proposed_wagers_table")).to have_content("Ping Pong")
+        expect(page.find("#wagers_table")).to have_content("Ping Pong")
         expect(page).to have_content("alextheusery bet me $10 that: Ping Pong")
       end
 

@@ -18,7 +18,7 @@
 $(document).ready( function() {
 
 //  Show an outcome flag based on whether the match has been won, lost or is still pending and highlight the row if the due date has passed.
-  var wagers = $('#proposed_wagers_table .wager-border');
+  var wagers = $('#wagers_table .wager-border');
   wagers.each(function() {
     $wager = $(this);
 

@@ -71,31 +71,35 @@
           <h3>Wagers</h3>
         </div>
 
-        <div id="proposed_wagers_table" class="row">
+        <div id="wagers_table" class="row">
           <% @registered_wagers.each do |registered_wager| %>
             <div class="wager-border" data-attribute-status=<%= registered_wager.status %> data-attribute-date=<%= (registered_wager.date_of_wager - Date.today).to_i %>>
 
               <div class="wager-title">
                 <div class="expand-icon glyphicon glyphicon-th-list"></div>
                 <div class="outcome-flag"></div>
-                <% if kenny_loggins.account == registered_wager.account %>
-                  <%wageree = if registered_wager.wageree_id%>
-                                  <%User.find_by(id: registered_wager.wageree_id).username%>
-                              <%elsif registered_wager.non_registered_user%>
-                                <%registered_wager.non_registered_user.email%>
-                              <%else%>
-                                <%"the Public"%>
-                              <%end%>
-                  <%= "I bet #{wageree} $#{registered_wager.amount / 100} that: #{registered_wager.title}." %>
+                <% if registered_wager.status == "completed" || registered_wager.status == "declined" || registered_wager.status == "expired" %>
+                  <div id='archive-button' class="delete-icon glyphicon glyphicon-remove-sign" data-id=<%= registered_wager.id %>></div>
                 <% else %>
-                  <%= "#{User.find_by(id: registered_wager.account.user_id).username} bet me $#{registered_wager.amount / 100} that: #{registered_wager.title}." %>
-                <% end %>
-                <% if registered_wager.status == "completed" || registered_wager.status == "declined"  || registered_wager.status == "expired"%>
-                  <div id='archive-button' class="delete-icon glyphicon glyphicon-remove-sign" data-id=<%=registered_wager.id%> ></div>
-                <%else%>
                   <div></div>
-                <%end%>
-               </div>
+                <% end %>
+
+                <div class="title-text">
+                  <% if kenny_loggins.account == registered_wager.account %>
+                    <% wageree = if registered_wager.wageree_id %>
+                      <% User.find_by(id: registered_wager.wageree_id).username %>
+                    <% elsif registered_wager.non_registered_user %>
+                      <% registered_wager.non_registered_user.email %>
+                    <% else %>
+                      <% "the Public" %>
+                    <% end %>
+                    <%= "I bet #{wageree} $#{registered_wager.amount / 100} that: #{registered_wager.title}." %>
+                  <% else %>
+                    <%= "#{User.find_by(id: registered_wager.account.user_id).username} bet me $#{registered_wager.amount / 100} that: #{registered_wager.title}." %>
+                  <% end %>
+                </div>
+
+              </div>
 
               <div class="wager-details">
                 Date: <%= registered_wager.date_of_wager %> |
@@ -111,9 +115,9 @@
                 <% if registered_wager.status == "completed" %>
                   <div class="outcome">
                     <% if kenny_loggins.id == registered_wager.winner_id %>
-                      I Won!
+                      I Won! |
                     <% else %>
-                      I Lost!
+                      I Lost! |
                     <% end %>
                   </div>
                   <% if kenny_loggins.account == registered_wager.account %>
@@ -124,7 +128,7 @@
 
                 <% elsif registered_wager.status == "expired" %>
                     <div class="outcome">
-                      Wager Expired Before It Was Accepted
+                      Wager Expired Before It Was Accepted |
                     </div>
                     <% if kenny_loggins.account == registered_wager.account %>
                       <%= link_to "Reissue?", new_account_wager_path(registered_wager.account, pwid: registered_wager) %>
@@ -138,7 +142,7 @@
 
                 <% elsif registered_wager.status == "declined" %>
                   <div class="outcome">
-                    Wager Not Accepted
+                    Wager Not Accepted |
                   </div>
                     <% if kenny_loggins.account == registered_wager.account %>
                       <%= link_to "Revise?", new_account_wager_path(registered_wager.account, pwid: registered_wager) %>
@@ -149,22 +153,24 @@
                 <% else %>
                   <% if kenny_loggins.account == registered_wager.account %>
                     <% if registered_wager.status == 'w/wageree' %>
-                      <%= link_to "Withdraw", [registered_wager.account, registered_wager], {method: :delete, class: "btn btn-primary btn-xs"} %>
+                      <%= link_to "Withdraw", [registered_wager.account, registered_wager], {method: :delete, class: "btn btn-primary btn-sm"} %>
                     <% elsif registered_wager.status == "declined" %>
                     <%else%>
                       <%= form_for [registered_wager.account, registered_wager] do |f| %>
-                        <%= f.submit "I Lost", class: "btn btn-primary btn-xs", data: { disable_with: "Please Wait..." } %>
+                        <%= f.submit "I Lost", class: "btn btn-primary btn-sm", data: { disable_with: "Please Wait..." } %>
                       <% end %>
                     <% end %>
                   <% else %>
                     <%= form_for [registered_wager.account, registered_wager] do |f| %>
                       <% if registered_wager.status == 'w/wageree'%>
-                        <%= f.submit "Shake on it", class: "btn btn-xs btn-success", data: { disable_with: "Please Wait..." } %>
-                        <%= f.submit "No Thx!", class: "btn btn-xs btn-danger", data: { disable_with: "Please Wait..." } %>
+                        <%= f.submit "Shake on it", class: "btn btn-sm btn-success", data: { disable_with: "Please Wait..." } %>
+                        &nbsp;
+
+                        <%= f.submit "No Thx!", class: "btn btn-sm btn-danger", data: { disable_with: "Please Wait..." } %>
                       <% elsif registered_wager.status == "declined" %>
 
                       <% else %>
-                        <%= f.submit "I Lost", class: "btn btn-xs btn-primary", data: { disable_with: "Please Wait..." } %>
+                        <%= f.submit "I Lost", class: "btn btn-sm btn-primary", data: { disable_with: "Please Wait..." } %>
                       <% end %>
                     <% end %>
                   <% end %>
@@ -194,8 +200,10 @@
               <div class="wager-title">
                 <div class="expand-icon glyphicon glyphicon-th-list"></div>
                 <div class="outcome-flag"></div>
-                  <%= "#{User.find_by(id: public_wager.account.user_id).username} bet the Public $#{public_wager.amount / 100} that: #{public_wager.title}." %>
                 <div id='archive-button' class="delete-icon glyphicon glyphicon-remove-sign" data-id=<%=public_wager.id%>></div>
+                <div class="title-text">
+                  <%= "#{User.find_by(id: public_wager.account.user_id).username} bet the Public $#{public_wager.amount / 100} that: #{public_wager.title}." %>
+                </div>
 
               </div>
 
@@ -211,13 +219,15 @@
 
               <div class="wager-actions">
                 <% if public_wager.status == "expired" %>
-                <div class="outcome">
-                  Wager Expired Before It Was Accepted
-                </div>
+                  <div class="outcome">
+                    Wager Expired Before It Was Accepted
+                  </div>
                 <%else%>
-                  <%= form_for [public_wager.account, public_wager] do |f| %>
-                    <%= f.submit "Shake on it", class: "btn btn-xs btn-success", data: { disable_with: "Please Wait..." } %>
-                  <% end %>
+                  <div class="outcome">
+                    <%= form_for [public_wager.account, public_wager] do |f| %>
+                      <%= f.submit "Shake on it", class: "btn btn-sm btn-success", data: { disable_with: "Please Wait..." } %>
+                    <% end %>
+                  </div>
                 <%end%>
               </div>
             </div>
