@@ -155,11 +155,15 @@ feature "View and Create a Proposed Wagers" do
     expect(page.find("#wagered-chips")).to have_content("Chips:#{0 / $ChipValue}")
     expect(page.find("#net_amount")).to have_content(40)
     expect(page.find("#net-chips")).to have_content("Chips:#{40 / $ChipValue}")
-    expect(page).not_to have_link("Withdraw")
     expect(page).not_to have_button("I Lost")
-    expect(page).to have_content("Wager Not Accepted")
-    expect(page).to have_link("Revise?")
+    expect(page).to have_content("Wager Expired Before It Was Accepted")
+    expect(page).to have_link("Reissue?")
+    expect(page).to have_css("#archive-button")
+    click_on "Logout"
+    login_a_registered_user("Alexander")
+    expect(page).not_to have_button("Shake on it")
   end
+
 
 
 

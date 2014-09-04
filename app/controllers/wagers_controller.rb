@@ -119,19 +119,26 @@ class WagersController < ApplicationController
     @account = kenny_loggins.account
 
     if params[:commit] == "Shake on it"
-      @wager = Wager.find(params[:id])
-
-      if @account.chips.where(status: "available").count < (@wager.amount / 100 / $ChipValue)
-        flash[:notice] = "You don't have adequate funds to accept this wager.  Please add additional funds to your account."
+      #<<<<< The below line and the if == nil code were added to address the situations where a wagerer has withdrawn a bet, it has been accepted, or expired
+      #before the wageree refreshing his view.  This ensures that if the bet is no longer "available", a user that tries to accept it, gets a message stating
+      #that it had been withdrawn.
+      @wager = Wager.where(id: params[:id]).where(status: "w/wageree").first
+      if @wager == nil
+        flash[:notice] = "Wager has already been accepted, withdrawn or expired."
       else
 
-        #test this _________________________________________________________________________
-        @wager.wageree_id = @account.user_id if @wager.wageree_id == nil
-        #-------------------------------------
-        @wager.status = "accepted"
-        Chip.new.change_status_to_wagered(kenny_loggins.account.id, @wager.amount) if @wager.save!
+        if @account.chips.where(status: "available").count < (@wager.amount / 100 / $ChipValue)
+          flash[:notice] = "You don't have adequate funds to accept this wager.  Please add additional funds to your account."
+        else
+
+          #test this _________________________________________________________________________
+          @wager.wageree_id = @account.user_id if @wager.wageree_id == nil
+          #-------------------------------------
+          @wager.status = "accepted"
+          Chip.new.change_status_to_wagered(kenny_loggins.account.id, @wager.amount) if @wager.save!
+        end
       end
-      redirect_to dashboard_path
+        redirect_to dashboard_path
 
     elsif params[:commit] == "I Lost"
       @wager = Wager.where(id: params[:id], status:"accepted").first
@@ -170,7 +177,7 @@ class WagersController < ApplicationController
       end
 
     elsif params[:commit] == "No Thx!"
-      @wager = Wager.find(params[:id])
+      @wager = Wager.where(id: params[:id]).where(status: "w/wageree").first
       @wager.status = "declined"
 
         if @wager.save!
@@ -183,10 +190,17 @@ class WagersController < ApplicationController
 
 
   def destroy
-    # if wagerer withdraws the bet
-    wager = Wager.find(params[:id])
-    wager.destroy
-    Chip.new.change_status_to_available(kenny_loggins.account.id, wager.amount)
+    #<<<<< The below line and the if == nil code were added to address the situations where a wageree has accepted a bet or it expired
+    #before the wagerer who wants to withdraw the bet refreshes his view.  This ensures that if the bet is "accepted, a wagerer that tries to witdraw it, gets a message stating
+    #that it can't be withdrawn.
+    wager = Wager.where(id: params[:id]).where(status: "w/wageree").first
+    if wager == nil
+      flash[:notice] = "Wager has already been accepted or expired before you could withdraw it."
+    else
+      wager.destroy
+      Chip.new.change_status_to_available(kenny_loggins.account.id, wager.amount)
+    end
+
     redirect_to dashboard_path
   end
 

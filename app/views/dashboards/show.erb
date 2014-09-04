@@ -90,7 +90,7 @@
                 <% else %>
                   <%= "#{User.find_by(id: registered_wager.account.user_id).username} bet me $#{registered_wager.amount / 100} on #{registered_wager.title}" %>
                 <% end %>
-                <% if registered_wager.status == "completed" || registered_wager.status == "declined"%>
+                <% if registered_wager.status == "completed" || registered_wager.status == "declined"  || registered_wager.status == "expired"%>
                   <div id='archive-button' class="delete-icon glyphicon glyphicon-remove-sign" data-id=<%=registered_wager.id%> ></div>
                 <%else%>
                   <div></div>
@@ -121,6 +121,21 @@
                   <% else %>
                     <%= link_to "Rematch?", new_account_wager_path(@account, pwid: registered_wager) %>
                   <% end %>
+
+                <% elsif registered_wager.status == "expired" %>
+                    <div class="outcome">
+                      Wager Expired Before It Was Accepted
+                    </div>
+                    <% if kenny_loggins.account == registered_wager.account %>
+                      <%= link_to "Reissue?", new_account_wager_path(registered_wager.account, pwid: registered_wager) %>
+                    <% else %>
+                      <%= link_to "Reissue?", new_account_wager_path(@account, pwid: registered_wager) %>
+                    <% end %>
+
+
+
+
+
                 <% elsif registered_wager.status == "declined" %>
                   <div class="outcome">
                     Wager Not Accepted
@@ -195,9 +210,15 @@
               </div>
 
               <div class="wager-actions">
-                <%= form_for [public_wager.account, public_wager] do |f| %>
-                  <%= f.submit "Shake on it", class: "btn btn-xs btn-success", data: { disable_with: "Please Wait..." } %>
-                <% end %>
+                <% if public_wager.status == "expired" %>
+                <div class="outcome">
+                  Wager Expired Before It Was Accepted
+                </div>
+                <%else%>
+                  <%= form_for [public_wager.account, public_wager] do |f| %>
+                    <%= f.submit "Shake on it", class: "btn btn-xs btn-success", data: { disable_with: "Please Wait..." } %>
+                  <% end %>
+                <%end%>
               </div>
             </div>
           <% end %>

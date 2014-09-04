@@ -7,7 +7,7 @@ class DashboardsController < ApplicationController
     wagers.each do |wager|
       if (wager.date_of_wager - Date.today).to_i < 0  && wager.status == "w/wageree"
         @wager = Wager.find(wager.id)
-        @wager.status = "declined"
+        @wager.status = "expired"
 
         if @wager.save!
           Chip.new.change_status_to_available(@wager.account.id, @wager.amount)
@@ -29,7 +29,7 @@ class DashboardsController < ApplicationController
       ###################
       @deposit_total = @account.deposits.sum(:amount) / 100
       @distribution_total = @account.distributions.sum(:amount) / 100
-      @wagered_total = (@account.wagers.where(winner_id: nil).where('status != ?', 'declined').sum(:amount) / 100) + (Wager.where(wageree_id: kenny_loggins.id, status: "accepted").where(winner_id: nil).sum(:amount) / 100)
+      @wagered_total = (@account.wagers.where(winner_id: nil).where('status != ?', 'declined').where('status != ?', 'expired').sum(:amount) / 100) + (Wager.where(wageree_id: kenny_loggins.id, status: "accepted").where(winner_id: nil).sum(:amount) / 100)
 
       # @winnings_total = (@account.proposed_wagers.where(winner_id: kenny_loggins.id).sum(:amount) / 100) + (ProposedWager.where(wageree_id: kenny_loggins.id).where(winner_id: kenny_loggins.id).sum(:amount) / 100) - ( (@account.proposed_wagers.where('winner_id != ?', kenny_loggins.id).sum(:amount) / 100) + (ProposedWager.where(wageree_id: kenny_loggins.id).where('winner_id != ?', kenny_loggins.id).sum(:amount) / 100))
       @winnings_total = (Wager.where(winner_id: kenny_loggins.id).sum(:amount) / 100) - ( (@account.wagers.where('winner_id != ?', kenny_loggins.id).sum(:amount) / 100) + (Wager.where(wageree_id: kenny_loggins.id).where('winner_id != ?', kenny_loggins.id).sum(:amount) / 100))
