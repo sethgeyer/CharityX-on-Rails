@@ -5,6 +5,13 @@ class Wager < ActiveRecord::Base
   has_many :wager_view_preferences
 
   validates :title, presence: true
-  validates :date_of_wager, presence: true
+  validate :date_of_wager_must_be_in_the_future, on: :create
+
+
+  def date_of_wager_must_be_in_the_future
+    if date_of_wager == nil  || date_of_wager < Date.today
+      errors.add(:date_of_wager, "can't be blank or in the past")
+    end
+  end
 
 end
