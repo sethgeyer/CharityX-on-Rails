@@ -180,7 +180,7 @@
                 <div class="expand-icon glyphicon glyphicon-th-list"></div>
                 <div class="outcome-flag"></div>
                   <%= "#{User.find_by(id: public_wager.account.user_id).username} bet the Public $#{public_wager.amount / 100} on #{public_wager.title}" %>
-                <div class="delete-icon glyphicon glyphicon-remove-sign" data-id=<%=public_wager.id%>></div>
+                <div id='archive-button' class="delete-icon glyphicon glyphicon-remove-sign" data-id=<%=public_wager.id%>></div>
 
               </div>
 

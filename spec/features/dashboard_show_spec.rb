@@ -99,11 +99,27 @@ feature "User Dashboard Page" do
     end
 
 
-
-
-
-
   end
+    context "A logged in user has created a public wager" do
+      before(:each) do
+        create_a_public_wager("Alexander", "William", "Stephen")
+        click_on "Logout"
+      end
+
+      scenario "A user can archive any public wagers", js: true do
+        login_a_registered_user("Alexander")
+        expect(page).to have_css("#show_dashboards")
+        expect(page).to have_content("Public Ping Pong")
+        find("#archive-button").click
+        click_on "Account Details"
+        expect(page).not_to have_content("Public Ping Pong")
+      end
+
+    end
+
+
+
+
 
 
 
