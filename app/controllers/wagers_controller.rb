@@ -169,6 +169,15 @@ class WagersController < ApplicationController
         redirect_to dashboard_path
       end
 
+    elsif params[:commit] == "No Thx!"
+      @wager = Wager.find(params[:id])
+      @wager.status = "declined"
+
+        if @wager.save!
+          Chip.new.change_status_to_available(@wager.account.id, @wager.amount)
+        end
+        redirect_to dashboard_path
+
     end
   end
 

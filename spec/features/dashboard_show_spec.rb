@@ -84,6 +84,24 @@ feature "User Dashboard Page" do
       expect(page).not_to have_content("Ping Pong Match")
     end
 
+    scenario "A user can hide a declined wager", js: true do
+      click_on "Logout"
+      login_a_registered_user("Alexander")
+      click_on "No Thx!"
+      click_on "Logout"
+
+      login_a_registered_user("Stephen")
+      expect(page).to have_css("#show_dashboards")
+      expect(page).to have_css("#archive-button")
+      find("#archive-button").click
+      click_on "Account Details"
+      expect(page).not_to have_content("Ping Pong Match")
+    end
+
+
+
+
+
 
   end
 

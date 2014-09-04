@@ -90,7 +90,7 @@
                 <% else %>
                   <%= "#{User.find_by(id: registered_wager.account.user_id).username} bet me $#{registered_wager.amount / 100} on #{registered_wager.title}" %>
                 <% end %>
-                <% if registered_wager.status == "completed" %>
+                <% if registered_wager.status == "completed" || registered_wager.status == "declined"%>
                   <div id='archive-button' class="delete-icon glyphicon glyphicon-remove-sign" data-id=<%=registered_wager.id%> ></div>
                 <%else%>
                   <div></div>
@@ -108,7 +108,7 @@
               </div>
 
               <div class="wager-actions">
-                <% if registered_wager.winner_id %>
+                <% if registered_wager.status == "completed" %>
                   <div class="outcome">
                     <% if kenny_loggins.id == registered_wager.winner_id %>
                       I Won!
@@ -121,19 +121,33 @@
                   <% else %>
                     <%= link_to "Rematch?", new_account_wager_path(@account, pwid: registered_wager) %>
                   <% end %>
+                <% elsif registered_wager.status == "declined" %>
+                  <div class="outcome">
+                    Wager Not Accepted
+                  </div>
+                    <% if kenny_loggins.account == registered_wager.account %>
+                      <%= link_to "Revise?", new_account_wager_path(registered_wager.account, pwid: registered_wager) %>
+                    <% else %>
+                      <%= link_to "Revise?", new_account_wager_path(@account, pwid: registered_wager) %>
+                    <% end %>
+
                 <% else %>
                   <% if kenny_loggins.account == registered_wager.account %>
-                    <% if registered_wager.status != "accepted" %>
+                    <% if registered_wager.status == 'w/wageree' %>
                       <%= link_to "Withdraw", [registered_wager.account, registered_wager], {method: :delete, class: "btn btn-primary btn-xs"} %>
-                    <% else %>
+                    <% elsif registered_wager.status == "declined" %>
+                    <%else%>
                       <%= form_for [registered_wager.account, registered_wager] do |f| %>
                         <%= f.submit "I Lost", class: "btn btn-primary btn-xs", data: { disable_with: "Please Wait..." } %>
                       <% end %>
                     <% end %>
                   <% else %>
                     <%= form_for [registered_wager.account, registered_wager] do |f| %>
-                      <% if registered_wager.status != "accepted" %>
+                      <% if registered_wager.status == 'w/wageree'%>
                         <%= f.submit "Shake on it", class: "btn btn-xs btn-success", data: { disable_with: "Please Wait..." } %>
+                        <%= f.submit "No Thx!", class: "btn btn-xs btn-danger", data: { disable_with: "Please Wait..." } %>
+                      <% elsif registered_wager.status == "declined" %>
+
                       <% else %>
                         <%= f.submit "I Lost", class: "btn btn-xs btn-primary", data: { disable_with: "Please Wait..." } %>
                       <% end %>
