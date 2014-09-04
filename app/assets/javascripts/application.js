@@ -26,7 +26,6 @@ $(document).ready( function() {
     var outcome = $wager.find('.outcome');
     var date = $wager.attr('data-attribute-date');
     var status = $wager.attr('data-attribute-status');
-    console.log(status)
     if (status == 'w/wageree') {
       if (date < 0) {
         $wager.find('.outcome-flag').addClass('outcome-show').addClass('expired');

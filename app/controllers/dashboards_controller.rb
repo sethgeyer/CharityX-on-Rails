@@ -1,6 +1,23 @@
 class DashboardsController < ApplicationController
 
   def show
+
+    wagers = Wager.all
+
+    wagers.each do |wager|
+      if (wager.date_of_wager - Date.today).to_i < 0  && wager.status == "w/wageree"
+        @wager = Wager.find(wager.id)
+        @wager.status = "declined"
+
+        if @wager.save!
+          Chip.new.change_status_to_available(@wager.account.id, @wager.amount)
+        end
+
+      end
+    end
+
+
+
     # if kenny_loggins == User.find(params[:id])   #<--- no test written to test whether a sessioned user can view someone else's view
       @account = kenny_loggins.account
       #UNTESTED ######################
