@@ -86,9 +86,9 @@
                               <%else%>
                                 <%"the Public"%>
                               <%end%>
-                  <%= "I bet #{wageree} $#{registered_wager.amount / 100} on #{registered_wager.title}" %>
+                  <%= "I bet #{wageree} $#{registered_wager.amount / 100} that: #{registered_wager.title}." %>
                 <% else %>
-                  <%= "#{User.find_by(id: registered_wager.account.user_id).username} bet me $#{registered_wager.amount / 100} on #{registered_wager.title}" %>
+                  <%= "#{User.find_by(id: registered_wager.account.user_id).username} bet me $#{registered_wager.amount / 100} that: #{registered_wager.title}." %>
                 <% end %>
                 <% if registered_wager.status == "completed" || registered_wager.status == "declined"  || registered_wager.status == "expired"%>
                   <div id='archive-button' class="delete-icon glyphicon glyphicon-remove-sign" data-id=<%=registered_wager.id%> ></div>
@@ -194,7 +194,7 @@
               <div class="wager-title">
                 <div class="expand-icon glyphicon glyphicon-th-list"></div>
                 <div class="outcome-flag"></div>
-                  <%= "#{User.find_by(id: public_wager.account.user_id).username} bet the Public $#{public_wager.amount / 100} on #{public_wager.title}" %>
+                  <%= "#{User.find_by(id: public_wager.account.user_id).username} bet the Public $#{public_wager.amount / 100} that: #{public_wager.title}." %>
                 <div id='archive-button' class="delete-icon glyphicon glyphicon-remove-sign" data-id=<%=public_wager.id%>></div>
 
               </div>

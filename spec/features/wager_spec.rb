@@ -399,7 +399,7 @@ feature "View and Create a Proposed Wagers" do
         user_creates_a_solicitation_wager("AlexTheUser", "BillTheNonUser")
         expect(page).to have_css("#show_dashboards")
         expect(page).to have_content("A solicitation email has been sent to billthenonuser@gmail.com")
-        expect(page.find("#proposed_wagers_table")).to have_content("I bet billthenonuser@gmail.com $10 on Ping Pong")
+        expect(page.find("#proposed_wagers_table")).to have_content("I bet billthenonuser@gmail.com $10 that: Ping Pong")
       end
 
       scenario "As a non-registered-friend, I can accept a friend's solicitation to wager" do
@@ -410,7 +410,7 @@ feature "View and Create a Proposed Wagers" do
         click_on "Logout"
         fill_in_registration_form("BillTheNonUser")
         expect(page.find("#proposed_wagers_table")).to have_content("Ping Pong")
-        expect(page).to have_content("alextheusery bet me $10 on Ping Pong")
+        expect(page).to have_content("alextheusery bet me $10 that: Ping Pong")
       end
 
 
