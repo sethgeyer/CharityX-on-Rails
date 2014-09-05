@@ -80,6 +80,17 @@ $(document).ready( function() {
 
 
 
+  $('.wager-title').on('mouseover', function() {
+    $(this).toggleClass('active-wager')
+  });
+
+  $('.wager-title').on('mouseleave', function() {
+    $(this).toggleClass('active-wager')
+  })
+
+
+
+
   $('.button').on('mouseover', function() {
     $(this).toggleClass('active-button')
   });
