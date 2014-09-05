@@ -264,19 +264,20 @@ feature "View and Create a Proposed Wagers" do
       expect(page).to have_content("Awaiting Confirmation")
     end
 
-    scenario "A wagerer and wageree both identify themselves as winners" do
-      register_users_and_create_a_wager("Alexander", "Stephen")
-      click_on "Logout"
-      login_a_registered_user("Alexander")
-      click_on "Shake on it!"
-      click_on "I Won"
-      click_on "Logout"
-      login_a_registered_user("Stephen")
-      click_on "I Won"
-      expect(page).to have_button("I Won")
-      expect(page).to have_button("I Lost")
-
-    end
+    #WHAT TO DO WHEN BOTH FOLKS SAY I WON
+    # scenario "A wagerer and wageree both identify themselves as winners" do
+    #   register_users_and_create_a_wager("Alexander", "Stephen")
+    #   click_on "Logout"
+    #   login_a_registered_user("Alexander")
+    #   click_on "Shake on it!"
+    #   click_on "I Won"
+    #   click_on "Logout"
+    #   login_a_registered_user("Stephen")
+    #   click_on "I Won"
+    #   expect(page).to have_button("I Won")
+    #   expect(page).to have_button("I Lost")
+    #
+    # end
 
 
 
