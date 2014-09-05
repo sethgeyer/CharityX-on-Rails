@@ -194,6 +194,16 @@ margin-top: -5px;
     padding-bottom: 10px;
 }
 
+
+.button-submit {
+    background-color:  #1E521F;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 12px;
+    text-align: center;
+    margin-right: 30px;
+}
+
 .active-button {
     color: white;
     margin-top: 4px;
