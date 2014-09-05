@@ -1,6 +1,6 @@
 
 class Chip < ActiveRecord::Base
-  def purchase(user_id, account_id, deposit_amount, deposit_create_date, availability = nil)
+  def convert_currency_to_chips(user_id, account_id, deposit_amount, deposit_create_date, availability = nil)
     number_of_chips = convert_from_pennies_to_chips(deposit_amount)
 
     number_of_chips.times {

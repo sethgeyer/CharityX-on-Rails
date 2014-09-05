@@ -17,7 +17,7 @@ describe Chip do
 
     it "converts the deposited amount to chips" do
       expect(Chip.all.count).to eq(0)
-      @chip.purchase(@user.id, @account.id, @deposit.amount, @deposit.date_created, "available")
+      @chip.convert_currency_to_chips(@user.id, @account.id, @deposit.amount, @deposit.date_created, "available")
       expect(Chip.all.count).to eq(@deposit.amount / 100 / $ChipValue)
       expect(Chip.first.account_id).to eq(@account.id)
       expect(Chip.first.owner_id).to eq(@user.id)
@@ -27,7 +27,7 @@ describe Chip do
 
   describe "#cash_out" do
     before(:each) do
-      @chip.purchase(@user.id, @account.id, 20000, "2014-07-12", "available" )
+      @chip.convert_currency_to_chips(@user.id, @account.id, 20000, "2014-07-12", "available" )
       @charity = Charity.create(name: "Red Cross")
     end
 
@@ -46,7 +46,7 @@ describe Chip do
 
   describe "#change_status_to_wager" do
     before(:each) do
-      @chip.purchase(@user.id, @account.id, 20000, "2014-07-12", "available" )
+      @chip.convert_currency_to_chips(@user.id, @account.id, 20000, "2014-07-12", "available" )
       @wageree = User.create(email: "a@gmail.com", password:"pong")
 
     end
@@ -71,9 +71,9 @@ describe Chip do
 
   describe "find_the_available" do
     before(:each) do
-      @chip.purchase(@user.id, @account.id, 20000, "2014-07-12", "available" )
-      @chip.purchase(@user.id, @account.id, 1000, "2014-07-12", "wagered" )
-      @chip.purchase(@user.id, @account.id, 5000, "2014-07-12", "distributed" )
+      @chip.convert_currency_to_chips(@user.id, @account.id, 20000, "2014-07-12", "available" )
+      @chip.convert_currency_to_chips(@user.id, @account.id, 1000, "2014-07-12", "wagered" )
+      @chip.convert_currency_to_chips(@user.id, @account.id, 5000, "2014-07-12", "distributed" )
     end
 
     it "returns a all chips that have not been distributed or wagered" do
