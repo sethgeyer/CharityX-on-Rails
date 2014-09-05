@@ -10,9 +10,8 @@ Rails.application.routes.draw do
   resource :profile, :only => [:edit, :update]
 
   resources :accounts do
-    resources :deposits
+    resources :deposits, :only => [:index, :new, :create]
     resources :distributions
-    resources :wagers
     resources :wagers
   end
 

@@ -5,17 +5,12 @@
     <th>Amount</th>
     </thead>
     <tbody>
-    <%@deposits.each do |deposit|%>
+    <% @deposits.each do |deposit| %>
       <tr>
-        <td>$<%=deposit.amount / 100%></td>
+        <td>$<%= deposit.amount / 100 %></td>
       </tr>
-    <%end%>
+    <% end %>
     </tbody>
   </table>
-
-
-
-
-
 
 </div>

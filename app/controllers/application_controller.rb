@@ -17,4 +17,9 @@ class ApplicationController < ActionController::Base
 
   $ChipValue = 10
 
+  def amount_stripped_of_non_integers(user_input_amount)
+    user_input_amount.gsub("$", "").gsub(",", "").to_i
+  end
+
+
 end
