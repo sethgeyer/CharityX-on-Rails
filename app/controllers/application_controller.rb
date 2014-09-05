@@ -21,5 +21,13 @@ class ApplicationController < ActionController::Base
     user_input_amount.gsub("$", "").gsub(",", "").to_i
   end
 
+  def amount_converted_to_pennies(deposit_amount)
+    deposit_amount * 100
+  end
+
+  def the_amount_is_in_the_correct_increment_and_less_than_the_specified_threshold(dollar_amount)
+    dollar_amount % $ChipValue == 0 && dollar_amount <= 1000 && dollar_amount >= $ChipValue
+  end
+
 
 end
