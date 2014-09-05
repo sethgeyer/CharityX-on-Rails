@@ -13,13 +13,9 @@ class DepositsController < ApplicationController
 
   def create
     deposit_amount = amount_stripped_of_non_integers(params[:deposit][:amount])
-    @deposit = Deposit.new
-    @deposit.account_id = params[:account_id].to_i
-    @deposit.cc_number = params[:deposit][:cc_number].to_i
-    @deposit.exp_date =params[:deposit][:exp_date]
-    @deposit.name_on_card = params[:deposit][:name_on_card]
-    @deposit.cc_type = params[:deposit][:cc_type]
-    @deposit.date_created = Time.now
+    @deposit = Deposit.new(deposit_strong_params.merge(account_id: kenny_loggins.account.id))
+
+
     if deposit_amount % $ChipValue == 0 && deposit_amount <= 1000 && deposit_amount >= $ChipValue
       @deposit.amount = deposit_amount * 100
       if @deposit.save!
@@ -47,6 +43,15 @@ class DepositsController < ApplicationController
       flash[:notice] = "You are not authorized to visit this page"
       redirect_to root_path
     end
+  end
+
+  def deposit_strong_params
+    params.require(:deposit).permit(
+      :cc_number,
+      :exp_date,
+      :name_on_card,
+      :cc_type
+    )
   end
 
 
