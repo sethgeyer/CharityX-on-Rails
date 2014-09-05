@@ -1,7 +1,7 @@
 <div id="index_charities">
 
-    <%= link_to "Register a new charity", new_charity_path, class:"button button-submit no-decoration" %>
-    <%= link_to "Back to Home", root_path%>
+  <%= link_to "Register a new charity", new_charity_path, class: "button button-submit no-decoration" %>
+  <%= link_to "Back to Home", root_path %>
 
   <br/>
   <br/>
@@ -15,15 +15,15 @@
     <th>Status</th>
     </thead>
     <tbody>
-    <%@charities.each do |charity| %>
+    <% @charities.each do |charity| %>
       <tr>
-        <td><%=charity.name%></td>
-        <td><%=charity.tax_id%></td>
-        <td><%=charity.poc%></td>
-        <td><%=charity.poc_email%></td>
-        <td><%=charity.status%></td>
+        <td><%= charity.name %></td>
+        <td><%= charity.tax_id %></td>
+        <td><%= charity.poc %></td>
+        <td><%= charity.poc_email %></td>
+        <td><%= charity.status %></td>
       </tr>
-    <%end%>
+    <% end %>
     </tbody>
   </table>
 

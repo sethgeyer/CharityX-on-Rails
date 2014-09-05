@@ -7,17 +7,13 @@ class CharitiesController < ApplicationController
   end
 
   def new
-  @charity = Charity.new
+    @charity = Charity.new
   end
 
   def create
-    charity = Charity.new
-    charity.name = params[:charity][:name]
-    charity.tax_id = params[:charity][:tax_id]
-    charity.poc = params[:charity][:poc]
-    charity.poc_email = params[:charity][:poc_email]
-    charity.status = params[:charity][:status]
-    if charity.save
+    @charity = Charity.create(charity_strong_params)
+    @charity.status = "unregistered"
+    if @charity.save
       flash[:notice] = "Thanks for applying"
       redirect_to charities_path
     else
@@ -26,4 +22,14 @@ class CharitiesController < ApplicationController
     end
   end
 
+  private
+
+  def charity_strong_params
+    params.require(:charity).permit(
+      :name,
+      :tax_id,
+      :poc,
+      :poc_email,
+    )
+  end
 end
