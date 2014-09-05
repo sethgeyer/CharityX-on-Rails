@@ -100,11 +100,13 @@
 <div class="container-fluid">
 
   <body>
-  <%if flash[:notice]%>
-  <%= flash[:notice]%>
-  <br/>
-  <br/>
-  <%end%>
+  <div class="errors">
+    <%if flash[:notice]%>
+      <%= flash[:notice]%>
+      <br/>
+      <br/>
+    <%end%>
+  </div>
   <%= yield %>
 
   <!-- Latest compiled and minified JavaScript -->

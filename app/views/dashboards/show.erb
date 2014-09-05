@@ -157,9 +157,12 @@
                         <%= link_to "Withdraw Unaccepted Wager", [registered_wager.account, registered_wager], {method: :delete, class: "no-decoration", data: {confirm: "You are about to withdraw your wager.  Are you sure?"}}%>
                       </div>
                     <% elsif registered_wager.status == "declined" %>
+                    <% elsif registered_wager.status == "accepted" && registered_wager.wagerer_outcome == "I Won"%>
+                      Awaiting Confirmation from Wageree
                     <%else%>
                       <%= form_for [registered_wager.account, registered_wager] do |f| %>
-                        <%= f.submit "I Lost", class: "button button-lost", data: { disable_with: "Please Wait...", confirm: "You are about to register your loss.  Are you sure?" } %>
+                        <%= f.submit "I Won", class: "button button-won", data: { disable_with: "Please Wait...", confirm: "You are about to register your loss.  Are you sure?"  } %>
+                        <%= f.submit "I Lost", class: "button button-lost", data: { disable_with: "Please Wait...", confirm: "You are about to register your win.  Are you sure?" } %>
                       <% end %>
                     <% end %>
                   <% else %>
@@ -171,9 +174,12 @@
 
                         <%= f.submit "No Thx!", class: "button button-no", data: { disable_with: "Please Wait...", confirm: "You are about to decline a wager.  Are you sure?" } %>
                       <% elsif registered_wager.status == "declined" %>
-
+                        <% elsif registered_wager.status == "accepted" && registered_wager.wageree_outcome == "I Won"%>
+                          Awaiting Confirmation from Wagerer
                       <% else %>
-                        <%= f.submit "I Lost", class: "button button-lost", data: { disable_with: "Please Wait...", confirm: "You are about to register your loss.  Are you sure?"  } %>
+                          <%= f.submit "I Won", class: "button button-won", data: { disable_with: "Please Wait...", confirm: "You are about to register your loss.  Are you sure?"  } %>
+
+                          <%= f.submit "I Lost", class: "button button-lost", data: { disable_with: "Please Wait...", confirm: "You are about to register your loss.  Are you sure?"  } %>
                       <% end %>
                       </div>
                     <% end %>

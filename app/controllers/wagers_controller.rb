@@ -140,6 +140,21 @@ class WagersController < ApplicationController
       end
         redirect_to dashboard_path
 
+    elsif params[:commit] == "I Won"
+      @wager = Wager.where(id: params[:id], status:"accepted").first
+      #if the current user initiated the wager (aka: current user == wagerer)
+      if @account.id == @wager.account.id
+        @wager.wagerer_outcome = "I Won"
+
+        # flash[:notice] = "Awaiting confirmation from the wageree"
+      else
+        @wager.wageree_outcome = "I Won"
+        # flash[:notice] = "Awaiting confirmation from the wagerer"
+      end
+      @wager.save!
+      redirect_to dashboard_path
+
+
     elsif params[:commit] == "I Lost"
       @wager = Wager.where(id: params[:id], status:"accepted").first
 

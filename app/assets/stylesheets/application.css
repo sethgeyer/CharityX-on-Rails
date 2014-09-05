@@ -246,12 +246,20 @@ margin-top: -5px;
 }
 
 .button-lost {
-    background-color: #3C376B;
-    width:100%;
-    border-bottom-left-radius: 12px;
+    background-color: maroon;
     border-bottom-right-radius: 12px;
+    width: 49.5%;
 
 }
+
+.button-won {
+    background-color:  #1E521F;
+    border-bottom-left-radius: 12px;
+    width:49%;
+
+}
+
+
 
 .no-decoration {
     text-decoration:none !important;

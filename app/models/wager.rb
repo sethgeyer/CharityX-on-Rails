@@ -2,7 +2,7 @@
 class Wager < ActiveRecord::Base
   belongs_to :account
   has_one :non_registered_user, dependent: :destroy
-  has_many :wager_view_preferences
+  has_many :wager_view_preferences, dependent: :destroy
 
   validates :title, presence: true
   validate :date_of_wager_must_be_in_the_future, on: :create
