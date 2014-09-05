@@ -268,48 +268,39 @@ margin-top: -5px;
     display:inline-block;
 }
 
-.outcome-flag {
-    display:none;
-
-}
-
+/*.outcome-flag {*/
+    /*display:none;*/
+/*}*/
 
 
-.outcome-show {
-    display:inline-block;
-    width:13px;
-    height:13px;
-    border:1px solid white;
-    opacity:.5;
-    margin-bottom: -1px
-}
+/*.outcome-show {*/
+    /*display:inline-block;*/
+    /*width:13px;*/
+    /*height:13px;*/
+    /*border:1px solid white;*/
+    /*opacity:.5;*/
+    /*margin-bottom: -1px*/
+/*}*/
 
-.completed {
-    background-color: maroon;
-    border-radius:100%;
+/*.completed {*/
+    /*background-color: maroon;*/
+    /*border-radius:100%;*/
+/*}*/
 
-}
+/*.pending {*/
+    /*background-color: darkgoldenrod;*/
+    /*border-radius:100%;*/
+/*}*/
 
-.pending {
-    background-color: darkgoldenrod;
-    border-radius:100%;
+/*.expired {*/
+    /*background-color: black;*/
+    /*border-radius:100%;*/
+/*}*/
 
-
-}
-
-.expired {
-    background-color: black;
-    border-radius:100%;
-
-
-}
-
-.accepted {
-    background-color: darkgreen;
-    border-radius:100%;
-
-
-}
+/*.accepted {*/
+    /*background-color: darkgreen;*/
+    /*border-radius:100%;*/
+/*}*/
 
 .wager-title {
     background-color:#778077;

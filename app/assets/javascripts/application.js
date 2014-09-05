@@ -26,22 +26,22 @@ $(document).ready( function() {
     var outcome = $wager.find('.outcome');
     var date = $wager.attr('data-attribute-date');
     var status = $wager.attr('data-attribute-status');
-    if (status == 'w/wageree') {
-      if (date < 0) {
-        $wager.find('.outcome-flag').addClass('outcome-show').addClass('expired');
-      }
-      else {
-        $wager.find('.outcome-flag').addClass('outcome-show').addClass('pending');
-      }
-    }
-
-    else if (status == 'accepted') {
-        $wager.find('.outcome-flag').addClass('outcome-show').addClass('accepted');
-      }
-
-    else if (status == 'completed') {
-      $wager.find('.outcome-flag').addClass('outcome-show').addClass('completed');
-    };
+//    if (status == 'w/wageree') {
+//      if (date < 0) {
+//        $wager.find('.outcome-flag').addClass('outcome-show').addClass('expired');
+//      }
+//      else {
+//        $wager.find('.outcome-flag').addClass('outcome-show').addClass('pending');
+//      }
+//    }
+//
+//    else if (status == 'accepted') {
+//        $wager.find('.outcome-flag').addClass('outcome-show').addClass('accepted');
+//      }
+//
+//    else if (status == 'completed') {
+//      $wager.find('.outcome-flag').addClass('outcome-show').addClass('completed');
+//    };
 
     if (outcome.html() == null && date < 0) {
       $wager.addClass('past-due-outcome');

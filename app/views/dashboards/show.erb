@@ -77,7 +77,7 @@
 
               <div class="wager-title">
                 <div class="expand-icon glyphicon glyphicon-th-list"></div>
-                <div class="outcome-flag"></div>
+                <!--<div class="outcome-flag"></div>-->
                 <% if registered_wager.status == "completed" || registered_wager.status == "declined" || registered_wager.status == "expired" %>
                   <div id='archive-button' class="delete-icon glyphicon glyphicon-remove-sign" data-id=<%= registered_wager.id %>></div>
                 <% else %>
@@ -154,7 +154,7 @@
                   <% if kenny_loggins.account == registered_wager.account %>
                     <% if registered_wager.status == 'w/wageree' %>
                       <div class="button button-withdraw">
-                        <%= link_to "Withdraw", [registered_wager.account, registered_wager], {method: :delete, class: "no-decoration", data: {confirm: "You are about to withdraw your wager.  Are you sure?"}}%>
+                        <%= link_to "Withdraw Unaccepted Wager", [registered_wager.account, registered_wager], {method: :delete, class: "no-decoration", data: {confirm: "You are about to withdraw your wager.  Are you sure?"}}%>
                       </div>
                     <% elsif registered_wager.status == "declined" %>
                     <%else%>
@@ -203,7 +203,7 @@
 
               <div class="wager-title">
                 <div class="expand-icon glyphicon glyphicon-th-list"></div>
-                <div class="outcome-flag"></div>
+                <!--<div class="outcome-flag"></div>-->
                 <div id='archive-button' class="delete-icon glyphicon glyphicon-remove-sign" data-id=<%=public_wager.id%>></div>
                 <div class="title-text">
                   <%= "#{User.find_by(id: public_wager.account.user_id).username} bet the Public $#{public_wager.amount / 100} that: #{public_wager.title}." %>
