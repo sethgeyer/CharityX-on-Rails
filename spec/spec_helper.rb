@@ -97,7 +97,7 @@ def login_a_registered_user(name)
   click_on "Login"
 end
 
-def complete_application(charity_name)
+def register_a_new_charity(charity_name)
   fill_in "Charity Name", with: charity_name
   fill_in "Federal Tax ID", with: 123456789
   fill_in "Primary POC", with: "Al Smith"

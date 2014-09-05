@@ -43,7 +43,7 @@ feature "User Dashboard Page" do
     fund_my_account_with_a_credit_card(100)
     visit "/charities"
     click_on "Register a new charity"
-    complete_application("United Way")
+    register_a_new_charity("United Way")
     click_on "Dashboard"
     distribute_funds_from_my_account(100, "United Way")
     within(page.find("#distribute-funds")) {click_link "+"}

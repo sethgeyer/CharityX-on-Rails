@@ -4,9 +4,9 @@ require 'capybara/rails'
 feature "View Index and Create Distributions" do
   before(:each) do
     visit "/charities/new"
-    complete_application("United Way")
+    register_a_new_charity("United Way")
     visit "/charities/new"
-    complete_application("Red Cross")
+    register_a_new_charity("Red Cross")
   end
 
   scenario "As a visitor, I should NOT be able to view a history of deposits" do

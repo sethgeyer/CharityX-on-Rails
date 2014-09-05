@@ -6,10 +6,10 @@ require 'capybara/rails'
 feature "Track Allocations" do
   scenario "As a user, I can view where all of my dollars are" do
     visit "/charities/new"
-    complete_application("United Way")
+    register_a_new_charity("United Way")
     visit "/charities/new"
 
-    complete_application("Red Cross")
+    register_a_new_charity("Red Cross")
     register_users_and_create_a_wager("Alexander", "Stephen")
     fund_my_account_with_a_credit_card(100)
     click_on "Logout"

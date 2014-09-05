@@ -5,7 +5,7 @@ feature "View and Create a Proposed Wagers" do
 
   before(:each) do
     visit "/charities/new"
-    complete_application("United Way")
+    register_a_new_charity("United Way")
 
   end
 
