@@ -161,8 +161,8 @@
                       Awaiting Confirmation from Wageree
                     <%else%>
                       <%= form_for [registered_wager.account, registered_wager] do |f| %>
-                        <%= f.submit "I Won", class: "button button-won", data: { disable_with: "Please Wait...", confirm: "You are about to register your loss.  Are you sure?"  } %>
-                        <%= f.submit "I Lost", class: "button button-lost", data: { disable_with: "Please Wait...", confirm: "You are about to register your win.  Are you sure?" } %>
+                        <%= f.submit "I Won", class: "button button-won", data: { disable_with: "Please Wait...", confirm: "You are about to register your win.  Are you sure?"  } %>
+                        <%= f.submit "I Lost", class: "button button-lost", data: { disable_with: "Please Wait...", confirm: "You are about to register your loss.  Are you sure?" } %>
                       <% end %>
                     <% end %>
                   <% else %>
@@ -177,7 +177,7 @@
                         <% elsif registered_wager.status == "accepted" && registered_wager.wageree_outcome == "I Won"%>
                           Awaiting Confirmation from Wagerer
                       <% else %>
-                          <%= f.submit "I Won", class: "button button-won", data: { disable_with: "Please Wait...", confirm: "You are about to register your loss.  Are you sure?"  } %>
+                          <%= f.submit "I Won", class: "button button-won", data: { disable_with: "Please Wait...", confirm: "You are about to register your win.  Are you sure?"  } %>
 
                           <%= f.submit "I Lost", class: "button button-lost", data: { disable_with: "Please Wait...", confirm: "You are about to register your loss.  Are you sure?"  } %>
                       <% end %>
