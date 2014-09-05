@@ -118,7 +118,7 @@ class WagersController < ApplicationController
   def update
     @account = kenny_loggins.account
 
-    if params[:commit] == "Shake on it"
+    if params[:commit] == "Shake on it!"
       #<<<<< The below line and the if == nil code were added to address the situations where a wagerer has withdrawn a bet, it has been accepted, or expired
       #before the wageree refreshing his view.  This ensures that if the bet is no longer "available", a user that tries to accept it, gets a message stating
       #that it had been withdrawn.

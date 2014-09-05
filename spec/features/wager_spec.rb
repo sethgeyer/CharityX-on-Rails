@@ -45,7 +45,7 @@ feature "View and Create a Proposed Wagers" do
     expect(page.find("#wagers_table")).to have_content("alexandery")
     expect(page.find("#wagers_table")).to have_content("I bet alexandery")
     expect(page.find("#wagers_table")).to have_content("w/wageree")
-    expect(page.find("#wagers_table")).not_to have_button("Shake on it")
+    expect(page.find("#wagers_table")).not_to have_button("Shake on it!")
     expect(page.find("#wagers_table")).not_to have_button("No Thx!")
     expect(page.find("#wagers_table")).not_to have_button("I Lost") # _______________________
 
@@ -124,7 +124,7 @@ feature "View and Create a Proposed Wagers" do
     scenario "I can not 'withdraw' a proposed wager if it has been accepted" do
       click_on "Logout"
       login_a_registered_user("Alexander")
-      click_on "Shake on it"
+      click_on "Shake on it!"
       click_on "Logout"
       login_a_registered_user("Stephen")
       expect(page).to have_content("Ping Pong Match")
@@ -162,7 +162,7 @@ feature "View and Create a Proposed Wagers" do
   #   expect(page).to have_css("#archive-button")
   #   click_on "Logout"
   #   login_a_registered_user("Alexander")
-  #   expect(page).not_to have_button("Shake on it")
+  #   expect(page).not_to have_button("Shake on it!")
   # end
 
 
@@ -187,15 +187,15 @@ feature "View and Create a Proposed Wagers" do
       expect(page.find("#wagers_table")).to have_content("w/wageree")
       expect(page.find("#wagers")).to have_content(0)
       expect(page.find("#wagers_table")).to have_button("No Thx!")
-      expect(page.find("#wagers_table")).to have_button("Shake on it")
+      expect(page.find("#wagers_table")).to have_button("Shake on it!")
     end
 
 
     scenario "I can accept a proposed_wager if I have sufficent funds to wager" do
       expect(page.find("#wagers")).to have_content("$0")
-      click_on "Shake on it"
+      click_on "Shake on it!"
       expect(page).to have_css("#show_dashboards")
-      expect(page.find("#wagers_table")).not_to have_button("Shake on it")
+      expect(page.find("#wagers_table")).not_to have_button("Shake on it!")
       expect(page.find("#wagers_table")).to have_content("accepted")
       expect(page.find("#wagers")).to have_content(10)
       expect(page.find("#wagered-chips")).to have_content("Chips:#{10 / $ChipValue}")
@@ -207,7 +207,7 @@ feature "View and Create a Proposed Wagers" do
       expect(page.find("#wagers")).to have_content("$0")
       click_on "No Thx!"
       expect(page).to have_css("#show_dashboards")
-      expect(page.find("#wagers_table")).not_to have_button("Shake on it")
+      expect(page.find("#wagers_table")).not_to have_button("Shake on it!")
       expect(page.find("#wagers_table")).not_to have_button("No Thx!")
 
       expect(page.find("#wagers_table")).to have_content("declined")
@@ -233,7 +233,7 @@ feature "View and Create a Proposed Wagers" do
     scenario "I can NOT accept a proposed_wager if I don't have sufficient funds to wager" do
       distribute_funds_from_my_account(90, "United Way")
       distribute_funds_from_my_account(10, "United Way")
-      click_on "Shake on it"
+      click_on "Shake on it!"
       expect(page).to have_css("#show_dashboards")
       expect(page).to have_content("You don't have adequate funds to accept this wager.  Please add additional funds to your account.")
       expect(page.find("#net_amount")).to have_content("$0")
@@ -246,13 +246,13 @@ feature "View and Create a Proposed Wagers" do
       register_users_and_create_a_wager("Alexander", "Stephen")
       click_on "Logout"
       login_a_registered_user("Alexander")
-      click_on "Shake on it"
+      click_on "Shake on it!"
       click_on "I Lost"
       click_on "Logout"
       login_a_registered_user("Stephen")
       expect(page).to have_content("I Won")
       expect(page).not_to have_button("I Lost")
-      expect(page).not_to have_button("Shake on it")
+      expect(page).not_to have_button("Shake on it!")
       expect(page.find("#winnings")).to have_content(10)
       expect(page.find("#wagers")).to have_content("$0")
       expect(page.find("#wagered-chips")).to have_content("Chips:0")
@@ -265,13 +265,13 @@ feature "View and Create a Proposed Wagers" do
       register_users_and_create_a_wager("Alexander", "Stephen")
       click_on "Logout"
       login_a_registered_user("Alexander")
-      click_on "Shake on it"
+      click_on "Shake on it!"
       click_on "Logout"
       login_a_registered_user("Stephen")
       click_on "I Lost"
       expect(page).to have_content("I Lost")
       expect(page).not_to have_button("I Lost")
-      expect(page).not_to have_button("Shake on it")
+      expect(page).not_to have_button("Shake on it!")
       expect(page.find("#winnings")).to have_content(-10)
       expect(page.find("#wagers")).to have_content("$0")
       expect(page.find("#wagered-chips")).to have_content("Chips:0")
@@ -285,12 +285,12 @@ feature "View and Create a Proposed Wagers" do
       register_users_and_create_a_wager("Alexander", "Stephen")
       click_on "Logout"
       login_a_registered_user("Alexander")
-      click_on "Shake on it"
+      click_on "Shake on it!"
       click_on "I Lost"
       expect(page).to have_content("I Lost")
       expect(page).not_to have_button("I Lost")
       expect(page).to have_link("Rematch")
-      expect(page).not_to have_button("Shake on it")
+      expect(page).not_to have_button("Shake on it!")
       expect(page.find("#winnings")).to have_content(-10)
       expect(page.find("#wagers")).to have_content("$0")
       expect(page.find("#wagered-chips")).to have_content("Chips:0")
@@ -302,7 +302,7 @@ feature "View and Create a Proposed Wagers" do
       register_users_and_create_a_wager("Alexander", "Stephen")
       click_on "Logout"
       login_a_registered_user("Alexander")
-      click_on "Shake on it"
+      click_on "Shake on it!"
       click_on "Logout"
       login_a_registered_user("Stephen")
       click_on "I Lost"
@@ -311,7 +311,7 @@ feature "View and Create a Proposed Wagers" do
       expect(page).to have_content("I Won")
       expect(page).not_to have_button("I Lost")
       expect(page).to have_link("Rematch")
-      expect(page).not_to have_button("Shake on it")
+      expect(page).not_to have_button("Shake on it!")
       expect(page.find("#winnings")).to have_content(10)
       expect(page.find("#wagers")).to have_content("$0")
       expect(page.find("#dist-chips")).to have_content("Chips:0")
@@ -334,7 +334,7 @@ feature "View and Create a Proposed Wagers" do
         register_users_and_create_a_wager("Alexander", "Stephen")
         click_on "Logout"
         login_a_registered_user("Alexander")
-        click_on "Shake on it"
+        click_on "Shake on it!"
         click_on "I Lost"
         click_on "Logout"
         login_a_registered_user("Stephen")
@@ -359,7 +359,7 @@ feature "View and Create a Proposed Wagers" do
         register_users_and_create_a_wager("Alexander", "Stephen")
         click_on "Logout"
         login_a_registered_user("Alexander")
-        click_on "Shake on it"
+        click_on "Shake on it!"
         click_on "Logout"
         login_a_registered_user("Stephen")
         click_on "I Lost"
@@ -385,7 +385,7 @@ feature "View and Create a Proposed Wagers" do
         click_on "Logout"
         login_a_registered_user("Alexander")
         expect(page.find("#public-wagers")).to have_content("Public Ping Pong")
-        click_on "Shake on it"
+        click_on "Shake on it!"
         expect(page.find("#wagers")).to have_content("$10")
         expect(page.find("#wagers")).not_to have_content("$1000")
         expect(page.find("#wagered-chips")).to have_content("Chips:#{10 / $ChipValue}")

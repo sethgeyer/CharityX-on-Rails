@@ -44,7 +44,7 @@
       <br/>
 
       <div class="form-group">
-        <%=f.submit "Submit", class:"button button-submit", data: { disable_with: "Please Wait..." }%>
+        <%=f.submit "Submit", class:"button button-submit", data: { disable_with: "Please Wait...", confirm: "You are about to fund your account.  Are you sure the information is correct?"}%>
         <%=link_to "Cancel", dashboard_path%>
       </div>
 

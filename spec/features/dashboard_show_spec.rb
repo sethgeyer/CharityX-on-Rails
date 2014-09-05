@@ -72,7 +72,7 @@ feature "User Dashboard Page" do
     scenario "A user can hide a completed wager", js: true do
       click_on "Logout"
       login_a_registered_user("Alexander")
-      click_on "Shake on it"
+      click_on "Shake on it!"
       click_on "Logout"
 
       login_a_registered_user("Stephen")
