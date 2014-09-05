@@ -154,7 +154,7 @@
                   <% if kenny_loggins.account == registered_wager.account %>
                     <% if registered_wager.status == 'w/wageree' %>
                       <div class="button button-withdraw">
-                        <%= link_to "Withdraw", [registered_wager.account, registered_wager], {method: :delete, class: "no-decoration"} %>
+                        <%= link_to "Withdraw", [registered_wager.account, registered_wager], {method: :delete, class: "no-decoration", data: {confirm: "You are about to withdraw your wager.  Are you sure?"}}%>
                       </div>
                     <% elsif registered_wager.status == "declined" %>
                     <%else%>
