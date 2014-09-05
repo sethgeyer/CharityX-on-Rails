@@ -7,6 +7,11 @@ class UsersController < ApplicationController
     render :new
   end
 
+  def show
+    @total_chips = Chip.where(owner_id: kenny_loggins.id)
+    @home_chips = Chip.where(owner_id: kenny_loggins.id, account_id: kenny_loggins.account.id)
+  end
+
   def create
     @user = User.new
     @user.username = params[:user][:username]

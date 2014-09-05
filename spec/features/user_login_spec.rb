@@ -20,7 +20,7 @@ feature "visitor login" do
 
   scenario "logged in user wants to see their account details" do
     fill_in_registration_form("Stephen")
-    click_on "Account Details"
+    click_on "Dashboard"
     expect(page).to have_css("#show_dashboards")
   end
 

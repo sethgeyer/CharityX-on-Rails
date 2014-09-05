@@ -44,7 +44,7 @@ feature "User Dashboard Page" do
     visit "/charities"
     click_on "Register a new charity"
     complete_application("United Way")
-    click_on "Account Details"
+    click_on "Dashboard"
     distribute_funds_from_my_account(100, "United Way")
     within(page.find("#distribute-funds")) {click_link "+"}
     expect(page).to have_css("#show_dashboards")
