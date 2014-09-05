@@ -11,7 +11,7 @@
         <div class="blue-bordered row">
           <div id="fund-my-account" class="header col-xs-7">
             Deposits
-            <%=link_to "+", new_account_deposit_path(@account), class:"round-button"%>
+            <%=link_to "+", new_account_deposit_path(@account), class:"round-button no-decoration"%>
           </div>
           <div id="deposits" class="contents col-xs-5" >
             $<%=@deposit_total%>
@@ -21,7 +21,7 @@
         <div class="blue-bordered row">
           <div id="wager-funds" class="header col-xs-7">
             Active Wagers
-            <%=link_to "+", new_account_wager_path(@account), class:"round-button"  %>
+            <%=link_to "+", new_account_wager_path(@account), class:"round-button no-decoration"  %>
           </div>
           <div id="wagers" class="contents col-xs-5" >
             $<%=@wagered_total%>
@@ -31,7 +31,7 @@
         <div class=" blue-bordered row">
           <div id="distribute-funds" class=" header col-xs-7">
             Distributions
-            <%=link_to "+", new_account_distribution_path(@account), class:"round-button"%>
+            <%=link_to "+", new_account_distribution_path(@account), class:"round-button no-decoration"%>
           </div>
           <div id="distributions" class="contents col-xs-5" >
             $<%=@distribution_total%>
@@ -153,25 +153,29 @@
                 <% else %>
                   <% if kenny_loggins.account == registered_wager.account %>
                     <% if registered_wager.status == 'w/wageree' %>
-                      <%= link_to "Withdraw", [registered_wager.account, registered_wager], {method: :delete, class: "btn btn-primary btn-sm"} %>
+                      <div class="button button-withdraw">
+                        <%= link_to "Withdraw", [registered_wager.account, registered_wager], {method: :delete, class: "no-decoration"} %>
+                      </div>
                     <% elsif registered_wager.status == "declined" %>
                     <%else%>
                       <%= form_for [registered_wager.account, registered_wager] do |f| %>
-                        <%= f.submit "I Lost", class: "btn btn-primary btn-sm", data: { disable_with: "Please Wait..." } %>
+                        <%= f.submit "I Lost", class: "button button-lost", data: { disable_with: "Please Wait..." } %>
                       <% end %>
                     <% end %>
                   <% else %>
                     <%= form_for [registered_wager.account, registered_wager] do |f| %>
+                      <div>
                       <% if registered_wager.status == 'w/wageree'%>
-                        <%= f.submit "Shake on it", class: "btn btn-sm btn-success", data: { disable_with: "Please Wait..." } %>
-                        &nbsp;
+                        <%= f.submit "Shake on it", class: "button button-shake", data: { disable_with: "Please Wait..." } %>
 
-                        <%= f.submit "No Thx!", class: "btn btn-sm btn-danger", data: { disable_with: "Please Wait..." } %>
+
+                        <%= f.submit "No Thx!", class: "button button-no", data: { disable_with: "Please Wait..." } %>
                       <% elsif registered_wager.status == "declined" %>
 
                       <% else %>
-                        <%= f.submit "I Lost", class: "btn btn-sm btn-primary", data: { disable_with: "Please Wait..." } %>
+                        <%= f.submit "I Lost", class: "button button-lost", data: { disable_with: "Please Wait..." } %>
                       <% end %>
+                      </div>
                     <% end %>
                   <% end %>
                 <% end %>
@@ -223,11 +227,9 @@
                     Wager Expired Before It Was Accepted
                   </div>
                 <%else%>
-                  <div class="outcome">
                     <%= form_for [public_wager.account, public_wager] do |f| %>
-                      <%= f.submit "Shake on it", class: "btn btn-sm btn-success", data: { disable_with: "Please Wait..." } %>
+                      <%= f.submit "Shake on it", class: "button button-pub-shake", data: { disable_with: "Please Wait..." } %>
                     <% end %>
-                  </div>
                 <%end%>
               </div>
             </div>

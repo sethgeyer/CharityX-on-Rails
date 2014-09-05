@@ -80,12 +80,12 @@ $(document).ready( function() {
 
 
 
-  $('.my-btn').on('mouseover', function() {
-    $(this).toggleClass('my-active-btn')
+  $('.button').on('mouseover', function() {
+    $(this).toggleClass('active-button')
   });
 
-  $('.my-btn').on('mouseleave', function() {
-    $(this).toggleClass('my-active-btn')
+  $('.button').on('mouseleave', function() {
+    $(this).toggleClass('active-button')
   })
 
 

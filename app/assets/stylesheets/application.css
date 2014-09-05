@@ -174,13 +174,85 @@ margin-top: -5px;
     border-radius: 10px;
 }
 
-#wagers_table .btn {
-    margin-top: 9px;
+/*#wagers_table .btn {*/
+    /*margin-top: 9px;*/
+    /*margin-bottom: 5px;*/
+/*}*/
+
+/*#public-wagers .btn {*/
+    /*margin-top: 9px;*/
+    /*margin-bottom: 5px;*/
+
+/*}*/
+
+.button {
+    color: white;
+    margin-top: 4px;
+    opacity:0.7;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
-#public-wagers .btn {
-    margin-top: 9px;
+.active-button {
+    color: white;
+    margin-top: 4px;
+    opacity:0.80;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
+
+.button-withdraw {
+    color:white;
+    width: 100%;
+    border-style: double;
+    text-align: center;
+    background-color: #526B28;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+
+}
+
+.button-shake {
+    background-color:  #1E521F;
+    border-bottom-left-radius: 12px;
+    width:49%;
+}
+
+.button-pub-shake {
+    background-color:  #1E521F;
+    border-bottom-left-radius: 12px;
+    width:100%;
+    border-bottom-right-radius: 12px;
+
+}
+
+
+.button-no {
+    background-color: maroon;
+    border-bottom-right-radius: 12px;
+    width: 49.5%;
+
+}
+
+.button-lost {
+    background-color: #3C376B;
+    width:100%;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+
+}
+
+.no-decoration {
+    text-decoration:none !important;
+    color:white;
+}
+
+.no-decoration:hover {
+    color:white
+}
+
+
 
 .outcome {
     display:inline-block;
