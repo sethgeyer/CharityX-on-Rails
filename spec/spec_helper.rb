@@ -108,10 +108,10 @@ end
 def fund_my_account_with_a_credit_card(deposit_amount)
   within(page.find("#fund-my-account")) {click_link "+"}
   fill_in "Amount", with: deposit_amount
-  fill_in "Credit Card Number", with: 123456789
-  fill_in "Exp Date", with: "2014-07-31"
-  fill_in "Name on Card", with: "Stephen Geyer"
-  within(page.find("#new_deposits")) { choose "Visa" }
+  # fill_in "Credit Card Number", with: 123456789
+  # fill_in "Exp Date", with: "2014-07-31"
+  # fill_in "Name on Card", with: "Stephen Geyer"
+  # within(page.find("#new_deposits")) { choose "Visa" }
 
   click_on "Submit"
 
