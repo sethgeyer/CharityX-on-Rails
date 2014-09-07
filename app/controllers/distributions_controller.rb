@@ -32,7 +32,7 @@ class DistributionsController < ApplicationController
         if @distribution.save!
           # newest_distribution = Distribution.where(account_id: params[:account_id].to_i).last
           #UNTESTED ########################################################
-          Chip.new.cash_out(@distribution.user.id, @distribution.amount, @distribution.date, @distribution.charity.id)
+          Chip.cash_out(@distribution.user.id, @distribution.amount, @distribution.date, @distribution.charity.id)
           #################
           flash[:notice] = "Thank you for distributing $#{@distribution.amount.to_i / 100} from your account to #{@distribution.charity.name}"
           redirect_to user_dashboard_path

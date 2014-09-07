@@ -61,7 +61,7 @@ class WagersController < ApplicationController
       else
         if @wager.save
           #UNTESTED ########################################################
-          Chip.new.change_status_to_wagered(@wager.user.id, @wager.amount)
+          Chip.change_status_to_wagered(@wager.user.id, @wager.amount)
           ################
           # wageree = User.find(params[:proposed_wager][:wageree_id].to_i)
           if registered_user
@@ -130,7 +130,7 @@ class WagersController < ApplicationController
           @wager.wageree_id = kenny_loggins.id if @wager.wageree_id == nil
           #-------------------------------------
           @wager.status = "accepted"
-          Chip.new.change_status_to_wagered(kenny_loggins.id, @wager.amount) if @wager.save!
+          Chip.change_status_to_wagered(kenny_loggins.id, @wager.amount) if @wager.save!
         end
       end
         redirect_to user_dashboard_path
@@ -160,10 +160,8 @@ class WagersController < ApplicationController
         @wager.status = "completed"
 
         if @wager.save!
-          winners_chips = Chip.new
-          winners_chips.change_status_to_available(@wager.wageree_id, @wager.amount)
-          losers_chips = Chip.new
-          losers_chips.reassign_to_winner(kenny_loggins.id, @wager.wageree_id, @wager.amount )
+          winners_chips = Chip.change_status_to_available(@wager.wageree_id, @wager.amount)
+          losers_chips = Chip.reassign_to_winner(kenny_loggins.id, @wager.wageree_id, @wager.amount )
         end
         redirect_to user_dashboard_path
       end
@@ -178,10 +176,8 @@ class WagersController < ApplicationController
         if @wager.save!
 
           #convert these to class methods
-          winners_chips = Chip.new
-          winners_chips.change_status_to_available(@wager.user_id, @wager.amount)
-          losers_chips = Chip.new
-          losers_chips.reassign_to_winner(kenny_loggins.id, @wager.user_id, @wager.amount )
+          winners_chips = Chip.change_status_to_available(@wager.user_id, @wager.amount)
+          losers_chips = Chip.reassign_to_winner(kenny_loggins.id, @wager.user_id, @wager.amount )
         end
         redirect_to user_dashboard_path
       end
@@ -191,7 +187,7 @@ class WagersController < ApplicationController
       @wager.status = "declined"
 
         if @wager.save!
-          Chip.new.change_status_to_available(@wager.user_id, @wager.amount)
+          Chip.change_status_to_available(@wager.user_id, @wager.amount)
         end
         redirect_to user_dashboard_path
 
@@ -208,7 +204,7 @@ class WagersController < ApplicationController
       flash[:notice] = "Wager has already been accepted or expired before you could withdraw it."
     else
       wager.destroy
-      Chip.new.change_status_to_available(kenny_loggins.id, wager.amount)
+      Chip.change_status_to_available(kenny_loggins.id, wager.amount)
     end
 
     redirect_to user_dashboard_path
