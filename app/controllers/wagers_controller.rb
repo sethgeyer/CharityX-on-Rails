@@ -4,7 +4,7 @@ class WagersController < ApplicationController
 
   def new
 
-      if kenny_loggins.id == params[:user_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
+      # if kenny_loggins.id == params[:user_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
         if kenny_loggins.chips.where(status: "available").count == 0
           flash[:notice] = "Your account has a $0 balance.  You must fund your account before you can wager."
           redirect_to user_dashboard_path
@@ -27,11 +27,10 @@ class WagersController < ApplicationController
           end
           render :new
         end
-      else
-        flash[:notice] = "You are not authorized to visit this page"
-        redirect_to root_path
-      end
-    # end
+      # else
+      #   flash[:notice] = "You are not authorized to visit this page"
+      #   redirect_to root_path
+      # end
   end
 
   def create

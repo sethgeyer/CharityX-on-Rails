@@ -5,16 +5,16 @@ Rails.application.routes.draw do
   post "/login", to: "sessions#create", as: "login"
 
   resources :users do
-    resources :wagers
+
   end
 
 
   resource :user do
     resource :profile, :only => [:edit, :update]
-  resource :dashboard, :only => [:show]
+    resource :dashboard, :only => [:show]
     resources :deposits, :only => [:index, :new, :create]
     resources :distributions, :only => [:index, :new, :create]
-
+    resources :wagers
 
 
   end
