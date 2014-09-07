@@ -17,7 +17,7 @@ class DistributionsController < ApplicationController
 
       if kenny_loggins.chips.where(status: "available").count == 0
         flash[:notice] = "Your account has a $0 balance.  You must fund your account before you can distribute funds."
-        redirect_to dashboard_path
+        redirect_to user_dashboard_path
       else
         @distribution = Distribution.new
         @charities_for_selection = Charity.all
@@ -47,7 +47,7 @@ class DistributionsController < ApplicationController
           Chip.new.cash_out(@distribution.user.id, @distribution.amount, @distribution.date, @distribution.charity.id)
           #################
           flash[:notice] = "Thank you for distributing $#{@distribution.amount.to_i / 100} from your account to #{@distribution.charity.name}"
-          redirect_to dashboard_path
+          redirect_to user_dashboard_path
         end
       end
     else

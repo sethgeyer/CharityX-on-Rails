@@ -7,7 +7,7 @@ class WagersController < ApplicationController
       if kenny_loggins.id == params[:user_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
         if kenny_loggins.chips.where(status: "available").count == 0
           flash[:notice] = "Your account has a $0 balance.  You must fund your account before you can wager."
-          redirect_to dashboard_path
+          redirect_to user_dashboard_path
         else
           @wager = Wager.new
           # @list_of_users = User.where('id != ?', kenny_loggins.id)
@@ -91,7 +91,7 @@ class WagersController < ApplicationController
           else
             flash[:notice] = "No username was provided.  Your wager is listed in the public wagers section"
           end
-          redirect_to dashboard_path
+          redirect_to user_dashboard_path
         else
           @wager.amount = amount
           @wageree_username = params[:wageree_username]
@@ -134,7 +134,7 @@ class WagersController < ApplicationController
           Chip.new.change_status_to_wagered(kenny_loggins.id, @wager.amount) if @wager.save!
         end
       end
-        redirect_to dashboard_path
+        redirect_to user_dashboard_path
 
     elsif params[:commit] == "I Won"
       @wager = Wager.where(id: params[:id], status:"accepted").first
@@ -148,7 +148,7 @@ class WagersController < ApplicationController
         # flash[:notice] = "Awaiting confirmation from the wagerer"
       end
       @wager.save!
-      redirect_to dashboard_path
+      redirect_to user_dashboard_path
 
 
     elsif params[:commit] == "I Lost"
@@ -166,7 +166,7 @@ class WagersController < ApplicationController
           losers_chips = Chip.new
           losers_chips.reassign_to_winner(kenny_loggins.id, @wager.wageree_id, @wager.amount )
         end
-        redirect_to dashboard_path
+        redirect_to user_dashboard_path
       end
 
 
@@ -184,7 +184,7 @@ class WagersController < ApplicationController
           losers_chips = Chip.new
           losers_chips.reassign_to_winner(kenny_loggins.id, @wager.user_id, @wager.amount )
         end
-        redirect_to dashboard_path
+        redirect_to user_dashboard_path
       end
 
     elsif params[:commit] == "No Thx!"
@@ -194,7 +194,7 @@ class WagersController < ApplicationController
         if @wager.save!
           Chip.new.change_status_to_available(@wager.user_id, @wager.amount)
         end
-        redirect_to dashboard_path
+        redirect_to user_dashboard_path
 
     end
   end
@@ -212,7 +212,7 @@ class WagersController < ApplicationController
       Chip.new.change_status_to_available(kenny_loggins.id, wager.amount)
     end
 
-    redirect_to dashboard_path
+    redirect_to user_dashboard_path
   end
 
 

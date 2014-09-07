@@ -31,7 +31,7 @@ class UsersController < ApplicationController
 
       flash[:notice] = "Thanks for registering #{@user.username}. You are now logged in."
       UserMailer.welcome_email(@user).deliver
-      redirect_to dashboard_path
+      redirect_to user_dashboard_path
     else
       render :new
     end

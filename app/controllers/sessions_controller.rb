@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
     if @user && @user.authenticate(params[:user][:password])
       session[:user_id] = @user.id
       flash[:notice] = "Welcome #{@user.username}"
-      redirect_to dashboard_path
+      redirect_to user_dashboard_path
     else
       flash[:notice] = "The credentials you entered are incorrect.  Please try again."
       redirect_to root_path

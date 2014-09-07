@@ -23,7 +23,7 @@ class DepositsController < ApplicationController
       if @deposit.save
         Chip.new.convert_currency_to_chips(kenny_loggins.id, @deposit.amount, @deposit.date_created, "available")
         flash[:notice] = "Thank you for depositing $#{@deposit.amount / 100} into your account"
-        redirect_to dashboard_path
+        redirect_to user_dashboard_path
       else
         render :new
       end

@@ -10,10 +10,11 @@ Rails.application.routes.draw do
     resources :distributions
   end
 
-  resource :dashboard, :only => [:show]
 
   resource :user do
     resource :profile, :only => [:edit, :update]
+    resource :dashboard, :only => [:show]
+
   end
 
 

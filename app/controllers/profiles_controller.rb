@@ -24,7 +24,7 @@ class ProfilesController < ApplicationController
     @user.profile_picture = params[:user][:profile_picture]
     if @user.save
       flash[:notice] = "Your changes have been saved"
-      redirect_to dashboard_path
+      redirect_to user_dashboard_path
     else
       render :edit
     end
