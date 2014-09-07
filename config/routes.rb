@@ -4,10 +4,9 @@ Rails.application.routes.draw do
   delete "/logout", to: "sessions#destroy", as: "logout"
   post "/login", to: "sessions#create", as: "login"
 
-  resources :users do
+  resources :users, only: [:new, :create] do
 
   end
-
 
   resource :user do
     resource :profile, :only => [:edit, :update]
@@ -15,20 +14,12 @@ Rails.application.routes.draw do
     resources :deposits, :only => [:index, :new, :create]
     resources :distributions, :only => [:index, :new, :create]
     resources :wagers
-
-
+    resources :wager_view_preferences, :only => [:create]
   end
-
-
-  resources :wager_view_preferences
-
-  resources :mvps
 
   resources :charities
 
   resources :password_resets
-
-  # get "/reset_password/:uid", to: "password_resets#edit"
 
 
 

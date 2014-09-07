@@ -62,7 +62,7 @@ $(document).ready( function() {
     var $xButton = $(this)
     var archiveMessage = "<div class='archive' style='color:red'>This wager is being archived</div><br/>"
     var wagerID = $xButton.attr('data-id')
-    var postWagerPreferencePromise = $.post("/wager_view_preferences", {wager_id: wagerID})
+    var postWagerPreferencePromise = $.post("/user/wager_view_preferences", {wager_id: wagerID})
 
 
     postWagerPreferencePromise.success( function() {
