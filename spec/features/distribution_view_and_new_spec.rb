@@ -10,12 +10,12 @@ feature "View Index and Create Distributions" do
   end
 
   scenario "As a visitor, I should NOT be able to view a history of distributions" do
-    visit "/users/1/distributions"
+    visit "/user/distributions"
     expect(page).to have_css("#homepage")
   end
 
   scenario "As a visitor, I should not be able to visit the new distributions page directly via typing in a uRL" do
-    visit "/users/1/distributions/new"
+    visit "/user/distributions/new"
     expect(page).to have_css("#homepage")
   end
 

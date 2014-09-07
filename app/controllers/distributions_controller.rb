@@ -2,18 +2,11 @@ class DistributionsController < ApplicationController
 
 
   def index
-    if kenny_loggins.id == params[:user_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
       @distributions = kenny_loggins.distributions
-      render :index
-    else
-      flash[:notice] = "You are not authorized to visit this page"
-      redirect_to root_path
-    end
   end
 
 
   def new
-    if kenny_loggins.id == params[:user_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
 
       if kenny_loggins.chips.where(status: "available").count == 0
         flash[:notice] = "Your account has a $0 balance.  You must fund your account before you can distribute funds."
@@ -21,12 +14,7 @@ class DistributionsController < ApplicationController
       else
         @distribution = Distribution.new
         @charities_for_selection = Charity.all
-        render :new
       end
-    else
-      flash[:notice] = "You are not authorized to visit this page"
-      redirect_to root_path
-    end
   end
 
   def create
