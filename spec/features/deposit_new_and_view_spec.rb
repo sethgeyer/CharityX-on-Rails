@@ -4,13 +4,13 @@ require 'capybara/rails'
 feature "Deposit and View Funds in an Account" do
 
   scenario "As a visitor, I should not be able to visit the new_deposits page directly via typing in a URL" do
-    visit "/users/1/deposits/new"
+    visit "/user/deposits/new"
 
     expect(page).to have_css("#homepage")
   end
 
   scenario "As a visitor, I should NOT be able to view a history of deposits" do
-    visit "/users/1/deposits"
+    visit "/user/deposits"
     expect(page).to have_css("#homepage")
   end
 

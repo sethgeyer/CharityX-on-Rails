@@ -1,6 +1,6 @@
 class DepositsController < ApplicationController
 
-  before_action :kenny_loggins_can_view_only_his_deposits
+  # before_action :kenny_loggins_can_view_only_his_deposits
 
   def index
     @deposits = kenny_loggins.deposits
@@ -32,12 +32,12 @@ class DepositsController < ApplicationController
 
   private
 
-  def kenny_loggins_can_view_only_his_deposits
-    unless kenny_loggins.id == params[:user_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
-      flash[:notice] = "You are not authorized to visit this page"
-      redirect_to root_path
-    end
-  end
+  # def kenny_loggins_can_view_only_his_deposits
+  #   unless kenny_loggins.id == params[:user_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
+  #     flash[:notice] = "You are not authorized to visit this page"
+  #     redirect_to root_path
+  #   end
+  # end
 
   def deposit_strong_params
     params.require(:deposit).permit(

@@ -5,7 +5,6 @@ Rails.application.routes.draw do
   post "/login", to: "sessions#create", as: "login"
 
   resources :users do
-    resources :deposits, :only => [:index, :new, :create]
     resources :wagers
     resources :distributions
   end
@@ -13,9 +12,11 @@ Rails.application.routes.draw do
 
   resource :user do
     resource :profile, :only => [:edit, :update]
-    resource :dashboard, :only => [:show]
+  resource :dashboard, :only => [:show]
+    resources :deposits, :only => [:index, :new, :create]
 
-  end
+
+    end
 
 
   resources :wager_view_preferences
