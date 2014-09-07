@@ -5,7 +5,7 @@
   <p>All deposits to your account are immediately treated as tax deductible charitable contributions for the current tax
     year.</p>
 
-  <%= form_for [@account, @deposit], html: {class: "form-horizontal col-xs-8 col-md-3"}, role: "form" do |f| %>
+  <%= form_for [kenny_loggins, @deposit], html: {class: "form-horizontal col-xs-8 col-md-3"}, role: "form" do |f| %>
     <div class="form-group">
       <%= f.label :amount %>
       <br/>

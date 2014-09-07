@@ -10,7 +10,7 @@ feature "View and Create a Proposed Wagers" do
   end
 
   scenario "As a visitor, I should not be able to visit the new proposed wager view directly via the URL " do
-    visit "/accounts/1/wagers/new"
+    visit "/users/1/wagers/new"
     expect(page).to have_css("#homepage")
   end
 

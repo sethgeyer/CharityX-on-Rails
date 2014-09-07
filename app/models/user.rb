@@ -12,5 +12,8 @@ class User < ActiveRecord::Base
   has_one :account
   has_many :wager_view_preferences
 
-
+  has_many :deposits
+  has_many :chips
+  has_many :wagers
+  has_many :distributions
 end

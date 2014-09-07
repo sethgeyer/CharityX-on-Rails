@@ -1,6 +1,7 @@
 
 class Wager < ActiveRecord::Base
   belongs_to :account
+  belongs_to :user
   has_one :non_registered_user, dependent: :destroy
   has_many :wager_view_preferences, dependent: :destroy
 

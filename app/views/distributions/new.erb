@@ -2,7 +2,7 @@
 
 
   <h3>Give to a Charity</h3>
-  <%=form_for [@account, @distribution], html: {class: "form-horizontal col-xs-8 col-md-3"}, role:"form"  do |f|%>
+  <%=form_for [kenny_loggins, @distribution], html: {class: "form-horizontal col-xs-8 col-md-3"}, role:"form"  do |f|%>
     <div class="form-group">
       <%=f.label :amount%>
       <%=f.text_field :amount, class:"form-control", placeholder: "$#{$ChipValue} increments"%>

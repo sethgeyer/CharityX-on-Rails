@@ -1,0 +1,3 @@
+class ChipsController < ApplicationController
+
+end

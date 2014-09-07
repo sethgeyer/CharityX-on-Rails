@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140903185940) do
+ActiveRecord::Schema.define(version: 20140907023235) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 20140903185940) do
     t.boolean  "wagerable"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "deposits", force: true do |t|
@@ -57,6 +58,7 @@ ActiveRecord::Schema.define(version: 20140903185940) do
     t.date     "date_created"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "distributions", force: true do |t|
@@ -66,6 +68,7 @@ ActiveRecord::Schema.define(version: 20140903185940) do
     t.date     "date"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "non_registered_users", force: true do |t|
@@ -112,6 +115,7 @@ ActiveRecord::Schema.define(version: 20140903185940) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "winner_id"
+    t.integer  "user_id"
   end
 
 end

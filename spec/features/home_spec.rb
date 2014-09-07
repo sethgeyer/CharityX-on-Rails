@@ -14,7 +14,7 @@ feature "visitor visits homepage" do
     expect(page).not_to have_button("Logout")
     expect(page).not_to have_button("Edit Profile")
     expect(page).to have_link("Charities")
-    expect(page).not_to have_link("Account Details")
+    expect(page).not_to have_link("Dashboard")
   end
 
 

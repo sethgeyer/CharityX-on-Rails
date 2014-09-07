@@ -1,7 +1,7 @@
 <div id="new_proposed_wagers">
   <h3>Create a Wager</h3>
 
-  <%=form_for [@account, @wager], html: {class: "form-horizontal col-xs-12 col-md-3"}, role:"form"  do |f|%>
+  <%=form_for [kenny_loggins, @wager], html: {class: "form-horizontal col-xs-12 col-md-3"}, role:"form"  do |f|%>
 
     <div class="form-group">
       <%=f.label :amount, "I want to bet:"%><br/>

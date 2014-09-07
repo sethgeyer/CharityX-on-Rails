@@ -4,10 +4,8 @@ class WagersController < ApplicationController
 
   def new
 
-
-      if kenny_loggins.account.id == params[:account_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
-        @account = kenny_loggins.account
-        if @account.chips.where(status: "available").count == 0
+      if kenny_loggins.id == params[:user_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
+        if kenny_loggins.chips.where(status: "available").count == 0
           flash[:notice] = "Your account has a $0 balance.  You must fund your account before you can wager."
           redirect_to dashboard_path
         else
@@ -15,13 +13,13 @@ class WagersController < ApplicationController
           # @list_of_users = User.where('id != ?', kenny_loggins.id)
           if params[:pwid]
             rematch_wager = Wager.find(params[:pwid])
-            if rematch_wager.account == @account  || rematch_wager.wageree_id == kenny_loggins.id
+            if rematch_wager.user == kenny_loggins  || rematch_wager.wageree_id == kenny_loggins.id
               @wager.title = rematch_wager.title
               @wager.details = rematch_wager.details
-              @wageree_username = if rematch_wager.account == @account
+              @wageree_username = if rematch_wager.user == kenny_loggins
                                              User.find(rematch_wager.wageree_id).username
                                            else
-                                             rematch_wager.account.user.username
+                                             rematch_wager.user.username
                                            end
               @wager.amount = rematch_wager.amount / 100
 
@@ -38,9 +36,8 @@ class WagersController < ApplicationController
 
   def create
     amount = params[:wager][:amount].gsub("$", "").gsub(",", "").to_i
-    @account = kenny_loggins.account
     @wager = Wager.new
-    @wager.account_id = @account.id
+    @wager.user_id = kenny_loggins.id
     @wager.title = params[:wager][:title]
     @wager.date_of_wager = params[:wager][:date_of_wager]
     @wager.details = params[:wager][:details]
@@ -55,17 +52,17 @@ class WagersController < ApplicationController
     @wager.status = "w/wageree"
     if amount % $ChipValue == 0 && amount >= $ChipValue
       @wager.amount = amount * 100
-      if @account.chips.where(status: "available").count < (amount / $ChipValue)
-        @wager.amount = @account.chips.where(status: "available").count * $ChipValue
+      if kenny_loggins.chips.where(status: "available").count < (amount / $ChipValue)
+        @wager.amount = kenny_loggins.chips.where(status: "available").count * $ChipValue
         # @list_of_users = User.where('id != ?', kenny_loggins.id)
-        flash[:amount] = "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{@account.chips.where(status: "available").count * $ChipValue}"
+        flash[:amount] = "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{kenny_loggins.chips.where(status: "available").count * $ChipValue}"
         @wageree_username = params[:wageree_username]
-        @wager.amount = @account.chips.where(status: "available").count * $ChipValue
+        @wager.amount = kenny_loggins.chips.where(status: "available").count * $ChipValue
         render :new
       else
         if @wager.save
           #UNTESTED ########################################################
-          Chip.new.change_status_to_wagered(@wager.account.id, @wager.amount)
+          Chip.new.change_status_to_wagered(@wager.user.id, @wager.amount)
           ################
           # wageree = User.find(params[:proposed_wager][:wageree_id].to_i)
           if registered_user
@@ -116,7 +113,6 @@ class WagersController < ApplicationController
   end
 
   def update
-    @account = kenny_loggins.account
 
     if params[:commit] == "Shake on it!"
       #<<<<< The below line and the if == nil code were added to address the situations where a wagerer has withdrawn a bet, it has been accepted, or expired
@@ -127,15 +123,15 @@ class WagersController < ApplicationController
         flash[:notice] = "Wager has already been accepted, withdrawn or expired."
       else
 
-        if @account.chips.where(status: "available").count < (@wager.amount / 100 / $ChipValue)
+        if kenny_loggins.chips.where(status: "available").count < (@wager.amount / 100 / $ChipValue)
           flash[:notice] = "You don't have adequate funds to accept this wager.  Please add additional funds to your account."
         else
 
           #test this _________________________________________________________________________
-          @wager.wageree_id = @account.user_id if @wager.wageree_id == nil
+          @wager.wageree_id = kenny_loggins.id if @wager.wageree_id == nil
           #-------------------------------------
           @wager.status = "accepted"
-          Chip.new.change_status_to_wagered(kenny_loggins.account.id, @wager.amount) if @wager.save!
+          Chip.new.change_status_to_wagered(kenny_loggins.id, @wager.amount) if @wager.save!
         end
       end
         redirect_to dashboard_path
@@ -143,7 +139,7 @@ class WagersController < ApplicationController
     elsif params[:commit] == "I Won"
       @wager = Wager.where(id: params[:id], status:"accepted").first
       #if the current user initiated the wager (aka: current user == wagerer)
-      if @account.id == @wager.account.id
+      if kenny_loggins.id == @wager.user_id
         @wager.wagerer_outcome = "I Won"
 
         # flash[:notice] = "Awaiting confirmation from the wageree"
@@ -159,34 +155,34 @@ class WagersController < ApplicationController
       @wager = Wager.where(id: params[:id], status:"accepted").first
 
       #if the current user initiated the wager (aka: current user == wagerer)
-      if @account.id == @wager.account.id
+      if kenny_loggins.id == @wager.user_id
         @wager.wagerer_outcome = "I Lost"
         @wager.winner_id = @wager.wageree_id
         @wager.status = "completed"
 
         if @wager.save!
           winners_chips = Chip.new
-          winners_chips.change_status_to_available(Account.find_by(user_id: @wager.wageree_id).id, @wager.amount)
+          winners_chips.change_status_to_available(@wager.wageree_id, @wager.amount)
           losers_chips = Chip.new
-          losers_chips.reassign_to_winner(kenny_loggins.account.id, Account.find_by(user_id: @wager.wageree_id).id, @wager.amount )
+          losers_chips.reassign_to_winner(kenny_loggins.id, @wager.wageree_id, @wager.amount )
         end
         redirect_to dashboard_path
       end
 
 
       #if the current user did not initiate the wager (aka: current user == wageree)
-      if @account.id != @wager.account.id
+      if kenny_loggins.id != @wager.user_id
         @wager.wageree_outcome = "I Lost"
-        @wager.winner_id = @wager.account.user_id
+        @wager.winner_id = @wager.user_id
         @wager.status = "completed"
 
         if @wager.save!
 
           #convert these to class methods
           winners_chips = Chip.new
-          winners_chips.change_status_to_available(@wager.account.id, @wager.amount)
+          winners_chips.change_status_to_available(@wager.user_id, @wager.amount)
           losers_chips = Chip.new
-          losers_chips.reassign_to_winner(kenny_loggins.account.id, @wager.account.id, @wager.amount )
+          losers_chips.reassign_to_winner(kenny_loggins.id, @wager.user_id, @wager.amount )
         end
         redirect_to dashboard_path
       end
@@ -196,7 +192,7 @@ class WagersController < ApplicationController
       @wager.status = "declined"
 
         if @wager.save!
-          Chip.new.change_status_to_available(@wager.account.id, @wager.amount)
+          Chip.new.change_status_to_available(@wager.user_id, @wager.amount)
         end
         redirect_to dashboard_path
 
@@ -213,7 +209,7 @@ class WagersController < ApplicationController
       flash[:notice] = "Wager has already been accepted or expired before you could withdraw it."
     else
       wager.destroy
-      Chip.new.change_status_to_available(kenny_loggins.account.id, wager.amount)
+      Chip.new.change_status_to_available(kenny_loggins.id, wager.amount)
     end
 
     redirect_to dashboard_path

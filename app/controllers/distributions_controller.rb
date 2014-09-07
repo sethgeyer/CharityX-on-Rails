@@ -2,9 +2,8 @@ class DistributionsController < ApplicationController
 
 
   def index
-    if kenny_loggins.account.id == params[:account_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
-      @account = kenny_loggins.account
-      @distributions = @account.distributions
+    if kenny_loggins.id == params[:user_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
+      @distributions = kenny_loggins.distributions
       render :index
     else
       flash[:notice] = "You are not authorized to visit this page"
@@ -14,10 +13,9 @@ class DistributionsController < ApplicationController
 
 
   def new
-    if kenny_loggins.account.id == params[:account_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
-      @account = kenny_loggins.account
+    if kenny_loggins.id == params[:user_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
 
-      if @account.chips.where(status: "available").count == 0
+      if kenny_loggins.chips.where(status: "available").count == 0
         flash[:notice] = "Your account has a $0 balance.  You must fund your account before you can distribute funds."
         redirect_to dashboard_path
       else
@@ -33,21 +31,20 @@ class DistributionsController < ApplicationController
 
   def create
     amount = params[:distribution][:amount].gsub("$", "").gsub(",", "").to_i
-    @account = kenny_loggins.account
     @distribution = Distribution.new
-    @distribution.account_id = @account.id
+    @distribution.user_id = kenny_loggins.id
     @distribution.charity_id = params[:distribution][:charity_id]
     if amount % $ChipValue == 0 && amount >= $ChipValue
       @distribution.amount = amount * 100
-      if @account.chips.where(status: "available").count < (amount / $ChipValue)
-        @distribution.amount = @account.chips.where(status: "available").count * $ChipValue
-        flash[:amount] = "You don't have sufficient funds for the size of this distribution.  Unless you fund your account, the maximum you can distribute is $#{@account.chips.where(status: "available").count * $ChipValue}"
+      if kenny_loggins.chips.where(status: "available").count < (amount / $ChipValue)
+        @distribution.amount = kenny_loggins.chips.where(status: "available").count * $ChipValue
+        flash[:amount] = "You don't have sufficient funds for the size of this distribution.  Unless you fund your account, the maximum you can distribute is $#{kenny_loggins.chips.where(status: "available").count * $ChipValue}"
         render :new
       else
         if @distribution.save!
           # newest_distribution = Distribution.where(account_id: params[:account_id].to_i).last
           #UNTESTED ########################################################
-          Chip.new.cash_out(@distribution.account.id, @distribution.amount, @distribution.date, @distribution.charity.id)
+          Chip.new.cash_out(@distribution.user.id, @distribution.amount, @distribution.date, @distribution.charity.id)
           #################
           flash[:notice] = "Thank you for distributing $#{@distribution.amount.to_i / 100} from your account to #{@distribution.charity.name}"
           redirect_to dashboard_path

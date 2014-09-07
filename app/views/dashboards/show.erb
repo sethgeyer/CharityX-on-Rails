@@ -11,7 +11,7 @@
         <div class="blue-bordered row">
           <div id="fund-my-account" class="header col-xs-7">
             Deposits
-            <%=link_to "+", new_account_deposit_path(@account), class:"round-button no-decoration"%>
+            <%=link_to "+", new_user_deposit_path(kenny_loggins), class:"round-button no-decoration"%>
           </div>
           <div id="deposits" class="contents col-xs-5" >
             $<%=@deposit_total%>
@@ -21,7 +21,7 @@
         <div class="blue-bordered row">
           <div id="wager-funds" class="header col-xs-7">
             Active Wagers
-            <%=link_to "+", new_account_wager_path(@account), class:"round-button no-decoration"  %>
+            <%=link_to "+", new_user_wager_path(kenny_loggins), class:"round-button no-decoration"  %>
           </div>
           <div id="wagers" class="contents col-xs-5" >
             $<%=@wagered_total%>
@@ -31,7 +31,7 @@
         <div class=" blue-bordered row">
           <div id="distribute-funds" class=" header col-xs-7">
             Distributions
-            <%=link_to "+", new_account_distribution_path(@account), class:"round-button no-decoration"%>
+            <%=link_to "+", new_user_distribution_path(kenny_loggins), class:"round-button no-decoration"%>
           </div>
           <div id="distributions" class="contents col-xs-5" >
             $<%=@distribution_total%>
@@ -85,7 +85,7 @@
                 <% end %>
 
                 <div class="title-text">
-                  <% if kenny_loggins.account == registered_wager.account %>
+                  <% if kenny_loggins.id == registered_wager.user_id %>
                     <% wageree = if registered_wager.wageree_id %>
                       <% User.find_by(id: registered_wager.wageree_id).username %>
                     <% elsif registered_wager.non_registered_user %>
@@ -95,7 +95,7 @@
                     <% end %>
                     <%= "I bet #{wageree} $#{registered_wager.amount / 100} that: #{registered_wager.title}." %>
                   <% else %>
-                    <%= "#{User.find_by(id: registered_wager.account.user_id).username} bet me $#{registered_wager.amount / 100} that: #{registered_wager.title}." %>
+                    <%= "#{User.find_by(id: registered_wager.user.id).username} bet me $#{registered_wager.amount / 100} that: #{registered_wager.title}." %>
                   <% end %>
                 </div>
 
@@ -120,20 +120,20 @@
                       I Lost! |
                     <% end %>
                   </div>
-                  <% if kenny_loggins.account == registered_wager.account %>
-                    <%= link_to "Rematch?", new_account_wager_path(registered_wager.account, pwid: registered_wager) %>
+                  <% if kenny_loggins.id == registered_wager.user_id %>
+                    <%= link_to "Rematch?", new_user_wager_path(kenny_loggins, pwid: registered_wager) %>
                   <% else %>
-                    <%= link_to "Rematch?", new_account_wager_path(@account, pwid: registered_wager) %>
+                    <%= link_to "Rematch?", new_user_wager_path(kenny_loggins, pwid: registered_wager) %>
                   <% end %>
 
                 <% elsif registered_wager.status == "expired" %>
                     <div class="outcome">
                       Wager Expired Before It Was Accepted |
                     </div>
-                    <% if kenny_loggins.account == registered_wager.account %>
-                      <%= link_to "Reissue?", new_account_wager_path(registered_wager.account, pwid: registered_wager) %>
+                    <% if kenny_loggins.id == registered_wager.user_id %>
+                      <%= link_to "Reissue?", new_user_wager_path(kenny_loggins, pwid: registered_wager) %>
                     <% else %>
-                      <%= link_to "Reissue?", new_account_wager_path(@account, pwid: registered_wager) %>
+                      <%= link_to "Reissue?", new_user_wager_path(kenny_loggins, pwid: registered_wager) %>
                     <% end %>
 
 
@@ -144,29 +144,29 @@
                   <div class="outcome">
                     Wager Not Accepted |
                   </div>
-                    <% if kenny_loggins.account == registered_wager.account %>
-                      <%= link_to "Revise?", new_account_wager_path(registered_wager.account, pwid: registered_wager) %>
+                    <% if kenny_loggins.id == registered_wager.user_id %>
+                      <%= link_to "Revise?", new_user_wager_path(kenny_loggins, pwid: registered_wager) %>
                     <% else %>
-                      <%= link_to "Revise?", new_account_wager_path(@account, pwid: registered_wager) %>
+                      <%= link_to "Revise?", new_user_wager_path(kenny_loggins, pwid: registered_wager) %>
                     <% end %>
 
                 <% else %>
-                  <% if kenny_loggins.account == registered_wager.account %>
+                  <% if kenny_loggins.id == registered_wager.user_id %>
                     <% if registered_wager.status == 'w/wageree' %>
                       <div class="button button-withdraw">
-                        <%= link_to "Withdraw Unaccepted Wager", [registered_wager.account, registered_wager], {method: :delete, class: "no-decoration", data: {confirm: "You are about to withdraw your wager.  Are you sure?"}}%>
+                        <%= link_to "Withdraw Unaccepted Wager", [registered_wager.user, registered_wager], {method: :delete, class: "no-decoration", data: {confirm: "You are about to withdraw your wager.  Are you sure?"}}%>
                       </div>
                     <% elsif registered_wager.status == "declined" %>
                     <% elsif registered_wager.status == "accepted" && registered_wager.wagerer_outcome == "I Won"%>
                       Awaiting Confirmation from Wageree
                     <%else%>
-                      <%= form_for [registered_wager.account, registered_wager] do |f| %>
+                      <%= form_for [registered_wager.user, registered_wager] do |f| %>
                         <%= f.submit "I Won", class: "button button-won", data: { disable_with: "Please Wait...", confirm: "You are about to register your win.  Are you sure?"  } %>
                         <%= f.submit "I Lost", class: "button button-lost", data: { disable_with: "Please Wait...", confirm: "You are about to register your loss.  Are you sure?" } %>
                       <% end %>
                     <% end %>
                   <% else %>
-                    <%= form_for [registered_wager.account, registered_wager] do |f| %>
+                    <%= form_for [registered_wager.user, registered_wager] do |f| %>
                       <div>
                       <% if registered_wager.status == 'w/wageree'%>
                         <%= f.submit "Shake on it!", class: "button button-shake", data: { disable_with: "Please Wait...", confirm: "You are about to accept a wager.  Are you sure?" } %>
@@ -212,7 +212,7 @@
                 <!--<div class="outcome-flag"></div>-->
                 <div id='archive-button' class="delete-icon glyphicon glyphicon-remove-sign" data-id=<%=public_wager.id%>></div>
                 <div class="title-text">
-                  <%= "#{User.find_by(id: public_wager.account.user_id).username} bet the Public $#{public_wager.amount / 100} that: #{public_wager.title}." %>
+                  <%= "#{User.find_by(id: public_wager.user_id).username} bet the Public $#{public_wager.amount / 100} that: #{public_wager.title}." %>
                 </div>
 
               </div>
@@ -233,7 +233,7 @@
                     Wager Expired Before It Was Accepted
                   </div>
                 <%else%>
-                    <%= form_for [public_wager.account, public_wager] do |f| %>
+                    <%= form_for [public_wager.user, public_wager] do |f| %>
                       <%= f.submit "Shake on it!", class: "button button-pub-shake", data: { disable_with: "Please Wait...", confirm: "You are about to accept a wager.  Are you sure?" } %>
                     <% end %>
                 <%end%>
