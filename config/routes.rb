@@ -11,8 +11,10 @@ Rails.application.routes.draw do
   end
 
   resource :dashboard, :only => [:show]
-  resource :profile, :only => [:edit, :update]
 
+  resource :user do
+    resource :profile, :only => [:edit, :update]
+  end
 
 
   resources :wager_view_preferences

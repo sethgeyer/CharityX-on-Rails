@@ -10,7 +10,7 @@
     <br/>
   <%end%>
 
-  <%=form_for @user, html: {class: "form-horizontal col-xs-8 col-md-2"}, url: profile_path, role:"form"  do |f|%>
+  <%=form_for @user, html: {class: "form-horizontal col-xs-8 col-md-2"}, url: user_profile_path, role:"form"  do |f|%>
     <div id="first-name" class="form-group">
       <%=f.label :first_name%><br/>
       <%=f.text_field :first_name, class:"form-control"%>
