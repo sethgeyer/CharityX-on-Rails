@@ -9,7 +9,6 @@ class User < ActiveRecord::Base
   validates :last_name, presence: true
 
   validates :password, length: {minimum: 7, message: "Password must be at least 7 characters", :allow_blank => true}
-  has_one :account
   has_many :wager_view_preferences
 
   has_many :deposits

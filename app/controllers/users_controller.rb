@@ -20,9 +20,6 @@ class UsersController < ApplicationController
     @user.profile_picture = params[:user][:profile_picture]
     if @user.save
       session[:user_id] = @user.id
-      account = Account.new
-      account.user_id = session[:user_id]
-      account.save
 
       if NonRegisteredUser.find_by(email: @user.email)
         non_registered_user = NonRegisteredUser.find_by(email: @user.email)
