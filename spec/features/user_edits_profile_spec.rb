@@ -12,14 +12,11 @@ feature "editing user profile" do
     click_on "Edit Profile"
     fill_in "Email", with: "steve@gmail.com"
     fill_in "Password", with: "stephen1"
-    fill_in "Profile picture", with: "www.google.com"
     click_on "Submit"
     expect(page).to have_content("Your changes have been saved")
     expect(page).to have_css("#show_dashboards")
     click_on "Edit Profile"
     expect(page).to have_selector("input[value='steve@gmail.com']")
-    expect(page).to have_selector("input[value='www.google.com']")
-
   end
 
   scenario "user leaves email blank when editing" do

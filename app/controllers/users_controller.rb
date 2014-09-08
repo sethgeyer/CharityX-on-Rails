@@ -10,15 +10,10 @@ class UsersController < ApplicationController
 
 
   def create
-    @user = User.new
-    @user.username = params[:user][:username]
-    @user.first_name = params[:user][:first_name]
-    @user.last_name = params[:user][:last_name]
-
-    @user.email = params[:user][:email].downcase
-    @user.password = params[:user][:password]
+    @user = User.new(allowed_params)
     if @user.save
       session[:user_id] = @user.id
+
 
       if NonRegisteredUser.find_by(email: @user.email)
         non_registered_user = NonRegisteredUser.find_by(email: @user.email)
