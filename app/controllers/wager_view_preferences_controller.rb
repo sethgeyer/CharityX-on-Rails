@@ -1,6 +1,6 @@
 class WagerViewPreferencesController < ApplicationController
-  def create
 
+  def create
     wager_view_preference = WagerViewPreference.new
     wager_view_preference.user_id = kenny_loggins.id
     wager_view_preference.wager_id = params[:wager_id]
@@ -9,7 +9,4 @@ class WagerViewPreferencesController < ApplicationController
     render nothing: true
   end
 
-  def destroy
-
-  end
 end
