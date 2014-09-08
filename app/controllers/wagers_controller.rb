@@ -107,10 +107,6 @@ class WagersController < ApplicationController
     end
   end
 
-  def edit
-
-  end
-
   def update
 
     if params[:commit] == "Shake on it!"

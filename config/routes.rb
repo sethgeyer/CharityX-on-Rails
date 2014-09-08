@@ -13,13 +13,13 @@ Rails.application.routes.draw do
     resource :dashboard, :only => [:show]
     resources :deposits, :only => [:index, :new, :create]
     resources :distributions, :only => [:index, :new, :create]
-    resources :wagers
+    resources :wagers, :only => [:new, :create, :update, :destroy]
     resources :wager_view_preferences, :only => [:create]
   end
 
-  resources :charities
+  resources :charities, :only => [:index, :new, :create]
 
-  resources :password_resets
+  resources :password_resets, :only => [:new, :create, :edit, :update]
 
 
 
