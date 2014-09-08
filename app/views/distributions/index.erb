@@ -2,19 +2,20 @@
 
   <table>
     <thead>
-    <th>Amount</th>
-    <th>Charity</th>
+    <tr>
+      <th>Amount</th>
+      <th>Charity</th>
+    </tr>
     </thead>
     <tbody>
-    <%@distributions.each do |distribution|%>
+    <% @distributions.each do |distribution| %>
       <tr>
-        <td>$<%=distribution.amount / 100%></td>
-        <td><%=distribution.charity.name%></td>
+        <td>$<%= distribution.amount / 100 %></td>
+        <td><%= distribution.charity.name %></td>
       </tr>
-    <%end%>
+    <% end %>
     </tbody>
   </table>
-
 
 
 </div>

@@ -18,7 +18,7 @@ class Chip < ActiveRecord::Base
     }
     end
 
-  def self.cash_out(user_id, distribution_amount, distribution_date, charity_id)
+  def self.mark_as_distributed_to_charity(user_id, distribution_amount, distribution_date, charity_id)
     number_of_chips = self.convert_from_pennies_to_chips(distribution_amount)
     chips = self.find_the_available(user_id).first(number_of_chips)
     chips.each do |chip|

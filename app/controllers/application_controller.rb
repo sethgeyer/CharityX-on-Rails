@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
     deposit_amount * 100
   end
 
-  def the_amount_is_in_the_correct_increment_and_less_than_the_specified_threshold(dollar_amount)
+  def the_amount_is_in_the_correct_increment_and_within_the_specified_thresholds(dollar_amount)
     dollar_amount % $ChipValue == 0 && dollar_amount <= 1000 && dollar_amount >= $ChipValue
   end
 

@@ -1,27 +1,32 @@
 <div id="new_distributions">
 
-
   <h3>Give to a Charity</h3>
-  <%=form_for @distribution, url: user_distributions_path, html: {class: "form-horizontal col-xs-8 col-md-3"}, role:"form"  do |f|%>
-    <div class="form-group">
-      <%=f.label :amount%>
-      <%=f.text_field :amount, class:"form-control", placeholder: "$#{$ChipValue} increments"%>
-      <div class="errors">
-        <%=flash[:amount] if flash[:amount]%>
-      </div>
 
-    </div>
-    <div class="form-group">
-      <%=f.label :charity_id%><br>
-      <%=f.collection_select :charity_id, Charity.all, :id, :name, {}, class:"form-control"%>
-    </div>
-    <div class="form-group">
-      <%=f.submit "Submit", class:"button button-submit", data: { disable_with: "Please Wait...", confirm: "You are about to distribute funds to a charity.  Please confirm the information is correct?" }%>
-      <%=link_to "Cancel", user_dashboard_path%>
-    </div>
-
+  <%if @distribution.errors.full_messages.any?%>
+    <p class="errors">You're distribution can not be completed</p>
+    <br/>
+    <br/>
   <%end%>
 
 
+  <%= form_for @distribution, url: user_distributions_path, html: {class: "form-horizontal col-xs-8 col-md-3"}, role: "form" do |f| %>
+
+    <div class="form-group">
+      <%= f.label :amount %>
+      <%= f.text_field :amount, class: "form-control", placeholder: "$#{$ChipValue} increments" %>
+      <div class="errors"><%=@distribution.errors[:amount].first if @distribution.errors[:amount].any? %></div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :charity_id %>
+      <%= f.collection_select :charity_id, Charity.all, :id, :name, {}, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.submit "Submit", class: "button button-submit", data: {disable_with: "Please Wait...", confirm: "You are about to distribute funds to a charity.  Please confirm the information is correct?"} %>
+      <%= link_to "Cancel", user_dashboard_path %>
+    </div>
+
+  <% end %>
 
 </div>

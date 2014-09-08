@@ -10,12 +10,11 @@ class DepositsController < ApplicationController
     @deposit = Deposit.new
   end
 
-
   def create
     deposit_amount = amount_stripped_of_non_integers(params[:deposit][:amount])
-    @deposit = Deposit.new(deposit_strong_params.merge(user_id: kenny_loggins.id))
+    @deposit = Deposit.new(allowed_params.merge(user_id: kenny_loggins.id))
 
-    if !the_amount_is_in_the_correct_increment_and_less_than_the_specified_threshold(deposit_amount)
+    if !the_amount_is_in_the_correct_increment_and_within_the_specified_thresholds(deposit_amount)
       flash[:amount] = "All deposits must be in increments of $#{$ChipValue} and no more than $1,000."
       render :new
     else
@@ -39,7 +38,7 @@ class DepositsController < ApplicationController
   #   end
   # end
 
-  def deposit_strong_params
+  def allowed_params
     params.require(:deposit).permit(
       :cc_number,
       :exp_date,

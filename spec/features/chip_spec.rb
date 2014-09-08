@@ -23,17 +23,17 @@ describe Chip do
   end
 
 
-  describe "#cash_out" do
+  describe "#mark_as_distributed_to_charity" do
     before(:each) do
       Chip.convert_currency_to_chips(@user.id, 20000, "2014-07-12", "available" )
       @charity = Charity.create(name: "Red Cross")
     end
 
-    it "cashes out the chips upon distribution of dollars" do
+    it "marks the chips as distributed upon distribution of dollars" do
       available_chips = Chip.where(user_id: @user.id).where(status: "available")
       expect(available_chips.count).to eq(20000 / 100 / $ChipValue)
       @distribution = Distribution.create(user_id: @user.id, amount: 11000, charity_id: @charity.id, date: "2014-08-30" )
-      Chip.cash_out(@user.id, @distribution.amount, @distribution.date, @distribution.charity.id)
+      Chip.mark_as_distributed_to_charity(@user.id, @distribution.amount, @distribution.date, @distribution.charity.id)
       available_chips = Chip.where(user_id: @user.id).where(status: "available")
       expect(available_chips.count).to eq((20000 - 11000) / 100 / $ChipValue)
       distributed_chips = Chip.where(user_id: @user.id).where(status: "distributed")
