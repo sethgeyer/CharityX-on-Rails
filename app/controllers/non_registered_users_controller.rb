@@ -1,4 +1,0 @@
-class NonRegisteredUsersController < ApplicationController
-
-
-end

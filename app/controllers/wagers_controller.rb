@@ -73,7 +73,7 @@ class WagersController < ApplicationController
 
 
 
-            new_wager_with_non_registered_user = NonRegisteredUser.new
+            new_wager_with_non_registered_user = NonRegisteredWageree.new
             new_wager_with_non_registered_user.wager_id = @wager.id
             # new_wager_with_non_registered_user.unique_id = SecureRandom.uuid
             new_wager_with_non_registered_user.email = params[:wageree_username]

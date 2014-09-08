@@ -1,7 +1,7 @@
 
 class Wager < ActiveRecord::Base
   belongs_to :user
-  has_one :non_registered_user, dependent: :destroy
+  has_one :non_registered_wageree, dependent: :destroy
   has_many :wager_view_preferences, dependent: :destroy
 
   validates :title, presence: true

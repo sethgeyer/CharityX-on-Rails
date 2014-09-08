@@ -40,7 +40,7 @@ class DashboardsController < ApplicationController
       end
       @registered_wagers = @wagers.select { |wager| wager != nil }
 
-      @p_wagers = Wager.where(wageree_id: nil).where('user_id != ?', kenny_loggins.id ).select { |wager| wager.non_registered_user == nil}
+      @p_wagers = Wager.where(wageree_id: nil).where('user_id != ?', kenny_loggins.id ).select { |wager| wager.non_registered_wageree == nil}
 
       @pub_wagers = @p_wagers.collect do |wager|
         if !WagerViewPreference.where(user_id: kenny_loggins.id, wager_id: wager.id, show:false).first

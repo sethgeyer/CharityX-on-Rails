@@ -88,8 +88,8 @@
                   <% if kenny_loggins.id == registered_wager.user_id %>
                     <% wageree = if registered_wager.wageree_id %>
                       <% User.find_by(id: registered_wager.wageree_id).username %>
-                    <% elsif registered_wager.non_registered_user %>
-                      <% registered_wager.non_registered_user.email %>
+                    <% elsif registered_wager.non_registered_wageree %>
+                      <% registered_wager.non_registered_wageree.email %>
                     <% else %>
                       <% "the Public" %>
                     <% end %>

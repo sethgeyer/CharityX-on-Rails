@@ -15,8 +15,8 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
 
 
-      if NonRegisteredUser.find_by(email: @user.email)
-        non_registered_user = NonRegisteredUser.find_by(email: @user.email)
+      if NonRegisteredWageree.find_by(email: @user.email)
+        non_registered_user = NonRegisteredWageree.find_by(email: @user.email)
         wager = Wager.find(non_registered_user.wager.id)
         wager.wageree_id = @user.id
         wager.save
