@@ -1,7 +1,5 @@
 class DepositsController < ApplicationController
 
-  # before_action :kenny_loggins_can_view_only_his_deposits
-
   def index
     @deposits = kenny_loggins.deposits
   end
@@ -11,32 +9,19 @@ class DepositsController < ApplicationController
   end
 
   def create
-    deposit_amount = amount_stripped_of_non_integers(params[:deposit][:amount])
+    deposit_amount = amount_stripped_of_dollar_sign_and_commas(params[:deposit][:amount])
     @deposit = Deposit.new(allowed_params.merge(user_id: kenny_loggins.id))
-
-    if !the_amount_is_in_the_correct_increment_and_within_the_specified_thresholds(deposit_amount)
-      flash[:amount] = "All deposits must be in increments of $#{$ChipValue} and no more than $1,000."
-      render :new
+    @deposit.amount = amount_converted_to_pennies(deposit_amount)
+    if @deposit.save
+      Chip.convert_currency_to_chips(kenny_loggins.id, @deposit.amount, @deposit.date_created, "available")
+      flash[:notice] = "Thank you for depositing $#{@deposit.amount / 100} into your account"
+      redirect_to user_dashboard_path
     else
-      @deposit.amount = amount_converted_to_pennies(deposit_amount)
-      if @deposit.save
-        Chip.convert_currency_to_chips(kenny_loggins.id, @deposit.amount, @deposit.date_created, "available")
-        flash[:notice] = "Thank you for depositing $#{@deposit.amount / 100} into your account"
-        redirect_to user_dashboard_path
-      else
-        render :new
-      end
+      render :new
     end
   end
 
   private
-
-  # def kenny_loggins_can_view_only_his_deposits
-  #   unless kenny_loggins.id == params[:user_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
-  #     flash[:notice] = "You are not authorized to visit this page"
-  #     redirect_to root_path
-  #   end
-  # end
 
   def allowed_params
     params.require(:deposit).permit(
@@ -46,8 +31,5 @@ class DepositsController < ApplicationController
       :cc_type
     )
   end
-
-
-
 
 end

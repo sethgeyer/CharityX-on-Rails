@@ -14,11 +14,11 @@ class DistributionsController < ApplicationController
   end
 
   def create
-    distribution_amount = amount_stripped_of_non_integers(params[:distribution][:amount])
+    distribution_amount = amount_stripped_of_dollar_sign_and_commas(params[:distribution][:amount])
     @distribution = Distribution.new
     @distribution.user_id = kenny_loggins.id
     @distribution.charity_id = params[:distribution][:charity_id]
-    @distribution.amount = distribution_amount * 100
+    @distribution.amount = amount_converted_to_pennies(distribution_amount)
 
     if the_user_has_insufficient_funds_for_the_size_of_the_transaction(distribution_amount, "available")
       @distribution.amount = kenny_loggins.chips.where(status: "available").count * $ChipValue

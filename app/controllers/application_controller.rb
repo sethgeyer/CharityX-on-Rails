@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
 
   $ChipValue = 10
 
-  def amount_stripped_of_non_integers(user_input_amount)
+  def amount_stripped_of_dollar_sign_and_commas(user_input_amount)
     user_input_amount.gsub("$", "").gsub(",", "").to_i
   end
 
@@ -25,9 +25,7 @@ class ApplicationController < ActionController::Base
     deposit_amount * 100
   end
 
-  def the_amount_is_in_the_correct_increment_and_within_the_specified_thresholds(dollar_amount)
-    dollar_amount % $ChipValue == 0 && dollar_amount <= 1000 && dollar_amount >= $ChipValue
-  end
+
 
 
 end
