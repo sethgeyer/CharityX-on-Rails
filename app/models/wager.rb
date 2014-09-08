@@ -14,4 +14,16 @@ class Wager < ActiveRecord::Base
     end
   end
 
+
+  def self.compile_wagers_to_view_based_on_user_preferences(kenny_loggins, wagers)
+    @wagers = wagers.collect do |wager|
+      if !WagerViewPreference.where(user_id: kenny_loggins.id, wager_id: wager.id, show: false).first
+        wager
+      end
+    end
+    @wagers.select { |wager| wager != nil }
+  end
+
+
+
 end
