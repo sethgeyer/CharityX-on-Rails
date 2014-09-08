@@ -87,7 +87,6 @@ def fill_in_registration_form(name)
   within(page.find(".registration")) { fill_in "Username", with: "#{name.downcase}y" }
   within(page.find(".registration")) { fill_in "Email", with: "#{name.downcase}@gmail.com" }
   within(page.find(".registration")) { fill_in "Password", with: name.downcase }
-  within(page.find(".registration")) { fill_in "Profile picture", with: "http://google.com" }
   within(page.find(".registration")) { click_on "Submit" }
 end
 

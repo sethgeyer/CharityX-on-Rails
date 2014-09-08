@@ -17,7 +17,6 @@ class UsersController < ApplicationController
 
     @user.email = params[:user][:email].downcase
     @user.password = params[:user][:password]
-    @user.profile_picture = params[:user][:profile_picture]
     if @user.save
       session[:user_id] = @user.id
 
@@ -37,7 +36,17 @@ class UsersController < ApplicationController
     end
   end
 
+  private
 
+  def allowed_params
+    params.require(:user).permit(
+      :username,
+      :first_name,
+      :last_name,
+      :email,
+      :password
+    )
+  end
 
 
 
