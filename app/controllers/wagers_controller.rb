@@ -28,13 +28,14 @@ class WagersController < ApplicationController
 
   end
 
+
+
+
+
   def create
-    amount = params[:wager][:amount].gsub("$", "").gsub(",", "").to_i
-    @wager = Wager.new
-    @wager.user_id = kenny_loggins.id
-    @wager.title = params[:wager][:title]
-    @wager.date_of_wager = params[:wager][:date_of_wager]
-    @wager.details = params[:wager][:details]
+    amount = amount_stripped_of_dollar_sign_and_commas(params[:wager][:amount])
+    @wager = Wager.new(allowed_params.merge(user_id: kenny_loggins.id))
+
 
     #The || needs to be tested
     registered_user = User.find_by(username: params[:wageree_username]) || User.find_by(email: params[:wageree_username])
@@ -179,6 +180,18 @@ class WagersController < ApplicationController
 
     redirect_to user_dashboard_path
   end
+
+
+
+  def allowed_params
+    params.require(:wager).permit(
+      :title,
+      :date_of_wager,
+      :details,
+    )
+  end
+
+
 
 
 
