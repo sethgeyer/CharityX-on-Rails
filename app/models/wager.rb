@@ -6,6 +6,7 @@ class Wager < ActiveRecord::Base
 
   validates :title, presence: true
   validate :date_of_wager_must_be_in_the_future, on: :create
+  validate :amount_of_wager_is_within_thresholds
 
   def self.compile_wagers_to_view_based_on_user_preferences(kenny_loggins, wagers)
     @wagers = wagers.collect do |wager|
@@ -35,5 +36,14 @@ class Wager < ActiveRecord::Base
       errors.add(:date_of_wager, "can't be blank or in the past")
     end
   end
+
+  def amount_of_wager_is_within_thresholds
+    dollar_amount = amount / 100
+    unless dollar_amount % $ChipValue == 0 && dollar_amount >= $ChipValue
+      errors.add(:amount, "All wagers must be in increments of $#{$ChipValue}.")
+    end
+  end
+
+
 
 end

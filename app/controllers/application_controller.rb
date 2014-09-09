@@ -21,10 +21,13 @@ class ApplicationController < ActionController::Base
     user_input_amount.gsub("$", "").gsub(",", "").to_i
   end
 
-  def amount_converted_to_pennies(deposit_amount)
-    deposit_amount * 100
+  def amount_converted_to_pennies(dollar_amount)
+    dollar_amount * 100
   end
 
+  def the_user_has_insufficient_funds_for_the_size_of_the_transaction(dollar_amount, status)
+    kenny_loggins.chips.where(status: status).count < (dollar_amount / $ChipValue)
+  end
 
 
 

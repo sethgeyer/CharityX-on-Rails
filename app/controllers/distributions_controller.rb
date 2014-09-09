@@ -36,9 +36,7 @@ class DistributionsController < ApplicationController
 
   private
 
-  def the_user_has_insufficient_funds_for_the_size_of_the_transaction(dollar_amount, status)
-    kenny_loggins.chips.where(status: status).count < (dollar_amount / $ChipValue)
-  end
+
 
 
 end

@@ -1,7 +1,5 @@
 class WagersController < ApplicationController
 
-
-
   def new
 
         if kenny_loggins.chips.where(status: "available").count == 0
@@ -29,61 +27,39 @@ class WagersController < ApplicationController
   end
 
 
-
-
-
   def create
     amount = amount_stripped_of_dollar_sign_and_commas(params[:wager][:amount])
     @wager = Wager.new(allowed_params.merge(user_id: kenny_loggins.id))
 
-
     #The || needs to be tested
-    registered_user = User.find_by(username: params[:wageree_username]) || User.find_by(email: params[:wageree_username])
-    if registered_user
-      @wager.wageree_id = registered_user.id
-    else
-      @wager.wageree_id = nil
-    end
+    @wageree_username_or_email = params[:wageree_username]
+    registered_wageree = User.find_by(username: @wageree_username_or_email) || User.find_by(email: @wageree_username_or_email)
+    @wager.wageree_id = registered_wageree.id if registered_wageree
     @wager.status = "w/wageree"
+    @wager.amount = amount_converted_to_pennies(amount)
 
-    if amount % $ChipValue == 0 && amount >= $ChipValue
-      @wager.amount = amount * 100
 
-      if kenny_loggins.chips.where(status: "available").count < (amount / $ChipValue)
-        @wager.amount = kenny_loggins.chips.where(status: "available").count * $ChipValue
-        flash[:amount] = "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{kenny_loggins.chips.where(status: "available").count * $ChipValue}"
-        @wageree_username = params[:wageree_username]
-        @wager.amount = kenny_loggins.chips.where(status: "available").count * $ChipValue
-        render :new
+    if the_user_has_insufficient_funds_for_the_size_of_the_transaction(amount, "available")
+      @wager.amount = kenny_loggins.chips.where(status: "available").count * $ChipValue
+      @wager.errors.add(:amount, "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{kenny_loggins.chips.where(status: "available").count * $ChipValue}")
+      @wager.amount = kenny_loggins.chips.where(status: "available").count * $ChipValue
+      render :new
+    elsif @wager.save
+      Chip.change_status_to_wagered(@wager.user.id, @wager.amount)
+      if registered_wageree
+        WagerMailer.send_registered_user_wager(@wager).deliver
+        flash[:notice] = "Your proposed wager has been sent to #{registered_wageree.username}."
+      elsif @wageree_username_or_email.include?("@")
+        non_registered_wageree = NonRegisteredWageree.create_a_new_one(@wager.id, @wageree_username_or_email)
+        WagerMailer.send_non_registered_user_wager(non_registered_wageree).deliver
+        flash[:notice] = "A solicitation email has been sent to #{@wageree_username_or_email}"
       else
-        if @wager.save
-          Chip.change_status_to_wagered(@wager.user.id, @wager.amount)
-          if registered_user
-            flash[:notice] = "Your proposed wager has been sent to #{registered_user.username}."
-            WagerMailer.send_registered_user_wager(@wager).deliver
-          elsif params[:wageree_username].include?("@")
-            new_wager_with_non_registered_user = NonRegisteredWageree.new
-            new_wager_with_non_registered_user.wager_id = @wager.id
-            new_wager_with_non_registered_user.email = params[:wageree_username]
-            new_wager_with_non_registered_user.save!
-            WagerMailer.send_non_registered_user_wager(new_wager_with_non_registered_user).deliver
-            flash[:notice] = "A solicitation email has been sent to #{params[:wageree_username]}"
-          else
-            flash[:notice] = "No username was provided.  Your wager is listed in the public wagers section"
-          end
-          redirect_to user_dashboard_path
-        else
-          @wager.amount = amount
-          @wageree_username = params[:wageree_username]
-          render :new
-        end
+        flash[:notice] = "No username was provided.  Your wager is listed in the public wagers section"
       end
+      redirect_to user_dashboard_path
     else
       @wager.amount = amount
-      @wageree_username = params[:wageree_username]
-      flash[:amount] = "All wagers must be in increments of $#{$ChipValue}."
       render :new
-
     end
   end
 
