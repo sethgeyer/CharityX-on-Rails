@@ -4,13 +4,11 @@ class WagersController < ApplicationController
 
   def new
 
-      # if kenny_loggins.id == params[:user_id].to_i #<--- no test written to test whether a sessioned user can view someone else's view
         if kenny_loggins.chips.where(status: "available").count == 0
           flash[:notice] = "Your account has a $0 balance.  You must fund your account before you can wager."
           redirect_to user_dashboard_path
         else
           @wager = Wager.new
-          # @list_of_users = User.where('id != ?', kenny_loggins.id)
           if params[:pwid]
             rematch_wager = Wager.find(params[:pwid])
             if rematch_wager.user == kenny_loggins  || rematch_wager.wageree_id == kenny_loggins.id
@@ -27,10 +25,7 @@ class WagersController < ApplicationController
           end
           render :new
         end
-      # else
-      #   flash[:notice] = "You are not authorized to visit this page"
-      #   redirect_to root_path
-      # end
+
   end
 
   def create
@@ -49,43 +44,28 @@ class WagersController < ApplicationController
       @wager.wageree_id = nil
     end
     @wager.status = "w/wageree"
+
     if amount % $ChipValue == 0 && amount >= $ChipValue
       @wager.amount = amount * 100
+
       if kenny_loggins.chips.where(status: "available").count < (amount / $ChipValue)
         @wager.amount = kenny_loggins.chips.where(status: "available").count * $ChipValue
-        # @list_of_users = User.where('id != ?', kenny_loggins.id)
         flash[:amount] = "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{kenny_loggins.chips.where(status: "available").count * $ChipValue}"
         @wageree_username = params[:wageree_username]
         @wager.amount = kenny_loggins.chips.where(status: "available").count * $ChipValue
         render :new
       else
         if @wager.save
-          #UNTESTED ########################################################
           Chip.change_status_to_wagered(@wager.user.id, @wager.amount)
-          ################
-          # wageree = User.find(params[:proposed_wager][:wageree_id].to_i)
           if registered_user
             flash[:notice] = "Your proposed wager has been sent to #{registered_user.username}."
             WagerMailer.send_registered_user_wager(@wager).deliver
           elsif params[:wageree_username].include?("@")
-
-
-
-
-
             new_wager_with_non_registered_user = NonRegisteredWageree.new
             new_wager_with_non_registered_user.wager_id = @wager.id
-            # new_wager_with_non_registered_user.unique_id = SecureRandom.uuid
             new_wager_with_non_registered_user.email = params[:wageree_username]
             new_wager_with_non_registered_user.save!
-
-            # WagerMailer.set_default_from(kenny_loggins.email)
-
             WagerMailer.send_non_registered_user_wager(new_wager_with_non_registered_user).deliver
-
-
-
-
             flash[:notice] = "A solicitation email has been sent to #{params[:wageree_username]}"
           else
             flash[:notice] = "No username was provided.  Your wager is listed in the public wagers section"
@@ -100,7 +80,6 @@ class WagersController < ApplicationController
     else
       @wager.amount = amount
       @wageree_username = params[:wageree_username]
-      # @list_of_users = User.where('id != ?', kenny_loggins.id)
       flash[:amount] = "All wagers must be in increments of $#{$ChipValue}."
       render :new
 
@@ -136,15 +115,11 @@ class WagersController < ApplicationController
       #if the current user initiated the wager (aka: current user == wagerer)
       if kenny_loggins.id == @wager.user_id
         @wager.wagerer_outcome = "I Won"
-
-        # flash[:notice] = "Awaiting confirmation from the wageree"
       else
         @wager.wageree_outcome = "I Won"
-        # flash[:notice] = "Awaiting confirmation from the wagerer"
       end
       @wager.save!
       redirect_to user_dashboard_path
-
 
     elsif params[:commit] == "I Lost"
       @wager = Wager.where(id: params[:id], status:"accepted").first
@@ -171,7 +146,6 @@ class WagersController < ApplicationController
 
         if @wager.save!
 
-          #convert these to class methods
           winners_chips = Chip.change_status_to_available(@wager.user_id, @wager.amount)
           losers_chips = Chip.reassign_to_winner(kenny_loggins.id, @wager.user_id, @wager.amount )
         end
