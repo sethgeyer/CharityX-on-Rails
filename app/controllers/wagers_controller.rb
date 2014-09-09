@@ -65,80 +65,76 @@ class WagersController < ApplicationController
 
   def update
 
-    if params[:commit] == "Shake on it!"
-      #<<<<< The below line and the if == nil code were added to address the situations where a wagerer has withdrawn a bet, it has been accepted, or expired
-      #before the wageree refreshing his view.  This ensures that if the bet is no longer "available", a user that tries to accept it, gets a message stating
-      #that it had been withdrawn.
-      @wager = Wager.where(id: params[:id]).where(status: "w/wageree").first
-      if @wager == nil
-        flash[:notice] = "Wager has already been accepted, withdrawn or expired."
-      else
+    case params[:commit]
 
-        if kenny_loggins.chips.where(status: "available").count < (@wager.amount / 100 / $ChipValue)
-          flash[:notice] = "You don't have adequate funds to accept this wager.  Please add additional funds to your account."
+      when "Shake on it!"
+        #<<<<< The below line and the if == nil code were added to address the situations where a wagerer has withdrawn a bet, it has been accepted, or expired
+        #before the wageree refreshing his view.  This ensures that if the bet is no longer "available", a user that tries to accept it, gets a message stating
+        #that it had been withdrawn.
+        @wager = Wager.where(id: params[:id]).where(status: "w/wageree").first
+        if @wager == nil
+          flash[:notice] = "Wager has already been accepted, withdrawn or expired."
         else
-
-          #test this _________________________________________________________________________
-          @wager.wageree_id = kenny_loggins.id if @wager.wageree_id == nil
-          #-------------------------------------
-          @wager.status = "accepted"
-          Chip.change_status_to_wagered(kenny_loggins.id, @wager.amount) if @wager.save!
-        end
-      end
-        redirect_to user_dashboard_path
-
-    elsif params[:commit] == "I Won"
-      @wager = Wager.where(id: params[:id], status:"accepted").first
-      #if the current user initiated the wager (aka: current user == wagerer)
-      if kenny_loggins.id == @wager.user_id
-        @wager.wagerer_outcome = "I Won"
-      else
-        @wager.wageree_outcome = "I Won"
-      end
-      @wager.save!
-      redirect_to user_dashboard_path
-
-    elsif params[:commit] == "I Lost"
-      @wager = Wager.where(id: params[:id], status:"accepted").first
-
-      #if the current user initiated the wager (aka: current user == wagerer)
-      if kenny_loggins.id == @wager.user_id
-        @wager.wagerer_outcome = "I Lost"
-        @wager.winner_id = @wager.wageree_id
-        @wager.status = "completed"
-
-        if @wager.save!
-          winners_chips = Chip.change_status_to_available(@wager.wageree_id, @wager.amount)
-          losers_chips = Chip.reassign_to_winner(kenny_loggins.id, @wager.wageree_id, @wager.amount )
+          if kenny_loggins.chips.where(status: "available").count < (@wager.amount / 100 / $ChipValue)
+            flash[:notice] = "You don't have adequate funds to accept this wager.  Please add additional funds to your account."
+          else
+            #test this _________________________________________________________________________
+            @wager.wageree_id = kenny_loggins.id if @wager.wageree_id == nil
+            #-------------------------------------
+            @wager.status = "accepted"
+            Chip.change_status_to_wagered(kenny_loggins.id, @wager.amount) if @wager.save!
+          end
         end
         redirect_to user_dashboard_path
-      end
 
-
-      #if the current user did not initiate the wager (aka: current user == wageree)
-      if kenny_loggins.id != @wager.user_id
-        @wager.wageree_outcome = "I Lost"
-        @wager.winner_id = @wager.user_id
-        @wager.status = "completed"
-
-        if @wager.save!
-
-          winners_chips = Chip.change_status_to_available(@wager.user_id, @wager.amount)
-          losers_chips = Chip.reassign_to_winner(kenny_loggins.id, @wager.user_id, @wager.amount )
+      when "I Won"
+        @wager = Wager.where(id: params[:id], status:"accepted").first
+        #if the current user initiated the wager (aka: current user == wagerer)
+        if kenny_loggins.id == @wager.user_id
+          @wager.wagerer_outcome = "I Won"
+        else
+          @wager.wageree_outcome = "I Won"
         end
+        @wager.save!
         redirect_to user_dashboard_path
-      end
 
-    elsif params[:commit] == "No Thx!"
-      @wager = Wager.where(id: params[:id]).where(status: "w/wageree").first
-      @wager.status = "declined"
+      when "I Lost"
+        @wager = Wager.where(id: params[:id], status:"accepted").first
+        #if the current user initiated the wager (aka: current user == wagerer)
+        if kenny_loggins.id == @wager.user_id
+          @wager.wagerer_outcome = "I Lost"
+          @wager.winner_id = @wager.wageree_id
+          @wager.status = "completed"
 
+          if @wager.save!
+            winners_chips = Chip.change_status_to_available(@wager.wageree_id, @wager.amount)
+            losers_chips = Chip.reassign_to_winner(kenny_loggins.id, @wager.wageree_id, @wager.amount )
+          end
+          redirect_to user_dashboard_path
+        end
+        #if the current user did not initiate the wager (aka: current user == wageree)
+        if kenny_loggins.id != @wager.user_id
+          @wager.wageree_outcome = "I Lost"
+          @wager.winner_id = @wager.user_id
+          @wager.status = "completed"
+          if @wager.save!
+            winners_chips = Chip.change_status_to_available(@wager.user_id, @wager.amount)
+            losers_chips = Chip.reassign_to_winner(kenny_loggins.id, @wager.user_id, @wager.amount )
+          end
+          redirect_to user_dashboard_path
+        end
+
+      when "No Thx!"
+        @wager = Wager.where(id: params[:id]).where(status: "w/wageree").first
+        @wager.status = "declined"
         if @wager.save!
           Chip.change_status_to_available(@wager.user_id, @wager.amount)
         end
         redirect_to user_dashboard_path
-
+      else
+        puts "This blew up"
     end
+    
   end
 
 
