@@ -13,8 +13,10 @@ class DashboardsController < ApplicationController
       end
     end
 
-    @unallocated_chips = kenny_loggins.chips.where(status: "available")
-    @distributed_chips = kenny_loggins.chips.where(status: "distributed")
+    @dashboard = Dashboard.new
+
+    # @unallocated_chips = kenny_loggins.chips.where(status: "available")
+    # @distributed_chips = kenny_loggins.chips.where(status: "distributed")
     @wagered_chips = kenny_loggins.chips.where(status: "wagered")
 
     @deposit_total = kenny_loggins.deposits.sum(:amount) / 100

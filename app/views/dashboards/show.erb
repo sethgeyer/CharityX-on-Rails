@@ -273,9 +273,9 @@
       <div id="chip-count">
         <b>CHIP COUNT</b>
 
-        <div id="dist-chips">DISTRIBUTED Chips:<%= @distributed_chips.count %></div>
+        <div id="dist-chips">DISTRIBUTED Chips:<%= @dashboard.list_distributed_chips(kenny_loggins).count %></div>
         <div id="wagered-chips">WAGERS Chips:<%= @wagered_chips.count %></div>
-        <div id="net-chips">NET Chips:<%= @unallocated_chips.count %></div>
+        <div id="net-chips">NET Chips:<%= @dashboard.list_unallocated_chips(kenny_loggins).count %></div>
       </div>
     </div>
     </div>
