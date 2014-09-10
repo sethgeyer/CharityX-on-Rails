@@ -1,29 +1,14 @@
 class WagersController < ApplicationController
 
   def new
-
         if kenny_loggins.chips.where(status: "available").count == 0
           flash[:notice] = "Your account has a $0 balance.  You must fund your account before you can wager."
           redirect_to user_dashboard_path
         else
           @wager = Wager.new
-          if params[:pwid]
-            rematch_wager = Wager.find(params[:pwid])
-            if rematch_wager.user == kenny_loggins  || rematch_wager.wageree_id == kenny_loggins.id
-              @wager.title = rematch_wager.title
-              @wager.details = rematch_wager.details
-              @wageree_username = if rematch_wager.user == kenny_loggins
-                                             User.find(rematch_wager.wageree_id).username
-                                           else
-                                             rematch_wager.user.username
-                                           end
-              @wager.amount = rematch_wager.amount / 100
-
-            end
-          end
+          @wager.create_as_a_duplicate_of_an_original_wager?(params[:pwid], kenny_loggins)
           render :new
         end
-
   end
 
 

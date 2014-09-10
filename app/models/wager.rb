@@ -38,6 +38,21 @@ class Wager < ActiveRecord::Base
   end
 
 
+  def create_as_a_duplicate_of_an_original_wager?(original_wager_id_provided, kenny_loggins)
+    if original_wager_id_provided
+      rematch_wager = Wager.find(original_wager_id_provided)
+      if rematch_wager.user == kenny_loggins || rematch_wager.wageree_id == kenny_loggins.id
+        self.title = rematch_wager.title
+        self.details = rematch_wager.details
+        self.wageree_id = if rematch_wager.user == kenny_loggins
+                            rematch_wager.wageree_id
+                          else
+                            rematch_wager.user_id
+                          end
+        self.amount = rematch_wager.amount / 100
+      end
+    end
+  end
 
 
 

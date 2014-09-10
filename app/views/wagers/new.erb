@@ -23,7 +23,7 @@
     <div class="form-group">
       <label for="wageree_username">With:</label><br/>
       <div class="input-group">
-       <input type="text" class="form-control" name="wageree_username" id="wageree_username" value="<%=@wageree_username%>">
+       <input type="text" class="form-control" name="wageree_username" id="wageree_username" value="<%=User.find(@wager.wageree_id).username if @wager.wageree_id%>">
         <span class="input-group-addon question">?</span>
       </div>
       <div class="wager-notes">
