@@ -74,67 +74,35 @@ class WagersController < ApplicationController
         @wager = Wager.where(id: params[:id]).where(status: "w/wageree").first
         if @wager == nil
           flash[:notice] = "Wager has already been accepted, withdrawn or expired."
+        elsif the_user_has_insufficient_funds_for_the_size_of_the_transaction(@wager.amount / 100, "available")
+          flash[:notice] = "You don't have adequate funds to accept this wager.  Please add additional funds to your account."
         else
-          if kenny_loggins.chips.where(status: "available").count < (@wager.amount / 100 / $ChipValue)
-            flash[:notice] = "You don't have adequate funds to accept this wager.  Please add additional funds to your account."
-          else
-            #test this _________________________________________________________________________
-            @wager.wageree_id = kenny_loggins.id if @wager.wageree_id == nil
-            #-------------------------------------
-            @wager.status = "accepted"
-            Chip.change_status_to_wagered(kenny_loggins.id, @wager.amount) if @wager.save!
-          end
+          @wager.wageree_id = kenny_loggins.id if @wager.wageree_id == nil
+          @wager.status = "accepted"
+          Chip.change_status_to_wagered(kenny_loggins.id, @wager.amount) if @wager.save!
         end
-        redirect_to user_dashboard_path
 
       when "I Won"
         @wager = Wager.where(id: params[:id], status:"accepted").first
-        #if the current user initiated the wager (aka: current user == wagerer)
-        if kenny_loggins.id == @wager.user_id
-          @wager.wagerer_outcome = "I Won"
-        else
-          @wager.wageree_outcome = "I Won"
-        end
+        @wager.assign_the_win(kenny_loggins, @wager)
         @wager.save!
-        redirect_to user_dashboard_path
 
       when "I Lost"
         @wager = Wager.where(id: params[:id], status:"accepted").first
-        #if the current user initiated the wager (aka: current user == wagerer)
-        if kenny_loggins.id == @wager.user_id
-          @wager.wagerer_outcome = "I Lost"
-          @wager.winner_id = @wager.wageree_id
-          @wager.status = "completed"
-
-          if @wager.save!
-            winners_chips = Chip.change_status_to_available(@wager.wageree_id, @wager.amount)
-            losers_chips = Chip.reassign_to_winner(kenny_loggins.id, @wager.wageree_id, @wager.amount )
-          end
-          redirect_to user_dashboard_path
-        end
-        #if the current user did not initiate the wager (aka: current user == wageree)
-        if kenny_loggins.id != @wager.user_id
-          @wager.wageree_outcome = "I Lost"
-          @wager.winner_id = @wager.user_id
-          @wager.status = "completed"
-          if @wager.save!
-            winners_chips = Chip.change_status_to_available(@wager.user_id, @wager.amount)
-            losers_chips = Chip.reassign_to_winner(kenny_loggins.id, @wager.user_id, @wager.amount )
-          end
-          redirect_to user_dashboard_path
-        end
+        @wager.assign_the_loss(kenny_loggins, @wager)
+        Chip.sweep_the_pot(kenny_loggins, @wager) if @wager.save!
 
       when "No Thx!"
         @wager = Wager.where(id: params[:id]).where(status: "w/wageree").first
         @wager.status = "declined"
-        if @wager.save!
-          Chip.change_status_to_available(@wager.user_id, @wager.amount)
-        end
-        redirect_to user_dashboard_path
+        Chip.change_status_to_available(@wager.user_id, @wager.amount) if @wager.save!
+
       else
         puts "This blew up"
     end
-    
+
+    redirect_to user_dashboard_path
+
   end
 
 

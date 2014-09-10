@@ -74,6 +74,15 @@ class Chip < ActiveRecord::Base
     end
   end
 
+  def self.sweep_the_pot(kenny_loggins, wager)
+    if kenny_loggins.id == wager.user_id
+      winners_chips = Chip.change_status_to_available(wager.wageree_id, wager.amount)
+      losers_chips = Chip.reassign_to_winner(kenny_loggins.id, wager.wageree_id, wager.amount )
+    else
+      winners_chips = Chip.change_status_to_available(wager.user_id, wager.amount)
+      losers_chips = Chip.reassign_to_winner(kenny_loggins.id, wager.user_id, wager.amount )
+    end
+  end
 
 
 
