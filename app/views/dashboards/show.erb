@@ -14,7 +14,7 @@
             <%=link_to "+", new_user_deposit_path, class:"round-button no-decoration"%>
           </div>
           <div id="deposits" class="contents col-xs-5" >
-            $<%=@deposit_total%>
+            $<%=@dashboard.sum_of_deposits(kenny_loggins)%>
           </div>
         </div>
 
@@ -24,7 +24,7 @@
             <%=link_to "+", new_user_wager_path, class:"round-button no-decoration"  %>
           </div>
           <div id="wagers" class="contents col-xs-5" >
-            $<%=@wagered_total%>
+            $<%=@dashboard.sum_of_wagered(kenny_loggins)%>
           </div>
         </div>
 
@@ -34,7 +34,7 @@
             <%=link_to "+", new_user_distribution_path, class:"round-button no-decoration"%>
           </div>
           <div id="distributions" class="contents col-xs-5" >
-            $<%=@distribution_total%>
+            $<%=@dashboard.sum_of_distributions(kenny_loggins)%>
           </div>
         </div>
 
@@ -43,7 +43,7 @@
             Winnings
           </div>
           <div id="winnings" class="contents col-xs-5" >
-            $<%=@winnings_total%>
+            $<%=@dashboard.sum_of_winnings(kenny_loggins)%>
           </div>
         </div>
 
@@ -52,7 +52,7 @@
             Account Balance
           </div>
           <div id="net_amount" class="contents col-xs-5" >
-            <b>$<%=@net_amount%></b>
+            <b>$<%=@dashboard.sum_of_net_amount(kenny_loggins)%></b>
           </div>
         </div>
 
@@ -65,14 +65,14 @@
     <div class='row'>
     <div class="col-md-8">
 
-      <% if @registered_wagers.count > 0 %>
+      <% if @dashboard.registered_wagers(kenny_loggins).count > 0 %>
 
         <div class="row">
           <h3>Wagers</h3>
         </div>
 
         <div id="wagers_table" class="row">
-          <% @registered_wagers.each do |registered_wager| %>
+          <% @dashboard.registered_wagers(kenny_loggins).each do |registered_wager| %>
             <div class="wager-border" data-attribute-status=<%= registered_wager.status %> data-attribute-date=<%= (registered_wager.date_of_wager - Date.today).to_i %>>
 
               <div class="wager-title">
@@ -197,14 +197,14 @@
 
 
 
-      <% if @public_wagers.count > 0 %>
+      <% if @dashboard.public_wagers(kenny_loggins).count > 0 %>
 
         <div class="row">
           <h3>Public Wagers</h3>
         </div>
 
         <div id="public-wagers" class="row">
-          <% @public_wagers.each do |public_wager| %>
+          <% @dashboard.public_wagers(kenny_loggins).each do |public_wager| %>
             <div class="wager-border" data-attribute-status=<%= public_wager.status %> data-attribute-date=<%= (public_wager.date_of_wager - Date.today).to_i %>>
 
               <div class="wager-title">
@@ -273,9 +273,9 @@
       <div id="chip-count">
         <b>CHIP COUNT</b>
 
-        <div id="dist-chips">DISTRIBUTED Chips:<%= @dashboard.list_distributed_chips(kenny_loggins).count %></div>
-        <div id="wagered-chips">WAGERS Chips:<%= @wagered_chips.count %></div>
-        <div id="net-chips">NET Chips:<%= @dashboard.list_unallocated_chips(kenny_loggins).count %></div>
+        <div id="dist-chips">DISTRIBUTED Chips:<%= @dashboard.chip_count(kenny_loggins, "distributed") %></div>
+        <div id="wagered-chips">WAGERS Chips:<%= @dashboard.chip_count(kenny_loggins, "wagered") %></div>
+        <div id="net-chips">NET Chips:<%= @dashboard.chip_count(kenny_loggins, "available") %></div>
       </div>
     </div>
     </div>
