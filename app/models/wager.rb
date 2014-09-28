@@ -55,6 +55,15 @@ class Wager < ActiveRecord::Base
   end
 
 
+  def identify_the_wageree
+    if self.wageree_id
+      User.find_by(id: self.wageree_id).username
+    elsif self.non_registered_wageree
+      self.non_registered_wageree.email
+    else
+      "the Public"
+    end
+  end
 
 
 

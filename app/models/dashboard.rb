@@ -1,10 +1,8 @@
 class Dashboard
 
-
   def chip_count(kenny_loggins, status)
     kenny_loggins.chips.where(status: status).count
   end
-
 
   def sum_of_deposits(kenny_loggins)
     kenny_loggins.deposits.sum(:amount) / 100
@@ -35,4 +33,5 @@ class Dashboard
     unfiltered_public_wagers = Wager.where(wageree_id: nil).where('user_id != ?', kenny_loggins.id).select { |wager| wager.non_registered_wageree == nil }
     Wager.compile_wagers_to_view_based_on_user_preferences(kenny_loggins, unfiltered_public_wagers)
   end
+
 end
