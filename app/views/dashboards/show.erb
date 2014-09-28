@@ -96,11 +96,9 @@
         <div class="wager-details">
           Date: <%= registered_wager.date_of_wager %> |
           Status: <%= registered_wager.status %>
-          <% if registered_wager.details == nil || registered_wager.details == "" %>
-          <% else %>
-            <br/>
-            <i>Details: <%= registered_wager.details %></i>
-          <% end %>
+          <br/>
+          <i><%= registered_wager.show_wager_details_if_present%></i>
+
         </div>
 
         <div class="wager-actions">

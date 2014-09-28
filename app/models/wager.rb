@@ -65,6 +65,9 @@ class Wager < ActiveRecord::Base
     end
   end
 
+  def show_wager_details_if_present
+      "Details: #{self.details}" if self.details
+  end
 
 
 
