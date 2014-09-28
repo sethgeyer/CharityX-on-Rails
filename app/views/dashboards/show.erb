@@ -98,7 +98,6 @@
           Status: <%= registered_wager.status %>
           <br/>
           <i><%= registered_wager.show_wager_details_if_present%></i>
-
         </div>
 
         <div class="wager-actions">
@@ -110,6 +109,8 @@
                 I Lost! |
               <% end %>
             </div>
+
+
             <% if kenny_loggins.id == registered_wager.user_id %>
               <%= link_to "Rematch?", new_user_wager_path(pwid: registered_wager) %>
             <% else %>
@@ -207,11 +208,8 @@
         <div class="wager-details">
           Date: <%= public_wager.date_of_wager %> |
           Status: <%= public_wager.status %>
-          <% if public_wager.details == nil || public_wager.details == "" %>
-          <% else %>
-            <br/>
-            <i>Details: <%= public_wager.details %></i>
-          <% end %>
+          <br/>
+          <i><%= public_wager.show_wager_details_if_present%></i>
         </div>
 
         <div class="wager-actions">
