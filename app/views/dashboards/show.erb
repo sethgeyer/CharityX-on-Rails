@@ -103,41 +103,19 @@
         <div class="wager-actions">
           <% if registered_wager.status == "completed" %>
             <div class="outcome">
-              <% if kenny_loggins.id == registered_wager.winner_id %>
-                I Won! |
-              <% else %>
-                I Lost! |
-              <% end %>
+              <%= registered_wager.identify_current_user_outcome(kenny_loggins)%>
             </div>
-
-
-            <% if kenny_loggins.id == registered_wager.user_id %>
-              <%= link_to "Rematch?", new_user_wager_path(pwid: registered_wager) %>
-            <% else %>
-              <%= link_to "Rematch?", new_user_wager_path(pwid: registered_wager) %>
-            <% end %>
-
+            <%= link_to "Rematch?", new_user_wager_path(pwid: registered_wager) %>
           <% elsif registered_wager.status == "expired" %>
             <div class="outcome">
               Wager Expired Before It Was Accepted |
             </div>
-            <% if kenny_loggins.id == registered_wager.user_id %>
-              <%= link_to "Reissue?", new_user_wager_path(pwid: registered_wager) %>
-            <% else %>
-              <%= link_to "Reissue?", new_user_wager_path(pwid: registered_wager) %>
-            <% end %>
-
-
+            <%= link_to "Reissue?", new_user_wager_path(pwid: registered_wager) %>
           <% elsif registered_wager.status == "declined" %>
             <div class="outcome">
               Wager Not Accepted |
             </div>
-            <% if kenny_loggins.id == registered_wager.user_id %>
-              <%= link_to "Revise?", new_user_wager_path(pwid: registered_wager) %>
-            <% else %>
-              <%= link_to "Revise?", new_user_wager_path(pwid: registered_wager) %>
-            <% end %>
-
+            <%= link_to "Revise?", new_user_wager_path(pwid: registered_wager) %>
           <% else %>
             <% if kenny_loggins.id == registered_wager.user_id %>
               <% if registered_wager.status == 'w/wageree' %>

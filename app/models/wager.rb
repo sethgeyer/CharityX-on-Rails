@@ -69,6 +69,14 @@ class Wager < ActiveRecord::Base
       "Details: #{self.details}" if self.details
   end
 
+  def identify_current_user_outcome(kenny_loggins)
+    if kenny_loggins.id == self.winner_id
+      "I Won! |"
+    else
+      "I Lost! |"
+    end
+  end
+
 
 
 
