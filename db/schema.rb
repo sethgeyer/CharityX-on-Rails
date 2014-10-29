@@ -11,17 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140908010407) do
+ActiveRecord::Schema.define(version: 20141029205502) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "accounts", force: true do |t|
-    t.string   "amount"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "charities", force: true do |t|
     t.string   "name"
@@ -34,7 +27,6 @@ ActiveRecord::Schema.define(version: 20140908010407) do
   end
 
   create_table "chips", force: true do |t|
-    t.integer  "account_id"
     t.integer  "owner_id"
     t.string   "status"
     t.string   "l1_tag_id"
@@ -49,7 +41,6 @@ ActiveRecord::Schema.define(version: 20140908010407) do
   end
 
   create_table "deposits", force: true do |t|
-    t.integer  "account_id"
     t.integer  "amount"
     t.integer  "cc_number"
     t.date     "exp_date"
@@ -62,7 +53,6 @@ ActiveRecord::Schema.define(version: 20140908010407) do
   end
 
   create_table "distributions", force: true do |t|
-    t.integer  "account_id"
     t.integer  "amount"
     t.integer  "charity_id"
     t.date     "date"
@@ -102,7 +92,6 @@ ActiveRecord::Schema.define(version: 20140908010407) do
   end
 
   create_table "wagers", force: true do |t|
-    t.integer  "account_id"
     t.string   "title"
     t.date     "date_of_wager"
     t.string   "details"
