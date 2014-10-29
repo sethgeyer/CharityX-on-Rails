@@ -1,14 +1,10 @@
-require 'rails_helper'
-require 'capybara/rails'
-
-
-
 feature "visitor visits homepage" do
+
   before(:each) do
     visit "/"
   end
 
-  scenario "visitor peruses the homepage" do
+  scenario "visitor can peruse the homepage" do
     expect(page).to have_button("Login")
     expect(page).to have_link("Sign Up")
     expect(page).not_to have_button("Logout")
