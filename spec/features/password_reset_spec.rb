@@ -3,9 +3,8 @@ require 'capybara/rails'
 
 feature "password reset" do
   before(:each) do
-    fill_in_registration_form("Stephen")
-    click_on "Logout"
-    expect(page).to have_content("Forgot Password")
+    create_user("Stephen")
+    visit "/"
     click_on "Forgot Password"
   end
 
@@ -33,14 +32,14 @@ feature "password reset" do
 
     scenario "registered user can submit a new valid password" do
       visit "/password_resets/9999/edit"
-      fill_in "New Password", with: "password"
+      fill_in "New Password", with: "passwordy"
       click_on "Submit"
       expect(page).to have_css("#homepage")
       expect(page).to have_content("Your password has been updated")
-      fill_in "Username", with: "stepheny"
-      fill_in "Password", with: "password"
+      fill_in "Username", with: "stephen"
+      fill_in "Password", with: "passwordy"
       click_on "Login"
-      expect(page).to have_content("Welcome stepheny")
+      expect(page).to have_content("Welcome stephen")
     end
 
 

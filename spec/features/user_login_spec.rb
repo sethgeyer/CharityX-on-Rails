@@ -8,7 +8,7 @@ feature "visitor login" do
   end
 
   scenario "non-registered visitor tries to login or visitor logs in w/ incorrect credentials" do
-    fill_in "Username", with: "stepheny"
+    fill_in "Username", with: "stephen"
     fill_in "Password", with: "123"
     click_on "Login"
     expect(page).to have_button("Login")
@@ -35,7 +35,7 @@ feature "visitor login" do
     fill_in_registration_form("Stephen")
     click_on "Logout"
     fill_in "Username", with: "stephen@gmail.com"
-    fill_in "Password", with: "stephen"
+    fill_in "Password", with: "password"
     click_on "Login"
     expect(page).to have_css("#show_dashboards")
   end

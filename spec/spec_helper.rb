@@ -80,19 +80,20 @@ RSpec.configure do |config|
 =end
 end
 
-def fill_in_registration_form(name)
+
+def fill_in_registration_form(first_name)
   visit "/users/new"
-  within(page.find(".registration")) {fill_in "First name", with: "Steve"}
-  within(page.find(".registration")) {fill_in "Last name", with: "Ward"}
-  within(page.find(".registration")) { fill_in "Username", with: "#{name.downcase}y" }
-  within(page.find(".registration")) { fill_in "Email", with: "#{name.downcase}@gmail.com" }
-  within(page.find(".registration")) { fill_in "Password", with: name.downcase }
+  within(page.find(".registration")) {fill_in "First name", with: first_name}
+  within(page.find(".registration")) {fill_in "Last name", with: "Theuser"}
+  within(page.find(".registration")) { fill_in "Username", with: "#{first_name.downcase}" }
+  within(page.find(".registration")) { fill_in "Email", with: "#{first_name.downcase}@gmail.com" }
+  within(page.find(".registration")) { fill_in "Password", with: "password" }
   within(page.find(".registration")) { click_on "Submit" }
 end
 
 def login_a_registered_user(name)
-  fill_in "Username", with: "#{name.downcase}y"
-  fill_in "Password", with: name.downcase
+  fill_in "Username", with: "#{name.downcase}"
+  fill_in "Password", with: "password"
   click_on "Login"
 end
 
@@ -125,33 +126,17 @@ def distribute_funds_from_my_account(distribution_amount, charity)
   click_on "Submit"
 end
 
-def register_users_and_create_a_wager(wageree, wagerer)
-  fill_in_registration_form(wageree)
-  fund_my_account_with_a_credit_card(100)
-  click_on "Logout"
-  fill_in_registration_form(wagerer)
-  fund_my_account_with_a_credit_card(40)
-  #visit "/proposed_wagers/new"
+def create_a_new_unaccepted_wager(wagerer, wageree, amount)
   within(page.find("#wager-funds")) {click_link "+"}
   fill_in "wager_title", with: "Ping Pong Match between S & A"
   fill_in "wager_date_of_wager", with: "2017-07-31"
   fill_in "wager_details", with: "Game to 21, standard rules apply"
-  fill_in "wager_amount", with: 10
-  fill_in "With:", with: "alexandery"
+  fill_in "wager_amount", with: amount
+  fill_in "With:", with: "alexander"
   click_on "Submit"
 end
 
-def create_a_public_wager(potential_wageree1, potential_wageree2, wagerer)
-  fill_in_registration_form(potential_wageree1)
-  fund_my_account_with_a_credit_card(100)
-  click_on "Logout"
-  fill_in_registration_form(potential_wageree2)
-  fund_my_account_with_a_credit_card(100)
-  click_on "Logout"
-
-  fill_in_registration_form(wagerer)
-  fund_my_account_with_a_credit_card(40)
-
+def create_a_public_wager(wagerer, potential_wageree1, potential_wageree2 )
   within(page.find("#wager-funds")) {click_link "+"}
   fill_in "wager_title", with: "Public Ping Pong"
   fill_in "wager_date_of_wager", with: "2017-07-31"

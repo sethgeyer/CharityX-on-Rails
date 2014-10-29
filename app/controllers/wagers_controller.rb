@@ -36,7 +36,15 @@ class WagersController < ApplicationController
         flash[:notice] = "Your proposed wager has been sent to #{registered_wageree.username}."
       elsif @wageree_username_or_email.include?("@")
         non_registered_wageree = NonRegisteredWageree.create_a_new_one(@wager.id, @wageree_username_or_email)
+
+
         WagerMailer.send_non_registered_user_wager(non_registered_wageree).deliver
+
+
+
+
+
+
         flash[:notice] = "A solicitation email has been sent to #{@wageree_username_or_email}"
       else
         flash[:notice] = "No username was provided.  Your wager is listed in the public wagers section"

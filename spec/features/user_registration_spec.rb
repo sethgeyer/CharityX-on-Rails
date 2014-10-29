@@ -6,7 +6,7 @@ feature "visitor registration" do
 
   scenario "visitor fills in registration form completely and accurately" do
     fill_in_registration_form("Stephen")
-    expect(page).to have_content("Thanks for registering stepheny.  You are now logged in.")
+    expect(page).to have_content("Thanks for registering stephen.  You are now logged in.")
     expect(page).to have_link("Logout")
     expect(page).not_to have_button("Login")
     expect(page).not_to have_link("Sign Up")
@@ -14,14 +14,11 @@ feature "visitor registration" do
     expect(page).to have_css("#show_dashboards")
   end
 
-
-
-
   scenario "registered visitor completes login form correctly and routes to show page for the user" do
-    fill_in_registration_form("Stephen")
-    click_on "Logout"
+    create_user("Stephen")
+    visit "/"
     login_a_registered_user("Stephen")
-    expect(page).to have_content("Welcome stepheny")
+    expect(page).to have_content("Welcome stephen")
     expect(page).to have_link("Logout")
     expect(page).not_to have_button("Login")
     expect(page).not_to have_link("Sign Up")
@@ -29,9 +26,6 @@ feature "visitor registration" do
     expect(page).to have_link("Charities")
     expect(page).to have_css("#show_dashboards")
   end
-
-
-
 
   scenario "visitor fills in registration form only partially" do
     name = "Stephen"
@@ -56,26 +50,24 @@ feature "visitor registration" do
   end
 
   scenario "visitor fills in registration form using a non-unique username" do
-    fill_in_registration_form("Stephen")
-    click_on "Logout"
+    user = create_user("Stephen")
     name = "Stephen"
     visit "/users/new"
-    within(page.find(".registration")) { fill_in "Username", with: "#{name.downcase}y" }
+    within(page.find(".registration")) { fill_in "Username", with: user.username }
     within(page.find(".registration")) { fill_in "Email", with: "#{name}@gmail.com" }
-    within(page.find(".registration")) { fill_in "Password", with: name.downcase }
+    within(page.find(".registration")) { fill_in "Password", with: "password" }
     within(page.find(".registration")) { click_on "Submit" }
     expect(page).to have_css("#new_users")
     expect(page).to have_content("Username is not unique.  Please select another.")
   end
 
   scenario "visitor fills in registration form using a non-unique email" do
-    fill_in_registration_form("Stephen")
-    click_on "Logout"
+    user = create_user("Stephen")
     name = "Stephen"
     visit "/users/new"
     within(page.find(".registration")) { fill_in "Username", with: "lancey" }
-    within(page.find(".registration")) { fill_in "Email", with: "#{name.downcase}@gmail.com" }
-    within(page.find(".registration")) { fill_in "Password", with: name.downcase }
+    within(page.find(".registration")) { fill_in "Email", with: user.email }
+    within(page.find(".registration")) { fill_in "Password", with: "password" }
     within(page.find(".registration")) { click_on "Submit" }
     expect(page).to have_css("#new_users")
     expect(page).to have_content("already exists")

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     resources :distributions, :only => [:index, :new, :create]
     resources :wagers, :only => [:new, :create, :update, :destroy]
     resources :wager_view_preferences, :only => [:create]
+    resource :dollar_locator, :only => [:show]
   end
 
   resources :charities, :only => [:index, :new, :create]

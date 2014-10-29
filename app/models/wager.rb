@@ -90,8 +90,8 @@ class Wager < ActiveRecord::Base
 
   def amount_of_wager_is_within_thresholds
     dollar_amount = amount / 100
-    unless dollar_amount % $ChipValue == 0 && dollar_amount >= $ChipValue
-      errors.add(:amount, "All wagers must be in increments of $#{$ChipValue}.")
+    unless dollar_amount % 10 == 0 && dollar_amount >= 10
+      errors.add(:amount, "All wagers must be in increments of $10.")
     end
   end
 

@@ -62,11 +62,14 @@ feature "User Dashboard Page" do
 
   context "A logged in user has created a wager" do
     before(:each) do
-
-      register_users_and_create_a_wager("Alexander", "Stephen")
+      create_user_and_fund_their_account("Stephen", 100)
+      create_user_and_fund_their_account("Alexander", 100)
+      create_an_existing_accepted_wager("Stephen", "Alexander", 10)
 
     end
     scenario "A user can NOT hide a wager in which the outcome has not been determined" do
+      visit "/"
+      login_a_registered_user("Stephen")
       expect(page).to have_css("#show_dashboards")
       expect(page).not_to have_css("#archive-button")
     end

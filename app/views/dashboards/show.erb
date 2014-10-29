@@ -117,6 +117,7 @@
             </div>
             <%= link_to "Revise?", new_user_wager_path(pwid: registered_wager) %>
           <% else %>
+
             <% if kenny_loggins.id == registered_wager.user_id %>
               <% if registered_wager.status == 'w/wageree' %>
                 <div class="button button-withdraw">
