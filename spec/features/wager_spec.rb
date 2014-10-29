@@ -5,8 +5,8 @@ feature "View and Create a Proposed Wagers" do
 
   before(:each) do
     create_charity("United Way")
-    create_user_and_fund_their_account("Alexander", 100)
-    create_user_and_fund_their_account("Stephen", 40)
+    create_user_and_make_a_deposit_to_their_account("Alexander", 100)
+    create_user_and_make_a_deposit_to_their_account("Stephen", 40)
   end
 
   scenario "As a visitor, I should not be able to visit the new proposed wager view directly via the URL " do
@@ -16,7 +16,7 @@ feature "View and Create a Proposed Wagers" do
 
   scenario "As a user, I can not create a wager that is NOT in the proper increments" do
     visit "/"
-    login_a_registered_user("Stephen")
+    login_user("Stephen")
     within(page.find("#wager-funds")) { click_link "+" }
     fill_in "wager_title", with: "Ping Pong Match between S & A"
     fill_in "wager_date_of_wager", with: "2014-07-31"
@@ -29,7 +29,7 @@ feature "View and Create a Proposed Wagers" do
 
   scenario "As a user I can create a proposed wager" do
     visit "/"
-    login_a_registered_user("Stephen")
+    login_user("Stephen")
     within(page.find("#wager-funds")) {click_link "+"}
 
     fill_in "wager_title", with: "Ping Pong Match between S & A"
@@ -55,7 +55,7 @@ feature "View and Create a Proposed Wagers" do
 
   scenario "As a user I can not create a proposed wager w/out a date" do
     visit "/"
-    login_a_registered_user("Stephen")
+    login_user("Stephen")
     within(page.find("#wager-funds")) {click_link "+"}
     fill_in "wager_title", with: "Ping Pong Match between S & A"
     # fill_in "wager_date_of_wager", with: "2014-07-31"
@@ -68,7 +68,7 @@ feature "View and Create a Proposed Wagers" do
 
   scenario "As a user I can not create a proposed wager w/out a title" do
     visit "/"
-    login_a_registered_user("Stephen")
+    login_user("Stephen")
     within(page.find("#wager-funds")) {click_link "+"}
     # fill_in "wager_title", with: "Ping Pong Match between S & A"
     fill_in "wager_date_of_wager", with: Date.today + 1.week
@@ -82,7 +82,7 @@ feature "View and Create a Proposed Wagers" do
   context "As a wagerer," do
     before(:each) do
       visit "/"
-      login_a_registered_user("Stephen")
+      login_user("Stephen")
     end
 
     scenario "I can not bet more dollars than are currently available in my account" do
@@ -112,10 +112,10 @@ feature "View and Create a Proposed Wagers" do
     scenario "I can not 'withdraw' a proposed wager if it has been accepted" do
       create_a_new_unaccepted_wager("Stephen", "Alexander", 10)
       click_on "Logout"
-      login_a_registered_user("Alexander")
+      login_user("Alexander")
       click_on "Shake on it!"
       click_on "Logout"
-      login_a_registered_user("Stephen")
+      login_user("Stephen")
       expect(page).to have_content("Ping Pong Match")
       expect(page).not_to have_link("Withdraw")
       expect(page.find("#wagers")).to have_content(10)
@@ -165,11 +165,11 @@ feature "View and Create a Proposed Wagers" do
       # registers 2 users, funds their account (Alex: 100, Stephen: 40) and creates a
       # $10 wager between the two of them.  Stephen is left logged in.
       visit "/"
-      login_a_registered_user("Stephen")
+      login_user("Stephen")
       create_a_new_unaccepted_wager("Stephen", "Alexander", 10)
       click_on "Logout"
       visit "/"
-      login_a_registered_user("Alexander")
+      login_user("Alexander")
     end
 
     scenario "I can see a proposed wager in which I'm the wageree" do
@@ -210,7 +210,7 @@ feature "View and Create a Proposed Wagers" do
       expect(page.find("#net_amount")).to have_content(100)
       expect(page).not_to have_button("I Lost")
       click_on "Logout"
-      login_a_registered_user("Stephen")
+      login_user("Stephen")
       expect(page.find("#wagers")).to have_content(0)
       expect(page.find("#wagered-chips")).to have_content("Chips:#{0 / $ChipValue}")
       expect(page.find("#net_amount")).to have_content(40)
@@ -240,14 +240,14 @@ feature "View and Create a Proposed Wagers" do
     end
     scenario "A wagerer, can identify that he won the wager" do
       visit "/"
-      login_a_registered_user("Stephen")
+      login_user("Stephen")
       click_on "I Won"
       expect(page).to have_content("Awaiting Confirmation")
     end
 
     scenario "A wageree, can identify that he won the wager" do
       visit "/"
-      login_a_registered_user("Alexander")
+      login_user("Alexander")
       click_on "I Won"
       expect(page).to have_content("Awaiting Confirmation")
     end
@@ -272,10 +272,10 @@ feature "View and Create a Proposed Wagers" do
 
     scenario "As a wagerer that won the bet, I collect the money from the wageree" do
       visit "/"
-      login_a_registered_user("Alexander")
+      login_user("Alexander")
       click_on "I Lost"
       click_on "Logout"
-      login_a_registered_user("Stephen")
+      login_user("Stephen")
       expect(page).to have_content("I Won")
       expect(page).not_to have_button("I Lost")
       expect(page).not_to have_button("Shake on it!")
@@ -289,7 +289,7 @@ feature "View and Create a Proposed Wagers" do
 
     scenario "As a wagerer that lost the bet, I transfer the money to the wageree" do
       visit "/"
-      login_a_registered_user("Stephen")
+      login_user("Stephen")
       click_on "I Lost"
       expect(page).to have_content("I Lost")
       expect(page).not_to have_button("I Lost")
@@ -305,7 +305,7 @@ feature "View and Create a Proposed Wagers" do
 
     scenario "As a wageree that lost the bet, I transfer the money to the wagerer" do
       visit "/"
-      login_a_registered_user("Alexander")
+      login_user("Alexander")
       click_on "I Lost"
       expect(page).to have_content("I Lost")
       expect(page).not_to have_button("I Lost")
@@ -320,10 +320,10 @@ feature "View and Create a Proposed Wagers" do
 
     scenario "As a wageree that won the bet, I receive the money from the wagerer" do
       visit "/"
-      login_a_registered_user("Stephen")
+      login_user("Stephen")
       click_on "I Lost"
       click_on "Logout"
-      login_a_registered_user("Alexander")
+      login_user("Alexander")
       expect(page).to have_content("I Won")
       expect(page).not_to have_button("I Lost")
       expect(page).to have_link("Rematch")
@@ -341,10 +341,10 @@ feature "View and Create a Proposed Wagers" do
       scenario "As a wagerer, I can propose a rematch for a game that I just played" do
                 create_an_existing_accepted_wager("Stephen", "Alexander", 10)
         visit "/"
-        login_a_registered_user("Alexander")
+        login_user("Alexander")
         click_on "I Lost"
         click_on "Logout"
-        login_a_registered_user("Stephen")
+        login_user("Stephen")
         expect(page).to have_link("Rematch")
         click_on "Rematch"
         expect(page).to have_css("#new_proposed_wagers")
@@ -359,10 +359,10 @@ feature "View and Create a Proposed Wagers" do
 
         create_an_existing_accepted_wager("Stephen", "Alexander", 10)
         visit "/"
-        login_a_registered_user("Stephen")
+        login_user("Stephen")
         click_on "I Lost"
         click_on "Logout"
-        login_a_registered_user("Alexander")
+        login_user("Alexander")
         click_on "Rematch"
         expect(page).to have_css("#new_proposed_wagers")
         fill_in "wager_date_of_wager", with: "2017-07-31"
@@ -376,15 +376,15 @@ feature "View and Create a Proposed Wagers" do
 
     context "User does not have another registered user to bet with" do
       scenario "As a user I can create a wager w/out a known wageree " do
-        create_user_and_fund_their_account("Michael", 100)
+        create_user_and_make_a_deposit_to_their_account("Michael", 100)
         visit "/"
-        login_a_registered_user("Stephen")
+        login_user("Stephen")
         create_a_public_wager("Stephen", "Alexander", "Michael")
         expect(page).to have_css("#show_dashboards")
         expect(page).to have_content("No username was provided.  Your wager is listed in the public wagers section")
         expect(page).to have_content("Public Ping Pong")
         click_on "Logout"
-        login_a_registered_user("Alexander")
+        login_user("Alexander")
         expect(page.find("#public-wagers")).to have_content("Public Ping Pong")
         click_on "Shake on it!"
         expect(page.find("#wagers")).to have_content("$10")

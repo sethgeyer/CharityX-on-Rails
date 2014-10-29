@@ -17,7 +17,7 @@ feature "visitor registration" do
   scenario "registered visitor completes login form correctly and routes to show page for the user" do
     create_user("Stephen")
     visit "/"
-    login_a_registered_user("Stephen")
+    login_user("Stephen")
     expect(page).to have_content("Welcome stephen")
     expect(page).to have_link("Logout")
     expect(page).not_to have_button("Login")

@@ -10,7 +10,7 @@ def register_a_new_charity(charity_name)
 
 end
 
-def make_a_deposit_to_my_account(deposit_amount)
+def make_a_deposit_to_their_account(deposit_amount)
   within(page.find("#fund-my-account")) {click_link "+"}
   fill_in "Amount", with: deposit_amount
   # fill_in "Credit Card Number", with: 123456789
@@ -20,7 +20,7 @@ def make_a_deposit_to_my_account(deposit_amount)
   click_on "Submit"
 end
 
-def login_a_registered_user(name)
+def login_user(name)
   fill_in "Username", with: "#{name.downcase}"
   fill_in "Password", with: "password"
   click_on "Login"
@@ -69,7 +69,7 @@ end
 
 def user_creates_a_solicitation_wager(wagererTheUser, wagereeTheNonUser)
   fill_in_registration_form(wagererTheUser)
-  make_a_deposit_to_my_account(100)
+  make_a_deposit_to_their_account(100)
   within(page.find("#wager-funds")) {click_link "+"}
   fill_in "wager_title", with: "Ping Pong"
   fill_in "wager_date_of_wager", with: "2017-07-31"

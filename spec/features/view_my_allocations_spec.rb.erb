@@ -11,19 +11,19 @@ feature "Track Allocations" do
 
     register_a_new_charity("Red Cross")
     register_users_and_create_a_wager("Alexander", "Stephen")
-    make_a_deposit_to_my_account(100)
+    make_a_deposit_to_their_account(100)
     click_on "Logout"
-    login_a_registered_user("Alexander")
+    login_user("Alexander")
     click_on "Shake on it!"
     click_on "Logout"
-    login_a_registered_user("Stephen")
+    login_user("Stephen")
     click_on "I Lost"
     distribute_funds_from_my_account(10, "United Way")
     click_on "Logout"
-    login_a_registered_user("Alexander")
+    login_user("Alexander")
     distribute_funds_from_my_account(10, "Red Cross")
     click_on "Logout"
-    login_a_registered_user("Stephen")
+    login_user("Stephen")
     visit "/users/show"
     # click_on "Show Me"
     # click_on "Where are my dollars?"

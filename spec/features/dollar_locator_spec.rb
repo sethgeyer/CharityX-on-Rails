@@ -6,13 +6,13 @@ require 'capybara/rails'
 feature "dollar locator view" do
 
   before(:each) do
-    @person1 = create_user_and_fund_their_account("Alexander", 300)
-    @person2 = create_user_and_fund_their_account("Stephen", 300)
+    @person1 = create_user_and_make_a_deposit_to_their_account("Alexander", 300)
+    @person2 = create_user_and_make_a_deposit_to_their_account("Stephen", 300)
 
 
     @wager = create_an_existing_accepted_wager(@person1.first_name, @person2.first_name, 10)
     visit "/"
-    login_a_registered_user("Stephen")
+    login_user("Stephen")
 
   end
 

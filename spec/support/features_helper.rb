@@ -14,7 +14,7 @@ def create_user(first_name)
   User.create!(attributes)
 end
 
-def create_user_and_fund_their_account(first_name, amount)
+def create_user_and_make_a_deposit_to_their_account(first_name, amount)
   attributes = {
   username: first_name.downcase,
   password: 'password',

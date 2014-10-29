@@ -1,7 +1,5 @@
-require 'rails_helper'
-require 'capybara/rails'
-
 feature "View Index and Create Distributions" do
+
   before(:each) do
     create_charity("United Way")
     create_charity("Red Cross")
@@ -12,38 +10,36 @@ feature "View Index and Create Distributions" do
     expect(page).to have_css("#homepage")
   end
 
-  scenario "As a visitor, I should not be able to visit the new distributions page directly via typing in a uRL" do
+  scenario "As a visitor, I should not be able to visit the new distributions page directly via typing in a URL" do
     visit "/user/distributions/new"
     expect(page).to have_css("#homepage")
   end
 
-  context "After having looged in as a user," do
+  context "As a logged in user," do
+
     before(:each) do
-      fill_in_registration_form("Stephen")
-      make_a_deposit_to_my_account(40)
+      create_user_and_make_a_deposit_to_their_account("Stephen", 40)
+      visit "/"
+      login_user("Stephen")
     end
 
     scenario "I should be able to view my history of distributions" do
-      make_a_deposit_to_my_account(50)
       distribute_funds_from_my_account(10, "United Way")
       distribute_funds_from_my_account(20, "Red Cross")
       # #can't test this because 'show distr history is in the navbar nested in a jscript dropdown
       # click_on "Show Distribution History"
-      #
       # expect(page).to have_css("#index_distributions")
       # expect(page).to have_content("$100")
       # expect(page).not_to have_content("$10000")
       # expect(page).to have_content("$200")
     end
 
-    context "Distributions not in proper increments" do
-      scenario "I should be able to view my history of distributions" do
-        make_a_deposit_to_my_account(50)
-        distribute_funds_from_my_account(9, "United Way")
-        expect(page).to have_content("All distributions must be in increments of $#{$ChipValue}.")
-      end
+    scenario "I should not be able to make a distribution that is not in a $10 increment" do
+      distribute_funds_from_my_account(9, "United Way")
+      expect(page).to have_content("All distributions must be in increments of $#{$ChipValue}.")
     end
-    scenario "I can distribute funds from my account" do
+
+    scenario "I can distribute funds from my account that are in proper $10 increments" do
       distribute_funds_from_my_account(10, "United Way")
       expect(page).to have_css("#show_dashboards")
       expect(page).to have_content("Thank you for distributing $10 from your account to United Way")

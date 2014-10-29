@@ -5,7 +5,7 @@ feature "User Dashboard Page" do
     before(:each) do
       @user = create_user("Stephen")
       visit "/"
-      login_a_registered_user("Stephen")
+      login_user("Stephen")
     end
 
     scenario "User can view my account details page" do
@@ -27,19 +27,19 @@ feature "User Dashboard Page" do
     end
 
     scenario "User with a funded account can link to the 'create a wager' page to create a wager" do
-      make_a_deposit_to_my_account(100)
+      make_a_deposit_to_their_account(100)
       within(page.find("#wager-funds")) { click_link "+" }
       expect(page).to have_css("#new_proposed_wagers")
     end
 
     scenario "User with available funds, can link to the new distributions page to distribute funds from their account" do
-      make_a_deposit_to_my_account(100)
+      make_a_deposit_to_their_account(100)
       within(page.find("#distribute-funds")) { click_link "+" }
       expect(page).to have_css("#new_distributions")
     end
 
     scenario "User without available funds, can NOT link to the new distributions page to distribute funds from my account" do
-      make_a_deposit_to_my_account(100)
+      make_a_deposit_to_their_account(100)
       create_charity("United Way")
       click_on "Dashboard"
       distribute_funds_from_my_account(100, "United Way")
@@ -53,11 +53,11 @@ feature "User Dashboard Page" do
   context "A logged in user has created a wager" do
 
     before(:each) do
-      create_user_and_fund_their_account("Stephen", 100)
-      create_user_and_fund_their_account("Alexander", 100)
+      create_user_and_make_a_deposit_to_their_account("Stephen", 100)
+      create_user_and_make_a_deposit_to_their_account("Alexander", 100)
       create_an_existing_accepted_wager("Stephen", "Alexander", 10)
       visit "/"
-      login_a_registered_user("Stephen")
+      login_user("Stephen")
     end
 
     scenario "A user can NOT hide a wager in which the outcome has not been determined" do

@@ -27,7 +27,7 @@ feature "visitor login" do
   scenario "registered user logs in using their username" do
     fill_in_registration_form("Stephen")
     click_on "Logout"
-    login_a_registered_user("Stephen")
+    login_user("Stephen")
     expect(page).to have_css("#show_dashboards")
   end
 
