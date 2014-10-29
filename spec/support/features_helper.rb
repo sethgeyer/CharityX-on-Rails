@@ -29,9 +29,6 @@ def create_user_and_make_a_deposit_to_their_account(first_name, amount)
   return user
 end
 
-
-
-
 def create_an_existing_accepted_wager(wagerer_first_name, wageree_first_name, amount)
   wagerer = User.find_by(username: wagerer_first_name.downcase)
   wageree = User.find_by(username: wageree_first_name.downcase)

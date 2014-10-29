@@ -37,9 +37,6 @@ def fill_in_registration_form(first_name)
 end
 
 
-
-
-
 def distribute_funds_from_my_account(distribution_amount, charity)
   within(page.find("#distribute-funds")) {click_link "+"}
   fill_in "Amount", with: distribution_amount

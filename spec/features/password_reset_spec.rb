@@ -1,14 +1,12 @@
-require 'rails_helper'
-require 'capybara/rails'
-
 feature "password reset" do
+
   before(:each) do
     create_user("Stephen")
     visit "/"
     click_on "Forgot Password"
   end
 
-  scenario "registrered user that completes the password reset INcompletely receives a reset email" do
+  scenario "registrered user that completes the password reset form incompletely/incorrectly receives an error message" do
     expect(page).to have_css("#new-password-resets")
     fill_in "Email", with: ""
     click_on "Submit"
@@ -16,7 +14,7 @@ feature "password reset" do
     expect(page).to have_content("Your request can not be completed.")
   end
 
-  scenario "registrered user that completes the password reset INcompletely receives a reset email" do
+  scenario "registrered user that completes the password reset completely receives a reset email" do
     expect(page).to have_css("#new-password-resets")
     fill_in "Email", with: "stephen@gmail.com"
     click_on "Submit"
@@ -25,10 +23,10 @@ feature "password reset" do
   end
 
   context "registered user receives the reset password email" do
+
     before(:each) do
       PasswordReset.create(email: "stephen@gmail.com", unique_identifier: "9999", expiration_date: Time.now + 1.day)
     end
-
 
     scenario "registered user can submit a new valid password" do
       visit "/password_resets/9999/edit"
@@ -42,8 +40,7 @@ feature "password reset" do
       expect(page).to have_content("Welcome stephen")
     end
 
-
-    scenario "registered user can NOT submit a new INvalid password" do
+    scenario "registered user can NOT submit a new invalid password" do
       visit "/password_resets/9999/edit"
       fill_in "New Password", with: "abc"
       click_on "Submit"
@@ -54,11 +51,11 @@ feature "password reset" do
 
 
   context "registered user receives two reset password email" do
+
     before(:each) do
       first_notice = PasswordReset.create(email: "stephen@gmail.com", unique_identifier: "9998", expiration_date: Time.now + 1.day)
       second_notice = PasswordReset.create(email: "stephen@gmail.com", unique_identifier: "9999", expiration_date: Time.now + 1.day)
     end
-
 
     scenario "registered user can only ever use the most recent link" do
       visit "/password_resets/9998/edit"
@@ -78,6 +75,7 @@ feature "password reset" do
   end
 
   context "PasswordReset Token has passed its expiration date" do
+
     before(:each) do
       expired_notice = PasswordReset.create(email: "stephen@gmail.com", unique_identifier: "9999", expiration_date: Time.now - 1.day)
     end
@@ -88,13 +86,8 @@ feature "password reset" do
       click_on "Submit"
       expect(page).to have_css("#homepage")
       expect(page).to have_content("Your password reset request has expired.")
-
     end
 
   end
+
 end
-
-
-
-
-
