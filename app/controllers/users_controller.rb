@@ -4,14 +4,13 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
-    render :new
   end
 
   def create
     @user = User.new(allowed_params)
     if @user.save
       session[:user_id] = @user.id
-      update_records_if_the_registrant_was_a_non_registered_wageree(@user.email)
+      update_records_if_the_registrant_was_a_non_registered_wageree(@user)
       flash[:notice] = "Thanks for registering #{@user.username}. You are now logged in."
       UserMailer.welcome_email(@user).deliver
       redirect_to user_dashboard_path
@@ -32,11 +31,11 @@ class UsersController < ApplicationController
     )
   end
 
-  def update_records_if_the_registrant_was_a_non_registered_wageree(users_email)
-    if NonRegisteredWageree.find_by(email: users_email)
-      non_registered_wageree = NonRegisteredWageree.find_by(email: @user.email)
+  def update_records_if_the_registrant_was_a_non_registered_wageree(user)
+    non_registered_wageree = NonRegisteredWageree.find_by(email: user.email)
+    if non_registered_wageree
       wager = Wager.find(non_registered_wageree.wager.id)
-      wager.wageree_id = @user.id
+      wager.wageree_id = user.id
       wager.save
       non_registered_wageree.destroy
     end
