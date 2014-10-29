@@ -1,6 +1,7 @@
 class PasswordResetsController < ApplicationController
 
   require 'securerandom'
+
   skip_before_action :ensure_current_user, only: [:new, :create, :edit, :update]
 
   def new
@@ -8,10 +9,7 @@ class PasswordResetsController < ApplicationController
   end
 
   def create
-    @password_reset_request = PasswordReset.new
-    @password_reset_request.email = params[:password_reset][:email]
-    @password_reset_request.unique_identifier = SecureRandom.uuid
-    @password_reset_request.expiration_date = Time.now + 1.day
+    @password_reset_request = PasswordReset.new(email: params[:password_reset][:email], unique_identifier: SecureRandom.uuid, expiration_date: Time.now + 1.day)
     if @password_reset_request.save
       flash[:notice] = "Password reset instructions have been sent to #{@password_reset_request.email}"
       UserMailer.password_reset_email(@password_reset_request).deliver
@@ -23,12 +21,11 @@ class PasswordResetsController < ApplicationController
 
   def edit
     @secret_uid = params[:id]
-    @requester = PasswordReset.where(unique_identifier: @secret_uid).first
-    # @user = User.find_by(email: user_email)
+    @requester = PasswordReset.find_by(unique_identifier: @secret_uid)
   end
 
   def update
-    @user = User.where(email: params[:email]).last
+    @user = User.find_by(email: params[:email])
     if PasswordReset.find_by(unique_identifier: params[:secret_uid]).expiration_date < Time.now.to_date
       flash[:notice] = "Your password reset request has expired.  Please create another request"
       redirect_to root_path
@@ -45,7 +42,7 @@ class PasswordResetsController < ApplicationController
         redirect_to root_path
       else
         flash[:notice] = "Your password must be at least 7 characters."
-        @requester = PasswordReset.where(email: params[:email]).first
+        @requester = PasswordReset.find_by(email: params[:email])
         render :edit
       end
 
