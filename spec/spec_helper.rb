@@ -10,7 +10,7 @@ def register_a_new_charity(charity_name)
 
 end
 
-def fund_my_account_with_a_credit_card(deposit_amount)
+def make_a_deposit_to_my_account(deposit_amount)
   within(page.find("#fund-my-account")) {click_link "+"}
   fill_in "Amount", with: deposit_amount
   # fill_in "Credit Card Number", with: 123456789
@@ -69,7 +69,7 @@ end
 
 def user_creates_a_solicitation_wager(wagererTheUser, wagereeTheNonUser)
   fill_in_registration_form(wagererTheUser)
-  fund_my_account_with_a_credit_card(100)
+  make_a_deposit_to_my_account(100)
   within(page.find("#wager-funds")) {click_link "+"}
   fill_in "wager_title", with: "Ping Pong"
   fill_in "wager_date_of_wager", with: "2017-07-31"

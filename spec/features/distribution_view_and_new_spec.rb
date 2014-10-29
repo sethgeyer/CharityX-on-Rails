@@ -20,11 +20,11 @@ feature "View Index and Create Distributions" do
   context "After having looged in as a user," do
     before(:each) do
       fill_in_registration_form("Stephen")
-      fund_my_account_with_a_credit_card(40)
+      make_a_deposit_to_my_account(40)
     end
 
     scenario "I should be able to view my history of distributions" do
-      fund_my_account_with_a_credit_card(50)
+      make_a_deposit_to_my_account(50)
       distribute_funds_from_my_account(10, "United Way")
       distribute_funds_from_my_account(20, "Red Cross")
       # #can't test this because 'show distr history is in the navbar nested in a jscript dropdown
@@ -38,7 +38,7 @@ feature "View Index and Create Distributions" do
 
     context "Distributions not in proper increments" do
       scenario "I should be able to view my history of distributions" do
-        fund_my_account_with_a_credit_card(50)
+        make_a_deposit_to_my_account(50)
         distribute_funds_from_my_account(9, "United Way")
         expect(page).to have_content("All distributions must be in increments of $#{$ChipValue}.")
       end

@@ -27,19 +27,19 @@ feature "User Dashboard Page" do
     end
 
     scenario "User with a funded account can link to the 'create a wager' page to create a wager" do
-      fund_my_account_with_a_credit_card(100)
+      make_a_deposit_to_my_account(100)
       within(page.find("#wager-funds")) { click_link "+" }
       expect(page).to have_css("#new_proposed_wagers")
     end
 
     scenario "User with available funds, can link to the new distributions page to distribute funds from their account" do
-      fund_my_account_with_a_credit_card(100)
+      make_a_deposit_to_my_account(100)
       within(page.find("#distribute-funds")) { click_link "+" }
       expect(page).to have_css("#new_distributions")
     end
 
     scenario "User without available funds, can NOT link to the new distributions page to distribute funds from my account" do
-      fund_my_account_with_a_credit_card(100)
+      make_a_deposit_to_my_account(100)
       create_charity("United Way")
       click_on "Dashboard"
       distribute_funds_from_my_account(100, "United Way")
