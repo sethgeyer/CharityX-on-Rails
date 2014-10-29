@@ -9,8 +9,8 @@ class DepositsController < ApplicationController
   end
 
   def create
+    @deposit = kenny_loggins.deposits.new(allowed_params)
     deposit_amount = amount_stripped_of_dollar_sign_and_commas(params[:deposit][:amount])
-    @deposit = Deposit.new(allowed_params.merge(user_id: kenny_loggins.id))
     @deposit.amount = amount_converted_to_pennies(deposit_amount)
     if @deposit.save
       Chip.convert_currency_to_chips(kenny_loggins.id, @deposit.amount, @deposit.date_created, "available")
