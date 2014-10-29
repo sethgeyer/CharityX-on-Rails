@@ -1,7 +1,3 @@
-require 'rails_helper'
-require 'capybara/rails'
-
-
 feature "visitor registration" do
 
   scenario "visitor fills in registration form completely and accurately" do
@@ -12,6 +8,16 @@ feature "visitor registration" do
     expect(page).not_to have_link("Sign Up")
     expect(page).to have_link("Edit Profile")
     expect(page).to have_css("#show_dashboards")
+  end
+
+  scenario "visitor fills in registration form only partially" do
+    name = "Stephen"
+    visit "/users/new"
+    within(page.find(".registration")) { fill_in "Email", with: "#{name}@gmail.com" }
+    within(page.find(".registration")) { fill_in "Password", with: name.downcase }
+    within(page.find(".registration")) { click_on "Submit" }
+    expect(page).to have_css("#new_users")
+    expect(page).to have_content("Username can't be blank")
   end
 
   scenario "registered visitor completes login form correctly and routes to show page for the user" do
@@ -26,17 +32,6 @@ feature "visitor registration" do
     expect(page).to have_link("Charities")
     expect(page).to have_css("#show_dashboards")
   end
-
-  scenario "visitor fills in registration form only partially" do
-    name = "Stephen"
-    visit "/users/new"
-    within(page.find(".registration")) { fill_in "Email", with: "#{name}@gmail.com" }
-    within(page.find(".registration")) { fill_in "Password", with: name.downcase }
-    within(page.find(".registration")) { click_on "Submit" }
-    expect(page).to have_css("#new_users")
-    expect(page).to have_content("Username can't be blank")
-  end
-
 
   scenario "visitor fills in registration form using an '@' symbol" do
     name = "Stephen"
@@ -63,7 +58,6 @@ feature "visitor registration" do
 
   scenario "visitor fills in registration form using a non-unique email" do
     user = create_user("Stephen")
-    name = "Stephen"
     visit "/users/new"
     within(page.find(".registration")) { fill_in "Username", with: "lancey" }
     within(page.find(".registration")) { fill_in "Email", with: user.email }
@@ -72,7 +66,5 @@ feature "visitor registration" do
     expect(page).to have_css("#new_users")
     expect(page).to have_content("already exists")
   end
-
-
 
 end
