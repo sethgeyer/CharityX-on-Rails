@@ -1,8 +1,5 @@
-require 'rails_helper'
-require 'capybara/rails'
-
-
 feature "visitor login" do
+
   before(:each) do
     visit "/"
   end
@@ -18,31 +15,26 @@ feature "visitor login" do
     expect(page).not_to have_link("Edit Profile")
   end
 
-  scenario "logged in user wants to see their account details" do
-    fill_in_registration_form("Stephen")
-    click_on "Dashboard"
-    expect(page).to have_css("#show_dashboards")
+  context "User has regsitered" do
+    before(:each) do
+      create_user("Stephen")
+      visit "/"
+    end
+
+    scenario "user can log in using their username" do
+      login_user("Stephen")
+      click_on "Dashboard"
+      expect(page).to have_css("#show_dashboards")
+    end
+
+    scenario "user can log in using their email" do
+      fill_in "Username", with: "stephen@gmail.com"
+      fill_in "Password", with: "password"
+      click_on "Login"
+      expect(page).to have_css("#show_dashboards")
+    end
+
   end
-
-  scenario "registered user logs in using their username" do
-    fill_in_registration_form("Stephen")
-    click_on "Logout"
-    login_user("Stephen")
-    expect(page).to have_css("#show_dashboards")
-  end
-
-  scenario "registered user logs in using their email" do
-    fill_in_registration_form("Stephen")
-    click_on "Logout"
-    fill_in "Username", with: "stephen@gmail.com"
-    fill_in "Password", with: "password"
-    click_on "Login"
-    expect(page).to have_css("#show_dashboards")
-  end
-
-
-
-
 
 end
 
