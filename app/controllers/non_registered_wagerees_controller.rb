@@ -1,4 +1,0 @@
-class NonRegisteredWagereesController < ApplicationController
-
-
-end

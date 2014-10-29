@@ -15,8 +15,9 @@ class DistributionsController < ApplicationController
   end
 
   def create
-    @distribution = kenny_loggins.distributions.new(charity_id: params[:distribution][:charity_id])
     distribution_amount_in_dollars = amount_stripped_of_dollar_sign_and_commas(params[:distribution][:amount])
+
+    @distribution = kenny_loggins.distributions.new(charity_id: params[:distribution][:charity_id])
     @distribution.amount = amount_converted_to_pennies(distribution_amount_in_dollars)
 
     if the_user_has_insufficient_funds_for_the_size_of_the_transaction(distribution_amount_in_dollars, "available")
