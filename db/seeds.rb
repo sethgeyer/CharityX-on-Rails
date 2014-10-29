@@ -32,7 +32,7 @@ deposit3 = Deposit.create!(user_id: user3.id, amount: 30000, cc_number: 333, exp
 30.times {
   Chip.create!(user_id: user3.id, owner_id: user3.id, status: "available", l1_tag_id: nil, l2_tag_id: nil, charity_id: nil, purchase_date: "2014-08-15", cashed_in_date: nil)
 }
-  
+
 user4 = User.create!(username: "steve", first_name: "Steve", last_name: "War", email: "steve@gmail.com", is_admin: false, password: 'password')
 charity1 = Charity.create!(name: "United Way", tax_id: 333, poc: "Ulysess Williams", poc_email: "uw@unitedway.com", status: "registered")
 charity2 = Charity.create!(name: "Red Cross", tax_id: 444, poc: "Ray Crumb", poc_email: "rc@redcross.com", status: "registered")

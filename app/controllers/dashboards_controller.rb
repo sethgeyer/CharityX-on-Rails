@@ -8,7 +8,7 @@ class DashboardsController < ApplicationController
         @wager = Wager.find(wager.id)
         @wager.status = "expired"
         if @wager.save!
-          Chip.new.change_status_to_available(@wager.user.id, @wager.amount)
+          Chip.change_status_to_available(@wager.user.id, @wager.amount)
         end
       end
     end
