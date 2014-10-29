@@ -41,9 +41,7 @@ feature "User Dashboard Page" do
 
   scenario "As a logged_in user without unallocated funds available, I can link to the new distributions page to distribute funds from my account" do
     fund_my_account_with_a_credit_card(100)
-    visit "/charities"
-    click_on "Register a new charity"
-    register_a_new_charity("United Way")
+    create_charity("United Way")
     click_on "Dashboard"
     distribute_funds_from_my_account(100, "United Way")
     within(page.find("#distribute-funds")) {click_link "+"}

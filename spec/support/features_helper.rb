@@ -1,3 +1,11 @@
+def create_charity(name)
+  Charity.create!(name: name)
+end
+
+
+
+
+
 def create_user_and_fund_their_account(first_name, amount)
   attributes = {
     username: first_name.downcase,
@@ -41,7 +49,3 @@ def create_an_existing_accepted_wager(wagerer_first_name, wageree_first_name, am
   end
 end
 
-def create_charity(name)
-  Charity.create!(name: name)
-
-end

@@ -3,10 +3,8 @@ require 'capybara/rails'
 
 feature "View Index and Create Distributions" do
   before(:each) do
-    visit "/charities/new"
-    register_a_new_charity("United Way")
-    visit "/charities/new"
-    register_a_new_charity("Red Cross")
+    create_charity("United Way")
+    create_charity("Red Cross")
   end
 
   scenario "As a visitor, I should NOT be able to view a history of distributions" do
