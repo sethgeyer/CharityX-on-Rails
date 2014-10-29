@@ -2,26 +2,6 @@ def create_charity(name)
   Charity.create!(name: name)
 end
 
-
-
-
-
-def create_user_and_fund_their_account(first_name, amount)
-  attributes = {
-    username: first_name.downcase,
-    password: 'password',
-    first_name: first_name,
-    last_name: 'Geyer',
-    email: "#{first_name.downcase}@gmail.com",
-    is_admin: false
-  }
-  user = User.create!(attributes)
-  deposit = user.deposits.create!(amount: (amount * 100))
-  chips = (amount / 10 ).times {user.chips.create!(status: "available")}
-  return user
-end
-
-
 def create_user(first_name)
   attributes = {
     username: first_name.downcase,
@@ -33,6 +13,23 @@ def create_user(first_name)
   }
   User.create!(attributes)
 end
+
+def create_user_and_fund_their_account(first_name, amount)
+  attributes = {
+  username: first_name.downcase,
+  password: 'password',
+  first_name: first_name,
+  last_name: 'Geyer',
+  email: "#{first_name.downcase}@gmail.com",
+  is_admin: false
+  }
+  user = User.create!(attributes)
+  deposit = user.deposits.create!(amount: (amount * 100))
+  chips = (amount / 10 ).times {user.chips.create!(status: "available")}
+  return user
+end
+
+
 
 
 def create_an_existing_accepted_wager(wagerer_first_name, wageree_first_name, amount)

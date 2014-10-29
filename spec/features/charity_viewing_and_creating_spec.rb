@@ -1,6 +1,3 @@
-require 'rails_helper'
-require 'capybara/rails'
-
 feature "viewing and creating charities" do
 
   scenario "As a charity, I can apply to register my charity" do
