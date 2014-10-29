@@ -16,8 +16,8 @@ class DistributionsController < ApplicationController
 
   def create
     @distribution = kenny_loggins.distributions.new(charity_id: params[:distribution][:charity_id])
-    distribution_amount = amount_stripped_of_dollar_sign_and_commas(params[:distribution][:amount])
-    @distribution.amount = amount_converted_to_pennies(distribution_amount)
+    distribution_amount_in_dollars = amount_stripped_of_dollar_sign_and_commas(params[:distribution][:amount])
+    @distribution.amount = amount_converted_to_pennies(distribution_amount_in_dollars)
 
     if the_user_has_insufficient_funds_for_the_size_of_the_transaction(distribution_amount, "available")
       @distribution.amount = kenny_loggins.chips.where(status: "available").count * $ChipValue
@@ -28,7 +28,7 @@ class DistributionsController < ApplicationController
       flash[:notice] = "Thank you for distributing $#{@distribution.amount.to_i / 100} from your account to #{@distribution.charity.name}"
       redirect_to user_dashboard_path
     else
-      @distribution.amount = distribution_amount
+      @distribution.amount = distribution_amount_in_dollars
       render :new
     end
   end
