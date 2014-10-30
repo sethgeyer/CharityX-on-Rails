@@ -25,7 +25,7 @@ def create_user_and_make_a_deposit_to_their_account(first_name, amount)
   }
   user = User.create!(attributes)
   deposit = user.deposits.create!(amount: (amount * 100))
-  chips = (amount / 10 ).times {user.chips.create!(status: "available")}
+  chips = (amount / 10 ).times {user.chips.create!(status: "available", owner_id: user.id)}
   return user
 end
 
@@ -40,6 +40,18 @@ def create_an_existing_accepted_wager(wagerer_first_name, wageree_first_name, am
     wageree_chips.status = "wagered"
     wagerer_chips.save!
     wageree_chips.save!
+  end
+end
+
+def create_a_distribution(first_name, amount)
+  charity_1 = create_charity("United Way")
+  charity_2 = create_charity("Red Cross")
+  distributer = User.find_by(username: first_name.downcase)
+  distributer.distributions.create!(amount: amount * 100, charity_id: charity_1.id, date: Date.today)
+  (amount / 10).times do | time |
+    distributed_chips = distributer.chips.where(status: "available").first
+    distributed_chips.status = "distributed"
+    distributed_chips.save!
   end
 end
 

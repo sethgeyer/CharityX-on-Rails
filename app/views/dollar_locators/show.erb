@@ -13,35 +13,42 @@
   </thead>
   <tbody>
     <tr>
-      <td>Deposited</td>
-      <td>$<%=@dollar_locator.find_deposits%></td>
+      <td> MyDeposits</td>
+      <td>$<%=@dashboard.sum_of_deposits(kenny_loggins)%></td>
     </tr>
 
     <tr>
-      <td> + Winnings </td>
-      <td>$</td>
+      <td> - My Active Wagers</td>
+      <td>$<%=@dashboard.sum_of_wagered(kenny_loggins)%></td>
     </tr>
 
     <tr>
-      <td> - Currently Wagered</td>
-      <td>$</td>
+      <td> - My Direct Distributions</td>
+      <td>$<%=@dashboard.sum_of_distributions(kenny_loggins)%></td>
     </tr>
+
     <tr>
-      <td> - Distributed to a Charity by Me</td>
-      <td>$</td>
+      <td> + Gains from Wagers </td>
+      <td>$<%=@dashboard.sum_of_gains(kenny_loggins)%></td>
     </tr>
+
     <tr>
-      <td> - Someone Elses Account</td>
-      <td>$</td>
+      <td> - Losses from Wagers </td>
+      <td>$<%="(#{@dashboard.sum_of_losses(kenny_loggins)})"%></td>
     </tr>
-    <tr>
-      <td> - Distributed to a Charity by Someone Else</td>
-      <td>$</td>
-    </tr>
+
+      <tr>
+        <td> - Someone Else's Account</td>
+        <td class="losses-in-others-accounts">$<%=@dashboard.sum_of_losses_in_others_accounts(kenny_loggins)%></td>
+      </tr>
+      <tr>
+        <td> - Distributed to a Charity by Someone Else</td>
+        <td>$</td>
+      </tr>
 
     <tr>
       <td>Net Balance In My Account</td>
-      <td>$</td>
+      <td>$<%=@dashboard.sum_of_net_amount(kenny_loggins)%></td>
     </tr>
 
 

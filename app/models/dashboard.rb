@@ -13,7 +13,19 @@ class Dashboard
   end
 
   def sum_of_winnings(kenny_loggins)
-    (Wager.where(winner_id: kenny_loggins.id).sum(:amount) / 100) - ((kenny_loggins.wagers.where('winner_id != ?', kenny_loggins.id).sum(:amount) / 100) + (Wager.where(wageree_id: kenny_loggins.id).where('winner_id != ?', kenny_loggins.id).sum(:amount) / 100))
+    sum_of_gains(kenny_loggins) - sum_of_losses(kenny_loggins)
+  end
+
+  def sum_of_gains(kenny_loggins)
+    (Wager.where(winner_id: kenny_loggins.id).sum(:amount) / 100)
+  end
+
+  def sum_of_losses(kenny_loggins)
+    (kenny_loggins.wagers.where('winner_id != ?', kenny_loggins.id).sum(:amount) / 100) + (Wager.where(wageree_id: kenny_loggins.id).where('winner_id != ?', kenny_loggins.id).sum(:amount) / 100)
+  end
+
+  def sum_of_losses_in_others_accounts(kenny_loggins)
+    Chip.where(owner_id: kenny_loggins.id).where('user_id != ?', kenny_loggins.id).count * 10
   end
 
   def sum_of_wagered(kenny_loggins)
