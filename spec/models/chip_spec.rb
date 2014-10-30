@@ -40,6 +40,25 @@ describe Chip do
       expect(distributed_chips.count).to eq(11000 / 100 / $ChipValue)
       expect(Chip.first.charity_id).to eq(@charity.id)
     end
+
+    it "distributes the 'won' chips before distributing the users owns chips" do
+      @other_user = User.create!(email: "larry.geyer@gmail.com", password: "password", username: "larry", first_name: "larry", last_name: "geyer")
+      available_chips = Chip.where(user_id: @user.id).where(status: "available")
+      expect(available_chips.count).to eq(20)
+      @other_users_lost_chips = Chip.create(user_id: @user.id, owner_id: @other_user.id, status: "available", created_at: "2013-07-12")
+      expect(available_chips.count).to eq(21)
+
+      @distribution = Distribution.create(user_id: @user.id, amount: 1000, charity_id: @charity.id, date: "2014-08-30" )
+      Chip.mark_as_distributed_to_charity(@user.id, @distribution.amount, @distribution.date, @distribution.charity.id)
+      now_available_chips = Chip.where(user_id: @user.id).where(status: "available")
+      expect(now_available_chips.count).to eq(20)
+      @other_users_lost_and_distributed_chips = @user.chips.where(owner_id: @other_user.id).first
+      expect(@other_users_lost_and_distributed_chips.status).to eq("distributed")
+
+    end
+
+
+
   end
 
   describe "#change_status_to_wager" do

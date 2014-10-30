@@ -12,7 +12,7 @@ class Chip < ActiveRecord::Base
       chip.l1_tag_id = nil
       chip.l2_tag_id = nil
       chip.charity_id = nil
-      chip.purchase_date = deposit_create_date
+      chip.created_at = deposit_create_date
       chip.cashed_in_date = nil
       chip.save!
     }
@@ -20,7 +20,7 @@ class Chip < ActiveRecord::Base
 
   def self.mark_as_distributed_to_charity(user_id, distribution_amount, distribution_date, charity_id)
     number_of_chips = self.convert_from_pennies_to_chips(distribution_amount)
-    chips = self.find_the_available(user_id).first(number_of_chips)
+    chips = self.find_the_available(user_id).order('created_at ASC').first(number_of_chips)
     chips.each do |chip|
       chip.status = "distributed"
       chip.charity_id = charity_id

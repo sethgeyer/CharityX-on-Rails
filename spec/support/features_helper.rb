@@ -14,7 +14,7 @@ def create_user(first_name)
   User.create!(attributes)
 end
 
-def create_user_and_make_a_deposit_to_their_account(first_name, amount)
+def create_user_and_make_a_deposit_to_their_account(first_name, amount, date = Date.today)
   attributes = {
   username: first_name.downcase,
   password: 'password',
@@ -25,7 +25,7 @@ def create_user_and_make_a_deposit_to_their_account(first_name, amount)
   }
   user = User.create!(attributes)
   deposit = user.deposits.create!(amount: (amount * 100))
-  chips = (amount / 10 ).times {user.chips.create!(status: "available", owner_id: user.id)}
+  chips = (amount / 10 ).times {user.chips.create!(status: "available", owner_id: user.id, created_at: date )}
   return user
 end
 

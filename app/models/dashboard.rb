@@ -25,7 +25,11 @@ class Dashboard
   end
 
   def sum_of_losses_in_others_accounts(kenny_loggins)
-    Chip.where(owner_id: kenny_loggins.id).where('user_id != ?', kenny_loggins.id).count * 10
+    Chip.where(owner_id: kenny_loggins.id).where('user_id != ?', kenny_loggins.id).where('status != ?', 'distributed').count * 10
+  end
+
+  def sum_of_distributed_losses(kenny_loggins)
+    Chip.where(owner_id: kenny_loggins.id).where('user_id != ?', kenny_loggins.id).where('status = ?', 'distributed').count * 10
   end
 
   def sum_of_wagered(kenny_loggins)

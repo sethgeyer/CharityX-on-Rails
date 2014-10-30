@@ -2,7 +2,7 @@ feature "dollar locator view" do
 
   before(:each) do
     @another_user = create_user_and_make_a_deposit_to_their_account("Alexander", 300)
-    @the_user = create_user_and_make_a_deposit_to_their_account("Stephen", 300)
+    @the_user = create_user_and_make_a_deposit_to_their_account("Stephen", 300, Date.today.days_ago(3))
     create_an_existing_accepted_wager(@the_user.first_name, @another_user.first_name, 10)
     create_a_distribution(@the_user.first_name, 30)
     visit "/"
@@ -56,6 +56,14 @@ feature "dollar locator view" do
     end
 
     scenario "I can see that my lost wager dollars have been distributed to a charity" do
+      click_on "Logout"
+      login_user("Alexander")
+      distribute_funds_from_my_account(10, "Red Cross")
+      click_on  "Logout"
+      login_user("Stephen")
+      visit user_dollar_locator_path
+      expect(page.find(".losses-in-others-accounts")).to have_content("$0")
+      expect(page.find(".losses-distributed")).to have_content("$10")
 
     end
 
