@@ -52,7 +52,7 @@ describe Chip do
       available_chips = Chip.where(user_id: @user.id).where(status: "available")
       expect(available_chips.count).to eq(20000 / 100 / $ChipValue)
       @wager = Wager.create(user_id: @user.id, title: "Pong Match", date_of_wager: "2014-08-14", details: "A vs. S", amount: 2000, wageree_id: @wageree.id)
-      Chip.change_status_to_wagered(@wager.user.id, @wager.amount )
+      Chip.set_status_to_wagered(@wager.user.id, @wager.amount )
       available_chips = Chip.where(user_id: @user.id).where(status: "available")
       expect(available_chips.count).to eq((20000 - 2000) / 100 / $ChipValue)
       wagered_chips = Chip.where(user_id: @user.id).where(status: "wagered")

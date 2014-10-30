@@ -29,7 +29,7 @@ class Chip < ActiveRecord::Base
     end
   end
 
-  def self.change_status_to_wagered(wagerer_id, wagered_amount )
+  def self.set_status_to_wagered(wagerer_id, wagered_amount )
     number_of_chips = self.convert_from_pennies_to_chips(wagered_amount)
 
     chips = self.find_the_available(wagerer_id).first(number_of_chips)
@@ -49,7 +49,7 @@ class Chip < ActiveRecord::Base
   end
 
 #NEW UNTESTED METHODS
-  def self.change_status_to_available(user_id, wagered_amount )
+  def self.set_status_to_available(user_id, wagered_amount )
     number_of_chips = self.convert_from_pennies_to_chips(wagered_amount)
 
     chips = self.find_the_wagered(user_id).first(number_of_chips)
@@ -76,10 +76,10 @@ class Chip < ActiveRecord::Base
 
   def self.sweep_the_pot(kenny_loggins, wager)
     if kenny_loggins.id == wager.user_id
-      winners_chips = Chip.change_status_to_available(wager.wageree_id, wager.amount)
+      winners_chips = Chip.set_status_to_available(wager.wageree_id, wager.amount)
       losers_chips = Chip.reassign_to_winner(kenny_loggins.id, wager.wageree_id, wager.amount )
     else
-      winners_chips = Chip.change_status_to_available(wager.user_id, wager.amount)
+      winners_chips = Chip.set_status_to_available(wager.user_id, wager.amount)
       losers_chips = Chip.reassign_to_winner(kenny_loggins.id, wager.user_id, wager.amount )
     end
   end
