@@ -6,5 +6,4 @@ class DollarLocator
   end
 
 
-
 end

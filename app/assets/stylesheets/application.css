@@ -418,3 +418,16 @@ margin-top: -5px;
 
 }
 
+.drop-down-detail {
+    display:none;
+}
+
+.wager-losses {
+    /*display:none;*/
+}
+
+.wager-loss-header {
+    padding-left: 24px;
+
+}
+

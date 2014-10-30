@@ -58,6 +58,21 @@ $(document).ready( function() {
 
   });
 
+
+  $('.table-expand-icon').on('click', function() {
+    $(this).toggleClass('glyphicon-th-list').toggleClass('glyphicon-circle-arrow-up')
+    var $selectedDropDownDetail = $(this).parents('.blue-bordered').children('.drop-down-detail')
+    $selectedDropDownDetail.toggle();
+  });
+
+
+//
+//    $(this).parents('.wager-border').siblings().find('.wager-details').hide();
+//    $(this).parents('.wager-border').siblings().find('.expand-icon').removeClass('glyphicon-circle-arrow-up').addClass('glyphicon-th-list');
+
+
+
+
   $('.delete-icon').on('click', function() {
     var $xButton = $(this)
     var archiveMessage = "<div class='archive' style='color:red'>This wager is being archived</div><br/>"

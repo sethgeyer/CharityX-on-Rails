@@ -1,5 +1,8 @@
 
 class Chip < ActiveRecord::Base
+
+  belongs_to :charity
+
   def self.convert_currency_to_chips(user_id, deposit_amount, deposit_create_date, availability = nil)
 
     number_of_chips = self.convert_from_pennies_to_chips(deposit_amount)

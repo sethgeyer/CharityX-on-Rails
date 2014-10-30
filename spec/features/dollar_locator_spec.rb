@@ -52,7 +52,7 @@ feature "dollar locator view" do
 
     scenario "I can see that my lost wager dollars are in another's account" do
       visit user_dollar_locator_path
-      expect(page.find(".losses-in-others-accounts")).to have_content("$10")
+      expect(page.find(".losses-in-others-accounts")).to have_content("$(10)")
     end
 
     scenario "I can see that my lost wager dollars have been distributed to a charity" do
@@ -62,8 +62,8 @@ feature "dollar locator view" do
       click_on  "Logout"
       login_user("Stephen")
       visit user_dollar_locator_path
-      expect(page.find(".losses-in-others-accounts")).to have_content("$0")
-      expect(page.find(".losses-distributed")).to have_content("$10")
+      expect(page.find(".losses-in-others-accounts")).to have_content("$(0)")
+      expect(page.find(".losses-distributed")).to have_content("$(10)")
 
     end
 
