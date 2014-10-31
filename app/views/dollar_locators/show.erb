@@ -1,116 +1,113 @@
-
 <div class="container">
 
-<h1>Where are my dollars?</h1>
+  <h1>Where are my dollars?</h1>
 
-<%= kenny_loggins.first_name %>
+  <div class="row drop-down-table">
+    <div class="col-md-6">
+      <div class="blue-bordered row">
+        <div class="header col-xs-7">
+          <div class="table-expand-icon glyphicon glyphicon-th-list"></div>
+          <div style="display:inline-block">Deposits</div>
 
-<div class="row drop-down-table">
-  <div class="col-md-6">
-    <div class="blue-bordered row">
-      <div class="header col-xs-7">
-        <div class="table-expand-icon glyphicon glyphicon-th-list"></div>
-        <div style="display:inline-block">Deposits</div>
-
-      </div>
-      <div class="summary-total contents col-xs-5">
-        $<%= @dashboard.sum_of_deposits(kenny_loggins) %>
-      </div>
-      <table class="drop-down-detail table" style="background-color: white; border-radius: 10px">
-        <thead>
-        <tr>
-          <th>Date</th>
-          <th>Amount</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% kenny_loggins.deposits.each do |deposit| %>
+        </div>
+        <div class="summary-total contents col-xs-5">
+          $<%= @dashboard.sum_of_deposits(kenny_loggins) %>
+        </div>
+        <table class="drop-down-detail table" style="background-color: white; border-radius: 10px">
+          <thead>
           <tr>
-            <td><%= deposit.created_at.strftime("%b %d, %Y") %></td>
-            <td><%= deposit.amount / 100 %></td>
+            <th>Date</th>
+            <th>Amount</th>
           </tr>
-          </tbody>
-        <% end %>
-        </table>
-    </div>
-
-    <div class="blue-bordered row">
-      <div class="header col-xs-7">
-        <div style="display:inline-block; margin-right:12px"></div>
-        <div style="display:inline-block">Active Wagers</div>
-      </div>
-      <div class="contents col-xs-5">
-        $<%= @dashboard.sum_of_wagered(kenny_loggins) %>
-      </div>
-    </div>
-
-    <div class="blue-bordered row">
-      <div class="header col-xs-7">
-        <div class="table-expand-icon glyphicon glyphicon-th-list"></div>
-        <div style="display:inline-block">Distributions</div>
-
-      </div>
-      <div class="summary-total contents col-xs-5">
-        $<%= "(#{@dashboard.sum_of_distributions(kenny_loggins)})" %>
+          </thead>
+          <tbody>
+          <% kenny_loggins.deposits.each do |deposit| %>
+            <tr>
+              <td><%= deposit.created_at.strftime("%b %d, %Y") %></td>
+              <td><%= deposit.amount / 100 %></td>
+            </tr>
+            </tbody>
+          <% end %>
+          </table>
       </div>
 
-      <table class="drop-down-detail table" style="background-color: white; border-radius: 10px">
-        <thead>
-        <tr>
-          <th>Charity</th>
-          <th>Date</th>
-          <th>Amount</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% kenny_loggins.distributions.order('created_at DESC').each do |distribution| %>
+      <div class="blue-bordered row">
+        <div class="header col-xs-7">
+          <div style="display:inline-block; margin-right:12px"></div>
+          <div style="display:inline-block">Active Wagers</div>
+        </div>
+        <div class="contents col-xs-5">
+          $<%= @dashboard.sum_of_wagered(kenny_loggins) %>
+        </div>
+      </div>
+
+      <div class="blue-bordered row">
+        <div class="header col-xs-7">
+          <div class="table-expand-icon glyphicon glyphicon-th-list"></div>
+          <div style="display:inline-block">Distributions</div>
+
+        </div>
+        <div class="summary-total contents col-xs-5">
+          $<%= "(#{@dashboard.sum_of_distributions(kenny_loggins)})" %>
+        </div>
+
+        <table class="drop-down-detail table" style="background-color: white; border-radius: 10px">
+          <thead>
           <tr>
-            <td><%= distribution.charity.name %></td>
-            <td><%= distribution.created_at.strftime("%b'%y") %></td>
-            <td>(<%= distribution.amount / 100 %>)</td>
+            <th>Charity</th>
+            <th>Date</th>
+            <th>Amount</th>
           </tr>
-          </tbody>
-        <% end %>
-        </table>
-    </div>
-
-    <div class="blue-bordered row">
-      <div class="header col-xs-7">
-        <div style="display:inline-block; margin-right:10px"></div>
-        <div style="display:inline-block">Gains from Wagers</div>
-
-      </div>
-      <div class="contents col-xs-5">
-        $<%= @dashboard.sum_of_gains(kenny_loggins) %>
+          </thead>
+          <tbody>
+          <% kenny_loggins.distributions.order('created_at DESC').each do |distribution| %>
+            <tr>
+              <td><%= distribution.charity.name %></td>
+              <td><%= distribution.created_at.strftime("%b'%y") %></td>
+              <td>(<%= distribution.amount / 100 %>)</td>
+            </tr>
+            </tbody>
+          <% end %>
+          </table>
       </div>
 
-      <table class="drop-down-detail table" style="background-color: white; border-radius: 10px">
-        <thead>
-        <tr>
-          <th>Date</th>
-          <th>Amount</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% @dashboard.list_of_gains(kenny_loggins).each do |gainer| %>
+      <div class="blue-bordered row">
+        <div class="header col-xs-7">
+          <div style="display:inline-block; margin-right:10px"></div>
+          <div style="display:inline-block">Gains from Wagers</div>
+
+        </div>
+        <div class="contents col-xs-5">
+          $<%= @dashboard.sum_of_gains(kenny_loggins) %>
+        </div>
+
+        <table class="drop-down-detail table" style="background-color: white; border-radius: 10px">
+          <thead>
           <tr>
-            <td><%= gainer.created_at.strftime("%b %d, %Y") %></td>
-            <td><%= gainer.amount / 100 %></td>
+            <th>Date</th>
+            <th>Amount</th>
           </tr>
-          </tbody>
-        <% end %>
-        </table>
-    </div>
-
-    <div class="blue-bordered row">
-      <div class="header col-xs-7">
-        <div style="display:inline-block; margin-right:10px"></div>
-        <div style="display:inline-block">Losses from Wagers</div>
-
+          </thead>
+          <tbody>
+          <% @dashboard.list_of_gains(kenny_loggins).each do |gainer| %>
+            <tr>
+              <td><%= gainer.created_at.strftime("%b %d, %Y") %></td>
+              <td><%= gainer.amount / 100 %></td>
+            </tr>
+            </tbody>
+          <% end %>
+          </table>
       </div>
-      <div class="summary-total contents col-xs-5">
-        $<%= "(#{@dashboard.sum_of_losses(kenny_loggins)})" %>
-      </div>
+
+      <div class="blue-bordered row">
+        <div class="header col-xs-7">
+          <div style="display:inline-block; margin-right:10px"></div>
+          <div style="display:inline-block">Losses from Wagers</div>
+
+        </div>
+        <div class="summary-total contents col-xs-5">
+          $<%= "(#{@dashboard.sum_of_losses(kenny_loggins)})" %>
+        </div>
 
 
         <div class="header col-xs-7 wager-loss-header" style="background-color: grey">
@@ -121,46 +118,46 @@
           $<%= "(#{@dashboard.sum_of_distributed_losses(kenny_loggins)})" %>
         </div>
 
-      <table class="drop-down-detail table" style="background-color: white; border-radius: 10px">
-        <thead>
-        <tr>
-          <th>Charity</th>
-          <th>Amount</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% @dashboard.summary_of_distributed_losses(kenny_loggins).each do |key, value|%>
+        <table class="drop-down-detail table" style="background-color: white; border-radius: 10px">
+          <thead>
           <tr>
-            <td><%= key %></td>
-            <td>(<%= value * 10 %>)</td>
+            <th>Charity</th>
+            <th>Amount</th>
           </tr>
-          </tbody>
-        <% end %>
-        </table>
+          </thead>
+          <tbody>
+          <% @dashboard.summary_of_distributed_losses(kenny_loggins).each do |key, value| %>
+            <tr>
+              <td><%= key %></td>
+              <td>(<%= value * 10 %>)</td>
+            </tr>
+            </tbody>
+          <% end %>
+          </table>
 
-      <div class="header col-xs-7 wager-loss-header" style="background-color: grey">
-        <div style="display:inline-block; margin-right: 15px"></div>
-        <div style="display:inline-block">Still with Winner</div>
+        <div class="header col-xs-7 wager-loss-header" style="background-color: grey">
+          <div style="display:inline-block; margin-right: 15px"></div>
+          <div style="display:inline-block">Still with Winner</div>
+        </div>
+        <div class="contents col-xs-5 losses-in-others-accounts">
+          $<%= "(#{@dashboard.sum_of_losses_in_others_accounts(kenny_loggins)})" %>
+        </div>
+
+
       </div>
-      <div class="contents col-xs-5 losses-in-others-accounts">
-        $<%= "(#{@dashboard.sum_of_losses_in_others_accounts(kenny_loggins)})" %>
+
+
+      <div class="blue-bordered net-amount row">
+        <div class="header col-xs-7">
+          <div style="display:inline-block; margin-right:10px"></div>
+          <div style="display:inline-block">Net Amount</div>
+        </div>
+        <div class="contents col-xs-5" style="color:white">
+          $<%= @dashboard.sum_of_net_amount(kenny_loggins) %>
+        </div>
       </div>
 
-
-    </div>
-
-
-    <div class="blue-bordered net-amount row">
-      <div class="header col-xs-7">
-        <div style="display:inline-block; margin-right:10px"></div>
-        <div style="display:inline-block">Net Amount</div>
-      </div>
-      <div class="contents col-xs-5" style="color:white">
-        $<%= @dashboard.sum_of_net_amount(kenny_loggins) %>
-      </div>
     </div>
 
   </div>
-
-</div>
 </div>
