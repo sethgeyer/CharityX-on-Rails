@@ -8,6 +8,11 @@ class WagersController < ApplicationController
     else
       @wager = Wager.new
       @wager.create_as_a_duplicate_of_an_original_wager?(params[:pwid], kenny_loggins)
+      @sport_events = [{game_id: 1, vs_id: 10, visiting_team: "Broncos", home_id: 11, home_team: "Patriots", date: Date.today + 2.day },
+                       {game_id: 2, vs_id: 20, visiting_team: "Redskins",home_id: 21, home_team: "Vikings",  date: Date.today + 2.days },
+                       {game_id: 3, vs_id: 30, visiting_team: "Jets", home_id: 31, home_team: "Chargers",  date: Date.today + 2.days },
+                       {game_id: 4, vs_id: 40, visiting_team: "Colts", home_id: 41, home_team: "Giants",  date: Date.today + 2.days },
+      ]
       render :new
     end
   end
@@ -24,8 +29,15 @@ class WagersController < ApplicationController
     @wager.amount = amount_converted_to_pennies(wager_amount_in_dollars)
 
     if the_user_has_insufficient_funds_for_the_size_of_the_transaction(wager_amount_in_dollars, "available")
-      @wager.amount = calculte_the_maximum_dollars_available
-      @wager.errors.add(:amount, "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{calculte_the_maximum_dollars_available}")
+      @wager.amount = calculate_the_maximum_dollars_available
+      @wager.errors.add(:amount, "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{calculate_the_maximum_dollars_available}")
+
+      @sport_events = [{game_id: 1, vs_id: 10, visiting_team: "Broncos", home_id: 11, home_team: "Patriots", date: Date.today + 2.day },
+                       {game_id: 2, vs_id: 20, visiting_team: "Redskins",home_id: 21, home_team: "Vikings",  date: Date.today + 2.days },
+                       {game_id: 3, vs_id: 30, visiting_team: "Jets", home_id: 31, home_team: "Chargers",  date: Date.today + 2.days },
+                       {game_id: 4, vs_id: 40, visiting_team: "Colts", home_id: 41, home_team: "Giants",  date: Date.today + 2.days },
+      ]
+
       render :new
 
     elsif @wager.save
@@ -34,6 +46,11 @@ class WagersController < ApplicationController
       redirect_to user_dashboard_path
     else
       @wager.amount = wager_amount_in_dollars
+      @sport_events = [{game_id: 1, vs_id: 10, visiting_team: "Broncos", home_id: 11, home_team: "Patriots", date: Date.today + 2.day },
+                       {game_id: 2, vs_id: 20, visiting_team: "Redskins",home_id: 21, home_team: "Vikings",  date: Date.today + 2.days },
+                       {game_id: 3, vs_id: 30, visiting_team: "Jets", home_id: 31, home_team: "Chargers",  date: Date.today + 2.days },
+                       {game_id: 4, vs_id: 40, visiting_team: "Colts", home_id: 41, home_team: "Giants",  date: Date.today + 2.days },
+      ]
       render :new
     end
   end
@@ -70,6 +87,7 @@ class WagersController < ApplicationController
     :title,
     :date_of_wager,
     :details,
+    :amount
     )
   end
 

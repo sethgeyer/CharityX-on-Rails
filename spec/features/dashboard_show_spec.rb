@@ -53,8 +53,8 @@ feature "User Dashboard Page" do
   context "A logged in user has created a wager" do
 
     before(:each) do
-      create_user_and_make_a_deposit_to_their_account("Stephen", 100)
-      create_user_and_make_a_deposit_to_their_account("Alexander", 100)
+      create_user_and_make_deposit("Stephen", 100)
+      create_user_and_make_deposit("Alexander", 100)
       create_an_existing_accepted_wager("Stephen", "Alexander", 10)
       visit "/"
       login_user("Stephen")

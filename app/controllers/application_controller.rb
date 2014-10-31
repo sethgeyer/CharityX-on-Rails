@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
     kenny_loggins.chips.where(status: status).count < (dollar_amount / $ChipValue)
   end
 
-  def calculte_the_maximum_dollars_available
+  def calculate_the_maximum_dollars_available
     kenny_loggins.chips.where(status: "available").count * $ChipValue
   end
 

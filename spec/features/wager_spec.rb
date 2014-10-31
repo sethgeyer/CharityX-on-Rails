@@ -5,8 +5,8 @@ feature "View and Create a Proposed Wagers" do
 
   before(:each) do
     create_charity("United Way")
-    create_user_and_make_a_deposit_to_their_account("Alexander", 100)
-    create_user_and_make_a_deposit_to_their_account("Stephen", 40)
+    create_user_and_make_deposit("Alexander", 100)
+    create_user_and_make_deposit("Stephen", 40)
   end
 
   scenario "As a visitor, I should not be able to visit the new proposed wager view directly via the URL " do
@@ -376,7 +376,7 @@ feature "View and Create a Proposed Wagers" do
 
     context "User does not have another registered user to bet with" do
       scenario "As a user I can create a wager w/out a known wageree " do
-        create_user_and_make_a_deposit_to_their_account("Michael", 100)
+        create_user_and_make_deposit("Michael", 100)
         visit "/"
         login_user("Stephen")
         create_a_public_wager("Stephen", "Alexander", "Michael")

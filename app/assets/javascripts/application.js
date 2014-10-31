@@ -17,6 +17,52 @@
 
 $(document).ready( function() {
 
+
+  $('.modal-body a').on('click', function(event) {
+    event.preventDefault()
+
+    var $selectedTeam = $(this)
+
+    var selectedTeamName = $selectedTeam.text()
+    var selectedWinnerID = $selectedTeam.attr('data-team-id')
+    var loserName = $selectedTeam.siblings('a')[0].text
+    var gameContainer = $selectedTeam.parents('.game-container')
+    var gameID = gameContainer.attr('data-game-id')
+
+    var inputWagerField = $('.wager-input')
+    var inputWagerDateField = $('.wager-date-input')
+    var inputWagerDetailsField = $('.wager-details-input')
+
+    inputWagerField.val('The ' + selectedTeamName + ' beat the ' + loserName)
+
+    var gameDate = gameContainer.attr('data-game-date')
+
+    inputWagerDateField.val(gameDate)
+
+
+
+    inputWagerField.siblings('.game-id-container').val(gameID)
+    inputWagerField.siblings('.selected-winner-container').val(selectedWinnerID)
+
+    inputWagerField.prop('readonly', true)
+    inputWagerDateField.prop('readonly', true)
+    inputWagerDetailsField.val('')
+    inputWagerDetailsField.prop('readonly', true)
+
+    $('#myModal').modal("hide")
+  })
+
+
+
+
+
+
+
+
+
+
+
+
 //  Show an outcome flag based on whether the match has been won, lost or is still pending and highlight the row if the due date has passed.
   var wagers = $('#wagers_table .wager-border');
   wagers.each(function() {

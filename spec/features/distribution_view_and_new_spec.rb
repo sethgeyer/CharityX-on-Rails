@@ -18,7 +18,7 @@ feature "View Index and Create Distributions" do
   context "As a logged in user," do
 
     before(:each) do
-      create_user_and_make_a_deposit_to_their_account("Stephen", 40)
+      create_user_and_make_deposit("Stephen", 40)
       visit "/"
       login_user("Stephen")
     end

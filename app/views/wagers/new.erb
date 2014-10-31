@@ -41,20 +41,31 @@
 
     <div class="form-group">
       <%=f.label :title, "That: " %><br/>
-      <%=f.text_field :title, class:"form-control", placeholder:"thing your wagering on"%>
+      <%=f.text_field :title, class:"form-control wager-input", placeholder:"thing your wagering on"%>
+      <%= f.hidden_field :game_id, value: "", class: "game-id-container"%>
+      <%= f.hidden_field :selected_winner_id, value: "", class: "selected-winner-container"%>
       <div class="errors"><%=@wager.errors[:title].first if @wager.errors[:title].any? %></div>
 
+      <!-- Button trigger modal -->
+      <div style="margin: 3px">
+      or select one <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">Find a Game</button>
+      </div>
     </div>
+
+
+
+
+
 
     <div class="form-group">
       <%=f.label :date_of_wager, "Date of Wager:"%><br/>
-      <%=f.date_field :date_of_wager, class:"form-control"%>
+      <%=f.date_field :date_of_wager, class:"form-control wager-date-input"%>
       <div class="errors"><%=@wager.errors[:date_of_wager].first if @wager.errors[:date_of_wager].any? %></div>
     </div>
 
     <div class="form-group">
       <%=f.label :details, "Details:" %><br/>
-      <%=f.text_area :details, class:"form-control"%>
+      <%=f.text_area :details, class:"form-control wager-details-input"%>
     </div>
 
     <div class="form-group">
@@ -67,5 +78,33 @@
 
 
 
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title" id="myModalLabel">Pick a Winner for the Sporting Event</h4>
+        </div>
+        <div class="modal-body">
+          <% @sport_events.each do |sport| %>
+            <div class="game-container" data-game-id="<%=sport[:game_id]%>" data-game-date="<%=sport[:date]%>" data-vs-team-id="<%=sport[:vs_id]%>" data-home-id="<%=sport[:home_id]%>">
+              <%=link_to sport[:visiting_team], "" , "data-team-id" => sport[:vs_id] %> vs.
+              <%=link_to sport[:home_team], "", "data-team-id" => sport[:home_id]%> on
+              <div class= "game-date" style="display:inline"><%=sport[:date]%> </div>
+            </div>
+          <% end %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!--.strftime("%b %d, %Y")-->
 
 </div>
