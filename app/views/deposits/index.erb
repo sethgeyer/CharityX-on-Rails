@@ -1,13 +1,17 @@
 <div id="index_deposits">
 
-  <table>
+  <table class="table table-bordered">
     <thead>
     <th>Amount</th>
+    <th>Date</th>
+
     </thead>
     <tbody>
     <% @deposits.each do |deposit| %>
       <tr>
         <td>$<%= deposit.amount / 100 %></td>
+        <td><%= deposit.created_at %></td>
+
       </tr>
     <% end %>
     </tbody>

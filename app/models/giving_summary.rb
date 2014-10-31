@@ -1,4 +1,4 @@
-class DollarLocator
+class GivingSummary
 
 
   def initialize(kenny_loggins)

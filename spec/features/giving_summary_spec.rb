@@ -11,22 +11,22 @@ feature "dollar locator view" do
   end
 
   scenario "As a user, I can view the 'Where are my dollars' table" do
-    visit user_dollar_locator_path
+    visit user_giving_summary_path
     expect(page).to have_content("$300")
   end
 
   scenario "As a user, I can see my dollars actively wagered" do
-    visit user_dollar_locator_path
+    visit user_giving_summary_path
     expect(page).to have_content("$10")
   end
 
   scenario "As a user, I can see the dollars I've personally distributed" do
-    visit user_dollar_locator_path
+    visit user_giving_summary_path
     expect(page).to have_content("$30")
   end
 
   scenario "As a user, I can see my net account balance" do
-    visit user_dollar_locator_path
+    visit user_giving_summary_path
     expect(page).to have_content("$260")
   end
 
@@ -36,7 +36,7 @@ feature "dollar locator view" do
     click_on "I Lost"
     click_on "Logout"
     login_user("Stephen")
-    visit user_dollar_locator_path
+    visit user_giving_summary_path
     expect(page).to have_content("$10")
   end
 
@@ -46,12 +46,12 @@ feature "dollar locator view" do
     end
 
     scenario "I can see my losses from wagers" do
-      visit user_dollar_locator_path
+      visit user_giving_summary_path
       expect(page).to have_content("$(10) ")
     end
 
     scenario "I can see that my lost wager dollars are in another's account" do
-      visit user_dollar_locator_path
+      visit user_giving_summary_path
       expect(page.find(".losses-in-others-accounts")).to have_content("$(10)")
     end
 
@@ -61,7 +61,7 @@ feature "dollar locator view" do
       distribute_funds_from_my_account(10, "Red Cross")
       click_on  "Logout"
       login_user("Stephen")
-      visit user_dollar_locator_path
+      visit user_giving_summary_path
       expect(page.find(".losses-in-others-accounts")).to have_content("$(0)")
       expect(page.find(".losses-distributed")).to have_content("$(10)")
 
