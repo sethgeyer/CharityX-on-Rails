@@ -61,6 +61,8 @@ $(document).ready( function() {
 
   $('.table-expand-icon').on('click', function() {
     $(this).toggleClass('glyphicon-th-list').toggleClass('glyphicon-circle-arrow-up')
+    var contentsSection = $(this).parents('.blue-bordered').children('.summary-total')
+    contentsSection.toggleClass('expanded-contents')
     var $selectedDropDownDetail = $(this).parents('.blue-bordered').children('.drop-down-detail')
     $selectedDropDownDetail.toggle();
   });

@@ -128,16 +128,37 @@ margin-top: -5px;
     border-bottom-left-radius: 7px;
 }
 
+
+.expanded-contents {
+    background-color:#3C376B;
+    color: whitesmoke !important;
+}
+
 .contents{
-    color: #363633;
-    text-align: center;
-    padding-top: 12px;
     display:inline-block;
     height: 40px;
-    margin-right: -4px;
-    text-align: center;
-
+    width: 40%;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-left: 2px;
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+    text-align:center;
+    padding-top: 10px;
+    color: black;
 }
+
+
+.drop-down-detail tr {
+    text-align: center;
+    margin: 50px;
+}
+
+.drop-down-detail tr th {
+    font-weight: bold;
+    text-align: center;
+}
+
 
 .blue-bordered {
     background-color:whitesmoke;
@@ -420,6 +441,9 @@ margin-top: -5px;
 
 .drop-down-detail {
     display:none;
+   margin-left: 10px;
+    width: 97%;
+    margin-bottom: 5px;
 }
 
 .wager-losses {
