@@ -14,8 +14,21 @@
 //= require jquery_ujs
 // require turbolinks
 //= require_tree .
+//= require moment
+//= require bootstrap-datetimepicker
+
+
 
 $(document).ready( function() {
+
+//  var inputGameID= $('.game-id-container').val()
+//  if (inputGameID != "") {
+//    $('.wager-date-input').prop('readonly', true)
+//    $('.wager-details-input').prop('readonly', true)
+//  }
+
+
+
 
 
   $('.modal-body a').on('click', function(event) {
@@ -47,9 +60,11 @@ $(document).ready( function() {
     inputWagerField.prop('readonly', true)
     inputWagerDateField.prop('readonly', true)
     inputWagerDetailsField.val('')
-    inputWagerDetailsField.prop('readonly', true)
+//    $('#datetimepicker6').data("DateTimePicker").hide();
 
     $('#myModal').modal("hide")
+    inputWagerDetailsField.prop('readonly', true)
+
   })
 
 

@@ -47,7 +47,7 @@ end
 def create_a_new_unaccepted_wager(wagerer, wageree, amount)
   within(page.find("#wager-funds")) {click_link "+"}
   fill_in "wager_title", with: "Ping Pong Match between S & A"
-  fill_in "wager_date_of_wager", with: "2017-07-31"
+  fill_in "wager[date_of_wager]", with: Date.today + 2.days
   fill_in "wager_details", with: "Game to 21, standard rules apply"
   fill_in "wager_amount", with: amount
   fill_in "With:", with: "alexander"
@@ -57,7 +57,7 @@ end
 def create_a_public_wager(wagerer, potential_wageree1, potential_wageree2 )
   within(page.find("#wager-funds")) {click_link "+"}
   fill_in "wager_title", with: "Public Ping Pong"
-  fill_in "wager_date_of_wager", with: "2017-07-31"
+  fill_in "wager[date_of_wager]", with: Date.today + 2.days
   fill_in "wager_details", with: "Game to 21, standard rules apply"
   fill_in "wager_amount", with: 10
   fill_in "With:", with: ""
@@ -69,7 +69,7 @@ def user_creates_a_solicitation_wager(wagererTheUser, wagereeTheNonUser)
   make_a_deposit_to_their_account(100)
   within(page.find("#wager-funds")) {click_link "+"}
   fill_in "wager_title", with: "Ping Pong"
-  fill_in "wager_date_of_wager", with: "2017-07-31"
+  fill_in "wager[date_of_wager]", with: Date.today + 2.days
   fill_in "wager_details", with: "Game to 21, standard rules apply"
   fill_in "wager_amount", with: 10
   fill_in "With:", with: "#{wagereeTheNonUser.downcase}@gmail.com"

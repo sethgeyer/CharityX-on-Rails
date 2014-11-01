@@ -12,6 +12,7 @@
  *
  *= require_tree .
  *= require_self
+ *= require bootstrap-datetimepicker
  */
 
 
@@ -454,4 +455,8 @@ margin-top: -5px;
     padding-left: 24px;
 
 }
+
+
+
+
 

@@ -27,8 +27,10 @@ class WagersController < ApplicationController
     @wager.wageree_id = wageree.id if wageree.is_a?(User)
     @wager.status = "w/wageree"
     @wager.amount = amount_converted_to_pennies(wager_amount_in_dollars)
+    # @wager.game_id = params[:wager][:game_id]
+    # @wager.selected_winner_id = params[:wager][:selected_winner_id]
 
-    if the_user_has_insufficient_funds_for_the_size_of_the_transaction(wager_amount_in_dollars, "available")
+      if the_user_has_insufficient_funds_for_the_size_of_the_transaction(wager_amount_in_dollars, "available")
       @wager.amount = calculate_the_maximum_dollars_available
       @wager.errors.add(:amount, "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{calculate_the_maximum_dollars_available}")
 
@@ -37,6 +39,7 @@ class WagersController < ApplicationController
                        {game_id: 3, vs_id: 30, visiting_team: "Jets", home_id: 31, home_team: "Chargers",  date: Date.today + 2.days },
                        {game_id: 4, vs_id: 40, visiting_team: "Colts", home_id: 41, home_team: "Giants",  date: Date.today + 2.days },
       ]
+
 
       render :new
 
@@ -51,6 +54,8 @@ class WagersController < ApplicationController
                        {game_id: 3, vs_id: 30, visiting_team: "Jets", home_id: 31, home_team: "Chargers",  date: Date.today + 2.days },
                        {game_id: 4, vs_id: 40, visiting_team: "Colts", home_id: 41, home_team: "Giants",  date: Date.today + 2.days },
       ]
+      @wager.game_id = params[:wager][:game_id]
+      @wager.selected_winner_id = params[:wager][:selected_winner_id]
       render :new
     end
   end
