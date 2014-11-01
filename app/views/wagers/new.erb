@@ -46,8 +46,8 @@
     <div class="form-group">
       <%=f.label :title, "That: " %><br/>
       <%=f.text_field :title, class:"form-control wager-input", placeholder:"thing your wagering on"%>
-      <%= f.hidden_field :game_id, value: "", class: "game-id-container"%>
-      <%= f.hidden_field :selected_winner_id, value: "", class: "selected-winner-container"%>
+      <%= f.hidden_field :game_id, class: "game-id-container"%>
+      <%= f.hidden_field :selected_winner_id, class: "selected-winner-container"%>
       <div class="errors"><%=@wager.errors[:title].first if @wager.errors[:title].any? %></div>
 
       <!-- Button trigger modal -->

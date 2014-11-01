@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141101164712) do
+ActiveRecord::Schema.define(version: 20141101170730) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -106,6 +106,7 @@ ActiveRecord::Schema.define(version: 20141101164712) do
     t.integer  "user_id"
     t.integer  "game_id"
     t.integer  "selected_winner_id"
+    t.string   "wager_type"
   end
 
 end
