@@ -74,15 +74,6 @@
         </script>
 
 
-
-
-
-
-
-
-
-
-
     <div class="form-group">
       <%=f.label :details, "Details:" %><br/>
       <%=f.text_area :details, class:"form-control wager-details-input"%>
@@ -108,7 +99,7 @@
           <h4 class="modal-title" id="myModalLabel">Pick a Winner for the Sporting Event</h4>
         </div>
         <div class="modal-body">
-          <% @sport_events.each do |sport| %>
+          <% SportsGame.new.all.each do |sport| %>
             <div class="game-container" data-game-id="<%=sport[:game_id]%>" data-game-date="<%=sport[:date]%>" data-vs-team-id="<%=sport[:vs_id]%>" data-home-id="<%=sport[:home_id]%>">
               <%=link_to sport[:visiting_team], "" , "data-team-id" => sport[:vs_id] %> vs.
               <%=link_to sport[:home_team], "", "data-team-id" => sport[:home_id]%> on

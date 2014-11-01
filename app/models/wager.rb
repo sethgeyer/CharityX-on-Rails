@@ -26,8 +26,8 @@ class Wager < ActiveRecord::Base
     end
   end
 
-  def assign_the_loss(kenny_loggins, wager)
-    if kenny_loggins.id == wager.user_id
+  def assign_the_loss(loser, wager)
+    if loser.id == wager.user_id
       wager.wagerer_outcome = "I Lost"
       wager.winner_id = wager.wageree_id
     else

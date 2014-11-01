@@ -128,9 +128,15 @@
                 Awaiting Confirmation from Wageree
               <% else %>
                 <%= form_for registered_wager, url: user_wager_path(registered_wager) do |f| %>
+                  <% if registered_wager.wager_type == "SportsWager" %>
+
+                    <%= f.submit "Check Outcome", class: "button button-check", data: {disable_with: "Please Wait..."} %>
+                  <% else %>
+
                   <%= f.submit "I Won", class: "button button-won", data: {disable_with: "Please Wait...", confirm: "You are about to register your win.  Are you sure?"} %>
                   <%= f.submit "I Lost", class: "button button-lost", data: {disable_with: "Please Wait...", confirm: "You are about to register your loss.  Are you sure?"} %>
-                <% end %>
+                  <% end %>
+                  <% end %>
               <% end %>
             <% else %>
               <%= form_for registered_wager, url: user_wager_path(registered_wager) do |f| %>
@@ -144,9 +150,16 @@
                   <% elsif registered_wager.status == "accepted" && registered_wager.wageree_outcome == "I Won" %>
                     Awaiting Confirmation from Wagerer
                   <% else %>
+                    <% if registered_wager.wager_type == "SportsWager" %>
+
+                    <%= f.submit "Check Outcome", class: "button button-check", data: {disable_with: "Please Wait..."} %>
+                    <% else %>
+
                     <%= f.submit "I Won", class: "button button-won", data: {disable_with: "Please Wait...", confirm: "You are about to register your win.  Are you sure?"} %>
 
                     <%= f.submit "I Lost", class: "button button-lost", data: {disable_with: "Please Wait...", confirm: "You are about to register your loss.  Are you sure?"} %>
+                    <% end %>
+
                   <% end %>
                 </div>
               <% end %>

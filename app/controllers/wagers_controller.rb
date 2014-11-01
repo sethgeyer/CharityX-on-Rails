@@ -8,11 +8,6 @@ class WagersController < ApplicationController
     else
       @wager = Wager.new
       @wager.create_as_a_duplicate_of_an_original_wager?(params[:pwid], kenny_loggins)
-      @sport_events = [{game_id: 1, vs_id: 10, visiting_team: "Broncos", home_id: 11, home_team: "Patriots", date: Date.today + 2.day },
-                       {game_id: 2, vs_id: 20, visiting_team: "Redskins",home_id: 21, home_team: "Vikings",  date: Date.today + 3.days },
-                       {game_id: 3, vs_id: 30, visiting_team: "Jets", home_id: 31, home_team: "Chargers",  date: Date.today + 4.days },
-                       {game_id: 4, vs_id: 40, visiting_team: "Colts", home_id: 41, home_team: "Giants",  date: Date.today + 5.days },
-      ]
       render :new
     end
   end
@@ -27,20 +22,18 @@ class WagersController < ApplicationController
     @wager.wageree_id = wageree.id if wageree.is_a?(User)
     @wager.status = "w/wageree"
     @wager.amount = amount_converted_to_pennies(wager_amount_in_dollars)
-    @wager.game_id = params[:wager][:game_id]
-    @wager.selected_winner_id = params[:wager][:selected_winner_id]
 
-      if the_user_has_insufficient_funds_for_the_size_of_the_transaction(wager_amount_in_dollars, "available")
+    @wager.game_id = params[:wager][:game_id] if params[:wager][:game_id] != ""
+    @wager.selected_winner_id = params[:wager][:selected_winner_id] if params[:wager][:selected_winner_id] != ""
+    @wager.wager_type = if params[:wager][:game_id]
+                          "SportsWager"
+                        else
+                          "CustomWager"
+                        end
+
+    if the_user_has_insufficient_funds_for_the_size_of_the_transaction(wager_amount_in_dollars, "available")
       @wager.amount = calculate_the_maximum_dollars_available
       @wager.errors.add(:amount, "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{calculate_the_maximum_dollars_available}")
-
-      @sport_events = [{game_id: 1, vs_id: 10, visiting_team: "Broncos", home_id: 11, home_team: "Patriots", date: Date.today + 2.day },
-                       {game_id: 2, vs_id: 20, visiting_team: "Redskins",home_id: 21, home_team: "Vikings",  date: Date.today + 3.days },
-                       {game_id: 3, vs_id: 30, visiting_team: "Jets", home_id: 31, home_team: "Chargers",  date: Date.today + 4.days },
-                       {game_id: 4, vs_id: 40, visiting_team: "Colts", home_id: 41, home_team: "Giants",  date: Date.today + 5.days },
-      ]
-
-
       render :new
 
     elsif @wager.save
@@ -49,13 +42,6 @@ class WagersController < ApplicationController
       redirect_to user_dashboard_path
     else
       @wager.amount = wager_amount_in_dollars
-      @sport_events = [{game_id: 1, vs_id: 10, visiting_team: "Broncos", home_id: 11, home_team: "Patriots", date: Date.today + 2.day },
-                       {game_id: 2, vs_id: 20, visiting_team: "Redskins",home_id: 21, home_team: "Vikings",  date: Date.today + 3.days },
-                       {game_id: 3, vs_id: 30, visiting_team: "Jets", home_id: 31, home_team: "Chargers",  date: Date.today + 4.days },
-                       {game_id: 4, vs_id: 40, visiting_team: "Colts", home_id: 41, home_team: "Giants",  date: Date.today + 5.days },
-      ]
-      @wager.game_id = params[:wager][:game_id]
-      @wager.selected_winner_id = params[:wager][:selected_winner_id]
       render :new
     end
   end
@@ -63,8 +49,10 @@ class WagersController < ApplicationController
   def update
     the_update_action = params[:commit]
     wager_id = params[:id]
+
     lock_down_wager_if_accepted(the_update_action, wager_id)
     cancel_wager_if_wager_declined(the_update_action, wager_id)
+    check_outcome_of_game(the_update_action, wager_id)
     assign_the_win_if_outcome_is_determined(the_update_action, wager_id)
     redirect_to user_dashboard_path
   end
@@ -89,10 +77,10 @@ class WagersController < ApplicationController
 
   def allowed_params
     params.require(:wager).permit(
-    :title,
-    :date_of_wager,
-    :details,
-    :amount
+      :title,
+      :date_of_wager,
+      :details,
+      :amount
     )
   end
 
@@ -155,6 +143,27 @@ class WagersController < ApplicationController
     elsif action == "I Lost"
       wager.assign_the_loss(kenny_loggins, wager)
       Chip.sweep_the_pot(kenny_loggins, wager) if wager.save!
+    end
+  end
+
+  def check_outcome_of_game(action, wager_id)
+    wager = Wager.where(id: wager_id, status: "accepted").first
+    if action == "Check Outcome"
+      game_id = wager.game_id
+      selected_winner_id = wager.selected_winner_id
+      game = SportsGame.new.find(game_id)
+      if game[:winner_id]
+        loser =  if game[:winner_id] == selected_winner_id
+                   User.find(wager.wageree_id)
+                else
+                  User.find(wager.user_id)
+                end
+        wager.assign_the_loss(loser, wager)
+        Chip.sweep_the_pot(loser, wager) if wager.save!
+      else
+        flash[:notice] = "Outcome has not been determined"
+      end
+
     end
   end
 

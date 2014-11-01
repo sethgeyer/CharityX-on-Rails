@@ -55,3 +55,26 @@ def create_a_distribution(first_name, amount)
   end
 end
 
+def create_a_broncos_patriots_wager(wagerer_first_name, wageree_first_name, amount)
+  wagerer = User.find_by(username: wagerer_first_name.downcase)
+  wageree = User.find_by(username: wageree_first_name.downcase)
+  wagerer.wagers.create!(title: "The Patriots beat the Broncos",
+                         date_of_wager: Date.today + 2.days,
+                         amount: amount * 100, wageree_id: wageree.id,
+                         status: "accepted",
+                         wager_type: "SportsWager",
+                         game_id: 1,
+                         selected_winner_id: 11)
+
+  (amount / 10).times do | time |
+    wagerer_chips = wagerer.chips.where(status: "available").first
+    wageree_chips = wageree.chips.where(status: "available").first
+    wagerer_chips.status = "wagered"
+    wageree_chips.status = "wagered"
+    wagerer_chips.save!
+    wageree_chips.save!
+  end
+end
+
+
+

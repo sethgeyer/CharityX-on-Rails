@@ -246,8 +246,25 @@ margin-top: -5px;
     background-color: #526B28;
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
-
 }
+
+
+.button-won {
+    background-color:  #1E521F;
+    border-bottom-left-radius: 12px;
+    width:49%;
+}
+
+.button-check {
+    background-color:  #1E521F;
+    color:white;
+    width: 100%;
+    border-style: double;
+    text-align: center;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
 
 .button-shake {
     background-color:  #1E521F;
