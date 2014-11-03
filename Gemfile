@@ -44,6 +44,8 @@ gem 'bootstrap3-datetimepicker-rails', '~> 3.1.3'
 
 gem 'bcrypt', '~> 3.1.7'
 
+gem 'faraday'
+
 group :development, :test do
   gem "rspec-rails", "3.0.1"
   gem 'rspec-collection_matchers', '~> 1.0.0'

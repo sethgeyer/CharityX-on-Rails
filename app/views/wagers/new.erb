@@ -99,11 +99,20 @@
           <h4 class="modal-title" id="myModalLabel">Pick a Winner for the Sporting Event</h4>
         </div>
         <div class="modal-body">
-          <% SportsGame.all.each do |game| %>
+          <% games = SportsGame.all %>
+          <% games.each do |game| %>
+            <% if game.week != games[games.index(game) - 1].week%>
+              <br/>
+              <b><%= "Week: #{game.week} "%> </b>
+            <% end %>
             <div class="game-container" data-game-id="<%=game.id%>" data-game-date="<%=game.date%>" data-vs-team-id="<%=game.vs_id%>" data-home-id="<%=game.home_id%>">
               <%=link_to game.visiting_team, "" , "data-team-id" => game.vs_id %> vs.
               <%=link_to game.home_team, "", "data-team-id" => game.home_id%> on
-              <div class= "game-date" style="display:inline"><%=game.date%> </div>
+              <div class= "game-date" style="display:inline"><%=game.date.in_time_zone("Eastern Time (US & Canada)").to_formatted_s(:long_ordinal)%> </div>
+              <div> <%="Location: #{game.venue} "%></div>
+
+              <div> <%="Forecast: #{game.temperature}, #{game.condition}" if game.temperature%></div>
+              <hr/>
             </div>
           <% end %>
         </div>
