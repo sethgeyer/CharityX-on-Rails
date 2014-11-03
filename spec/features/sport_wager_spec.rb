@@ -1,3 +1,8 @@
+require 'rails_helper'
+require 'capybara/rails'
+
+
+
 feature "Create a sport wager" do
   before(:each) do
     create_user_and_make_deposit("Stephen", 100)
@@ -28,7 +33,7 @@ feature "Create a sport wager" do
                 {game_id: 3, vs_id: 30, visiting_team: "Jets", home_id: 31, home_team: "Chargers", date: Date.today + 4.days},
                 {game_id: 4, vs_id: 40, visiting_team: "Colts", home_id: 41, home_team: "Giants", date: Date.today + 5.days},
       ]
-      selected_game = {game_id: 1, vs_id: 10, visiting_team: "Broncos", home_id: 11, home_team: "Patriots", date: Date.today + 2.day, winner_id: nil}
+      # selected_game = {game_id: 1, vs_id: 10, visiting_team: "Broncos", home_id: 11, home_team: "Patriots", date: Date.today + 2.day, winner_id: nil}
       create_a_broncos_patriots_wager("Stephen", "Alexander", 10)
     end
 
@@ -49,8 +54,14 @@ feature "Create a sport wager" do
     end
 
     context "The outcome of the sportwager has been determined and the wagerer won" do
+      before(:each) do
+        game_one = SportsGame.new({"game_id" => 1, "vs_id"=> 10, "visiting_team"=> "Broncos", "home_id"=> 11, "home_team"=>"Patriots", "date"=>Date.today + 2.day, "winner_id"=> 11 })
+        allow(SportsGame).to receive(:find).and_return(game_one)
+      end
+
       scenario "A winning wagerer sees that they won the wager" do
         visit user_dashboard_path
+
         click_on "Check Outcome"
         expect(page).to have_content("I Won!")
         expect(page).to have_link("Rematch?")
@@ -69,27 +80,34 @@ feature "Create a sport wager" do
 
     end
 
-    # context "The outcome of the sportwager has been determined and the wagerer lost" do
-    #   scenario "A losing wagerer sees that they lost the wager" do
-    #     visit user_dashboard_path
-    #     click_on "Check Outcome"
-    #     expect(page).to have_content("I Lost!")
-    #     expect(page).to have_link("Rematch")
-    #
-    #   end
-    #
-    #   scenario "A winning wageree sees that they won the wager" do
-    #     click_on "Logout"
-    #     login_user ("Alexander")
-    #     visit user_dashboard_path
-    #     click_on "Check Outcome"
-    #     expect(page).to have_content("I Won!")
-    #     expect(page).to have_link("Rematch?")
-    #
-    #   end
-    #
-    #
-    # end
+    context "The outcome of the sportwager has been determined and the wagerer lost" do
+      before(:each) do
+        game_one = SportsGame.new({"game_id" => 1, "vs_id"=> 10, "visiting_team"=> "Broncos", "home_id"=> 11, "home_team"=>"Patriots", "date"=>Date.today + 2.day, "winner_id"=> 10 })
+        allow(SportsGame).to receive(:find).and_return(game_one)
+      end
+
+
+      scenario "A losing wagerer sees that they lost the wager" do
+        visit user_dashboard_path
+
+        click_on "Check Outcome"
+        expect(page).to have_content("I Lost!")
+        expect(page).to have_link("Rematch")
+
+      end
+
+      scenario "A winning wageree sees that they won the wager" do
+        click_on "Logout"
+        login_user ("Alexander")
+        visit user_dashboard_path
+        click_on "Check Outcome"
+        expect(page).to have_content("I Won!")
+        expect(page).to have_link("Rematch?")
+
+      end
+
+
+    end
 
 
   end

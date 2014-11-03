@@ -149,11 +149,11 @@ class WagersController < ApplicationController
   def check_outcome_of_game(action, wager_id)
     wager = Wager.where(id: wager_id, status: "accepted").first
     if action == "Check Outcome"
-      game_id = wager.game_id
+      game_id = wager.id
       selected_winner_id = wager.selected_winner_id
-      game = SportsGame.new.find(game_id)
-      if game[:winner_id]
-        loser =  if game[:winner_id] == selected_winner_id
+      game = SportsGame.find(game_id)
+      if game.winner_id
+        loser =  if game.winner_id == selected_winner_id
                    User.find(wager.wageree_id)
                 else
                   User.find(wager.user_id)

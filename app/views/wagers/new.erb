@@ -99,11 +99,11 @@
           <h4 class="modal-title" id="myModalLabel">Pick a Winner for the Sporting Event</h4>
         </div>
         <div class="modal-body">
-          <% SportsGame.new.all.each do |sport| %>
-            <div class="game-container" data-game-id="<%=sport[:game_id]%>" data-game-date="<%=sport[:date]%>" data-vs-team-id="<%=sport[:vs_id]%>" data-home-id="<%=sport[:home_id]%>">
-              <%=link_to sport[:visiting_team], "" , "data-team-id" => sport[:vs_id] %> vs.
-              <%=link_to sport[:home_team], "", "data-team-id" => sport[:home_id]%> on
-              <div class= "game-date" style="display:inline"><%=sport[:date]%> </div>
+          <% SportsGame.all.each do |game| %>
+            <div class="game-container" data-game-id="<%=game.id%>" data-game-date="<%=game.date%>" data-vs-team-id="<%=game.vs_id%>" data-home-id="<%=game.home_id%>">
+              <%=link_to game.visiting_team, "" , "data-team-id" => game.vs_id %> vs.
+              <%=link_to game.home_team, "", "data-team-id" => game.home_id%> on
+              <div class= "game-date" style="display:inline"><%=game.date%> </div>
             </div>
           <% end %>
         </div>
