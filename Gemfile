@@ -53,5 +53,6 @@ group :development, :test do
   gem "launchy"
   gem "database_cleaner"
   gem "selenium-webdriver"
+  gem 'dotenv-rails'
 end
 
