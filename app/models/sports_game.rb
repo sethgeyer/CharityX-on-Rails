@@ -1,7 +1,44 @@
 class SportsGame
-  attr_accessor :id, :vs_id, :visiting_team, :home_id, :home_team, :date, :winner_id, :week, :venue, :temperature, :condition
+  attr_accessor :id, :vs_id, :visiting_team, :home_id, :home_team, :date, :winner_id, :week, :venue, :temperature, :condition, :full_home_name, :full_visitor_name
 
   def initialize(game_hash, week_number)
+    full_name = {
+      "ARI"=> "Arizona Cardinals",
+      "ATL"=> "Atlanta Falcons",
+      "BAL"=> "Baltimore Ravens",
+      "BUF"=> "Buffalo Bills",
+      "CAR"=> "Carolina Panthers",
+      "CHI"=> "Chicago Bears",
+      "CIN"=> "Cincinnati Bengals",
+      "CLE"=> "Cleveland Browns",
+      "DAL"=> "Dallas Cowboys",
+      "DEN"=> "Denver Broncos",
+      "DET"=> "Detroit Lions",
+      "GB"=> "Green Bay Packers",
+      "HOU"=> "Houston Texans",
+      "IND"=>"Indianapolis Colts",
+      "JAC"=> "Jacksonville Jaguars",
+      "KC"=> "Kansas City Chiefs",
+      "MIA"=> "Miami Dolphins",
+      "MIN"=> "Minnesota Vikings",
+      "NE" => "New England Patriots",
+      "NO"=> "New Orleans Saints",
+      "NYG"=> "New York Giants",
+      "NYJ"=> "New York Jets",
+      "OAK"=> "Oakland Raiders",
+      "PHI"=> "Philadelphia Eagles",
+      "PIT"=> "Pittsburgh Steelers",
+      "TB"=> "Tampa Bay Bucaneers",
+      "TEN"=> "Tennessee Titans",
+      "SD"=> "San Diego Chargers",
+      "SF"=> "San Francisco 49ers",
+      "SEA"=> "Seattle Seahawks",
+      "STL"=> "St. Louis Rams",
+      "WAS"=> "Washington Redskins"
+    }
+
+
+
     @id = game_hash["id"]
     @date = game_hash["scheduled"]
     @home_team = game_hash["home"]
@@ -14,6 +51,9 @@ class SportsGame
     @venue = game_hash["venue"]["name"]
     @temperature = game_hash["weather"]["temperature"]
     @condition = game_hash["weather"]["condition"]
+    @full_home_name = full_name[game_hash["home"]]
+    @full_visitor_name = full_name[game_hash["away"]]
+
 
 
   end

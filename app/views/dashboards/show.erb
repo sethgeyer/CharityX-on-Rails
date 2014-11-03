@@ -85,9 +85,19 @@
 
           <div class="title-text">
             <% if kenny_loggins == registered_wager.user %>
-              <%= "I bet #{registered_wager.identify_the_wageree} $#{registered_wager.amount / 100} that: #{registered_wager.title}." %>
+              <div>
+                <%= "I bet #{registered_wager.identify_the_wageree} $#{registered_wager.amount / 100} that:"%>
+              </div>
+              <div class="wager-show">
+                <%="#{registered_wager.title}" %>
+              </div>
             <% else %>
-              <%= "#{User.find_by(id: registered_wager.user.id).username} bet me $#{registered_wager.amount / 100} that: #{registered_wager.title}." %>
+              <div>
+                <%= "#{User.find_by(id: registered_wager.user.id).username} bet me $#{registered_wager.amount / 100} that:"%>
+              </div>
+              <div class="wager-show">
+                <%="#{registered_wager.title}" %>
+              </div>
             <% end %>
           </div>
 
@@ -192,7 +202,12 @@
           <!--<div class="outcome-flag"></div>-->
           <div id='archive-button' class="delete-icon glyphicon glyphicon-remove-sign" data-id=<%= public_wager.id %>></div>
           <div class="title-text">
-            <%= "#{User.find_by(id: public_wager.user_id).username} bet the Public $#{public_wager.amount / 100} that: #{public_wager.title}." %>
+            <div>
+              <%= "#{User.find_by(id: public_wager.user_id).username} bet the Public $#{public_wager.amount / 100} that:"%>
+            </div>
+            <div class="wager-show">
+              <%= "#{public_wager.title}" %>
+            </div>
           </div>
 
         </div>

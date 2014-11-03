@@ -248,6 +248,24 @@ margin-top: -5px;
     border-bottom-right-radius: 12px;
 }
 
+.team-name {
+    font-size: 16px;
+    color: #3C376B;
+    font-weight: bold;
+}
+
+.week-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    background-color: black;
+    padding-left: 2px;
+}
+
+.wager-show {
+    font-size: 16px;
+}
+
 
 .button-won {
     background-color:  #1E521F;
@@ -394,7 +412,7 @@ margin-top: -5px;
 }
 
 .title-text {
-    display:inline-block;
+    /*display:inline-block;*/
 }
 
 
