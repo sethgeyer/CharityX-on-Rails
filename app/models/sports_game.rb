@@ -83,7 +83,7 @@ class SportsGame
     @all_games = []
     response["weeks"].each do |week_hash|
       @games = week_hash["games"].map do |game_hash|
-      SportsGame.new(game_hash, week_hash["number"]) if DateTime.strptime(game_hash["scheduled"]) > DateTime.now.utc
+      SportsGame.new(game_hash, week_hash["number"]) #if DateTime.strptime(game_hash["scheduled"]) > DateTime.now.utc
       end
       @all_games << @games.compact
     end
