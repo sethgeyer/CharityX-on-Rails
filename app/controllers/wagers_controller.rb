@@ -25,6 +25,9 @@ class WagersController < ApplicationController
 
     @wager.game_id = params[:wager][:game_id] if params[:wager][:game_id] != ""
     @wager.selected_winner_id = params[:wager][:selected_winner_id] if params[:wager][:selected_winner_id] != ""
+    @wager.home_id = params[:wager][:home_id] if params[:wager][:home_id] != ""
+    @wager.vs_id = params[:wager][:vs_id] if params[:wager][:vs_id] != ""
+    @wager.game_week = params[:wager][:game_week] if params[:wager][:game_week] != ""
     @wager.wager_type = if params[:wager][:game_id]
                           "SportsWager"
                         else
@@ -149,11 +152,13 @@ class WagersController < ApplicationController
   def check_outcome_of_game(action, wager_id)
     wager = Wager.where(id: wager_id, status: "accepted").first
     if action == "Check Outcome"
-      game_id = wager.id
+
+      # game_id = wager.id
       selected_winner_id = wager.selected_winner_id
-      game = SportsGame.find(game_id)
-      if game.winner_id
-        loser =  if game.winner_id == selected_winner_id
+      game_outcome = SportsGame.get_final_score(wager.game_week, wager.vs_id, wager.home_id)
+
+      if game_outcome
+        loser =  if game_outcome == selected_winner_id
                    User.find(wager.wageree_id)
                 else
                   User.find(wager.user_id)

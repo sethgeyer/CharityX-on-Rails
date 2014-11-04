@@ -91,11 +91,22 @@ class SportsGame
   end
 
 
-  def self.find(id)
-
-    raw_json = "{\"game_id\":1,\"vs_id\":10,\"visiting_team\":\"Broncos\",\"home_id\":11,\"home_team\":\"Patriots\",\"date\":\"2014-11-05\",\"winner_id\":10}"
-    response = JSON.parse(raw_json)
-    SportsGame.new(response)
+  def self.get_final_score(week_number, vs_id, home_id)
+    response = JSON.parse(get("/nfl-t1/2014/REG/#{week_number}/#{vs_id}/#{home_id}/boxscore.json?api_key=#{ENV["SD_NFL_KEY"]}").body)
+    home_score = response["home_team"]["points"]
+    visitor_score = response["away_team"]["points"]
+    status = response["status"]
+    quarter = response["quarter"]
+    clock = response["clock"]
+    if status == "closed"
+      if home_score > visitor_score
+        response["home_team"]["id"]
+      else
+        response["away_team"]["id"]
+      end
+    else
+      nil
+    end
   end
 
 

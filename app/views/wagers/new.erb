@@ -48,6 +48,11 @@
       <%=f.text_field :title, class:"form-control wager-input", placeholder:"thing your wagering on"%>
       <%= f.hidden_field :game_id, class: "game-id-container"%>
       <%= f.hidden_field :selected_winner_id, class: "selected-winner-container"%>
+      <%= f.hidden_field :home_id, class: "home-id-container"%>
+      <%= f.hidden_field :vs_id, class: "visitor-id-container"%>
+      <%= f.hidden_field :game_week, class: "week-container"%>
+
+
       <div class="errors"><%=@wager.errors[:title].first if @wager.errors[:title].any? %></div>
 
       <!-- Button trigger modal -->
@@ -96,7 +101,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-          <h4 class="modal-title" id="myModalLabel">Pick a Winner for the Sporting Event</h4>
+          <h4 class="modal-title" id="myModalLabel">Pick the Winner</h4>
         </div>
         <div class="modal-body">
           <% games = SportsGame.all %>
@@ -106,10 +111,10 @@
               <div class="week-name"><%= "Week #{game.week} "%></div>
               <br/>
             <% end %>
-            <div class="game-container" data-game-id="<%=game.id%>" data-game-date="<%=game.date%>" data-vs-team-id="<%=game.vs_id%>" data-home-id="<%=game.home_id%>">
+            <div class="game-container" data-game-id="<%=game.id%>" data-game-date="<%=game.date%>" data-vs-team-id="<%=game.vs_id%>" data-home-team-id="<%=game.home_id%>" data-game-location="<%=game.venue%>" data-game-week="<%=game.week%>" data-game-temperature="<%=game.temperature%>" data-game-condition="<%=game.condition%>">
               <%=link_to game.full_visitor_name, "" , "data-team-id" => game.vs_id, class:"team-name" %> vs.
               <%=link_to game.full_home_name, "", "data-team-id" => game.home_id, class:"team-name"%>
-              <div class= "game-date"><%=game.date.in_time_zone("Eastern Time (US & Canada)").to_formatted_s(:long_ordinal)%> </div>
+              <div class= "game-date"><%=game.date.in_time_zone("Eastern Time (US & Canada)").to_formatted_s(:long_ordinal)%> (ET) </div>
               <div> <%="Location: #{game.venue} "%></div>
 
               <div> <%="Forecast: #{game.temperature}, #{game.condition}" if game.temperature%></div>

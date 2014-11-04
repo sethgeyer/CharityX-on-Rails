@@ -40,9 +40,15 @@ $(document).ready( function() {
 
     var selectedTeamName = $selectedTeam.text()
     var selectedWinnerID = $selectedTeam.attr('data-team-id')
+
     var loserName = $selectedTeam.siblings('a')[0].text
     var gameContainer = $selectedTeam.parents('.game-container')
     var gameID = gameContainer.attr('data-game-id')
+    var gameWeek = gameContainer.attr('data-game-week')
+
+    var homeTeam = gameContainer.attr('data-home-team-id')
+    var visitingTeam = gameContainer.attr('data-vs-team-id')
+debugger
 
     var inputWagerField = $('.wager-input')
     var inputWagerDateField = $('.wager-date-input')
@@ -52,16 +58,36 @@ $(document).ready( function() {
 
     var gameDate = gameContainer.attr('data-game-date')
 
+    var gameTemperature = gameContainer.attr('data-game-temperature')
+    var gameCondition = gameContainer.attr('data-game-condition')
+    var gameLocation = gameContainer.attr('data-game-location')
+
+    if (gameCondition != "") {
+      var gameForecast = " / Forecast: " + gameTemperature + " and " + gameCondition
+    }
+    else {
+      var gameForecast = ""
+    }
     inputWagerDateField.val(gameDate)
 
 
 
     inputWagerField.siblings('.game-id-container').val(gameID)
     inputWagerField.siblings('.selected-winner-container').val(selectedWinnerID)
+    inputWagerField.siblings('.week-container').val(gameWeek)
+
+    inputWagerField.siblings('.home-id-container').val(homeTeam)
+    inputWagerField.siblings('.visitor-id-container').val(visitingTeam)
+
+
 
     inputWagerField.prop('readonly', true)
     inputWagerDateField.prop('readonly', true)
-    inputWagerDetailsField.val('')
+
+    inputWagerDetailsField.val("@" + gameLocation + gameForecast)
+
+
+
 //    $('#datetimepicker6').data("DateTimePicker").hide();
 
     $('#myModal').modal("hide")
