@@ -55,8 +55,8 @@ feature "Create a sport wager" do
 
     context "The outcome of the sportwager has been determined and the wagerer won" do
       before(:each) do
-        game_one = SportsGame.new({"id" => 1, "away"=> "DEN", "home"=>"NE", "scheduled"=>Date.today + 2.day, "venue"=> "Gillette Stadium", "weather"=> {"temperature"=> 12, "condition"=> "sunny"} }, 1)
-        allow(SportsGame).to receive(:find).and_return(game_one)
+        game_one = SportsGameOutcome.new({ "status"=> "closed", "home_team"=> {"id" => "NE", "points"=>50}, "away_team"=> {"id" => "DEN", "points"=>25}})
+        allow(SportsGameOutcome).to receive(:get_final_score).and_return(game_one)
       end
 
       scenario "A winning wagerer sees that they won the wager" do
@@ -82,8 +82,8 @@ feature "Create a sport wager" do
 
     context "The outcome of the sportwager has been determined and the wagerer lost" do
       before(:each) do
-        game_one = SportsGame.new({"id" => 1, "away"=> "DEN", "home"=>"NE", "scheduled"=>Date.today + 2.day, "venue"=> "Gillette Stadium", "weather"=> {"temperature"=> 12, "condition"=> "sunny"} }, 1)
-        allow(SportsGame).to receive(:find).and_return(game_one)
+        game_one = SportsGameOutcome.new({ "status"=> "closed", "home_team"=> {"id" => "NE", "points"=>25}, "away_team"=> {"id" => "DEN", "points"=>5}})
+        allow(SportsGameOutcome).to receive(:get_final_score).and_return(game_one)
       end
 
 

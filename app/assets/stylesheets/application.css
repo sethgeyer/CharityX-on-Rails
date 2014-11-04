@@ -156,7 +156,7 @@ margin-top: -5px;
 }
 
 .drop-down-detail tr th {
-    font-weight: bold;
+    /*font-weight: bold;*/
     text-align: center;
 }
 
@@ -478,7 +478,7 @@ margin-top: -5px;
 .drop-down-detail {
     display:none;
    margin-left: 10px;
-    width: 97%;
+    width: 95%;
     margin-bottom: 5px;
 }
 

@@ -21,12 +21,12 @@
 
 $(document).ready( function() {
 
-  var inputGameID= $('.game-id-container').val()
-  if (inputGameID != "") {
-    $('.wager-date-input').prop('readonly', true)
-    $('.wager-details-input').prop('readonly', true)
-    $('.wager-input').prop('readonly', true)
-  }
+//  var inputGameID= $('.game-id-container').val()
+//  if (inputGameID != "") {
+//    $('.wager-date-input').prop('readonly', true)
+//    $('.wager-details-input').prop('readonly', true)
+//    $('.wager-input').prop('readonly', true)
+//  }
 //  debugger
 
 
@@ -48,7 +48,6 @@ $(document).ready( function() {
 
     var homeTeam = gameContainer.attr('data-home-team-id')
     var visitingTeam = gameContainer.attr('data-vs-team-id')
-debugger
 
     var inputWagerField = $('.wager-input')
     var inputWagerDateField = $('.wager-date-input')

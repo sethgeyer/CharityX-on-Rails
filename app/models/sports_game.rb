@@ -78,36 +78,37 @@ class SportsGame
 
 
 
-  def self.all
-    response = JSON.parse(get("/nfl-t1/2014/REG/schedule.json?api_key=#{ENV["SD_NFL_KEY"]}").body)
-    @all_games = []
-    response["weeks"].each do |week_hash|
-      @games = week_hash["games"].map do |game_hash|
-      SportsGame.new(game_hash, week_hash["number"]) if DateTime.strptime(game_hash["scheduled"]) > DateTime.now.utc
-      end
-      @all_games << @games.compact
-    end
-    @all_games.flatten
-  end
+  # def self.all
+  #
+  #   response = JSON.parse(get("/nfl-t1/2014/REG/schedule.json?api_key=#{ENV["SD_NFL_KEY"]}").body)
+  #   @all_games = []
+  #   response["weeks"].each do |week_hash|
+  #     @games = week_hash["games"].map do |game_hash|
+  #     SportsGame.new(game_hash, week_hash["number"]) if DateTime.strptime(game_hash["scheduled"]) > DateTime.now.utc
+  #     end
+  #     @all_games << @games.compact
+  #   end
+  #   @all_games.flatten
+  # end
 
 
-  def self.get_final_score(week_number, vs_id, home_id)
-    response = JSON.parse(get("/nfl-t1/2014/REG/#{week_number}/#{vs_id}/#{home_id}/boxscore.json?api_key=#{ENV["SD_NFL_KEY"]}").body)
-    home_score = response["home_team"]["points"]
-    visitor_score = response["away_team"]["points"]
-    status = response["status"]
-    quarter = response["quarter"]
-    clock = response["clock"]
-    if status == "closed"
-      if home_score > visitor_score
-        response["home_team"]["id"]
-      else
-        response["away_team"]["id"]
-      end
-    else
-      nil
-    end
-  end
+  # def self.get_final_score(week_number, vs_id, home_id)
+  #   response = JSON.parse(get("/nfl-t1/2014/REG/#{week_number}/#{vs_id}/#{home_id}/boxscore.json?api_key=#{ENV["SD_NFL_KEY"]}").body)
+  #   home_score = response["home_team"]["points"]
+  #   visitor_score = response["away_team"]["points"]
+  #   status = response["status"]
+  #   quarter = response["quarter"]
+  #   clock = response["clock"]
+  #   if status == "closed"
+  #     if home_score > visitor_score
+  #       response["home_team"]["id"]
+  #     else
+  #       response["away_team"]["id"]
+  #     end
+  #   else
+  #     nil
+  #   end
+  #end
 
 
 

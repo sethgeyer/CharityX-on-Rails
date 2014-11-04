@@ -157,17 +157,27 @@ class WagersController < ApplicationController
       selected_winner_id = wager.selected_winner_id
       game_outcome = SportsGameOutcome.get_final_score(wager.game_week, wager.vs_id, wager.home_id)
 
-      if game_outcome.status == "closed"
-        loser =  if game_outcome == selected_winner_id
-                   User.find(wager.wageree_id)
-                else
-                  User.find(wager.user_id)
-                end
-        wager.assign_the_loss(loser, wager)
-        Chip.sweep_the_pot(loser, wager) if wager.save!
-        wager.details = "#{game_outcome.vs_id}: #{game_outcome.visitor_score} #{game_outcome.home_id}: #{game_outcome.home_score} QTR:#{game_outcome.quarter}-Time:#{game_outcome.clock} "
+      if game_outcome
+        if game_outcome.status == "closed"
+          winning_team = if game_outcome.home_score > game_outcome.visitor_score
+                     game_outcome.home_id
+                   else
+                     game_outcome.vs_id
+                   end
+          loser =  if winning_team == selected_winner_id
+                    User.find(wager.wageree_id)
+                  else
+                    User.find(wager.user_id)
+                  end
+          wager.assign_the_loss(loser, wager)
+          Chip.sweep_the_pot(loser, wager) if wager.save!
+          wager.details = "#{game_outcome.vs_id}: #{game_outcome.visitor_score} #{game_outcome.home_id}: #{game_outcome.home_score} QTR:#{game_outcome.quarter}-Time:#{game_outcome.clock} "
+        else
+          flash[:notice] = "The Game is not over.  #{game_outcome.vs_id}: #{game_outcome.visitor_score} #{game_outcome.home_id}: #{game_outcome.home_score} QTR:#{game_outcome.quarter}-Time:#{game_outcome.clock} "
+        end
+
       else
-        flash[:notice] = "The Game is not over.  #{game_outcome.vs_id}: #{game_outcome.visitor_score} #{game_outcome.home_id}: #{game_outcome.home_score} QTR:#{game_outcome.quarter}-Time:#{game_outcome.clock} "
+        flash[:notice] = "The Game has not started."
       end
 
     end

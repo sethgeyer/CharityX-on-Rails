@@ -64,7 +64,7 @@ def create_a_broncos_patriots_wager(wagerer_first_name, wageree_first_name, amou
                          status: "accepted",
                          wager_type: "SportsWager",
                          game_id: 1,
-                         selected_winner_id: 11)
+                         selected_winner_id: "NE")
 
   (amount / 10).times do | time |
     wagerer_chips = wagerer.chips.where(status: "available").first

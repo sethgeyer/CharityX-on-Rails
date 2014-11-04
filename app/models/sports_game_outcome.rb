@@ -16,13 +16,13 @@ class SportsGameOutcome
 
 
   def self.connection
-    @conn ||= begin
-      conn = Faraday.new(:url => "https://api.sportsdatallc.org") do |faraday|
+    @thing ||= begin
+      this = Faraday.new(:url => "https://api.sportsdatallc.org") do |faraday|
         faraday.request :url_encoded
         faraday.response :logger
         faraday.adapter Faraday.default_adapter
       end
-      conn
+      this
     end
   end
 
@@ -32,8 +32,14 @@ class SportsGameOutcome
 
 
   def self.get_final_score(week_number, vs_id, home_id)
-    response = JSON.parse(get("/nfl-t1/2014/REG/#{week_number}/#{vs_id}/#{home_id}/boxscore.json?api_key=#{ENV["SD_NFL_KEY"]}").body)
-    SportsGameOutcome.new(response)
-  end
+    request = get("/nfl-t1/2014/REG/#{week_number}/#{vs_id}/#{home_id}/boxscore.json?api_key=#{ENV["SD_NFL_KEY"]}")
+    if request.body != ""
+      response = JSON.parse(request.body)
+      SportsGameOutcome.new(response)
+    else
+      nil
+    end
+
+    end
 
 end

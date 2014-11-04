@@ -44,10 +44,10 @@ class Dashboard
     (kenny_loggins.wagers.where('winner_id != ?', kenny_loggins.id).sum(:amount) / 100) + (Wager.where(wageree_id: kenny_loggins.id).where('winner_id != ?', kenny_loggins.id).sum(:amount) / 100)
   end
 
-  def list_of_losses(kenny_loggins)
-    kenny_loggins.wagers.where('winner_id != ?', kenny_loggins.id) + Wager.where(wageree_id: kenny_loggins.id).where('winner_id != ?', kenny_loggins.id)
-
-  end
+  # def list_of_losses(kenny_loggins)
+  #   kenny_loggins.wagers.where('winner_id != ?', kenny_loggins.id) + Wager.where(wageree_id: kenny_loggins.id).where('winner_id != ?', kenny_loggins.id)
+  #
+  # end
 
   def sum_of_losses_in_others_accounts(kenny_loggins)
     Chip.where(owner_id: kenny_loggins.id).where('user_id != ?', kenny_loggins.id).where('status != ?', 'distributed').count * 10
