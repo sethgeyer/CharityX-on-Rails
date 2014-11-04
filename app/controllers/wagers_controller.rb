@@ -155,9 +155,9 @@ class WagersController < ApplicationController
 
       # game_id = wager.id
       selected_winner_id = wager.selected_winner_id
-      game_outcome = SportsGame.get_final_score(wager.game_week, wager.vs_id, wager.home_id)
+      game_outcome = SportsGameOutcome.get_final_score(wager.game_week, wager.vs_id, wager.home_id)
 
-      if game_outcome
+      if game_outcome.status == "closed"
         loser =  if game_outcome == selected_winner_id
                    User.find(wager.wageree_id)
                 else
@@ -165,8 +165,9 @@ class WagersController < ApplicationController
                 end
         wager.assign_the_loss(loser, wager)
         Chip.sweep_the_pot(loser, wager) if wager.save!
+        wager.details = "#{game_outcome.vs_id}: #{game_outcome.visitor_score} #{game_outcome.home_id}: #{game_outcome.home_score} QTR:#{game_outcome.quarter}-Time:#{game_outcome.clock} "
       else
-        flash[:notice] = "Outcome has not been determined"
+        flash[:notice] = "The Game is not over.  #{game_outcome.vs_id}: #{game_outcome.visitor_score} #{game_outcome.home_id}: #{game_outcome.home_score} QTR:#{game_outcome.quarter}-Time:#{game_outcome.clock} "
       end
 
     end
