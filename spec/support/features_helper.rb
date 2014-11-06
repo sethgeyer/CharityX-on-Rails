@@ -90,4 +90,54 @@ def create_a_winning_sports_wager(wagerer_first_name, wageree_first_name, amount
 end
 
 
+def create_a_sports_game(options={})
+  attributes = {
+    uuid: SecureRandom.uuid,
+    date: Date.today + 2.days,
+    week: 16,
+    home_id: "CIN",
+    vs_id: "DEN",
+    status: "scheduled",
+    venue: "Paul Brown Stadium",
+    temperature: "69",
+    condition: "clear",
+    full_home_name: "Cincinnati Bengals",
+    full_visitor_name: "Denver Broncos"
+  }
+  combined_attributes = attributes.merge(options)
+
+  SportsGame.create!(combined_attributes)
+end
+
+def create_a_sports_game_outcome(game_uuid, options={})
+  attributes = {
+    game_uuid: game_uuid,
+    home_id: "CIN",
+    home_score: 36,
+    vs_id: "GB",
+    vs_score: 16,
+    status: "closed",
+    quarter: 0,
+    clock: ":00"
+  }
+
+  combined_attributes = attributes.merge(options)
+
+  SportsGamesOutcome.create!(combined_attributes)
+end
+
+
+def create_a_sports_wager(game_uuid, wagerer_id, wageree_id, amount, home_id, vs_id)
+
+  Wager.create!(title: "The #{home_id} beat the #{vs_id}",
+                 date_of_wager: Date.today + 2.days,
+                 amount: amount * 100,
+                 user_id: wagerer_id,
+                 wageree_id: wageree_id,
+                 status: "accepted",
+                 wager_type: "SportsWager",
+                 game_uuid: game_uuid,
+                 selected_winner_id: home_id )
+end
+
 
