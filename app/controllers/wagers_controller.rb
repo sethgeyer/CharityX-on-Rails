@@ -8,7 +8,7 @@ class WagersController < ApplicationController
     else
       @wager = Wager.new
       @wager.create_as_a_duplicate_of_an_original_wager?(params[:pwid], kenny_loggins)
-      @remaining_games = SportsGame.all #where('date > ?', DateTime.now.utc)
+      @remaining_games = SportsGame.where('date > ?', DateTime.now.utc)
 
       render :new
     end
