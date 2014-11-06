@@ -80,14 +80,16 @@ $(document).ready( function() {
 
 
 
-    inputWagerField.prop('readonly', true)
-    inputWagerDateField.prop('readonly', true)
 
     inputWagerDetailsField.val("@" + gameLocation + gameForecast)
 
 
 
-//    $('#datetimepicker6').data("DateTimePicker").hide();
+    $('#datetimepicker6').data("DateTimePicker").disable();
+
+    inputWagerDateField.removeProp('disabled');
+    inputWagerDateField.prop('readonly', true);
+    inputWagerField.prop('readonly', true);
 
     $('#myModal').modal("hide")
     inputWagerDetailsField.prop('readonly', true)
