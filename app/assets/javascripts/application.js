@@ -26,8 +26,11 @@ $(document).ready( function() {
 //    $('.wager-date-input').prop('readonly', true)
 //    $('.wager-details-input').prop('readonly', true)
 //    $('.wager-input').prop('readonly', true)
+//    $('#datetimepicker6').data("DateTimePicker").disable();
+//
+//    $('.wager-date-input').removeProp('disabled');
+//    $('.wager-date-input').prop('readonly', true);
 //  }
-//  debugger
 
 
 

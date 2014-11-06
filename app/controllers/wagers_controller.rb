@@ -14,27 +14,47 @@ class WagersController < ApplicationController
     end
   end
 
+  def return_wager_details(game)
+    string = "@#{game.venue}"
+    string += " / Forecast: #{game.temperature} and #{game.condition}" if game.temperature && game.condition
+    string
+  end
+
+
 
   def create
     wager_amount_in_dollars = amount_stripped_of_dollar_sign_and_commas(params[:wager][:amount])
     person_input_by_wagerer = params[:wageree_username]
     wageree = find_the_proposed_wageree(person_input_by_wagerer)
 
-    @wager = kenny_loggins.wagers.new(allowed_params)
-    @wager.wageree_id = wageree.id if wageree.is_a?(User)
-    @wager.status = "w/wageree"
-    @wager.amount = amount_converted_to_pennies(wager_amount_in_dollars)
 
-    @wager.game_uuid = params[:wager][:game_uuid] if params[:wager][:game_uuid] != ""
-    @wager.selected_winner_id = params[:wager][:selected_winner_id] if params[:wager][:selected_winner_id] != ""
-    @wager.home_id = params[:wager][:home_id] if params[:wager][:home_id] != ""
-    @wager.vs_id = params[:wager][:vs_id] if params[:wager][:vs_id] != ""
-    @wager.game_week = params[:wager][:game_week] if params[:wager][:game_week] != ""
-    @wager.wager_type = if params[:wager][:game_uuid]
-                          "SportsWager"
-                        else
-                          "CustomWager"
-                        end
+
+    sport_game = SportsGame.find_by(uuid: params[:wager][:game_uuid])
+    if sport_game
+      @wager = kenny_loggins.wagers.new
+      @wager.wageree_id = wageree.id if wageree.is_a?(User)
+      @wager.status = "w/wageree"
+      @wager.amount = amount_converted_to_pennies(wager_amount_in_dollars)
+      @wager.game_uuid = params[:wager][:game_uuid]
+      @wager.selected_winner_id = params[:wager][:selected_winner_id] if [sport_game.vs_id, sport_game.home_id].include?(params[:wager][:selected_winner_id])
+      @wager.date_of_wager = sport_game.date
+      @wager.home_id = sport_game.home_id
+      @wager.vs_id = sport_game.vs_id
+      @wager.game_week = sport_game.week
+      @wager.wager_type = "SportsWager"
+      @wager.title = return_the_wager_title(sport_game.home_id, sport_game.full_home_name, sport_game.vs_id, sport_game.full_visitor_name,  @wager.selected_winner_id)
+      @wager.details = return_wager_details(sport_game)
+    else
+      @wager = kenny_loggins.wagers.new(allowed_params)
+      @wager.wageree_id = wageree.id if wageree.is_a?(User)
+      @wager.status = "w/wageree"
+      @wager.amount = amount_converted_to_pennies(wager_amount_in_dollars)
+      @wager.wager_type = "CustomWager"
+    end
+
+
+
+
 
     if the_user_has_insufficient_funds_for_the_size_of_the_transaction(wager_amount_in_dollars, "available")
       @wager.amount = calculate_the_maximum_dollars_available
@@ -90,6 +110,20 @@ class WagersController < ApplicationController
       :amount
     )
   end
+
+  def return_the_wager_title(home_id, full_home_name, vs_id, full_visitor_name, selected_winner_id)
+    if selected_winner_id == home_id
+      selected_loser = full_visitor_name
+      selected_winner = full_home_name
+    else
+      selected_winner = full_visitor_name
+      selected_loser = full_home_name
+    end
+
+    "The #{selected_winner} beat the #{selected_loser}"
+  end
+
+
 
   def send_the_appropriate_notification_email(wageree, wager)
     if wageree.is_a?(User)
