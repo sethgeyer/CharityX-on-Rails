@@ -4,8 +4,9 @@ feature "admin rights" do
     visit "/"
     expect(page).not_to have_link("Refresh Games")
     expect(page).not_to have_link("Refresh Outcomes")
-
   end
+
+
 
   context "Regular User has regsitered" do
     before(:each) do
@@ -18,7 +19,23 @@ feature "admin rights" do
       click_on "Dashboard"
       expect(page).to have_css("#show_dashboards")
       expect(page).not_to have_link("Refresh Outcomes")
+      expect(page).not_to have_link("Refresh Games")
+      expect(page).not_to have_link("Make Donations")
     end
+
+    scenario "non-admin user can not directly access the Process Donations page" do
+      login_user("Stephen")
+      visit donation_processors_path
+      expect(page).to have_css("#show_dashboards")
+      visit sports_games_outcomes_path
+      expect(page).to have_css("#show_dashboards")
+
+    end
+
+
+
+
+
   end
 
   context "Admin User has regsitered and logged in" do
@@ -54,12 +71,20 @@ feature "admin rights" do
       end
 
       scenario "admin refreshes outcomes and see the number of outcomes updated" do
-
-        # click_on "Refresh Outcomes"
+        skip
+        click_on "Refresh Outcomes"
         expect(page).to have_content("1 game outcome has been updated")
       end
 
     end
+
+    scenario "admin can access the Make Donations link" do
+      expect(page).to have_link("Process Donations")
+      click_on "Process Donations"
+      expect(page).to have_css("#index_donation_processors")
+    end
+
+
 
 
 

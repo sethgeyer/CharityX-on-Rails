@@ -1,5 +1,6 @@
 class SportsGamesController < ApplicationController
 
+  before_action :ensure_admin
 
 
   FULL_TEAM_NAMES = {

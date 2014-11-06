@@ -5,6 +5,11 @@ class ApplicationController < ActionController::Base
 
   before_action :ensure_current_user
 
+
+  def ensure_admin
+    redirect_to user_dashboard_path unless kenny_loggins.is_admin?
+  end
+
   def ensure_current_user
     redirect_to root_path unless kenny_loggins
   end
