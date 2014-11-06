@@ -71,6 +71,9 @@
     <h3>Wagers</h3>
   </div>
 
+    <% if flash[:outcome]%>
+    <div class="alert alert-info"><%=flash[:outcome]%></div>
+    <% end %>
   <div id="wagers_table" class="row">
     <% @dashboard.registered_wagers(kenny_loggins).each do |registered_wager| %>
       <div class="wager-border" data-attribute-status=<%= registered_wager.status %> data-attribute-date=<%= (registered_wager.date_of_wager - Date.today).to_i %>>

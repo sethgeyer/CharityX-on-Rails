@@ -47,10 +47,6 @@
       <%=f.label :title, "That: " %><br/>
       <%=f.text_field :title, class:"form-control wager-input", placeholder:"thing your wagering on"%>
       <%= f.hidden_field :game_uuid, class: "game-id-container"%>
-      <!--< %= f.hidden_field :selected_winner_id, class: "selected-winner-container"%>-->
-      <!--< %= f.hidden_field :home_id, class: "home-id-container"%>-->
-      <!--< %= f.hidden_field :vs_id, class: "visitor-id-container"%>-->
-      <!--< %= f.hidden_field :game_week, class: "week-container"%>-->
 
 
       <div class="errors"><%=@wager.errors[:title].first if @wager.errors[:title].any? %></div>

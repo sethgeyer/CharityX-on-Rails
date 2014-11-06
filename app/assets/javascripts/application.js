@@ -36,6 +36,11 @@ $(document).ready( function() {
 
 
 
+
+
+
+
+//  User can select sport games from the modal and the information is auto-populated into the wager form
   $('.modal-body a').on('click', function(event) {
     event.preventDefault()
 

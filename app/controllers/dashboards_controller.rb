@@ -13,6 +13,21 @@ class DashboardsController < ApplicationController
       end
     end
 
+    # current_users_wagers = (kenny_loggins.wagers.where(wager_type: "SportsWager").where(status: "accepted") + Wager.where(wageree_id: kenny_loggins.id).where(wager_type: "SportsWager").where(status: "accepted"))
+    # current_users_wagers.each do |wager|
+    #   game_outcome = SportsGamesOutcome.find_by(game_uuid: wager.game_uuid)
+    #   if game_outcome
+    #     wager.update(details: ("#{wager.details} <br/> ").html_safe
+    #   end
+    #
+    #
+    #
+    # end
+    #
+
+
+
+    ###########################
     @dashboard = Dashboard.new
 
   end

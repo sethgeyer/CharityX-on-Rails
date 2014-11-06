@@ -31,10 +31,11 @@ class SportsDataCollector
     else
 
       request = get("/nfl-t1/2014/REG/#{week_number}/#{vs_id}/#{home_id}/boxscore.json?api_key=#{ENV["SD_NFL_KEY"]}")
-
       if request.body != ""
         response = JSON.parse(request.body)
         game_outcome = SportsGamesOutcome.find_or_create_by!(game_uuid: response["id"])
+        game_outcome.home_id = response["home_team"]["id"]
+        game_outcome.vs_id = response["away_team"]["id"]
         game_outcome.home_score = response["home_team"]["points"]
         game_outcome.vs_score = response["away_team"]["points"]
         game_outcome.status = response["status"]
