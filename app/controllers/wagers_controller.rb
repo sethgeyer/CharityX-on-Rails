@@ -8,6 +8,8 @@ class WagersController < ApplicationController
     else
       @wager = Wager.new
       @wager.create_as_a_duplicate_of_an_original_wager?(params[:pwid], kenny_loggins)
+      @remaining_games = SportsGame.all #where('date > ?', DateTime.now.utc)
+
       render :new
     end
   end
@@ -23,12 +25,12 @@ class WagersController < ApplicationController
     @wager.status = "w/wageree"
     @wager.amount = amount_converted_to_pennies(wager_amount_in_dollars)
 
-    @wager.game_id = params[:wager][:game_id] if params[:wager][:game_id] != ""
+    @wager.game_uuid = params[:wager][:game_uuid] if params[:wager][:game_uuid] != ""
     @wager.selected_winner_id = params[:wager][:selected_winner_id] if params[:wager][:selected_winner_id] != ""
     @wager.home_id = params[:wager][:home_id] if params[:wager][:home_id] != ""
     @wager.vs_id = params[:wager][:vs_id] if params[:wager][:vs_id] != ""
     @wager.game_week = params[:wager][:game_week] if params[:wager][:game_week] != ""
-    @wager.wager_type = if params[:wager][:game_id]
+    @wager.wager_type = if params[:wager][:game_uuid]
                           "SportsWager"
                         else
                           "CustomWager"
@@ -155,11 +157,11 @@ class WagersController < ApplicationController
 
       # game_id = wager.id
       selected_winner_id = wager.selected_winner_id
-      game_outcome = SportsGameOutcome.get_final_score(wager.game_week, wager.vs_id, wager.home_id)
+      game_outcome = SportsDataCollector.get_final_score(wager.game_week, wager.vs_id, wager.home_id)
 
       if game_outcome
         if game_outcome.status == "closed"
-          winning_team = if game_outcome.home_score > game_outcome.visitor_score
+          winning_team = if game_outcome.home_score > game_outcome.vs_score
                      game_outcome.home_id
                    else
                      game_outcome.vs_id
@@ -171,9 +173,9 @@ class WagersController < ApplicationController
                   end
           wager.assign_the_loss(loser, wager)
           Chip.sweep_the_pot(loser, wager) if wager.save!
-          wager.details = "#{game_outcome.vs_id}: #{game_outcome.visitor_score} #{game_outcome.home_id}: #{game_outcome.home_score} QTR:#{game_outcome.quarter}-Time:#{game_outcome.clock} "
+          wager.details = "#{game_outcome.vs_id}: #{game_outcome.vs_score} #{game_outcome.home_id}: #{game_outcome.home_score} QTR:#{game_outcome.quarter}-Time:#{game_outcome.clock} "
         else
-          flash[:notice] = "The Game is not over.  #{game_outcome.vs_id}: #{game_outcome.visitor_score} #{game_outcome.home_id}: #{game_outcome.home_score} QTR:#{game_outcome.quarter}-Time:#{game_outcome.clock} "
+          flash[:notice] = "The Game is not over.  #{game_outcome.vs_id}: #{game_outcome.vs_score} #{game_outcome.home_id}: #{game_outcome.home_score} QTR:#{game_outcome.quarter}-Time:#{game_outcome.clock} "
         end
 
       else

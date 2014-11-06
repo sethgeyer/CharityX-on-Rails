@@ -2,6 +2,19 @@ def create_charity(name)
   Charity.create!(name: name)
 end
 
+def create_admin(first_name)
+  attributes = {
+    username: first_name.downcase,
+    password: 'password',
+    first_name: first_name,
+    last_name: 'Geyer',
+    email: "#{first_name.downcase}@gmail.com",
+    is_admin: true
+  }
+  User.create!(attributes)
+end
+
+
 def create_user(first_name)
   attributes = {
     username: first_name.downcase,
@@ -55,16 +68,16 @@ def create_a_distribution(first_name, amount)
   end
 end
 
-def create_a_broncos_patriots_wager(wagerer_first_name, wageree_first_name, amount)
+def create_a_winning_sports_wager(wagerer_first_name, wageree_first_name, amount, winning_team, losing_team)
   wagerer = User.find_by(username: wagerer_first_name.downcase)
   wageree = User.find_by(username: wageree_first_name.downcase)
-  wagerer.wagers.create!(title: "The Patriots beat the Broncos",
+  wagerer.wagers.create!(title: "The #{winning_team} beat the #{losing_team}",
                          date_of_wager: Date.today + 2.days,
                          amount: amount * 100, wageree_id: wageree.id,
                          status: "accepted",
                          wager_type: "SportsWager",
                          game_id: 1,
-                         selected_winner_id: "NE")
+                         selected_winner_id: winning_team )
 
   (amount / 10).times do | time |
     wagerer_chips = wagerer.chips.where(status: "available").first
