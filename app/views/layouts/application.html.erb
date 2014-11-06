@@ -69,9 +69,14 @@
 
           <li><%=link_to "Edit Profile", edit_user_profile_path%></li>
           <li><%=link_to "Logout", logout_path, {:method => :delete }%></li>
-          <li><%=link_to "Refresh Games", sports_games_path, {:method => :POST} if kenny_loggins.is_admin?%></li>
-          <li><%=link_to "Refresh Outcomes", sports_games_outcomes_path, {:method => :GET} if kenny_loggins.is_admin?%></li>
-      <%end%>
+          <li class="dropdown admin">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><%=link_to "Refresh Games", sports_games_path, {:method => :POST} if kenny_loggins.is_admin?%></li>
+            <li><%=link_to "Refresh Outcomes", sports_games_outcomes_path, {:method => :GET} if kenny_loggins.is_admin?%></li>
+            </ul>
+          </li>
+        <%end%>
 
       </ul>
       <%if !kenny_loggins%>
