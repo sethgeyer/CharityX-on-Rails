@@ -159,7 +159,7 @@ class WagersController < ApplicationController
 
       # game_id = wager.id
       selected_winner_id = wager.selected_winner_id
-      game_outcome = SportsDataCollector.get_final_score(wager.game_week, wager.vs_id, wager.home_id)
+      game_outcome = SportsDataCollector.get_final_score(wager.game_week, wager.vs_id, wager.home_id, wager.game_uuid)
 
       if game_outcome
         if game_outcome.status == "closed"

@@ -137,6 +137,8 @@ def create_a_sports_wager(game_uuid, wagerer_id, wageree_id, amount, home_id, vs
                  status: "accepted",
                  wager_type: "SportsWager",
                  game_uuid: game_uuid,
+                 home_id: home_id,
+                 vs_id: vs_id,
                  selected_winner_id: home_id )
 end
 

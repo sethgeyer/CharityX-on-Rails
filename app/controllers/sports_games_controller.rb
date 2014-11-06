@@ -41,6 +41,7 @@ class SportsGamesController < ApplicationController
 
 
   def create
+    SportsGame.destroy_all
     raw_data = SportsDataCollector.all
     raw_data["weeks"].each do |week_hash|
       @games = week_hash["games"].each do |game_hash|

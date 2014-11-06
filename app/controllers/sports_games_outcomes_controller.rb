@@ -30,7 +30,6 @@ class SportsGamesOutcomesController < ApplicationController
       end
     end
     new_outcomes.compact!
-
     new_outcomes.each do |new_outcome|
 
       SportsDataCollector.get_final_score(new_outcome.week, new_outcome.vs_id, new_outcome.home_id)

@@ -44,7 +44,7 @@ feature "admin rights" do
         @wageree = create_user_and_make_deposit("Alexander", 100)
 
         @game1 = create_a_sports_game({week: 1, status: "closed"})
-        @game2 = create_a_sports_game({week: 9, status: "in_process"})
+        @game2 = create_a_sports_game({week: 9, status: "closed", home_id: "NE", vs_id: "DEN"})
         @game3 = create_a_sports_game({week: 16, status: "scheduled"})
 
         game1_outcome = create_a_sports_game_outcome(@game1.uuid)
