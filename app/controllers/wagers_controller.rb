@@ -39,6 +39,7 @@ class WagersController < ApplicationController
     if the_user_has_insufficient_funds_for_the_size_of_the_transaction(wager_amount_in_dollars, "available")
       @wager.amount = calculate_the_maximum_dollars_available
       @wager.errors.add(:amount, "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{calculate_the_maximum_dollars_available}")
+      @remaining_games = SportsGame.where('date > ?', DateTime.now.utc)
       render :new
 
     elsif @wager.save
@@ -47,6 +48,7 @@ class WagersController < ApplicationController
       redirect_to user_dashboard_path
     else
       @wager.amount = wager_amount_in_dollars
+      @remaining_games = SportsGame.where('date > ?', DateTime.now.utc)
       render :new
     end
   end

@@ -103,7 +103,7 @@ feature "admin rights" do
 
 
         @week_16_wager = Wager.create!(title: "The Denver Broncos beat the Cincinnati Bengals",
-                                       date_of_wager: "2014-12-23",
+                                       date_of_wager: Date.today + 2.days,
                                        amount: 1000,
                                        wageree_id: @wageree.id,
                                        status: "accepted",
@@ -113,7 +113,7 @@ feature "admin rights" do
                                        selected_winner_id: "DEN")
 
         @week_9_wager = Wager.create!(title: "The New Orleans Saints beat the Carolina Panthers",
-                                      date_of_wager: "2014-10-31",
+                                      date_of_wager: Date.today + 2.days,
                                       amount: 1000,
                                       wageree_id: @wageree.id,
                                       status: "accepted",
@@ -123,7 +123,7 @@ feature "admin rights" do
                                       selected_winner_id: "NO")
 
         @week_1_wager = Wager.create!(title: "The Green Bay Packers beat the Seattle Seahawks",
-                                      date_of_wager: "2014-09-05",
+                                      date_of_wager: Date.today + 2.days,
                                       amount: 1000,
                                       wageree_id: @wageree.id,
                                       status: "accepted",
