@@ -10,10 +10,9 @@ def register_a_new_charity(charity_name)
 
 end
 
-def humanized_eastern_time(utc_time)
-  "#{utc_time.in_time_zone("Eastern Time (US & Canada)").strftime("%a %e-%b-%y %l:%M %p")} (ET)"
+def timezone_adjusted_datetime(utc_time, admin)
+  "#{utc_time.in_time_zone(admin.timezone).strftime("%a %e-%b-%y %l:%M %p")} (loc)"
 end
-
 
 
 def make_a_deposit_to_their_account(deposit_amount)

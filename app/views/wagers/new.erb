@@ -118,10 +118,10 @@
               <div class="week-name"><%= "Week #{game.week} "%></div>
               <br/>
             <% end %>
-            <div class="game-container" data-game-id="<%=game.uuid%>" data-game-date="<%=humanized_eastern_date(game.date)%>" data-game-time="<%=humanized_eastern_clock(game.date)%>" data-vs-team-id="<%=game.vs_id%>" data-home-team-id="<%=game.home_id%>" data-game-location="<%=game.venue%>" data-game-week="<%=game.week%>" data-game-temperature="<%=game.temperature%>" data-game-condition="<%=game.condition%>">
+            <div class="game-container" data-game-id="<%=game.uuid%>" data-game-date="<%=timezone_adjusted_date(game.date)%>" data-game-time="<%=timezone_adjusted_clock(game.date)%>" data-vs-team-id="<%=game.vs_id%>" data-home-team-id="<%=game.home_id%>" data-game-location="<%=game.venue%>" data-game-week="<%=game.week%>" data-game-temperature="<%=game.temperature%>" data-game-condition="<%=game.condition%>">
               <%=link_to game.full_visitor_name, "" , "data-team-id" => game.vs_id, class:"team-name" %> vs.
               <%=link_to game.full_home_name, "", "data-team-id" => game.home_id, class:"team-name"%>
-              <div class= "game-date"><%=humanized_eastern_time(game.date)%></div>
+              <div class= "game-date"><%=timezone_adjusted_datetime(game.date)%></div>
               <div> <%="Location: #{game.venue} "%></div>
 
               <div> <%="Forecast: #{game.temperature}, #{game.condition}" if game.temperature%></div>

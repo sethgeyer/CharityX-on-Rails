@@ -112,7 +112,7 @@
             </div>
 
             <div class="wager-details">
-              Date: <%= humanized_eastern_time(registered_wager.date_of_wager) %> |
+              Date: <%= timezone_adjusted_datetime(registered_wager.date_of_wager) %> |
               Status: <%= registered_wager.status %>
               <br/>
               <i><%= registered_wager.show_wager_details_if_present %></i>
@@ -221,7 +221,7 @@
             </div>
 
             <div class="wager-details">
-              Date: <%= humanized_eastern_time(public_wager.date_of_wager) %> |
+              Date: <%= timezone_adjusted_datetime(public_wager.date_of_wager) %> |
               Status: <%= public_wager.status %>
               <br/>
               <i><%= public_wager.show_wager_details_if_present %></i>

@@ -46,7 +46,7 @@ class WagersController < ApplicationController
       @wager.details = return_wager_details(sport_game)
     else
       @wager = kenny_loggins.wagers.new(allowed_params)
-      strung_out_date_time = "#{params[:wager][:date_of_wager]} #{params[:time_of_wager]}".in_time_zone("Eastern Time (US & Canada)")
+      strung_out_date_time = "#{params[:wager][:date_of_wager]} #{params[:time_of_wager]}".in_time_zone(kenny_loggins.timezone)
       @wager.date_of_wager = strung_out_date_time.utc if strung_out_date_time
       @wager.wageree_id = wageree.id if wageree.is_a?(User)
       @wager.status = "w/wageree"

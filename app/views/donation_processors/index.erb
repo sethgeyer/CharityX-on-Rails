@@ -17,7 +17,7 @@
       <tr>
         <td><%= full_name(distribution.user) %></td>
         <td><%= distribution.charity.name %></td>
-        <td><%= humanized_eastern_time(distribution.created_at) %></td>
+        <td><%= timezone_adjusted_datetime(distribution.created_at) %></td>
         <td></td>
         <td></td>
       </tr>
