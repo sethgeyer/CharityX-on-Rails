@@ -64,13 +64,19 @@
 
     <div class="form-group">
       <%=f.label :date_of_wager, "Expected Outcome Date:"%><br/>
-      <%=f.text_field :date_of_wager, class:"form-control wager-date-input", id:'datetimepicker6', "data-date-format"=> "YYYY-MM-DD hh:mm"%>
+
+      <%=f.text_field :date_of_wager, class:"form-control wager-date-input"%>
+      <%=text_field_tag :date_of_wager, class:"form-control wager-time-input"%>
+
+
       <div class="errors"><%=@wager.errors[:date_of_wager].first if @wager.errors[:date_of_wager].any? %></div>
     </div>
 
         <script type="text/javascript">
           $(function () {
-            $('#datetimepicker6').datetimepicker( {pickTime: true});
+            $('.wager-date-input').pickadate()
+            $('.wager-time-input').pickatime()
+
           });
         </script>
 

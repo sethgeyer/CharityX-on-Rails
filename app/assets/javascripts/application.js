@@ -14,8 +14,9 @@
 //= require jquery_ujs
 // require turbolinks
 //= require_tree .
-//= require moment
-//= require bootstrap-datetimepicker
+//= require picker
+//= require picker.date
+//= require picker.time
 
 
 
@@ -93,9 +94,9 @@ $(document).ready( function() {
 
 
 
-    $('#datetimepicker6').data("DateTimePicker").disable();
+//    $('#datetimepicker6').data("DateTimePicker").disable();
 
-    inputWagerDateField.removeProp('disabled');
+//    inputWagerDateField.removeProp('disabled');
     inputWagerDateField.prop('readonly', true);
     inputWagerField.prop('readonly', true);
 
