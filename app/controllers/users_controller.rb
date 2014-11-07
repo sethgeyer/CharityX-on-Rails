@@ -27,7 +27,8 @@ class UsersController < ApplicationController
       :first_name,
       :last_name,
       :email,
-      :password
+      :password,
+      :timezone
     )
   end
 

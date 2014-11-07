@@ -22,6 +22,7 @@ class ProfilesController < ApplicationController
       :email,
       :first_name,
       :last_name,
+      :timezone
     )
   end
 

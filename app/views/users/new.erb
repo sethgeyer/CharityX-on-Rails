@@ -1,49 +1,56 @@
-
 <div id="new_users" class="container-fluid">
 
-    <h1>Register Here</h1>
+  <h1>Register Here</h1>
 
-      <%if @user.errors.full_messages.any?%>
-        <p class="errors">You're registration can not be completed</p>
-        <br/>
-        <br/>
-      <%end%>
+  <% if @user.errors.full_messages.any? %>
+    <p class="errors">You're registration can not be completed</p>
+    <br/>
+    <br/>
+  <% end %>
 
-    <%=form_for @user, html: {class: "form-horizontal col-xs-11 col-sm-4 col-md-3 registration"}, role:"form" do |f|%>
-
-      <div class="form-group">
-        <%=f.label :first_name%>
-        <%=f.text_field :first_name, class:"form-control"%>
-        <div class="errors"><%=@user.errors[:first_name].first if @user.errors[:first_name].any? %></div>
-      </div>
-
-      <div class="form-group">
-        <%=f.label :last_name%>
-        <%=f.text_field :last_name, class:"form-control"%>
-        <div class="errors"><%=@user.errors[:last_name].first if @user.errors[:last_name].any? %></div>
-      </div>
+  <%= form_for @user, html: {class: "form-horizontal col-xs-11 col-sm-4 col-md-3 registration"}, role: "form" do |f| %>
 
     <div class="form-group">
-      <%=f.label :username%>
-      <%=f.text_field :username, class:"form-control"%>
-      <div class="errors"><%=@user.errors[:username].first if @user.errors[:username].any? %></div>
+      <%= f.label :first_name %>
+      <%= f.text_field :first_name, class: "form-control" %>
+      <div class="errors"><%= @user.errors[:first_name].first if @user.errors[:first_name].any? %></div>
     </div>
 
     <div class="form-group">
-        <%=f.label :email%>
-        <%=f.email_field :email, class:"form-control"%>
-        <div class="errors"><%=@user.errors[:email].first if @user.errors[:email].any? %></div>
-      </div>
+      <%= f.label :last_name %>
+      <%= f.text_field :last_name, class: "form-control" %>
+      <div class="errors"><%= @user.errors[:last_name].first if @user.errors[:last_name].any? %></div>
+    </div>
 
-      <div class="form-group">
-        <%=f.label :password%>
-        <%=f.text_field :password, type:"password", class:"form-control"%>
-        <div class="errors"><%=@user.errors[:password].first if @user.errors[:password].any? %></div>
-      </div>
+    <div class="form-group">
+      <%= f.label :username %>
+      <%= f.text_field :username, class: "form-control" %>
+      <div class="errors"><%= @user.errors[:username].first if @user.errors[:username].any? %></div>
+    </div>
 
-      <div class="form-group">
-        <%=f.submit "Submit", class:"button button-submit", data: { disable_with: "Please Wait..." }%>
-        <%=link_to "Cancel", root_path%>
-      </div>
-  <%end%>
+
+    <div class="form-group">
+      <%= f.label :email %>
+      <%= f.email_field :email, class: "form-control" %>
+      <div class="errors"><%= @user.errors[:email].first if @user.errors[:email].any? %></div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :password %>
+      <%= f.text_field :password, type: "password", class: "form-control" %>
+      <div class="errors"><%= @user.errors[:password].first if @user.errors[:password].any? %></div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :timezone %><br/>
+      <%= f.time_zone_select :timezone, ActiveSupport::TimeZone.us_zones, :default=> "Mountain Time (US & Canada)", class: "form-control"%>
+      <div class="errors"><%= @user.errors[:timezone].first if @user.errors[:timezone].any? %></div>
+    </div>
+
+
+    <div class="form-group">
+      <%= f.submit "Submit", class: "button button-submit", data: {disable_with: "Please Wait..."} %>
+      <%= link_to "Cancel", root_path %>
+    </div>
+  <% end %>
 </div>

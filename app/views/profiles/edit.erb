@@ -35,6 +35,12 @@
       <div class="errors"><%=@user.errors[:password].first if @user.errors[:password].any? %></div>
     </div>
 
+    <div class="form-group">
+      <%= f.label :timezone %><br/>
+      <%= f.time_zone_select :timezone, ActiveSupport::TimeZone.us_zones, class: "form-control"%>
+      <div class="errors"><%= @user.errors[:timezone].first if @user.errors[:timezone].any? %></div>
+    </div>
+
 
     <div class="form-group">
       <%=f.submit "Submit", class:"button button-submit", data: { disable_with: "Please Wait..." }%>
