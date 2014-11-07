@@ -128,7 +128,7 @@ $(document).ready( function() {
 
     if (outcome.html() == null && date < 0) {
       $wager.addClass('past-due-outcome');
-      $wager.find(".wager-actions").append("The outcome date has passed.  Identify whether you won or lost this wager.")
+      $wager.find(".wager-actions").append("Did you when this bet?  Check the outcome or tell me if you won or lost.")
     };
 
   });
