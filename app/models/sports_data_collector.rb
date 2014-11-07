@@ -21,15 +21,14 @@ class SportsDataCollector
   end
 
 
-  def self.get_final_score(week_number, vs_id, home_id, game_uuid = nil)
+  def self.get_final_score(week_number, vs_id, home_id, game_uuid)
 
     existing_game_outcome = SportsGamesOutcome.where(game_uuid:  game_uuid).where(status: "closed").first
 
     if existing_game_outcome
       return existing_game_outcome
 
-    else
-
+    elsif SportsGame.find_by(uuid: game_uuid).date < DateTime.now.utc
       request = get("/nfl-t1/2014/REG/#{week_number}/#{vs_id}/#{home_id}/boxscore.json?api_key=#{ENV["SD_NFL_KEY"]}")
       if request.body != ""
         response = JSON.parse(request.body)

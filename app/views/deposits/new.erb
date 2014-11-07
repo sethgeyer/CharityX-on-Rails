@@ -16,7 +16,7 @@
   <%= form_for @deposit, url: user_deposits_path, html: {class: "form-horizontal col-xs-8 col-md-3"}, role: "form" do |f| %>
     <div class="form-group">
       <%= f.label :amount %>
-      <%= f.text_field :amount, class: "form-control", placeholder: "Max: $1k, $#{$ChipValue} increments" %>
+      <%= f.text_field :amount, class: "form-control", placeholder: "$#{$ChipValue} increments / Max: $1,000" %>
       <div class="errors"><%=@deposit.errors[:amount].first if @deposit.errors[:amount].any? %></div>
     </div>
 

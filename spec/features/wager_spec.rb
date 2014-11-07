@@ -33,11 +33,12 @@ feature "View and Create a Proposed Wagers" do
     within(page.find("#wager-funds")) {click_link "+"}
 
     fill_in "wager_title", with: "Ping Pong Match between S & A"
-    fill_in "wager[date_of_wager]", with: Date.today + 1.week
+    fill_in "wager[date_of_wager]", with: DateTime.now + 1.week
     fill_in "wager_details", with: "Game to 21, standard rules apply"
     fill_in "wager_amount", with: 10
     fill_in "With:", with: "alexander"
     click_on "Submit"
+    save_and_open_page
     expect(page.find("#wagers_table")).to have_content("Ping Pong Match")
     expect(page.find("#wagers_table")).to have_content(10)
     expect(page.find("#wagers_table")).not_to have_content(1000)
@@ -71,7 +72,7 @@ feature "View and Create a Proposed Wagers" do
     login_user("Stephen")
     within(page.find("#wager-funds")) {click_link "+"}
     # fill_in "wager_title", with: "Ping Pong Match between S & A"
-    fill_in "wager[date_of_wager]", with: Date.today + 1.week
+    fill_in "wager[date_of_wager]", with: DateTime.now + 1.week
     fill_in "wager_details", with: "Game to 21, standard rules apply"
     fill_in "wager_amount", with: 10
     fill_in "With:", with: "alexander"
@@ -89,7 +90,7 @@ feature "View and Create a Proposed Wagers" do
       create_an_existing_accepted_wager("Alexander", "Stephen", 10)
       within(page.find("#wager-funds")) {click_link "+"}
       fill_in "wager_title", with: "Ping Pong Match between S & A"
-      fill_in "wager[date_of_wager]", with: Date.today + 2.days
+      fill_in "wager[date_of_wager]", with: DateTime.now + 2.days
       fill_in "wager_details", with: "Game to 21, standard rules apply"
       fill_in "wager_amount", with: 50
       fill_in "With:", with: "alexandery"

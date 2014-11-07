@@ -26,7 +26,7 @@ class SportsGamesOutcomesController < ApplicationController
 
       if SportsGamesOutcome.find_by(game_uuid: game.uuid)
         # if I can find the game in SportsGameOutcome (after destroying everything that is not already closed, then it must be already closed)
-      elsif game.status == "scheduled" && game.status != "created"
+      elsif game.status != "scheduled" && game.status != "created"
         # if I can not find the game, and it is not scheduled, then it must be in process or the game must have just finished
         SportsGamesOutcome.create!(game_uuid: game.uuid,
                                    home_id: game.home_id,
@@ -38,7 +38,7 @@ class SportsGamesOutcomesController < ApplicationController
     new_outcomes.compact!
     new_outcomes.each do |new_outcome|
 
-      SportsDataCollector.get_final_score(new_outcome.week, new_outcome.vs_id, new_outcome.home_id)
+      SportsDataCollector.get_final_score(new_outcome.week, new_outcome.vs_id, new_outcome.home_id, new_outcome.game_uuid)
 
     end
 

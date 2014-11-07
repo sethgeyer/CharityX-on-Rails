@@ -46,6 +46,8 @@ class WagersController < ApplicationController
       @wager.details = return_wager_details(sport_game)
     else
       @wager = kenny_loggins.wagers.new(allowed_params)
+      @wager.date_of_wager =
+        params[:wager][:date_of_wager]
       @wager.wageree_id = wageree.id if wageree.is_a?(User)
       @wager.status = "w/wageree"
       @wager.amount = amount_converted_to_pennies(wager_amount_in_dollars)
@@ -81,7 +83,9 @@ class WagersController < ApplicationController
     cancel_wager_if_wager_declined(the_update_action, wager_id)
     check_outcome_of_game(the_update_action, wager_id)
     assign_the_win_if_outcome_is_determined(the_update_action, wager_id)
-    redirect_to user_dashboard_path
+
+
+    redirect_to user_dashboard_path(anchor: "wager-bucket-#{params[:id]}")
   end
 
 
@@ -105,7 +109,6 @@ class WagersController < ApplicationController
   def allowed_params
     params.require(:wager).permit(
       :title,
-      :date_of_wager,
       :details,
       :amount
     )
@@ -156,9 +159,12 @@ class WagersController < ApplicationController
       #before the wageree refreshing his view.  This ensures that if the bet is no longer "available", a user that tries to accept it, gets a message stating
       #that it had been withdrawn.
       wager = Wager.where(id: wager_id).where(status: "w/wageree").first
+
       if wager == nil
+        # wager.errors.add(:base, "Wager has already been accepted, withdrawn or expired.")
         flash[:notice] = "Wager has already been accepted, withdrawn or expired."
       elsif the_user_has_insufficient_funds_for_the_size_of_the_transaction(wager.amount / 100, "available")
+        # wager.errors.add(:base, "You don't have adequate funds to accept this wager.  Please add additional funds to your account.")
         flash[:notice] = "You don't have adequate funds to accept this wager.  Please add additional funds to your account."
       else
         wager.wageree_id = kenny_loggins.id if wager.wageree_id == nil
@@ -193,6 +199,7 @@ class WagersController < ApplicationController
 
       # game_id = wager.id
       selected_winner_id = wager.selected_winner_id
+
       game_outcome = SportsDataCollector.get_final_score(wager.game_week, wager.vs_id, wager.home_id, wager.game_uuid)
       if game_outcome
         if game_outcome.status == "closed"

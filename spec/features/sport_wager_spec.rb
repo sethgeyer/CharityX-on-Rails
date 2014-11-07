@@ -1,3 +1,4 @@
+=begin
 require 'rails_helper'
 require 'capybara/rails'
 
@@ -149,3 +150,4 @@ feature "Create a sport wager" do
 
 
 end
+=end

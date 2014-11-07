@@ -16,7 +16,7 @@
 
     <div class="form-group">
       <%=f.label :amount, "I want to bet:"%><br/>
-      <%=f.text_field :amount, class:"form-control", placeholder:"$ amount in $#{$ChipValue} increments"%>
+      <%=f.text_field :amount, class:"form-control", placeholder:"How Much? (in $#{$ChipValue} increments)"%>
       <div class="errors">
         <div class="errors"><%=@wager.errors[:amount].first if @wager.errors[:amount].any? %></div>
 
@@ -27,7 +27,7 @@
     <div class="form-group">
       <label for="wageree_username">With:</label><br/>
       <div class="input-group">
-       <input type="text" class="form-control" name="wageree_username" id="wageree_username" value="<%=User.find(@wager.wageree_id).username if @wager.wageree_id%>">
+       <input type="text" class="form-control" placeholder="Who?" name="wageree_username" id="wageree_username" value="<%=User.find(@wager.wageree_id).username if @wager.wageree_id%>">
         <span class="input-group-addon question">?</span>
       </div>
       <div class="wager-notes">
@@ -45,7 +45,7 @@
 
     <div class="form-group">
       <%=f.label :title, "That: " %><br/>
-      <%=f.text_field :title, class:"form-control wager-input", placeholder:"thing your wagering on"%>
+      <%=f.text_field :title, class:"form-control wager-input", placeholder:"The bet"%>
       <%= f.hidden_field :game_uuid, class: "game-id-container"%>
 
 
@@ -53,7 +53,7 @@
 
       <!-- Button trigger modal -->
       <div style="margin: 3px">
-      or select one <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">Find a Game</button>
+      or select an NFL Game <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">Find a Game</button>
       </div>
     </div>
 
