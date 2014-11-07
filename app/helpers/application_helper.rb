@@ -9,4 +9,13 @@ module ApplicationHelper
   end
 
 
+  def humanized_eastern_date(utc_time)
+    "#{utc_time.in_time_zone("Eastern Time (US & Canada)").strftime("%a %e-%b-%y")}"
+  end
+
+  def humanized_eastern_clock(utc_time)
+    "#{utc_time.in_time_zone("Eastern Time (US & Canada)").strftime("%l:%M %p")} (ET)"
+  end
+
+
 end

@@ -83,7 +83,7 @@ class Wager < ActiveRecord::Base
   private
 
   def date_of_wager_must_be_in_the_future
-    if date_of_wager == nil  || date_of_wager < Date.today
+    if date_of_wager == nil  || date_of_wager < DateTime.now.utc
       errors.add(:date_of_wager, "can't be blank or in the past")
     end
   end

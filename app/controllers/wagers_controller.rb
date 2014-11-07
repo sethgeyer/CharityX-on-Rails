@@ -46,8 +46,8 @@ class WagersController < ApplicationController
       @wager.details = return_wager_details(sport_game)
     else
       @wager = kenny_loggins.wagers.new(allowed_params)
-binding.pry
-      @wager.date_of_wager = params[:wager][:date_of_wager].in_time_zone("Eastern Time (US & Canada)").utc
+      strung_out_date_time = "#{params[:wager][:date_of_wager]} #{params[:time_of_wager]}".in_time_zone("Eastern Time (US & Canada)")
+      @wager.date_of_wager = strung_out_date_time.utc if strung_out_date_time
       @wager.wageree_id = wageree.id if wageree.is_a?(User)
       @wager.status = "w/wageree"
       @wager.amount = amount_converted_to_pennies(wager_amount_in_dollars)

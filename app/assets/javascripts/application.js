@@ -60,11 +60,13 @@ $(document).ready( function() {
 
     var inputWagerField = $('.wager-input')
     var inputWagerDateField = $('.wager-date-input')
+    var inputWagerTimeField = $('.wager-time-input')
     var inputWagerDetailsField = $('.wager-details-input')
 
     inputWagerField.val('The ' + selectedTeamName + ' beat the ' + loserName)
 
     var gameDate = gameContainer.attr('data-game-date')
+    var gameTime = gameContainer.attr('data-game-time')
 
     var gameTemperature = gameContainer.attr('data-game-temperature')
     var gameCondition = gameContainer.attr('data-game-condition')
@@ -77,6 +79,7 @@ $(document).ready( function() {
       var gameForecast = ""
     }
     inputWagerDateField.val(gameDate)
+    inputWagerTimeField.val(gameTime)
 
 
 

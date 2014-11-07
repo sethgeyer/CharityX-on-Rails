@@ -38,7 +38,6 @@ feature "View and Create a Proposed Wagers" do
     fill_in "wager_amount", with: 10
     fill_in "With:", with: "alexander"
     click_on "Submit"
-    save_and_open_page
     expect(page.find("#wagers_table")).to have_content("Ping Pong Match")
     expect(page.find("#wagers_table")).to have_content(10)
     expect(page.find("#wagers_table")).not_to have_content(1000)
