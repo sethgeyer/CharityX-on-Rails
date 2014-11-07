@@ -76,7 +76,7 @@
     <% end %>
   <div id="wagers_table" class="row">
     <% @dashboard.registered_wagers(kenny_loggins).each do |registered_wager| %>
-      <div class="wager-border" data-attribute-status=<%= registered_wager.status %> data-attribute-date=<%= (registered_wager.date_of_wager - Date.today).to_i %>>
+      <div class="wager-border" data-attribute-status=<%= registered_wager.status %> data-attribute-date=<%= (registered_wager.date_of_wager - DateTime.now.utc).to_i %>>
 
         <div class="wager-title">
           <div class="expand-icon glyphicon glyphicon-th-list"></div>
@@ -107,7 +107,7 @@
         </div>
 
         <div class="wager-details">
-          Date: <%= registered_wager.date_of_wager %> |
+          Date: <%= humanized_eastern_time(registered_wager.date_of_wager) %> |
           Status: <%= registered_wager.status %>
           <br/>
           <i><%= registered_wager.show_wager_details_if_present%></i>
@@ -198,7 +198,7 @@
 
   <div id="public-wagers" class="row">
     <% @dashboard.public_wagers(kenny_loggins).each do |public_wager| %>
-      <div class="wager-border" data-attribute-status=<%= public_wager.status %> data-attribute-date=<%= (public_wager.date_of_wager - Date.today).to_i %>>
+      <div class="wager-border" data-attribute-status=<%= public_wager.status %> data-attribute-date=<%= (public_wager.date_of_wager - DateTime.now.utc).to_i %>>
 
         <div class="wager-title">
           <div class="expand-icon glyphicon glyphicon-th-list"></div>
@@ -216,7 +216,7 @@
         </div>
 
         <div class="wager-details">
-          Date: <%= public_wager.date_of_wager %> |
+          Date: <%= humanized_eastern_time(public_wager.date_of_wager) %> |
           Status: <%= public_wager.status %>
           <br/>
           <i><%= public_wager.show_wager_details_if_present%></i>

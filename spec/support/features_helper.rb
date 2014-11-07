@@ -60,12 +60,13 @@ def create_a_distribution(first_name, amount)
   charity_1 = create_charity("United Way")
   charity_2 = create_charity("Red Cross")
   distributer = User.find_by(username: first_name.downcase)
-  distributer.distributions.create!(amount: amount * 100, charity_id: charity_1.id, date: Date.today)
+  distribution = distributer.distributions.create!(amount: amount * 100, charity_id: charity_1.id, date: Date.today)
   (amount / 10).times do | time |
     distributed_chips = distributer.chips.where(status: "available").first
     distributed_chips.status = "distributed"
     distributed_chips.save!
   end
+  distribution
 end
 
 def create_a_winning_sports_wager(wagerer_first_name, wageree_first_name, amount, winning_team, losing_team)

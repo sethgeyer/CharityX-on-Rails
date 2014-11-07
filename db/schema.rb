@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141106001441) do
+ActiveRecord::Schema.define(version: 20141107015321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -119,7 +119,7 @@ ActiveRecord::Schema.define(version: 20141106001441) do
 
   create_table "wagers", force: true do |t|
     t.string   "title"
-    t.date     "date_of_wager"
+    t.datetime "date_of_wager"
     t.string   "details"
     t.integer  "amount"
     t.integer  "wageree_id"

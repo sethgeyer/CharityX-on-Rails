@@ -2,5 +2,39 @@
 <h3>User Distributions to Process</h3>
 
 
+<table class="table table-hover table-striped">
+<thead class="headers">
+<th>Donor</th>
+<th>Charity</th>
+<th>Amount</th>
+<th>Date Distributed</th>
+<th>Date Check Cut</th>
+<th>Check #</th>
+
+  </thead>
+<tbody>
+<%@distributions.each do |distribution| %>
+      <tr>
+        <td><%= full_name(distribution.user) %></td>
+        <td><%= distribution.charity.name %></td>
+        <td><%= humanized_eastern_time(distribution.created_at) %></td>
+        <td></td>
+        <td></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+
+
+
+
+
+
 
 </div>
+
+
+
+
+

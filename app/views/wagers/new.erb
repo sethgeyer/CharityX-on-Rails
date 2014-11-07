@@ -63,14 +63,14 @@
 
 
     <div class="form-group">
-      <%=f.label :date_of_wager, "Date of Wager:"%><br/>
-      <%=f.text_field :date_of_wager, class:"form-control wager-date-input", id:'datetimepicker6', "data-date-format"=> "YYYY-MM-DD"%>
+      <%=f.label :date_of_wager, "Expected Outcome Date:"%><br/>
+      <%=f.text_field :date_of_wager, class:"form-control wager-date-input", id:'datetimepicker6', "data-date-format"=> "YYYY-MM-DD hh:mm"%>
       <div class="errors"><%=@wager.errors[:date_of_wager].first if @wager.errors[:date_of_wager].any? %></div>
     </div>
 
         <script type="text/javascript">
           $(function () {
-            $('#datetimepicker6').datetimepicker( {pickTime: false});
+            $('#datetimepicker6').datetimepicker( {pickTime: true});
           });
         </script>
 
@@ -106,10 +106,10 @@
               <div class="week-name"><%= "Week #{game.week} "%></div>
               <br/>
             <% end %>
-            <div class="game-container" data-game-id="<%=game.uuid%>" data-game-date="<%=game.date%>" data-vs-team-id="<%=game.vs_id%>" data-home-team-id="<%=game.home_id%>" data-game-location="<%=game.venue%>" data-game-week="<%=game.week%>" data-game-temperature="<%=game.temperature%>" data-game-condition="<%=game.condition%>">
+            <div class="game-container" data-game-id="<%=game.uuid%>" data-game-date="<%=humanized_eastern_time(game.date)%>" data-vs-team-id="<%=game.vs_id%>" data-home-team-id="<%=game.home_id%>" data-game-location="<%=game.venue%>" data-game-week="<%=game.week%>" data-game-temperature="<%=game.temperature%>" data-game-condition="<%=game.condition%>">
               <%=link_to game.full_visitor_name, "" , "data-team-id" => game.vs_id, class:"team-name" %> vs.
               <%=link_to game.full_home_name, "", "data-team-id" => game.home_id, class:"team-name"%>
-              <div class= "game-date"><%=game.date.in_time_zone("Eastern Time (US & Canada)").to_formatted_s(:long_ordinal)%> (ET) </div>
+              <div class= "game-date"><%=humanized_eastern_time(game.date)%></div>
               <div> <%="Location: #{game.venue} "%></div>
 
               <div> <%="Forecast: #{game.temperature}, #{game.condition}" if game.temperature%></div>

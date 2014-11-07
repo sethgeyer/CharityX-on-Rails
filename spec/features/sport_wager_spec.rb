@@ -34,7 +34,7 @@ feature "Create a sport wager" do
     click_on "Broncos"
 
     expect(find('.wager-input').value).to eq("The Denver Broncos beat the Cincinnati Bengals")
-    expect(find('.wager-date-input').value).to eq("2014-12-23 01:30:00 UTC")
+    expect(find('.wager-date-input').value).to eq("Mon 22-Dec-14  8:30 PM (ET)")
     expect(find('.wager-details-input').value).to eq("@Paul Brown Stadium / Forecast: 69 and balmy")
 
 
@@ -45,7 +45,7 @@ feature "Create a sport wager" do
     expect(page).to have_content("I bet alexander $50 that: The Denver Broncos beat the Cincinnati Bengals")
     expect(page).to have_link("Withdraw Unaccepted Wager")
     find(".expand-icon").click
-    expect(page).to have_content("2014-12-23")
+    expect(page).to have_content("Mon 22-Dec-14  8:30 PM (ET)")
     expect(page).to have_content("@Paul Brown Stadium / Forecast: 69 and balmy")
     click_on "Logout"
     login_user(@wageree.first_name)

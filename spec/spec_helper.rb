@@ -10,6 +10,12 @@ def register_a_new_charity(charity_name)
 
 end
 
+def humanized_eastern_time(utc_time)
+  "#{utc_time.in_time_zone("Eastern Time (US & Canada)").strftime("%a %e-%b-%y %l:%M %p")} (ET)"
+end
+
+
+
 def make_a_deposit_to_their_account(deposit_amount)
   within(page.find("#fund-my-account")) {click_link "+"}
   fill_in "Amount", with: deposit_amount

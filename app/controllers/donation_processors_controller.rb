@@ -5,6 +5,8 @@ class DonationProcessorsController < ApplicationController
 
   def index
 
+    @distributions = Distribution.all
+
   end
 
   private
