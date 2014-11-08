@@ -71,6 +71,8 @@
                 <li><%=link_to "Refresh Games", sports_games_path, {:method => :POST} %></li>
                 <li><%=link_to "Refresh Outcomes", sports_games_outcomes_path%></li>
                 <li><%=link_to "Process Donations", donation_processors_path %></li>
+                <li><%=link_to "View Users", admin_users_path %></li>
+
               </ul>
             </li>
           <% end %>
@@ -111,6 +113,8 @@
 <div class="container-fluid">
 
   <body>
+
+<div class="container">
 <div class="row-fluid">
   <div class="errors">
     <%if flash[:notice]%>
@@ -119,6 +123,7 @@
       <br/>
     <%end%>
   </div>
+</div>
 </div>
   <%= yield %>
 
