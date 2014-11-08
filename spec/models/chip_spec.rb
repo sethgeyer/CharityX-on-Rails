@@ -26,7 +26,7 @@ describe Chip do
   describe "#mark_as_distributed_to_charity" do
     before(:each) do
       Chip.convert_currency_to_chips(@user.id, 20000, "2014-07-12", "available" )
-      @charity = Charity.create(name: "Red Cross")
+      @charity = create_charity("Red Cross")
     end
 
     it "marks the chips as distributed upon distribution of dollars" do

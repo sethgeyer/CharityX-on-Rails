@@ -71,9 +71,7 @@
         <h3>Wagers</h3>
       </div>
 
-      <% if flash[:outcome] %>
-        <div class="alert alert-info"><%= flash[:outcome] %></div>
-      <% end %>
+
 
 
 
@@ -184,7 +182,12 @@
                 <% end %>
               <% end %>
             </div>
-          </div>
+            <% if flash[:"update-#{registered_wager.id}"] %>
+            <div class="outcome-update"><%= flash[:"update-#{registered_wager.id}"] %></div>
+            <% end %>
+              </div>
+
+
         <% end %>
 
       </div>
@@ -238,6 +241,9 @@
                 <% end %>
               <% end %>
             </div>
+            <% if flash[:"update-#{public_wager.id}"] %>
+              <div class="outcome-update"><%= flash[:"update-#{public_wager.id}"] %></div>
+            <% end %>
           </div>
         <% end %>
 

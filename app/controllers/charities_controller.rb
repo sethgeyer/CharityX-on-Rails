@@ -17,8 +17,7 @@ class CharitiesController < ApplicationController
       flash[:notice] = "Thanks for applying"
       redirect_to charities_path
     else
-      flash[:notice] = "DEVELOPER F'D SOMETHING UP"
-      redirect_to root_path
+      render :new
     end
   end
 

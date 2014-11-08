@@ -106,6 +106,23 @@ margin-top: -5px;
 }
 
 
+.outcome-update {
+    text-align: center;
+    color: maroon;
+    background-color: #f5f5f5;
+    border-radius: 6px;
+    margin-top: 3px;
+    margin-bottome: 3px;
+    padding: 5px;
+    border: 1px solid silver;
+
+}
+
+
+.bulleted-errors {
+    color:red
+}
+
 .errors {
     color:red;
     display:inline-block;

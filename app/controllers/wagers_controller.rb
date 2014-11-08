@@ -46,8 +46,13 @@ class WagersController < ApplicationController
       @wager.details = return_wager_details(sport_game)
     else
       @wager = kenny_loggins.wagers.new(allowed_params)
-      strung_out_date_time = "#{params[:wager][:date_of_wager]} #{params[:time_of_wager]}".in_time_zone(kenny_loggins.timezone)
-      @wager.date_of_wager = strung_out_date_time.utc if strung_out_date_time
+      if params[:wager][:date_of_wager] != ""
+        strung_out_date_time = "#{params[:wager][:date_of_wager]} #{params[:time_of_wager]}".in_time_zone(kenny_loggins.timezone)
+        @wager.date_of_wager = strung_out_date_time.utc if strung_out_date_time
+      else
+
+        @wager.date_of_wager = nil
+      end
       @wager.wageree_id = wageree.id if wageree.is_a?(User)
       @wager.status = "w/wageree"
       @wager.amount = amount_converted_to_pennies(wager_amount_in_dollars)
@@ -97,6 +102,7 @@ class WagersController < ApplicationController
     if wager == nil
       flash[:notice] = "Wager has already been accepted or expired before you could withdraw it."
     else
+      flash[:notice] = "Your wager has been withdrawn"
       wager.destroy
       Chip.set_status_to_available(kenny_loggins.id, wager.amount)
     end
@@ -165,11 +171,12 @@ class WagersController < ApplicationController
         flash[:notice] = "Wager has already been accepted, withdrawn or expired."
       elsif the_user_has_insufficient_funds_for_the_size_of_the_transaction(wager.amount / 100, "available")
         # wager.errors.add(:base, "You don't have adequate funds to accept this wager.  Please add additional funds to your account.")
-        flash[:notice] = "You don't have adequate funds to accept this wager.  Please add additional funds to your account."
+        flash[outcome_update_symbol(wager_id)] = "You don't have adequate funds to accept this wager.  Please add additional funds to your account."
       else
         wager.wageree_id = kenny_loggins.id if wager.wageree_id == nil
         wager.status = "accepted"
         Chip.set_status_to_wagered(kenny_loggins.id, wager.amount) if wager.save!
+        flash[outcome_update_symbol(wager_id)] = "You have accepted this wager."
       end
     end
   end
@@ -217,14 +224,17 @@ class WagersController < ApplicationController
           Chip.sweep_the_pot(loser, wager) if wager.save!
           wager.details = "#{game_outcome.vs_id}: #{game_outcome.vs_score} #{game_outcome.home_id}: #{game_outcome.home_score} QTR:#{game_outcome.quarter}-Time:#{game_outcome.clock} "
         else
-          flash[:outcome] = "The #{game_outcome.vs_id} / #{game_outcome.home_id} game is not over.  #{game_outcome.vs_id}: #{game_outcome.vs_score} #{game_outcome.home_id}: #{game_outcome.home_score} QTR:#{game_outcome.quarter}-Time:#{game_outcome.clock} "
+          flash[outcome_update_symbol(wager_id)] = "The #{game_outcome.vs_id} / #{game_outcome.home_id} game is not over.  #{game_outcome.vs_id}: #{game_outcome.vs_score} #{game_outcome.home_id}: #{game_outcome.home_score} QTR:#{game_outcome.quarter}-Time:#{game_outcome.clock} "
         end
 
       else
-        flash[:outcome] = "The #{wager.vs_id} / #{wager.home_id} game has not started."
+        flash[outcome_update_symbol(wager_id)] = "The #{wager.vs_id} / #{wager.home_id} game has not started."
       end
 
     end
   end
 
+  def outcome_update_symbol(wager_id)
+    "update-#{wager_id}".to_sym
+  end
 end

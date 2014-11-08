@@ -5,6 +5,7 @@ class Distribution < ActiveRecord::Base
   belongs_to :user
 
   validate :amount_of_distribution_is_within_thresholds, on: :create
+  validates :charity_id, presence: true
 
   def amount_of_distribution_is_within_thresholds
     dollar_amount = amount / 100

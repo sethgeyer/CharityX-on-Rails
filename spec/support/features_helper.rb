@@ -1,5 +1,5 @@
 def create_charity(name)
-  Charity.create!(name: name)
+  Charity.create!(name: name, tax_id: 34522323, poc: "Stanley Giver", poc_email: "stanley")
 end
 
 def create_admin(first_name)

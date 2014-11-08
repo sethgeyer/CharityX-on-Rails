@@ -2,6 +2,13 @@
 
 <h1>Register A Charity</h1>
 
+  <% if @charity.errors %>
+  <%@charity.errors.full_messages.each do |message|%>
+      <div class="bulleted-errors"><%= message %></div>
+    <% end %>
+
+    <% end %>
+
  <%=form_for @charity, html: {class: "form-horizontal col-xs-8 col-md-2"}, role:"form" do |f| %>
 
     <div class="form-group">

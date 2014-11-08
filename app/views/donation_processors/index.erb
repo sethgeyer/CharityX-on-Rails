@@ -22,11 +22,11 @@
         <% if distribution.check_number%>
 
           <td><%= distribution.check_number%></td>
+          <td><%= timezone_adjusted_datetime(distribution.date_cut)%></td>
       <% else %>
 
           <td><%=link_to "Cut Check", new_donation_processor_path(distribution_id: distribution.id), method: :get %>  </td>
       <% end %>
-          <td><%= distribution.date_cut%></td>
       </tr>
     <% end %>
     </tbody>

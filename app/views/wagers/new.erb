@@ -63,9 +63,9 @@
           <%= f.label :date_of_wager, "Date:" %>
           <%= f.text_field :date_of_wager, class: "form-control wager-date-input" %>
         </div>
-        <div style="display:inline; padding-right:0px"  class="col-xs-5">
+        <div style="display:inline; padding-left: 0px; padding-right:0px"  class="col-xs-5">
           <%= f.label :time_of_wager, "Time:" %>
-          <%= text_field_tag :time_of_wager, 7, class: "form-control wager-time-input" %>
+          <%= text_field_tag :time_of_wager, timezone_adjusted_clock(DateTime.now.beginning_of_hour + 3.hours) , class: "form-control wager-time-input" %>
         </div>
       <div class="errors"><%= @wager.errors[:date_of_wager].first if @wager.errors[:date_of_wager].any? %></div>
     </div>

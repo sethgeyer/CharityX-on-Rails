@@ -27,7 +27,7 @@ feature "Process Donations View" do
     click_on "Submit"
     expect(page).to have_content("User Distributions to Process")
     expect(page).to have_content("4987")
-    expect(page).not_to have_content(Date.today)
+    expect(page).not_to have_content(DateTime.now)
   end
 
 

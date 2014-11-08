@@ -71,7 +71,7 @@ class Dashboard
   end
 
   def public_wagers(kenny_loggins)
-    unfiltered_public_wagers = Wager.where(wageree_id: nil).where('user_id != ?', kenny_loggins.id).select { |wager| wager.non_registered_wageree == nil }
+    unfiltered_public_wagers = Wager.where(wageree_id: nil).where('user_id != ?', kenny_loggins.id).where('date_of_wager > ?', DateTime.now).select { |wager| wager.non_registered_wageree == nil }
     Wager.compile_wagers_to_view_based_on_user_preferences(kenny_loggins, unfiltered_public_wagers).sort_by { |wager| wager.date_of_wager}
   end
 
