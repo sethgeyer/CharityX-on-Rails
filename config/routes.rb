@@ -26,8 +26,7 @@ Rails.application.routes.draw do
   resources :sports_games, :only => [:create]
 
   resources :sports_games_outcomes, :only => [:index]
-
-  resources :donation_processors, :only => [:index]
+  resources :donation_processors, :only => [:index, :new, :create]
 
 
 

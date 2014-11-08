@@ -13,7 +13,21 @@ feature "Process Donations View" do
     expect(page).to have_content "User Distributions to Process"
     expect(page).to have_content "#{@user.first_name} #{@user.last_name}"
     expect(page).to have_content(@distribution.charity.name)
-    expect(page).to have_content(timezone_adjusted_datetime(@distribution.created_at, @admin ))
+    expect(page).to have_content(timezone_adjusted_datetime(@distribution.created_at, @admin))
+    expect(page).to have_content("$10")
+    expect(page).not_to have_content("$1000")
+    expect(page).to have_link("Cut Check")
+    click_on "Cut Check"
+    expect(page).to have_content("New Check")
+    expect(page).to have_selector("input[value = 'Stephen Geyer']")
+    expect(page).to have_selector("input[value='$10']")
+    expect(page).to have_selector("input[value='#{@distribution.charity.name}']")
+
+    fill_in "Check Number", with: "4987"
+    click_on "Submit"
+    expect(page).to have_content("User Distributions to Process")
+    expect(page).to have_content("4987")
+    expect(page).not_to have_content(Date.today)
   end
 
 

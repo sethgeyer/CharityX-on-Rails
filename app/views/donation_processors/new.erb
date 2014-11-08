@@ -1,0 +1,39 @@
+<div id="new_donation_processors">
+<h3>New Check</h3>
+
+  <%=form_for @donation, url: donation_processors_path(id: @donation.id), method: :post, html:{class: "form-horizontal col-xs-11 col-sm-4 col-md-3"}, role: "form"  do |f|%>
+
+    <div class="form-group">
+      <%= label_tag :giver, "The Giver" %>
+      <%= text_field_tag :giver, full_name(@donation.user), class: "form-control", readonly: true %>
+    </div>
+
+    <div class="form-group">
+      <%= label_tag :amount%>
+      <%= text_field_tag :amount, "$#{@donation.amount / 100}", class: "form-control", readonly: true %>
+    </div>
+
+    <div class="form-group">
+      <%= label_tag :charity%>
+      <%= text_field_tag :charity, @donation.charity.name, class: "form-control", readonly: true %>
+    </div>
+
+    <div class="form-group">
+      <%= label_tag :check_number, "Check Number"%>
+      <%= text_field_tag :check_number, @donation.check_number, class: "form-control"%>
+    </div>
+
+    <div class="form-group">
+      <%= f.submit "Submit", class: "button button-submit", data: {disable_with: "Please Wait..."} %>
+      <%= link_to "Cancel", donation_processors_path %>
+    </div>
+
+    <div>
+      Processed by: <%= full_name(kenny_loggins) %>
+    </div>
+
+
+
+  <% end %>
+
+</div>

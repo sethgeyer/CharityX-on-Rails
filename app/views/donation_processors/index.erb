@@ -8,8 +8,8 @@
 <th>Charity</th>
 <th>Amount</th>
 <th>Date Distributed</th>
-<th>Date Check Cut</th>
 <th>Check #</th>
+<th>Date Check Cut</th>
 
   </thead>
 <tbody>
@@ -17,9 +17,16 @@
       <tr>
         <td><%= full_name(distribution.user) %></td>
         <td><%= distribution.charity.name %></td>
+        <td>$<%= distribution.amount / 100%></td>
         <td><%= timezone_adjusted_datetime(distribution.created_at) %></td>
-        <td></td>
-        <td></td>
+        <% if distribution.check_number%>
+
+          <td><%= distribution.check_number%></td>
+      <% else %>
+
+          <td><%=link_to "Cut Check", new_donation_processor_path(distribution_id: distribution.id), method: :get %>  </td>
+      <% end %>
+          <td><%= distribution.date_cut%></td>
       </tr>
     <% end %>
     </tbody>
