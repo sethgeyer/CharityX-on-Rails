@@ -35,7 +35,11 @@ $(document).ready( function() {
 
 
 
+$('.btn-success').on('click', function() {
 
+  $('#carousel-example-generic').attr('data-interval', 5000)
+  $('#carousel-example-generic').show()
+})
 
 
 

@@ -106,6 +106,19 @@ margin-top: -5px;
 }
 
 
+.carousel-header {
+    text-align: center;
+    /*margin-top: -3px;*/
+    margin-bottom: -2px;
+}
+
+
+.carousel-contents {
+    text-align: center;
+}
+
+.carousel-indicators li { visibility: hidden; }
+
 .outcome-update {
     text-align: center;
     color: maroon;
