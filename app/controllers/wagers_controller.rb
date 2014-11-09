@@ -76,7 +76,11 @@ class WagersController < ApplicationController
     else
       @wager.amount = wager_amount_in_dollars
       @remaining_games = SportsGame.where('date > ?', DateTime.now.utc)
-      render :new
+      utc_time = @wager.date_of_wager
+      @wager.date_of_wager = "#{utc_time.in_time_zone(kenny_loggins.timezone).strftime("%a %e-%b-%y")}"
+
+      @time_of_wager = "#{utc_time.in_time_zone(kenny_loggins.timezone).strftime("%l:%M %p")} (loc)"
+       render :new
     end
   end
 

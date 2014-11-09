@@ -22,6 +22,9 @@
 
 $(document).ready( function() {
 
+
+
+
 //  var inputGameID= $('.game-id-container').val()
 //  if (inputGameID != "") {
 //    $('.wager-date-input').prop('readonly', true)
@@ -102,6 +105,12 @@ $('.btn-success').on('click', function() {
 //    $('#datetimepicker6').data("DateTimePicker").disable();
 
 //    inputWagerDateField.removeProp('disabled');
+
+    $('.wager-date-input').pickadate({
+      disablePicker: true
+    })
+
+
     inputWagerDateField.prop('readonly', true);
     inputWagerField.prop('readonly', true);
 
