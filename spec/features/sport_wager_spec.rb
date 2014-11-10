@@ -1,4 +1,4 @@
-=begin
+
 require 'rails_helper'
 require 'capybara/rails'
 
@@ -25,7 +25,7 @@ feature "Create a sport wager" do
   end
 
 
-  scenario "As a user, I can create a sport wager", js: true do
+  scenario "As a user, I can create a sport wager and select the vs team to win", js: true do
     within(page.find("#wager-funds")) { click_link "+" }
     expect(page).to have_button("Find a Game")
     fill_in "wager_amount", with: 50
@@ -35,7 +35,9 @@ feature "Create a sport wager" do
     click_on "Broncos"
 
     expect(find('.wager-input').value).to eq("The Denver Broncos beat the Cincinnati Bengals")
-    expect(find('.wager-date-input').value).to eq("Mon 22-Dec-14  8:30 PM (ET)")
+    expect(find('.wager-date-input').value).to eq("Mon 22-Dec-14")
+    expect(find('.wager-time-input').value).to eq(" 6:30 PM (loc)")
+
     expect(find('.wager-details-input').value).to eq("@Paul Brown Stadium / Forecast: 69 and balmy")
 
 
@@ -46,7 +48,7 @@ feature "Create a sport wager" do
     expect(page).to have_content("I bet alexander $50 that: The Denver Broncos beat the Cincinnati Bengals")
     expect(page).to have_link("Withdraw Unaccepted Wager")
     find(".expand-icon").click
-    expect(page).to have_content("Mon 22-Dec-14  8:30 PM (ET)")
+    expect(page).to have_content("Mon 22-Dec-14  6:30 PM (loc)")
     expect(page).to have_content("@Paul Brown Stadium / Forecast: 69 and balmy")
     click_on "Logout"
     login_user(@wageree.first_name)
@@ -57,6 +59,45 @@ feature "Create a sport wager" do
     expect(page).to have_button("Check Outcome")
 
   end
+
+
+  scenario "As a user, I can create a sport wager and select the home team to win", js: true do
+    within(page.find("#wager-funds")) { click_link "+" }
+    expect(page).to have_button("Find a Game")
+    fill_in "wager_amount", with: 50
+    fill_in "With:", with: @wageree.username
+    click_on "Find a Game"
+
+    click_on "Bengals"
+
+    expect(find('.wager-input').value).to eq("The Cincinnati Bengals beat the Denver Broncos")
+    expect(find('.wager-date-input').value).to eq("Mon 22-Dec-14")
+    expect(find('.wager-time-input').value).to eq(" 6:30 PM (loc)")
+
+    expect(find('.wager-details-input').value).to eq("@Paul Brown Stadium / Forecast: 69 and balmy")
+
+
+    click_on "Submit"
+    page.driver.browser.switch_to.alert.accept
+    sleep(1)
+    expect(page).to have_content("Your proposed wager has been sent to alexander ")
+    expect(page).to have_content("I bet alexander $50 that: The Cincinnati Bengals beat the Denver Broncos")
+    expect(page).to have_link("Withdraw Unaccepted Wager")
+    find(".expand-icon").click
+    expect(page).to have_content("Mon 22-Dec-14  6:30 PM (loc)")
+    expect(page).to have_content("@Paul Brown Stadium / Forecast: 69 and balmy")
+    click_on "Logout"
+    login_user(@wageree.first_name)
+    expect(page).to have_content("stephen bet me $50")
+    click_on "Shake on it"
+    page.driver.browser.switch_to.alert.accept
+    sleep(1)
+    expect(page).to have_button("Check Outcome")
+
+  end
+
+
+
 
   context "As a registered user that has created a sports wager" do
     before(:each) do
@@ -150,4 +191,3 @@ feature "Create a sport wager" do
 
 
 end
-=end

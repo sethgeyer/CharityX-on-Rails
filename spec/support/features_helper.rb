@@ -9,7 +9,8 @@ def create_admin(first_name)
     first_name: first_name,
     last_name: 'Geyer',
     email: "#{first_name.downcase}@gmail.com",
-    is_admin: true
+    is_admin: true,
+    timezone: "Mountain Time (US & Canada)"
   }
   User.create!(attributes)
 end
@@ -22,7 +23,9 @@ def create_user(first_name)
     first_name: first_name,
     last_name: 'Geyer',
     email: "#{first_name.downcase}@gmail.com",
-    is_admin: false
+    is_admin: false,
+    timezone: "Mountain Time (US & Canada)"
+
   }
   User.create!(attributes)
 end
@@ -34,7 +37,9 @@ def create_user_and_make_deposit(first_name, amount, date = Date.today)
   first_name: first_name,
   last_name: 'Geyer',
   email: "#{first_name.downcase}@gmail.com",
-  is_admin: false
+  is_admin: false,
+  timezone: "Mountain Time (US & Canada)"
+
   }
   user = User.create!(attributes)
   deposit = user.deposits.create!(amount: (amount * 100))

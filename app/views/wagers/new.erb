@@ -47,6 +47,7 @@
       <%=f.label :title, "That: " %><br/>
       <%=f.text_field :title, class:"form-control wager-input", placeholder:"The bet"%>
       <%= f.hidden_field :game_uuid, class: "game-id-container"%>
+      <%= f.hidden_field :selected_winner_id, class: "selected-winner-container"%>
 
 
       <div class="errors"><%=@wager.errors[:title].first if @wager.errors[:title].any? %></div>
