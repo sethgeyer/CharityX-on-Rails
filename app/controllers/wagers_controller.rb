@@ -21,99 +21,108 @@ class WagersController < ApplicationController
   end
 
 
-
   def create
-    wager_amount_in_dollars = amount_stripped_of_dollar_sign_and_commas(params[:wager][:amount])
-    person_input_by_wagerer = params[:wageree_username]
-    wageree = find_the_proposed_wageree(person_input_by_wagerer)
+
+    Wager.transaction do
 
 
+      wager_amount_in_dollars = amount_stripped_of_dollar_sign_and_commas(params[:wager][:amount])
+      person_input_by_wagerer = params[:wageree_username]
+      wageree = find_the_proposed_wageree(person_input_by_wagerer)
 
-    sport_game = SportsGame.find_by(uuid: params[:wager][:game_uuid])
-    if sport_game
-      @wager = kenny_loggins.wagers.new
-      @wager.wageree_id = wageree.id if wageree.is_a?(User)
-      @wager.status = "w/wageree"
-      @wager.amount = amount_converted_to_pennies(wager_amount_in_dollars)
-      @wager.game_uuid = params[:wager][:game_uuid]
-      @wager.selected_winner_id = params[:wager][:selected_winner_id] if [sport_game.vs_id, sport_game.home_id].include?(params[:wager][:selected_winner_id])
-      @wager.date_of_wager = sport_game.date
-      @wager.home_id = sport_game.home_id
-      @wager.vs_id = sport_game.vs_id
-      @wager.game_week = sport_game.week
-      @wager.wager_type = "SportsWager"
-      @wager.title = return_the_wager_title(sport_game.home_id, sport_game.full_home_name, sport_game.vs_id, sport_game.full_visitor_name,  @wager.selected_winner_id)
-      @wager.details = return_wager_details(sport_game)
-    else
-      @wager = kenny_loggins.wagers.new(allowed_params)
-      if params[:wager][:date_of_wager] != ""
-        strung_out_date_time = "#{params[:wager][:date_of_wager]} #{params[:time_of_wager]}".in_time_zone(kenny_loggins.timezone)
-        @wager.date_of_wager = strung_out_date_time.utc if strung_out_date_time
+
+      sport_game = SportsGame.find_by(uuid: params[:wager][:game_uuid])
+      if sport_game
+        @wager = kenny_loggins.wagers.new
+        @wager.wageree_id = wageree.id if wageree.is_a?(User)
+        @wager.status = "w/wageree"
+        @wager.amount = amount_converted_to_pennies(wager_amount_in_dollars)
+        @wager.game_uuid = params[:wager][:game_uuid]
+        @wager.selected_winner_id = params[:wager][:selected_winner_id] if [sport_game.vs_id, sport_game.home_id].include?(params[:wager][:selected_winner_id])
+        @wager.date_of_wager = sport_game.date
+        @wager.home_id = sport_game.home_id
+        @wager.vs_id = sport_game.vs_id
+        @wager.game_week = sport_game.week
+        @wager.wager_type = "SportsWager"
+        @wager.title = return_the_wager_title(sport_game.home_id, sport_game.full_home_name, sport_game.vs_id, sport_game.full_visitor_name, @wager.selected_winner_id)
+        @wager.details = return_wager_details(sport_game)
       else
+        @wager = kenny_loggins.wagers.new(allowed_params)
+        if params[:wager][:date_of_wager] != ""
+          strung_out_date_time = "#{params[:wager][:date_of_wager]} #{params[:time_of_wager]}".in_time_zone(kenny_loggins.timezone)
+          @wager.date_of_wager = strung_out_date_time.utc if strung_out_date_time
+        else
 
-        @wager.date_of_wager = nil
+          @wager.date_of_wager = nil
+        end
+        @wager.wageree_id = wageree.id if wageree.is_a?(User)
+        @wager.status = "w/wageree"
+        @wager.amount = amount_converted_to_pennies(wager_amount_in_dollars)
+        @wager.wager_type = "CustomWager"
       end
-      @wager.wageree_id = wageree.id if wageree.is_a?(User)
-      @wager.status = "w/wageree"
-      @wager.amount = amount_converted_to_pennies(wager_amount_in_dollars)
-      @wager.wager_type = "CustomWager"
-    end
 
 
+      if the_user_has_insufficient_funds_for_the_size_of_the_transaction(wager_amount_in_dollars, "available")
+        @wager.amount = calculate_the_maximum_dollars_available
+        @wager.errors.add(:amount, "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{calculate_the_maximum_dollars_available}")
+        @remaining_games = SportsGame.where('date > ?', DateTime.now.utc)
+        render :new
 
-
-
-    if the_user_has_insufficient_funds_for_the_size_of_the_transaction(wager_amount_in_dollars, "available")
-      @wager.amount = calculate_the_maximum_dollars_available
-      @wager.errors.add(:amount, "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{calculate_the_maximum_dollars_available}")
-      @remaining_games = SportsGame.where('date > ?', DateTime.now.utc)
-      render :new
-
-    elsif @wager.save
-      Chip.set_status_to_wagered(@wager.user.id, @wager.amount)
-      send_the_appropriate_notification_email(wageree, @wager)
-      redirect_to user_dashboard_path
-    else
-      @wager.amount = wager_amount_in_dollars
-      @remaining_games = SportsGame.where('date > ?', DateTime.now.utc)
-      utc_time = @wager.date_of_wager
-      if utc_time
-        @wager.date_of_wager = "#{utc_time.in_time_zone(kenny_loggins.timezone).strftime("%a %e-%b-%y")}"
-        @time_of_wager = "#{utc_time.in_time_zone(kenny_loggins.timezone).strftime("%l:%M %p")} (loc)"
+      elsif @wager.save
+        Chip.set_status_to_wagered(@wager.user.id, @wager.amount)
+        send_the_appropriate_notification_email(wageree, @wager)
+        redirect_to user_dashboard_path
       else
+        @wager.amount = wager_amount_in_dollars
+        @remaining_games = SportsGame.where('date > ?', DateTime.now.utc)
+        utc_time = @wager.date_of_wager
+        if utc_time
+          @wager.date_of_wager = "#{utc_time.in_time_zone(kenny_loggins.timezone).strftime("%a %e-%b-%y")}"
+          @time_of_wager = "#{utc_time.in_time_zone(kenny_loggins.timezone).strftime("%l:%M %p")} (loc)"
+        else
+        end
+        render :new
       end
-       render :new
     end
   end
 
   def update
-    the_update_action = params[:commit]
-    wager_id = params[:id]
 
-    lock_down_wager_if_accepted(the_update_action, wager_id)
-    cancel_wager_if_wager_declined(the_update_action, wager_id)
-    check_outcome_of_game(the_update_action, wager_id)
-    assign_the_win_if_outcome_is_determined(the_update_action, wager_id)
+    Wager.transaction do
 
 
-    redirect_to user_dashboard_path(anchor: "wager-bucket-#{params[:id]}")
+      the_update_action = params[:commit]
+      wager_id = params[:id]
+
+      lock_down_wager_if_accepted(the_update_action, wager_id)
+      cancel_wager_if_wager_declined(the_update_action, wager_id)
+      check_outcome_of_game(the_update_action, wager_id)
+      assign_the_win_if_outcome_is_determined(the_update_action, wager_id)
+
+
+      redirect_to user_dashboard_path(anchor: "wager-bucket-#{params[:id]}")
+
+    end
   end
 
 
   def destroy
-    #<<<<< The below line and the if == nil code were added to address the situations where a wageree has accepted a bet or it expired
-    #before the wagerer who wants to withdraw the bet refreshes his view.  This ensures that if the bet is "accepted, a wagerer that tries to witdraw it, gets a message stating
-    #that it can't be withdrawn.
-    wager = Wager.where(id: params[:id]).where(status: "w/wageree").first
-    if wager == nil
-      flash[:notice] = "Wager has already been accepted or expired before you could withdraw it."
-    else
-      flash[:notice] = "Your wager has been withdrawn"
-      wager.destroy
-      Chip.set_status_to_available(kenny_loggins.id, wager.amount)
-    end
+    Wager.transaction do
+      #<<<<< The below line and the if == nil code were added to address the situations where a wageree has accepted a bet or it expired
+      #before the wagerer who wants to withdraw the bet refreshes his view.  This ensures that if the bet is "accepted, a wagerer that tries to witdraw it, gets a message stating
+      #that it can't be withdrawn.
+      wager = Wager.where(id: params[:id]).where(status: "w/wageree").first
+      if wager == nil
+        flash[:notice] = "Wager has already been accepted or expired before you could withdraw it."
+      else
+        flash[:notice] = "Your wager has been withdrawn"
+        wager.destroy
+        Chip.set_status_to_available(kenny_loggins.id, wager.amount)
+      end
 
-    redirect_to user_dashboard_path
+      redirect_to user_dashboard_path
+
+    end
   end
 
   private
@@ -137,7 +146,6 @@ class WagersController < ApplicationController
 
     "The #{selected_winner} beat the #{selected_loser}"
   end
-
 
 
   def send_the_appropriate_notification_email(wageree, wager)
@@ -217,11 +225,11 @@ class WagersController < ApplicationController
       if game_outcome
         if game_outcome.status == "closed"
           winning_team = if game_outcome.home_score > game_outcome.vs_score
-                     game_outcome.home_id
-                   else
-                     game_outcome.vs_id
-                   end
-          loser =  if winning_team == selected_winner_id
+                           game_outcome.home_id
+                         else
+                           game_outcome.vs_id
+                         end
+          loser = if winning_team == selected_winner_id
                     User.find(wager.wageree_id)
                   else
                     User.find(wager.user_id)

@@ -7,16 +7,14 @@
 
   <table class="table table-hover table-striped">
     <thead class="headers">
-    <th><%=link_to "Name", admin_users_path(sort: "last_name")%></th>
-    <th><%=link_to "Username", admin_users_path(sort: "username")%></th>
+    <th class="col-xs-2"><%=link_to "Name", admin_users_path(sort: "last_name")%></th>
+    <th class="col-xs-2"><%=link_to "Username", admin_users_path(sort: "username")%></th>
     <th><%=link_to "Deposits", admin_users_path(sort: "deposits")%></th>
     <th><%=link_to "Distributions", admin_users_path(sort: "distributions")%></th>
     <th><%=link_to "Active Wagers", admin_users_path(sort: "wagers")%></th>
     <th><%=link_to "Winnings", admin_users_path(sort: "winnings")%></th>
     <th><%=link_to "%change", admin_users_path(sort: "change")%></th>
     <th>Net Balance</th>
-    <th><%=link_to "User Since", admin_users_path(sort: "created_at")%></th>
-    <th></th>
 
     </thead>
     <tbody>
@@ -29,15 +27,15 @@
         <td>$<%= user.distributions.sum(:amount) / 100%></td>
         <td> $<%= Dashboard.new.sum_of_wagered(user) %></td>
         <td> $<%= Dashboard.new.sum_of_winnings(user) %></td>
-        <td><%= number_to_percentage((Dashboard.new.sum_of_net_amount(user) + (user.distributions.sum(:amount) / 100.0) +  Dashboard.new.sum_of_wagered(user) ) / (user.deposits.sum(:amount) / 100) - 1.0, options={precision: 2}) if user.deposits.any? %></td>
+        <td><%= (((Dashboard.new.sum_of_net_amount(user) + (user.distributions.sum(:amount) / 100.0) +  Dashboard.new.sum_of_wagered(user) ) / (user.deposits.sum(:amount) / 100) - 1) * 100).round(2) if user.deposits.any? %></td>
         <td>$<%= Dashboard.new.sum_of_net_amount(user) %></td>
-        <td><%= timezone_adjusted_date(user.created_at)%></td>
       </tr>
     <% end %>
     </tbody>
   </table>
 
 
+  <!--<td>< %= number_to_percentage((Dashboard.new.sum_of_net_amount(user) + (user.distributions.sum(:amount) / 100.0) +  Dashboard.new.sum_of_wagered(user) ) / (user.deposits.sum(:amount) / 100) - 1.0, options={precision: 2}) if user.deposits.any? %></td>-->
 
 
 

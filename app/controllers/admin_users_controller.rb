@@ -7,10 +7,10 @@ class AdminUsersController < ApplicationController
     sort_request = params[:sort]
 
     if sort_request != nil
-      sorter = sort_request + " DESC"
+      sorter = sort_request + " ASC"
       @users = User.all.order(sorter)
     else
-      @users = User.all.order('created_at ASC')
+      @users = User.all.order('created_at DESC')
     end
   end
 
