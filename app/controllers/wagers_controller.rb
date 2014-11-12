@@ -28,7 +28,7 @@ class WagersController < ApplicationController
 
       wager_amount_in_dollars = amount_stripped_of_dollar_sign_and_commas(params[:wager][:amount])
       person_input_by_wagerer = params[:wageree_username]
-      wageree = find_the_proposed_wageree(person_input_by_wagerer)
+      wageree = Wager.find_the_proposed_wageree(person_input_by_wagerer)
 
 
       sport_game = SportsGame.find_by(uuid: params[:wager][:game_uuid])
@@ -44,7 +44,7 @@ class WagersController < ApplicationController
         @wager.vs_id = sport_game.vs_id
         @wager.game_week = sport_game.week
         @wager.wager_type = "SportsWager"
-        @wager.title = return_the_wager_title(sport_game.home_id, sport_game.full_home_name, sport_game.vs_id, sport_game.full_visitor_name, @wager.selected_winner_id)
+        @wager.title = @wager.return_the_wager_title(sport_game.home_id, sport_game.full_home_name, sport_game.vs_id, sport_game.full_visitor_name, @wager.selected_winner_id)
         @wager.details = return_wager_details(sport_game)
       else
         @wager = kenny_loggins.wagers.new(allowed_params)
@@ -95,7 +95,7 @@ class WagersController < ApplicationController
       wager_id = params[:id]
 
       lock_down_wager_if_accepted(the_update_action, wager_id)
-      cancel_wager_if_wager_declined(the_update_action, wager_id)
+      Wager.cancel_wager_if_wager_declined(the_update_action, wager_id)
       check_outcome_of_game(the_update_action, wager_id)
       assign_the_win_if_outcome_is_determined(the_update_action, wager_id)
 
@@ -135,17 +135,7 @@ class WagersController < ApplicationController
     )
   end
 
-  def return_the_wager_title(home_id, full_home_name, vs_id, full_visitor_name, selected_winner_id)
-    if selected_winner_id == home_id
-      selected_loser = full_visitor_name
-      selected_winner = full_home_name
-    else
-      selected_winner = full_visitor_name
-      selected_loser = full_home_name
-    end
 
-    "The #{selected_winner} beat the #{selected_loser}"
-  end
 
 
   def send_the_appropriate_notification_email(wageree, wager)
@@ -162,16 +152,7 @@ class WagersController < ApplicationController
   end
 
 
-  def find_the_proposed_wageree(wageree_username_or_email)
-    found_user = User.find_by(username: wageree_username_or_email) || User.find_by(email: wageree_username_or_email)
-    if found_user
-      found_user
-    elsif wageree_username_or_email.include?("@")
-      NonRegisteredWageree.new(email: wageree_username_or_email)
-    else
-      nil
-    end
-  end
+
 
   def lock_down_wager_if_accepted(action, wager_id)
     if action == "Shake on it!"
@@ -195,13 +176,7 @@ class WagersController < ApplicationController
     end
   end
 
-  def cancel_wager_if_wager_declined(action, wager_id)
-    if action == "No Thx!"
-      wager = Wager.where(id: wager_id).where(status: "w/wageree").first
-      wager.status = "declined"
-      Chip.set_status_to_available(wager.user_id, wager.amount) if wager.save!
-    end
-  end
+
 
   def assign_the_win_if_outcome_is_determined(action, wager_id)
     wager = Wager.where(id: wager_id, status: "accepted").first

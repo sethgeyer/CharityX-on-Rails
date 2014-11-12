@@ -55,6 +55,30 @@ class Wager < ActiveRecord::Base
   end
 
 
+  def self.cancel_wager_if_wager_declined(action, wager_id)
+    if action == "No Thx!"
+      wager = Wager.where(id: wager_id).where(status: "w/wageree").first
+      wager.status = "declined"
+      Chip.set_status_to_available(wager.user_id, wager.amount) if wager.save!
+    end
+  end
+
+
+
+
+
+  def self.find_the_proposed_wageree(wageree_username_or_email)
+    found_user = User.find_by(username: wageree_username_or_email) || User.find_by(email: wageree_username_or_email)
+    if found_user
+      found_user
+    elsif wageree_username_or_email.include?("@")
+      NonRegisteredWageree.new(email: wageree_username_or_email)
+    else
+      nil
+    end
+  end
+
+
   def identify_the_wageree
     if self.wageree_id
       User.find_by(id: self.wageree_id).username
@@ -75,6 +99,18 @@ class Wager < ActiveRecord::Base
     else
       "I Lost! |"
     end
+  end
+
+  def return_the_wager_title(home_id, full_home_name, vs_id, full_visitor_name, selected_winner_id)
+    if selected_winner_id == home_id
+      selected_loser = full_visitor_name
+      selected_winner = full_home_name
+    else
+      selected_winner = full_visitor_name
+      selected_loser = full_home_name
+    end
+
+    "The #{selected_winner} beat the #{selected_loser}"
   end
 
 
