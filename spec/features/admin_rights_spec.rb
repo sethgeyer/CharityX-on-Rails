@@ -115,7 +115,7 @@ feature "admin rights" do
         login_user("Administrator")
         click_on "View Users"
         expect(page).to have_content("$90")
-        expect(page).to have_content("20%")
+        expect(page).to have_content("20.0")
 
 
       end

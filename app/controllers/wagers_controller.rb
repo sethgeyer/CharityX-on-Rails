@@ -14,28 +14,20 @@ class WagersController < ApplicationController
     end
   end
 
-
-
-
   def create
 
     Wager.transaction do
-
 
       wager_amount_in_dollars = amount_stripped_of_dollar_sign_and_commas(params[:wager][:amount])
       person_input_by_wagerer = params[:wageree_username]
       wageree = Wager.find_the_proposed_wageree(person_input_by_wagerer)
       selected_winner_id = params[:wager][:selected_winner_id]
-
-
       sport_game = SportsGame.find_by(uuid: params[:wager][:game_uuid])
-      if sport_game
-        @wager = kenny_loggins.wagers.new
-        @wager.build_a_sports_game_wager(sport_game, wageree, wager_amount_in_dollars, selected_winner_id)
-      else
-        @wager = kenny_loggins.wagers.new(allowed_params)
-        @wager.build_a_custom_wager(params[:wager][:date_of_wager], params[:time_of_wager], wageree, wager_amount_in_dollars)
 
+      if sport_game
+        @wager = kenny_loggins.wagers.new.build_a_sports_game_wager(sport_game, wageree, wager_amount_in_dollars, selected_winner_id)
+      else
+        @wager = kenny_loggins.wagers.new(allowed_params).build_a_custom_wager(params[:wager][:date_of_wager], params[:time_of_wager], wageree, wager_amount_in_dollars)
       end
 
 
@@ -67,11 +59,12 @@ class WagersController < ApplicationController
 
     Wager.transaction do
 
-
       the_update_action = params[:commit]
       wager_id = params[:id]
 
-      lock_down_wager_if_accepted(the_update_action, wager_id)
+
+        lock_down_wager_if_accepted(the_update_action, wager_id)
+
       Wager.cancel_wager_if_wager_declined(the_update_action, wager_id)
       check_outcome_of_game(the_update_action, wager_id)
       assign_the_win_if_outcome_is_determined(the_update_action, wager_id)
