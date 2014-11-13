@@ -38,6 +38,54 @@ class Wager < ActiveRecord::Base
   end
 
 
+  def build_a_sports_game_wager(sport_game, wageree, wager_amount_in_dollars, selected_winner)
+    self.wageree_id = wageree.id if wageree.is_a?(User)
+    self.status = "w/wageree"
+    self.amount = amount_converted_to_pennies(wager_amount_in_dollars)
+    self.game_uuid = sport_game.uuid
+    self.selected_winner_id = selected_winner if [sport_game.vs_id, sport_game.home_id].include?(selected_winner)
+    self.date_of_wager = sport_game.date
+    self.home_id = sport_game.home_id
+    self.vs_id = sport_game.vs_id
+    self.game_week = sport_game.week
+    self.wager_type = "SportsWager"
+    self.title = self.return_the_wager_title(sport_game.home_id, sport_game.full_home_name, sport_game.vs_id, sport_game.full_visitor_name, selected_winner_id)
+    self.details = self.return_wager_details(sport_game)
+    return self
+  end
+
+  def build_a_custom_wager(date, time, wageree, wager_amount_in_dollars)
+
+    if date != ""
+      strung_out_date_time = "#{date} #{time}".in_time_zone(self.user.timezone)
+      self.date_of_wager = strung_out_date_time.utc if strung_out_date_time
+    else
+
+      self.date_of_wager = nil
+    end
+    self.wageree_id = wageree.id if wageree.is_a?(User)
+    self.status = "w/wageree"
+    self.amount = amount_converted_to_pennies(wager_amount_in_dollars)
+    self.wager_type = "CustomWager"
+    return self
+  end
+
+
+  def return_wager_details(game)
+    string = "@#{game.venue}"
+    string += " / Forecast: #{game.temperature} and #{game.condition}" if game.temperature && game.condition
+    string
+  end
+
+
+  def amount_converted_to_pennies(dollar_amount)
+    dollar_amount * 100
+  end
+
+
+
+
+
   def create_as_a_duplicate_of_an_original_wager?(original_wager_id_provided, kenny_loggins)
     if original_wager_id_provided
       rematch_wager = Wager.find(original_wager_id_provided)
@@ -125,6 +173,7 @@ class Wager < ActiveRecord::Base
   end
 
   def amount_of_wager_is_within_thresholds
+
     dollar_amount = amount / 100
     unless dollar_amount % 10 == 0 && dollar_amount >= 10
       errors.add(:amount, "All wagers must be in increments of $10.")

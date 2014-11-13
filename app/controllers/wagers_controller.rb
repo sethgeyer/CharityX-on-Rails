@@ -14,11 +14,7 @@ class WagersController < ApplicationController
     end
   end
 
-  def return_wager_details(game)
-    string = "@#{game.venue}"
-    string += " / Forecast: #{game.temperature} and #{game.condition}" if game.temperature && game.condition
-    string
-  end
+
 
 
   def create
@@ -29,36 +25,17 @@ class WagersController < ApplicationController
       wager_amount_in_dollars = amount_stripped_of_dollar_sign_and_commas(params[:wager][:amount])
       person_input_by_wagerer = params[:wageree_username]
       wageree = Wager.find_the_proposed_wageree(person_input_by_wagerer)
+      selected_winner_id = params[:wager][:selected_winner_id]
 
 
       sport_game = SportsGame.find_by(uuid: params[:wager][:game_uuid])
       if sport_game
         @wager = kenny_loggins.wagers.new
-        @wager.wageree_id = wageree.id if wageree.is_a?(User)
-        @wager.status = "w/wageree"
-        @wager.amount = amount_converted_to_pennies(wager_amount_in_dollars)
-        @wager.game_uuid = params[:wager][:game_uuid]
-        @wager.selected_winner_id = params[:wager][:selected_winner_id] if [sport_game.vs_id, sport_game.home_id].include?(params[:wager][:selected_winner_id])
-        @wager.date_of_wager = sport_game.date
-        @wager.home_id = sport_game.home_id
-        @wager.vs_id = sport_game.vs_id
-        @wager.game_week = sport_game.week
-        @wager.wager_type = "SportsWager"
-        @wager.title = @wager.return_the_wager_title(sport_game.home_id, sport_game.full_home_name, sport_game.vs_id, sport_game.full_visitor_name, @wager.selected_winner_id)
-        @wager.details = return_wager_details(sport_game)
+        @wager.build_a_sports_game_wager(sport_game, wageree, wager_amount_in_dollars, selected_winner_id)
       else
         @wager = kenny_loggins.wagers.new(allowed_params)
-        if params[:wager][:date_of_wager] != ""
-          strung_out_date_time = "#{params[:wager][:date_of_wager]} #{params[:time_of_wager]}".in_time_zone(kenny_loggins.timezone)
-          @wager.date_of_wager = strung_out_date_time.utc if strung_out_date_time
-        else
+        @wager.build_a_custom_wager(params[:wager][:date_of_wager], params[:time_of_wager], wageree, wager_amount_in_dollars)
 
-          @wager.date_of_wager = nil
-        end
-        @wager.wageree_id = wageree.id if wageree.is_a?(User)
-        @wager.status = "w/wageree"
-        @wager.amount = amount_converted_to_pennies(wager_amount_in_dollars)
-        @wager.wager_type = "CustomWager"
       end
 
 
