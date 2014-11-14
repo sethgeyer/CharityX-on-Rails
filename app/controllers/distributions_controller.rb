@@ -6,7 +6,7 @@ class DistributionsController < ApplicationController
 
   def new
     minimum_distribution_amount = 10
-    if the_user_has_insufficient_funds_for_the_size_of_the_transaction(minimum_distribution_amount, "available")
+    if kenny_loggins.insufficient_funds_for(minimum_distribution_amount, "available")
       flash[:notice] = "Your account has a $0 balance.  You must fund your account before you can distribute funds."
       redirect_to user_dashboard_path
     else
@@ -23,7 +23,7 @@ class DistributionsController < ApplicationController
       @distribution = kenny_loggins.distributions.new(charity_id: params[:distribution][:charity_id])
       @distribution.amount = amount_converted_to_pennies(distribution_amount_in_dollars)
 
-      if the_user_has_insufficient_funds_for_the_size_of_the_transaction(distribution_amount_in_dollars, "available")
+      if kenny_loggins.insufficient_funds_for(distribution_amount_in_dollars, "available")
         @distribution.amount = calculate_the_maximum_dollars_available
         @distribution.errors.add(:amount, "You don't have sufficient funds for the size of this distribution.  Unless you fund your account, the maximum you can distribute is $#{calculate_the_maximum_dollars_available}")
         render :new

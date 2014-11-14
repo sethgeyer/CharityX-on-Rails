@@ -2,7 +2,8 @@ class WagersController < ApplicationController
 
   def new
     minimum_distribution_amount = 10
-    if the_user_has_insufficient_funds_for_the_size_of_the_transaction(minimum_distribution_amount, "available")
+
+    if kenny_loggins.insufficient_funds_for(minimum_distribution_amount, "available")
       flash[:notice] = "Your account has a $0 balance.  You must fund your account before you can wager."
       redirect_to user_dashboard_path
     else
@@ -17,9 +18,9 @@ class WagersController < ApplicationController
   def create
     wager_amount_in_dollars = amount_stripped_of_dollar_sign_and_commas(params[:wager][:amount])
     person_input_by_wagerer = params[:wageree_username]
-    wageree = Wager.find_the_proposed_wageree(person_input_by_wagerer)
-    selected_winner_id = params[:wager][:selected_winner_id]
-    sport_game = SportsGame.find_by(uuid: params[:wager][:game_uuid])
+    wageree                 = Wager.find_the_proposed_wageree(person_input_by_wagerer)
+    selected_winner_id      = params[:wager][:selected_winner_id]
+    sport_game              = SportsGame.find_by(uuid: params[:wager][:game_uuid])
 
     @wager = if sport_game.present?
                kenny_loggins.wagers.new.build_a_sports_game_wager(sport_game, wageree, wager_amount_in_dollars, selected_winner_id)
@@ -127,7 +128,7 @@ class WagersController < ApplicationController
       if wager == nil
         # wager.errors.add(:base, "Wager has already been accepted, withdrawn or expired.")
         flash[:notice] = "Wager has already been accepted, withdrawn or expired."
-      elsif the_user_has_insufficient_funds_for_the_size_of_the_transaction(wager.amount / 100, "available")
+      elsif kenny_loggins.insufficient_funds_for(wager.amount / 100, "available")
         # wager.errors.add(:base, "You don't have adequate funds to accept this wager.  Please add additional funds to your account.")
         flash[outcome_update_symbol(wager_id)] = "You don't have adequate funds to accept this wager.  Please add additional funds to your account."
       else
