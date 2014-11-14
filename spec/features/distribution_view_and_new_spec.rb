@@ -36,7 +36,7 @@ feature "View Index and Create Distributions" do
 
     scenario "I should not be able to make a distribution that is not in a $10 increment" do
       distribute_funds_from_my_account(9, "United Way")
-      expect(page).to have_content("All distributions must be in increments of $#{$ChipValue}.")
+      expect(page).to have_content("All distributions must be in increments of $#{Chip::CHIP_VALUE}.")
     end
 
     scenario "I can distribute funds from my account that are in proper $10 increments" do

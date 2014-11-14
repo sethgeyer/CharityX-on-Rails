@@ -1,5 +1,5 @@
-
 class Chip < ActiveRecord::Base
+  CHIP_VALUE = 10
 
   belongs_to :charity
 
@@ -48,7 +48,7 @@ class Chip < ActiveRecord::Base
   end
 
   def self.convert_from_pennies_to_chips(amount)
-    amount / 100 / $ChipValue
+    amount / 100 / Chip::CHIP_VALUE
   end
 
 #NEW UNTESTED METHODS

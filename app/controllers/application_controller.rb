@@ -20,8 +20,6 @@ class ApplicationController < ActionController::Base
 
   helper_method :kenny_loggins
 
-  $ChipValue = 10
-
   def amount_stripped_of_dollar_sign_and_commas(user_input_amount)
     user_input_amount.gsub("$", "").gsub(",", "").to_i
   end
@@ -31,11 +29,11 @@ class ApplicationController < ActionController::Base
   end
 
   def the_user_has_insufficient_funds_for_the_size_of_the_transaction(dollar_amount, status)
-    kenny_loggins.chips.where(status: status).count < (dollar_amount / $ChipValue)
+    kenny_loggins.chips.where(status: status).count < (dollar_amount / Chip::CHIP_VALUE)
   end
 
   def calculate_the_maximum_dollars_available
-    kenny_loggins.chips.where(status: "available").count * $ChipValue
+    kenny_loggins.chips.where(status: "available").count * Chip::CHIP_VALUE
   end
 
 

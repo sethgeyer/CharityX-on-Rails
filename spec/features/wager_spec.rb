@@ -24,7 +24,7 @@ feature "View and Create a Proposed Wagers" do
     fill_in "wager_amount", with: 9
     fill_in "With:", with: "alexander"
     click_on "Submit"
-    expect(page).to have_content("All wagers must be in increments of $#{$ChipValue}.")
+    expect(page).to have_content("All wagers must be in increments of $#{Chip::CHIP_VALUE}.")
   end
 
   scenario "As a user I can create a proposed wager" do
@@ -103,7 +103,7 @@ feature "View and Create a Proposed Wagers" do
 
       create_a_new_unaccepted_wager("Stephen", "Alexander", 10)
       expect(page.find("#wagers")).to have_content("$10")
-      expect(page.find("#wagered-chips")).to have_content("Chips:#{10 / $ChipValue}")
+      expect(page.find("#wagered-chips")).to have_content("Chips:#{10 / Chip::CHIP_VALUE}")
       click_on "Withdraw"
       expect(page.find("#wagers")).to have_content("$0")
       expect(page.find("#wagered-chips")).to have_content("Chips:0")
@@ -119,7 +119,7 @@ feature "View and Create a Proposed Wagers" do
       expect(page).to have_content("Ping Pong Match")
       expect(page).not_to have_link("Withdraw")
       expect(page.find("#wagers")).to have_content(10)
-      expect(page.find("#wagered-chips")).to have_content("Chips:#{10 / $ChipValue}")
+      expect(page.find("#wagered-chips")).to have_content("Chips:#{10 / Chip::CHIP_VALUE}")
     end
 
 
@@ -144,9 +144,9 @@ feature "View and Create a Proposed Wagers" do
   #   expect(page).to have_content("Ping Pong Match")
   #   expect(page).not_to have_link("Withdraw")
   #   expect(page.find("#wagers")).to have_content(0)
-  #   expect(page.find("#wagered-chips")).to have_content("Chips:#{0 / $ChipValue}")
+  #   expect(page.find("#wagered-chips")).to have_content("Chips:#{0 / Chip::CHIP_VALUE}")
   #   expect(page.find("#net_amount")).to have_content(40)
-  #   expect(page.find("#net-chips")).to have_content("Chips:#{40 / $ChipValue}")
+  #   expect(page.find("#net-chips")).to have_content("Chips:#{40 / Chip::CHIP_VALUE}")
   #   expect(page).not_to have_button("I Lost")
   #   expect(page).to have_content("Wager Expired Before It Was Accepted")
   #   expect(page).to have_link("Reissue?")
@@ -192,7 +192,7 @@ feature "View and Create a Proposed Wagers" do
       expect(page.find("#wagers_table")).not_to have_button("Shake on it!")
       expect(page.find("#wagers_table")).to have_content("accepted")
       expect(page.find("#wagers")).to have_content(10)
-      expect(page.find("#wagered-chips")).to have_content("Chips:#{10 / $ChipValue}")
+      expect(page.find("#wagered-chips")).to have_content("Chips:#{10 / Chip::CHIP_VALUE}")
       expect(page.find("#net_amount")).to have_content(90)
     end
 
@@ -206,15 +206,15 @@ feature "View and Create a Proposed Wagers" do
 
       expect(page.find("#wagers_table")).to have_content("declined")
       expect(page.find("#wagers")).to have_content(0)
-      expect(page.find("#wagered-chips")).to have_content("Chips:#{0 / $ChipValue}")
+      expect(page.find("#wagered-chips")).to have_content("Chips:#{0 / Chip::CHIP_VALUE}")
       expect(page.find("#net_amount")).to have_content(100)
       expect(page).not_to have_button("I Lost")
       click_on "Logout"
       login_user("Stephen")
       expect(page.find("#wagers")).to have_content(0)
-      expect(page.find("#wagered-chips")).to have_content("Chips:#{0 / $ChipValue}")
+      expect(page.find("#wagered-chips")).to have_content("Chips:#{0 / Chip::CHIP_VALUE}")
       expect(page.find("#net_amount")).to have_content(40)
-      expect(page.find("#net-chips")).to have_content("Chips:#{40 / $ChipValue}")
+      expect(page.find("#net-chips")).to have_content("Chips:#{40 / Chip::CHIP_VALUE}")
       expect(page).not_to have_link("Withdraw")
       expect(page).not_to have_button("I Lost")
       expect(page).to have_content("Wager Not Accepted")
@@ -284,7 +284,7 @@ feature "View and Create a Proposed Wagers" do
       expect(page.find("#wagered-chips")).to have_content("Chips:0")
       # expect(page.find("#winnings")).to have_content("Chips:10")
       expect(page.find("#net_amount")).to have_content(50)
-      expect(page.find("#net-chips")).to have_content("Chips:#{50 / $ChipValue}")
+      expect(page.find("#net-chips")).to have_content("Chips:#{50 / Chip::CHIP_VALUE}")
     end
 
     scenario "As a wagerer that lost the bet, I transfer the money to the wageree" do
@@ -299,7 +299,7 @@ feature "View and Create a Proposed Wagers" do
       expect(page.find("#wagered-chips")).to have_content("Chips:0")
       # expect(page.find("#winnings")).to have_content("Chips:10")
       expect(page.find("#net_amount")).to have_content(30)
-      expect(page.find("#net-chips")).to have_content("Chips:#{30 / $ChipValue}")
+      expect(page.find("#net-chips")).to have_content("Chips:#{30 / Chip::CHIP_VALUE}")
     end
 
 
@@ -315,7 +315,7 @@ feature "View and Create a Proposed Wagers" do
       expect(page.find("#wagers")).to have_content("$0")
       expect(page.find("#wagered-chips")).to have_content("Chips:0")
       expect(page.find("#net_amount")).to have_content(90)
-      expect(page.find("#net-chips")).to have_content("Chips:#{90 / $ChipValue}")
+      expect(page.find("#net-chips")).to have_content("Chips:#{90 / Chip::CHIP_VALUE}")
     end
 
     scenario "As a wageree that won the bet, I receive the money from the wagerer" do
@@ -332,7 +332,7 @@ feature "View and Create a Proposed Wagers" do
       expect(page.find("#wagers")).to have_content("$0")
       expect(page.find("#dist-chips")).to have_content("Chips:0")
       expect(page.find("#net_amount")).to have_content(110)
-      expect(page.find("#net-chips")).to have_content("Chips:#{110 / $ChipValue}")
+      expect(page.find("#net-chips")).to have_content("Chips:#{110 / Chip::CHIP_VALUE}")
     end
   end
 
@@ -389,9 +389,9 @@ feature "View and Create a Proposed Wagers" do
         click_on "Shake on it!"
         expect(page.find("#wagers")).to have_content("$10")
         expect(page.find("#wagers")).not_to have_content("$1000")
-        expect(page.find("#wagered-chips")).to have_content("Chips:#{10 / $ChipValue}")
+        expect(page.find("#wagered-chips")).to have_content("Chips:#{10 / Chip::CHIP_VALUE}")
         expect(page.find("#net_amount")).to have_content(90)
-        expect(page.find("#net-chips")).to have_content("Chips:#{90 / $ChipValue}")
+        expect(page.find("#net-chips")).to have_content("Chips:#{90 / Chip::CHIP_VALUE}")
       end
 
       context "User wants to solicit a non-registered-friend to join the site by proposing a wager to the friend"

@@ -21,13 +21,13 @@ feature "Deposit and View Funds in an Account" do
     scenario "I can not make a deposit worth more than $1000" do
       make_a_deposit_to_their_account(1001)
       expect(page).to have_css("#new_deposits")
-      expect(page).to have_content("All deposits must be in increments of $#{$ChipValue} and no more than $1,000.")
+      expect(page).to have_content("All deposits must be in increments of $#{Chip::CHIP_VALUE} and no more than $1,000.")
     end
 
     scenario "I can not make a deposit that is not in $10 increments" do
       make_a_deposit_to_their_account(9)
       expect(page).to have_css("#new_deposits")
-      expect(page).to have_content("All deposits must be in increments of $#{$ChipValue} and no more than $1,000.")
+      expect(page).to have_content("All deposits must be in increments of $#{Chip::CHIP_VALUE} and no more than $1,000.")
     end
 
     scenario "As a user, I can add funds to my account and see deposit totals" do

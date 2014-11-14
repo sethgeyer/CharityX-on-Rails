@@ -16,7 +16,7 @@
 
     <div class="form-group">
       <%=f.label :amount, "I want to bet:"%><br/>
-      <%=f.text_field :amount, class:"form-control", placeholder:"How Much? (in $#{$ChipValue} increments)"%>
+      <%=f.text_field :amount, class:"form-control", placeholder:"How Much? (in $#{Chip::CHIP_VALUE} increments)"%>
       <div class="errors">
         <div class="errors"><%=@wager.errors[:amount].first if @wager.errors[:amount].any? %></div>
 

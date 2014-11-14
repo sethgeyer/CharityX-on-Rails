@@ -16,6 +16,6 @@ class User < ActiveRecord::Base
   has_many :distributions
 
   def insufficient_funds_for(dollar_amount, status)
-    chips.where(status: status).count < (dollar_amount / $ChipValue)
+    chips.where(status: status).count < (dollar_amount / Chip::CHIP_VALUE)
   end
 end

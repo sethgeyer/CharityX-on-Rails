@@ -13,7 +13,7 @@
 
     <div class="form-group">
       <%= f.label :amount %>
-      <%= f.text_field :amount, class: "form-control", placeholder: "$#{$ChipValue} increments" %>
+      <%= f.text_field :amount, class: "form-control", placeholder: "$#{Chip::CHIP_VALUE} increments" %>
       <div class="errors"><%=@distribution.errors[:amount].first if @distribution.errors[:amount].any? %></div>
     </div>
 
