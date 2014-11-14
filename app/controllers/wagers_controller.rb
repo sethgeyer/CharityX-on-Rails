@@ -21,13 +21,13 @@ class WagersController < ApplicationController
     selected_winner_id = params[:wager][:selected_winner_id]
     sport_game = SportsGame.find_by(uuid: params[:wager][:game_uuid])
 
-    @wager = if sport_game
+    @wager = if sport_game.present?
                kenny_loggins.wagers.new.build_a_sports_game_wager(sport_game, wageree, wager_amount_in_dollars, selected_winner_id)
              else
                kenny_loggins.wagers.new(allowed_params).build_a_custom_wager(params[:wager][:date_of_wager], params[:time_of_wager], wageree, wager_amount_in_dollars)
              end
 
-    if the_user_has_insufficient_funds_for_the_size_of_the_transaction(wager_amount_in_dollars, "available")
+    if kenny_loggins.insufficient_funds_for(wager_amount_in_dollars, "available")
       @wager.amount = calculate_the_maximum_dollars_available
       @wager.errors.add(:amount, "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{calculate_the_maximum_dollars_available}")
       @remaining_games = SportsGame.where('date > ?', DateTime.now.utc)
