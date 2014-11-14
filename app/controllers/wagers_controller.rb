@@ -26,16 +26,15 @@ class WagersController < ApplicationController
              else
                kenny_loggins.wagers.new(allowed_params).build_a_custom_wager(params[:wager][:date_of_wager], params[:time_of_wager], wageree, wager_amount_in_dollars)
              end
+    if the_user_has_insufficient_funds_for_the_size_of_the_transaction(wager_amount_in_dollars, "available")
+      @wager.amount = calculate_the_maximum_dollars_available
+      @wager.errors.add(:amount, "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{calculate_the_maximum_dollars_available}")
+      @remaining_games = SportsGame.where('date > ?', DateTime.now.utc)
+      render :new and return
+    end
 
     ActiveRecord::Base.transaction do
-
-      if the_user_has_insufficient_funds_for_the_size_of_the_transaction(wager_amount_in_dollars, "available")
-        @wager.amount = calculate_the_maximum_dollars_available
-        @wager.errors.add(:amount, "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{calculate_the_maximum_dollars_available}")
-        @remaining_games = SportsGame.where('date > ?', DateTime.now.utc)
-        render :new
-
-      elsif @wager.save
+      if @wager.save
         Chip.set_status_to_wagered(@wager.user.id, @wager.amount)
         send_the_appropriate_notification_email(wageree, @wager)
         redirect_to user_dashboard_path
