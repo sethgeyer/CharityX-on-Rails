@@ -69,22 +69,23 @@ class WagersController < ApplicationController
   end
 
   def destroy
-    ActiveRecord::Base.transaction do
-      #<<<<< The below line and the if == nil code were added to address the situations where a wageree has accepted a bet or it expired
-      #before the wagerer who wants to withdraw the bet refreshes his view.  This ensures that if the bet is "accepted, a wagerer that tries to witdraw it, gets a message stating
-      #that it can't be withdrawn.
-      wager = Wager.where(id: params[:id]).where(status: "w/wageree").first
-      if wager == nil
-        flash[:notice] = "Wager has already been accepted or expired before you could withdraw it."
-      else
-        flash[:notice] = "Your wager has been withdrawn"
+    wager = Wager.find_by(id: params[:id], status: "w/wageree")
+
+    #<<<<< The below line and the if == nil code were added to address the situations where a wageree has accepted a bet or it expired
+    #before the wagerer who wants to withdraw the bet refreshes his view.  This ensures that if the bet is "accepted, a wagerer that tries to witdraw it, gets a message stating
+    #that it can't be withdrawn.
+    if wager.nil?
+      flash[:notice] = "Wager has already been accepted or expired before you could withdraw it."
+    else
+      ActiveRecord::Base.transaction do
         wager.destroy
         Chip.set_status_to_available(kenny_loggins.id, wager.amount)
       end
 
-      redirect_to user_dashboard_path
-
+      flash[:notice] = "Your wager has been withdrawn"
     end
+
+    redirect_to user_dashboard_path
   end
 
   private
