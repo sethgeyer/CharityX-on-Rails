@@ -26,6 +26,7 @@ class WagersController < ApplicationController
              else
                kenny_loggins.wagers.new(allowed_params).build_a_custom_wager(params[:wager][:date_of_wager], params[:time_of_wager], wageree, wager_amount_in_dollars)
              end
+
     if the_user_has_insufficient_funds_for_the_size_of_the_transaction(wager_amount_in_dollars, "available")
       @wager.amount = calculate_the_maximum_dollars_available
       @wager.errors.add(:amount, "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{calculate_the_maximum_dollars_available}")
@@ -53,28 +54,22 @@ class WagersController < ApplicationController
   end
 
   def update
+    the_update_action = params[:commit]
+    wager_id = params[:id]
 
-    Wager.transaction do
-
-      the_update_action = params[:commit]
-      wager_id = params[:id]
-
-
+    ActiveRecord::Base.transaction do
       lock_down_wager_if_accepted(the_update_action, wager_id)
 
       Wager.cancel_wager_if_wager_declined(the_update_action, wager_id)
       check_outcome_of_game(the_update_action, wager_id)
       assign_the_win_if_outcome_is_determined(the_update_action, wager_id)
-
-
-      redirect_to user_dashboard_path(anchor: "wager-bucket-#{params[:id]}")
-
     end
+
+    redirect_to user_dashboard_path(anchor: "wager-bucket-#{params[:id]}")
   end
 
-
   def destroy
-    Wager.transaction do
+    ActiveRecord::Base.transaction do
       #<<<<< The below line and the if == nil code were added to address the situations where a wageree has accepted a bet or it expired
       #before the wagerer who wants to withdraw the bet refreshes his view.  This ensures that if the bet is "accepted, a wagerer that tries to witdraw it, gets a message stating
       #that it can't be withdrawn.
