@@ -19,22 +19,22 @@ class CreateWager
       return false
     end
 
-    ActiveRecord::Base.transaction do
-      if @wager.save
-        Chip.set_status_to_wagered(@wager.user.id, @wager.amount)
-        send_the_appropriate_notification_email(wageree, @wager)
-        true
-      else
-        @wager.amount = wager_amount_in_dollars
+    unless wager.valid?
+      @wager.amount = wager_amount_in_dollars
 
-        utc_time = @wager.date_of_wager
-        if utc_time
-          @wager.date_of_wager = "#{utc_time.in_time_zone(kenny_loggins.timezone).strftime("%a %e-%b-%y")}"
-          @time_of_wager = "#{utc_time.in_time_zone(kenny_loggins.timezone).strftime("%l:%M %p")} (loc)"
-        end
-
-        false
+      utc_time = @wager.date_of_wager
+      if utc_time
+        @wager.date_of_wager = "#{utc_time.in_time_zone(kenny_loggins.timezone).strftime("%a %e-%b-%y")}"
+        @time_of_wager = "#{utc_time.in_time_zone(kenny_loggins.timezone).strftime("%l:%M %p")} (loc)"
       end
+
+      return false
+    end
+
+    ActiveRecord::Base.transaction do
+      @wager.save!
+      Chip.set_status_to_wagered(@wager.user.id, @wager.amount)
+      send_the_appropriate_notification_email(wageree, @wager)
     end
   end
 
