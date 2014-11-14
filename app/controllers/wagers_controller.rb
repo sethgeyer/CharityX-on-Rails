@@ -17,7 +17,6 @@ class WagersController < ApplicationController
   def create
 
     Wager.transaction do
-
       wager_amount_in_dollars = amount_stripped_of_dollar_sign_and_commas(params[:wager][:amount])
       person_input_by_wagerer = params[:wageree_username]
       wageree = Wager.find_the_proposed_wageree(person_input_by_wagerer)

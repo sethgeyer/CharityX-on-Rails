@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby "2.1.1"
+ruby "2.1.5"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.4'
@@ -45,9 +45,10 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'faraday'
 
 group :development, :test do
-  gem "rspec-rails", "3.0.1"
-  gem 'rspec-collection_matchers', '~> 1.0.0'
-  gem "capybara", "2.3.0"
+  gem "rspec"
+  gem "rspec-rails"
+  gem 'rspec-collection_matchers'
+  gem "capybara"
   gem "pry-byebug"
   gem "pry-rails"
   gem "launchy"
