@@ -1,10 +1,7 @@
-
-
-# See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
-RSpec.configure do |config|
-
+if ENV['CI']
+  require 'coveralls'
+  Coveralls.wear!('rails')
 end
-
 
 def register_a_new_charity(charity_name)
 

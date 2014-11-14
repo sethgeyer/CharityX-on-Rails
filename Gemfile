@@ -44,6 +44,8 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'faraday'
 
+gem 'coveralls', require: false
+
 group :development, :test do
   gem "rspec"
   gem "rspec-rails"
