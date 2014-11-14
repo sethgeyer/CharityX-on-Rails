@@ -28,9 +28,4 @@ class ApplicationController < ActionController::Base
     dollar_amount * 100
   end
 
-  def calculate_the_maximum_dollars_available
-    kenny_loggins.chips.where(status: "available").count * Chip::CHIP_VALUE
-  end
-
-
 end

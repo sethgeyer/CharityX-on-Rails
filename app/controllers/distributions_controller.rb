@@ -24,8 +24,8 @@ class DistributionsController < ApplicationController
       @distribution.amount = amount_converted_to_pennies(distribution_amount_in_dollars)
 
       if kenny_loggins.insufficient_funds_for(distribution_amount_in_dollars, "available")
-        @distribution.amount = calculate_the_maximum_dollars_available
-        @distribution.errors.add(:amount, "You don't have sufficient funds for the size of this distribution.  Unless you fund your account, the maximum you can distribute is $#{calculate_the_maximum_dollars_available}")
+        @distribution.amount = kenny_loggins.maximum_dollars_available
+        @distribution.errors.add(:amount, "You don't have sufficient funds for the size of this distribution.  Unless you fund your account, the maximum you can distribute is $#{kenny_loggins.maximum_dollars_available}")
         render :new
       elsif @distribution.save
         Chip.mark_as_distributed_to_charity(@distribution.user.id, @distribution.amount, @distribution.date, @distribution.charity.id)

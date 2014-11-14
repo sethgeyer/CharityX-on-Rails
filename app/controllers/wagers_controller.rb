@@ -29,8 +29,8 @@ class WagersController < ApplicationController
              end
 
     if kenny_loggins.insufficient_funds_for(wager_amount_in_dollars, "available")
-      @wager.amount = calculate_the_maximum_dollars_available
-      @wager.errors.add(:amount, "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{calculate_the_maximum_dollars_available}")
+      @wager.amount = kenny_loggins.maximum_dollars_available
+      @wager.errors.add(:amount, "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{kenny_loggins.maximum_dollars_available}")
       @remaining_games = SportsGame.where('date > ?', DateTime.now.utc)
       render :new and return
     end

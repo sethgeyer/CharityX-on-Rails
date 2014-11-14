@@ -18,4 +18,9 @@ class User < ActiveRecord::Base
   def insufficient_funds_for(dollar_amount, status)
     chips.where(status: status).count < (dollar_amount / Chip::CHIP_VALUE)
   end
+
+  def maximum_dollars_available
+    chips.where(status: "available").count * Chip::CHIP_VALUE
+  end
+
 end
