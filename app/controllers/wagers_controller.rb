@@ -16,41 +16,22 @@ class WagersController < ApplicationController
   end
 
   def create
-    wager_amount_in_dollars = amount_stripped_of_dollar_sign_and_commas(params[:wager][:amount])
-    person_input_by_wagerer = params[:wageree_username]
-    wageree                 = Wager.find_the_proposed_wageree(person_input_by_wagerer)
-    selected_winner_id      = params[:wager][:selected_winner_id]
-    sport_game              = SportsGame.find_by(uuid: params[:wager][:game_uuid])
+    create_wager = CreateWager.new(
+      {
+        kenny_loggins: kenny_loggins,
+        wageree_username: params[:wageree_username],
+      }.merge(allowed_params)
+    )
 
-    @wager = if sport_game.present?
-               kenny_loggins.wagers.new.build_a_sports_game_wager(sport_game, wageree, wager_amount_in_dollars, selected_winner_id)
-             else
-               kenny_loggins.wagers.new(allowed_params).build_a_custom_wager(params[:wager][:date_of_wager], params[:time_of_wager], wageree, wager_amount_in_dollars)
-             end
-
-    if kenny_loggins.insufficient_funds_for(wager_amount_in_dollars, "available")
-      @wager.amount = kenny_loggins.maximum_dollars_available
-      @wager.errors.add(:amount, "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{kenny_loggins.maximum_dollars_available}")
+    if create_wager.save
+      flash[:notice] = create_wager.notice
+      redirect_to user_dashboard_path
+    else
+      @wager = create_wager.wager
       @remaining_games = SportsGame.where('date > ?', DateTime.now.utc)
-      render :new and return
-    end
-
-    ActiveRecord::Base.transaction do
-      if @wager.save
-        Chip.set_status_to_wagered(@wager.user.id, @wager.amount)
-        send_the_appropriate_notification_email(wageree, @wager)
-        redirect_to user_dashboard_path
-      else
-        @wager.amount = wager_amount_in_dollars
-        @remaining_games = SportsGame.where('date > ?', DateTime.now.utc)
-        utc_time = @wager.date_of_wager
-        if utc_time
-          @wager.date_of_wager = "#{utc_time.in_time_zone(kenny_loggins.timezone).strftime("%a %e-%b-%y")}"
-          @time_of_wager = "#{utc_time.in_time_zone(kenny_loggins.timezone).strftime("%l:%M %p")} (loc)"
-        else
-        end
-        render :new
-      end
+      @date_of_wager = @wager.date_of_wager
+      @time_of_wager = create_wager.time_of_wager
+      render :new
     end
   end
 
@@ -93,30 +74,11 @@ class WagersController < ApplicationController
 
   def allowed_params
     params.require(:wager).permit(
-      :title,
-      :details,
-      :amount
+      :title, :details, :amount,
+      :selected_winner_id, :game_uuid,
+      :date_of_wager, :time_of_wager
     )
   end
-
-
-
-
-  def send_the_appropriate_notification_email(wageree, wager)
-    if wageree.is_a?(User)
-      WagerMailer.send_registered_user_wager(wager).deliver
-      flash[:notice] = "Your proposed wager has been sent to #{wageree.username}."
-    elsif wageree.is_a?(NonRegisteredWageree)
-      non_registered_wageree = NonRegisteredWageree.create!(wager_id: wager.id, email: wageree.email)
-      WagerMailer.send_non_registered_user_wager(non_registered_wageree).deliver
-      flash[:notice] = "A solicitation email has been sent to #{non_registered_wageree.email}"
-    else
-      flash[:notice] = "No username was provided.  Your wager is listed in the public wagers section"
-    end
-  end
-
-
-
 
   def lock_down_wager_if_accepted(action, wager_id)
     if action == "Shake on it!"
