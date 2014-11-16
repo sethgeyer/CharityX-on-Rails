@@ -12,8 +12,6 @@ class Chip < ActiveRecord::Base
       chip.user_id = user_id
       chip.owner_id = user_id
       chip.status = availability
-      chip.l1_tag_id = nil
-      chip.l2_tag_id = nil
       chip.charity_id = nil
       chip.created_at = deposit_create_date
       chip.cashed_in_date = nil
