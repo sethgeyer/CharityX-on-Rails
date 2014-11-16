@@ -8,12 +8,12 @@ describe Chip do
 
   describe "#convert_currency_to_chips" do
     before(:each) do
-      @deposit = Deposit.create!(user_id: @user.id, amount: 10000, cc_number: 1234567, exp_date: "2016-07-31", name_on_card: "Seth W Geyer", cc_type: "Visa", date_created: "2014-07-31")
+      @deposit = Deposit.create!(user_id: @user.id, amount: 10000)
     end
 
     it "converts the deposited amount to chips" do
       expect(Chip.all.count).to eq(0)
-      Chip.convert_currency_to_chips(@user.id, @deposit.amount, @deposit.date_created, "available")
+      Chip.convert_currency_to_chips(@user.id, @deposit.amount, @deposit.created_at, "available")
       expect(Chip.all.count).to eq(@deposit.amount / 100 / Chip::CHIP_VALUE)
       expect(Chip.first.user_id).to eq(@user.id)
       expect(Chip.first.owner_id).to eq(@user.id)

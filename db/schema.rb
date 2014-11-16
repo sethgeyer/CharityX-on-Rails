@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141116204641) do
+ActiveRecord::Schema.define(version: 20141116212718) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,11 +39,6 @@ ActiveRecord::Schema.define(version: 20141116204641) do
 
   create_table "deposits", force: true do |t|
     t.integer  "amount"
-    t.integer  "cc_number"
-    t.date     "exp_date"
-    t.string   "name_on_card"
-    t.string   "cc_type"
-    t.date     "date_created"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
