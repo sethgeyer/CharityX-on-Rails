@@ -30,8 +30,8 @@ describe Chip do
     it "marks the chips as distributed upon distribution of dollars" do
       available_chips = Chip.where(user_id: @user.id).where(status: "available")
       expect(available_chips.count).to eq(20000 / 100 / Chip::CHIP_VALUE)
-      @distribution = Distribution.create(user_id: @user.id, amount: 11000, charity_id: @charity.id, date: "2014-08-30" )
-      Chip.mark_as_distributed_to_charity(@user.id, @distribution.amount, @distribution.date, @distribution.charity.id)
+      @distribution = Distribution.create(user_id: @user.id, amount: 11000, charity_id: @charity.id )
+      Chip.mark_as_distributed_to_charity(@user.id, @distribution.amount, @distribution.created_at, @distribution.charity.id)
       available_chips = Chip.where(user_id: @user.id).where(status: "available")
       expect(available_chips.count).to eq((20000 - 11000) / 100 / Chip::CHIP_VALUE)
       distributed_chips = Chip.where(user_id: @user.id).where(status: "distributed")
@@ -46,8 +46,8 @@ describe Chip do
       @other_users_lost_chips = Chip.create(user_id: @user.id, owner_id: @other_user.id, status: "available", created_at: "2013-07-12")
       expect(available_chips.count).to eq(21)
 
-      @distribution = Distribution.create(user_id: @user.id, amount: 1000, charity_id: @charity.id, date: "2014-08-30" )
-      Chip.mark_as_distributed_to_charity(@user.id, @distribution.amount, @distribution.date, @distribution.charity.id)
+      @distribution = Distribution.create(user_id: @user.id, amount: 1000, charity_id: @charity.id )
+      Chip.mark_as_distributed_to_charity(@user.id, @distribution.amount, @distribution.created_at, @distribution.charity.id)
       now_available_chips = Chip.where(user_id: @user.id).where(status: "available")
       expect(now_available_chips.count).to eq(20)
       @other_users_lost_and_distributed_chips = @user.chips.where(owner_id: @other_user.id).first
