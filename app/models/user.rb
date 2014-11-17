@@ -23,4 +23,16 @@ class User < ActiveRecord::Base
     chips.where(status: "available").count * Chip::CHIP_VALUE
   end
 
+
+  before_save :downcase_email
+
+  private
+
+  def downcase_email
+    self.email.downcase!
+  end
+
+
+
+
 end
