@@ -1,14 +1,16 @@
 class WagersController < ApplicationController
 
   def new
-    minimum_distribution_amount = 10
-
-    if kenny_loggins.insufficient_funds_for(minimum_distribution_amount, "available")
+    if kenny_loggins.insufficient_funds_for(Chip::CHIP_VALUE, "available")
       flash[:notice] = "Your account has a $0 balance.  You must fund your account before you can wager."
       redirect_to user_dashboard_path
     else
-      @wager = Wager.new
-      @wager.create_as_a_duplicate_of_an_original_wager?(params[:pwid], kenny_loggins)
+      @wager = if params[:pwid]
+                 CreateWager.from_previous(params[:pwid], kenny_loggins)
+               else
+                 CreateWager.new(kenny_loggins: kenny_loggins)
+               end
+
       @remaining_games = SportsGame.where('date > ?', DateTime.now.utc)
 
       render :new
@@ -16,21 +18,19 @@ class WagersController < ApplicationController
   end
 
   def create
-    create_wager = CreateWager.new(
+    @wager = CreateWager.new(
       {
         kenny_loggins: kenny_loggins,
-        wageree_username: params[:wageree_username],
       }.merge(allowed_params)
     )
 
-    if create_wager.save
-      flash[:notice] = create_wager.notice
+    if @wager.save
+      flash[:notice] = @wager.notice
       redirect_to user_dashboard_path
     else
-      @wager = create_wager.wager
       @remaining_games = SportsGame.where('date > ?', DateTime.now.utc)
       @date_of_wager = @wager.date_of_wager
-      @time_of_wager = create_wager.time_of_wager
+      @time_of_wager = @wager.time_of_wager
       render :new
     end
   end
@@ -74,7 +74,7 @@ class WagersController < ApplicationController
 
   def allowed_params
     params.require(:wager).permit(
-      :title, :details, :amount,
+      :title, :details, :amount, :wageree_lookup,
       :selected_winner_id, :game_uuid,
       :date_of_wager, :time_of_wager
     )

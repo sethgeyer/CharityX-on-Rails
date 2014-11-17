@@ -18,12 +18,14 @@ feature "View and Create a Proposed Wagers" do
     visit "/"
     login_user("Stephen")
     within(page.find("#wager-funds")) { click_link "+" }
-    fill_in "wager_title", with: "Ping Pong Match between S & A"
+    fill_in "wager[title]", with: "Ping Pong Match between S & A"
     fill_in "wager[date_of_wager]", with: Date.today + 2.days
-    fill_in "wager_details", with: "Game to 21, standard rules apply"
-    fill_in "wager_amount", with: 9
+    fill_in "wager[details]", with: "Game to 21, standard rules apply"
+    fill_in "wager[amount]", with: 9
     fill_in "With:", with: "alexander"
+
     click_on "Submit"
+
     expect(page).to have_content("All wagers must be in increments of $#{Chip::CHIP_VALUE}.")
   end
 
@@ -87,17 +89,19 @@ feature "View and Create a Proposed Wagers" do
 
     scenario "I can not bet more dollars than are currently available in my account" do
       create_an_existing_accepted_wager("Alexander", "Stephen", 10)
+
       within(page.find("#wager-funds")) {click_link "+"}
+
       fill_in "wager_title", with: "Ping Pong Match between S & A"
       fill_in "wager[date_of_wager]", with: DateTime.now + 2.days
       fill_in "wager_details", with: "Game to 21, standard rules apply"
       fill_in "wager_amount", with: 50
       fill_in "With:", with: "alexandery"
       click_on "Submit"
+
       expect(page).to have_css("#new_proposed_wagers")
       expect(page).to have_content("You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $30")
     end
-
 
     scenario "I can withdraw a proposed wager that has not yet been accepted" do
 
@@ -336,85 +340,87 @@ feature "View and Create a Proposed Wagers" do
     end
   end
 
+  context "Proposing Rematches" do
+    scenario "As a wagerer, I can propose a rematch for a game that I just played" do
+      create_an_existing_accepted_wager("Stephen", "Alexander", 10)
 
-    context "Proposing Rematches" do
-      scenario "As a wagerer, I can propose a rematch for a game that I just played" do
-                create_an_existing_accepted_wager("Stephen", "Alexander", 10)
-        visit "/"
-        login_user("Alexander")
-        click_on "I Lost"
-        click_on "Logout"
-        login_user("Stephen")
-        expect(page).to have_link("Rematch")
-        click_on "Rematch"
-        expect(page).to have_css("#new_proposed_wagers")
-        fill_in "wager[date_of_wager]", with: Date.today + 2.days
-        click_on "Submit"
-        expect(page).to have_css("#show_dashboards")
-        expect(page).to have_content("Your proposed wager has been sent to alexander.")
+      visit "/"
+      login_user("Alexander")
+      click_on "I Lost"
+      click_on "Logout"
+      login_user("Stephen")
+      expect(page).to have_link("Rematch")
+      click_on "Rematch"
 
-      end
+      expect(page).to have_css("#new_proposed_wagers")
 
-      scenario "As a wageree, I can propose a rematch for a game that I just played" do
+      fill_in "wager[date_of_wager]", with: Date.today + 2.days
+      click_on "Submit"
 
-        create_an_existing_accepted_wager("Stephen", "Alexander", 10)
-        visit "/"
-        login_user("Stephen")
-        click_on "I Lost"
-        click_on "Logout"
-        login_user("Alexander")
-        click_on "Rematch"
-        expect(page).to have_css("#new_proposed_wagers")
-        fill_in "wager[date_of_wager]", with: Date.today + 2.days
-        click_on "Submit"
-        expect(page).to have_css("#show_dashboards")
-        expect(page).to have_content("Your proposed wager has been sent to stephen.")
-      end
+      expect(page).to have_css("#show_dashboards")
+      expect(page).to have_content("Your proposed wager has been sent to alexander.")
+    end
 
+    scenario "As a wageree, I can propose a rematch for a game that I just played" do
+
+      create_an_existing_accepted_wager("Stephen", "Alexander", 10)
+      visit "/"
+      login_user("Stephen")
+      click_on "I Lost"
+      click_on "Logout"
+      login_user("Alexander")
+      click_on "Rematch"
+      expect(page).to have_css("#new_proposed_wagers")
+      fill_in "wager[date_of_wager]", with: Date.today + 2.days
+      click_on "Submit"
+      expect(page).to have_css("#show_dashboards")
+      expect(page).to have_content("Your proposed wager has been sent to stephen.")
+    end
+
+  end
+
+
+  context "User does not have another registered user to bet with" do
+    scenario "As a user I can create a wager w/out a known wageree " do
+      create_user_and_make_deposit("Michael", 100)
+      visit "/"
+      login_user("Stephen")
+      create_a_public_wager("Stephen", "Alexander", "Michael")
+      expect(page).to have_css("#show_dashboards")
+      expect(page).to have_content("No username was provided.  Your wager is listed in the public wagers section")
+      expect(page).to have_content("Public Ping Pong")
+      click_on "Logout"
+      login_user("Alexander")
+      expect(page.find("#public-wagers")).to have_content("Public Ping Pong")
+      click_on "Shake on it!"
+      expect(page.find("#wagers")).to have_content("$10")
+      expect(page.find("#wagers")).not_to have_content("$1000")
+      expect(page.find("#wagered-chips")).to have_content("Chips:#{10 / Chip::CHIP_VALUE}")
+      expect(page.find("#net_amount")).to have_content(90)
+      expect(page.find("#net-chips")).to have_content("Chips:#{90 / Chip::CHIP_VALUE}")
+    end
+
+    context "User wants to solicit a non-registered-friend to join the site by proposing a wager to the friend"
+
+    scenario "As a user, I can solicit a non-registered user to bet w/ me" do
+      user_creates_a_solicitation_wager("AlexTheUser", "BillTheNonUser")
+      expect(page).to have_css("#show_dashboards")
+      expect(page).to have_content("A solicitation email has been sent to billthenonuser@gmail.com")
+      expect(page.find("#wagers_table")).to have_content("I bet billthenonuser@gmail.com $10 that: Ping Pong")
+    end
+
+    scenario "As a non-registered-friend, I can accept a friend's solicitation to wager" do
+      user_creates_a_solicitation_wager("AlexTheUser", "BillTheNonUser")
+      click_on "Logout"
+      fill_in_registration_form("Michael")
+      expect(page).not_to have_content("Ping Pong")
+      click_on "Logout"
+      fill_in_registration_form("BillTheNonUser")
+      expect(page.find("#wagers_table")).to have_content("Ping Pong")
+      expect(page).to have_content("alextheuser bet me $10 that: Ping Pong")
     end
 
 
-    context "User does not have another registered user to bet with" do
-      scenario "As a user I can create a wager w/out a known wageree " do
-        create_user_and_make_deposit("Michael", 100)
-        visit "/"
-        login_user("Stephen")
-        create_a_public_wager("Stephen", "Alexander", "Michael")
-        expect(page).to have_css("#show_dashboards")
-        expect(page).to have_content("No username was provided.  Your wager is listed in the public wagers section")
-        expect(page).to have_content("Public Ping Pong")
-        click_on "Logout"
-        login_user("Alexander")
-        expect(page.find("#public-wagers")).to have_content("Public Ping Pong")
-        click_on "Shake on it!"
-        expect(page.find("#wagers")).to have_content("$10")
-        expect(page.find("#wagers")).not_to have_content("$1000")
-        expect(page.find("#wagered-chips")).to have_content("Chips:#{10 / Chip::CHIP_VALUE}")
-        expect(page.find("#net_amount")).to have_content(90)
-        expect(page.find("#net-chips")).to have_content("Chips:#{90 / Chip::CHIP_VALUE}")
-      end
-
-      context "User wants to solicit a non-registered-friend to join the site by proposing a wager to the friend"
-
-      scenario "As a user, I can solicit a non-registered user to bet w/ me" do
-        user_creates_a_solicitation_wager("AlexTheUser", "BillTheNonUser")
-        expect(page).to have_css("#show_dashboards")
-        expect(page).to have_content("A solicitation email has been sent to billthenonuser@gmail.com")
-        expect(page.find("#wagers_table")).to have_content("I bet billthenonuser@gmail.com $10 that: Ping Pong")
-      end
-
-      scenario "As a non-registered-friend, I can accept a friend's solicitation to wager" do
-        user_creates_a_solicitation_wager("AlexTheUser", "BillTheNonUser")
-        click_on "Logout"
-        fill_in_registration_form("Michael")
-        expect(page).not_to have_content("Ping Pong")
-        click_on "Logout"
-        fill_in_registration_form("BillTheNonUser")
-        expect(page.find("#wagers_table")).to have_content("Ping Pong")
-        expect(page).to have_content("alextheuser bet me $10 that: Ping Pong")
-      end
-
-
-    end
+  end
 
 end

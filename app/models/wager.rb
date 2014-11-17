@@ -82,26 +82,20 @@ class Wager < ActiveRecord::Base
     dollar_amount * 100
   end
 
-
-
-
-
   def create_as_a_duplicate_of_an_original_wager?(original_wager_id_provided, kenny_loggins)
-    if original_wager_id_provided
-      rematch_wager = Wager.find(original_wager_id_provided)
-      if rematch_wager.user == kenny_loggins || rematch_wager.wageree_id == kenny_loggins.id
-        self.title = rematch_wager.title
-        self.details = rematch_wager.details
-        self.wageree_id = if rematch_wager.user == kenny_loggins
-                            rematch_wager.wageree_id
-                          else
-                            rematch_wager.user_id
-                          end
-        self.amount = rematch_wager.amount / 100
-      end
+    rematch_wager = Wager.find(original_wager_id_provided)
+
+    if rematch_wager.user == kenny_loggins || rematch_wager.wageree_id == kenny_loggins.id
+      self.title = rematch_wager.title
+      self.details = rematch_wager.details
+      self.wageree_id = if rematch_wager.user == kenny_loggins
+                          rematch_wager.wageree_id
+                        else
+                          rematch_wager.user_id
+                        end
+      self.amount = rematch_wager.amount / 100
     end
   end
-
 
   def self.cancel_wager_if_wager_declined(action, wager_id)
     if action == "No Thx!"
@@ -110,10 +104,6 @@ class Wager < ActiveRecord::Base
       Chip.set_status_to_available(wager.user_id, wager.amount) if wager.save!
     end
   end
-
-
-
-
 
   def self.find_the_proposed_wageree(wageree_username_or_email)
     found_user = User.find_by(username: wageree_username_or_email) || User.find_by(email: wageree_username_or_email)
@@ -125,7 +115,6 @@ class Wager < ActiveRecord::Base
       nil
     end
   end
-
 
   def identify_the_wageree
     if self.wageree_id
@@ -161,9 +150,6 @@ class Wager < ActiveRecord::Base
     "The #{selected_winner} beat the #{selected_loser}"
   end
 
-
-
-
   private
 
   def date_of_wager_must_be_in_the_future
@@ -179,7 +165,4 @@ class Wager < ActiveRecord::Base
       errors.add(:amount, "All wagers must be in increments of $10.")
     end
   end
-
-
-
-end
+end 
