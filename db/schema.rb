@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141116214302) do
+ActiveRecord::Schema.define(version: 20141117181904) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 20141116214302) do
     t.integer  "owner_id"
     t.string   "status"
     t.integer  "charity_id"
-    t.date     "cashed_in_date"
+    t.datetime "cashed_in_date"
     t.boolean  "wagerable"
     t.datetime "created_at"
     t.datetime "updated_at"

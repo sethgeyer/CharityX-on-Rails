@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
-</head>
-<body>
+
 <h4>Charity-x is a non-profit organization focused on making giving more fun.  </h4>
 
 <p>Thank you for making a tax deductible charitable contribution to Charity-x  Below is your receipt.</p>
 
 <div>From: <%=@deposit.user.first_name%> <%=@deposit.user.last_name%></div>
-<div>Amount: <%=@deposit.amount / 100%></div>
+<div>Amount: $<%=@deposit.amount / 100%></div>
 <div>Date: <%=@deposit.created_at%></div>
 
-</body>
-</html>
+
