@@ -135,7 +135,7 @@ class WagersController < ApplicationController
           Chip.sweep_the_pot(loser, wager) if wager.save!
           wager.details = "#{game_outcome.vs_id}: #{game_outcome.vs_score} #{game_outcome.home_id}: #{game_outcome.home_score} QTR:#{game_outcome.quarter}-Time:#{game_outcome.clock} "
         else
-          flash[outcome_update_symbol(wager_id)] = "The #{game_outcome.vs_id} / #{game_outcome.home_id} game is not over.  #{game_outcome.vs_id}: #{game_outcome.vs_score} #{game_outcome.home_id}: #{game_outcome.home_score} QTR:#{game_outcome.quarter}-Time:#{game_outcome.clock} "
+          flash[outcome_update_symbol(wager_id)] = "#{game_outcome.vs_id}: #{game_outcome.vs_score} #{game_outcome.home_id}: #{game_outcome.home_score} QTR:#{game_outcome.quarter}-Time:#{game_outcome.clock} If game over, please wait for 3rd Party verification of final score."
         end
 
       else
