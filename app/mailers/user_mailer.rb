@@ -15,6 +15,11 @@ class UserMailer < ActionMailer::Base
   end
 
 
+  def send_tax_receipt_email(deposit)
+    @deposit = deposit
+    mail(to: @deposit.user.email, subject: "Charitable Gift Receipt")
+  end
+
 
 end
 
