@@ -12,16 +12,15 @@ class CreateWager
     ActiveModel::Name.new(Wager)
   end
 
-  def self.from_previous(previous_wager_id, kenny_loggins)
-    new.tap do |create_wager| 
-      create_wager.create_as_a_duplicate_of_an_original_wager?(previous_wager_id, kenny_loggins)
-    end
-  end
-  
-  def initialize(*args)
-    super(*args)
+  def initialize(attrs, previous_wager_id = nil)
+    super(attrs)
 
     @wager = Wager.new
+             
+    if previous_wager_id
+      @wager.duplicate_of(previous_wager_id, kenny_loggins)
+      set_attributes_from_wager!
+    end
   end
 
   def save
@@ -58,11 +57,6 @@ class CreateWager
     end
   end
 
-  def create_as_a_duplicate_of_an_original_wager?(*args)
-    wager.create_as_a_duplicate_of_an_original_wager?(*args)
-    set_attributes(wager)
-  end
-
   def notice
     @notice
   end
@@ -71,7 +65,7 @@ class CreateWager
 
   attr_reader :wager
 
-  def set_attributes(wager)
+  def set_attributes_from_wager!
     [:amount, :title, :details].each do |attr|
       self.send("#{attr}=", wager.send(attr))
     end
