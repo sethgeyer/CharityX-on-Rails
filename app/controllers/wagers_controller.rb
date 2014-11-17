@@ -1,9 +1,7 @@
 class WagersController < ApplicationController
 
   def new
-    minimum_distribution_amount = 10
-
-    if kenny_loggins.insufficient_funds_for(minimum_distribution_amount, "available")
+    if kenny_loggins.insufficient_funds_for(Chip::CHIP_VALUE, "available")
       flash[:notice] = "Your account has a $0 balance.  You must fund your account before you can wager."
       redirect_to user_dashboard_path
     else
