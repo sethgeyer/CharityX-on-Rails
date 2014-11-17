@@ -120,6 +120,7 @@
               <% if registered_wager.status == "completed" %>
                 <div class="outcome">
                   <%= registered_wager.identify_current_user_outcome(kenny_loggins) %>
+                  <%= SportsGamesOutcome.display_outcome(registered_wager.game_uuid)%>
                 </div>
                 <%= link_to "Rematch?", new_user_wager_path(pwid: registered_wager) %>
               <% elsif registered_wager.status == "expired" %>

@@ -9,6 +9,12 @@ class SportsGamesOutcome < ActiveRecord::Base
     # @quarter = response["quarter"]
     # @clock = response["clock"]
 
-
-
+  def self.display_outcome(game_uuid)
+    sports_game_outcome = SportsGamesOutcome.where(game_uuid:  game_uuid, status: "completed").first
+    if sports_game_outcome
+      "#{sports_game_outcome.vs_id}: #{sports_game_outcome.vs_score}  #{sports_game_outcome.home_id}: #{sports_game_outcome.home_score} |"
+    else
+      nil
+    end
+  end
 end
