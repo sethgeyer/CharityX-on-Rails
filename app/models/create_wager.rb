@@ -1,9 +1,28 @@
 class CreateWager
   include ActiveModel::Model
+  include ActiveModel::Validations
 
-  attr_accessor :amount, :title, :details, :wageree_username,
-                :date_of_wager, :time_of_wager,
-                :selected_winner_id, :game_uuid, :kenny_loggins
+  attr_accessor :amount, :title, :details, :wageree_lookup,
+                :date_of_wager, :time_of_wager, :selected_winner_id,
+                :game_uuid, :kenny_loggins
+
+  validate :wager_if_valid
+
+  def self.model_name
+    ActiveModel::Name.new(Wager)
+  end
+
+  def self.from_previous(previous_wager_id, kenny_loggins)
+    new.tap do |create_wager| 
+      create_wager.create_as_a_duplicate_of_an_original_wager?(previous_wager_id, kenny_loggins)
+    end
+  end
+  
+  def initialize(*args)
+    super(*args)
+
+    @wager = Wager.new
+  end
 
   def save
     @wager = if sport_game.present?
@@ -13,18 +32,19 @@ class CreateWager
              end
 
     if kenny_loggins.insufficient_funds_for(wager_amount_in_dollars, "available")
-      @wager.amount = kenny_loggins.maximum_dollars_available
-      @wager.errors.add(:amount, "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{kenny_loggins.maximum_dollars_available}")
+      wager.amount = kenny_loggins.maximum_dollars_available
+      errors.add(:amount, "You don't have sufficient funds for the size of this wager.  Unless you fund your account, the maximum you can wager is $#{kenny_loggins.maximum_dollars_available}")
+
       @remaining_games = SportsGame.where('date > ?', DateTime.now.utc)
       return false
     end
 
-    unless wager.valid?
-      @wager.amount = wager_amount_in_dollars
+    unless valid?
+      wager.amount = wager_amount_in_dollars
 
-      utc_time = @wager.date_of_wager
+      utc_time = wager.date_of_wager
       if utc_time
-        @wager.date_of_wager = "#{utc_time.in_time_zone(kenny_loggins.timezone).strftime("%a %e-%b-%y")}"
+        wager.date_of_wager = "#{utc_time.in_time_zone(kenny_loggins.timezone).strftime("%a %e-%b-%y")}"
         @time_of_wager = "#{utc_time.in_time_zone(kenny_loggins.timezone).strftime("%l:%M %p")} (loc)"
       end
 
@@ -32,14 +52,15 @@ class CreateWager
     end
 
     ActiveRecord::Base.transaction do
-      @wager.save!
-      Chip.set_status_to_wagered(@wager.user.id, @wager.amount)
-      send_the_appropriate_notification_email(wageree, @wager)
+      wager.save!
+      Chip.set_status_to_wagered(wager.user.id, wager.amount)
+      send_the_appropriate_notification_email(wageree, wager)
     end
   end
 
-  def wager
-    @wager
+  def create_as_a_duplicate_of_an_original_wager?(*args)
+    wager.create_as_a_duplicate_of_an_original_wager?(*args)
+    set_attributes(wager)
   end
 
   def notice
@@ -47,6 +68,22 @@ class CreateWager
   end
 
   private
+
+  attr_reader :wager
+
+  def set_attributes(wager)
+    [:amount, :title, :details].each do |attr|
+      self.send("#{attr}=", wager.send(attr))
+    end
+
+    self.wageree_lookup = User.find(wager.wageree_id).username
+  end
+
+  def wager_if_valid
+    unless wager.valid?
+      collect_errors(wager)
+    end
+  end
 
   def send_the_appropriate_notification_email(wageree, wager)
     if wageree.is_a?(User)
@@ -74,10 +111,16 @@ class CreateWager
   end
 
   def wageree
-    @_wageree ||= Wager.find_the_proposed_wageree(wageree_username)
+    @_wageree ||= Wager.find_the_proposed_wageree(wageree_lookup)
   end
 
   def amount_stripped_of_dollar_sign_and_commas(user_input_amount)
     user_input_amount.gsub("$", "").gsub(",", "").to_i
+  end
+
+  def collect_errors(object)
+    object.errors.each do |error, value| 
+      self.errors.add(error, value)
+    end
   end
 end

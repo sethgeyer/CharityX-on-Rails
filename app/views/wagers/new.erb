@@ -1,11 +1,7 @@
 <div id="new_proposed_wagers">
   <h3>Create a Wager</h3>
 
-
-
-
-
-  <%if @wager.errors.full_messages.any?%>
+  <% if @wager.errors.full_messages.any? %>
     <p class="errors">Your wager can not be completed</p>
     <br/>
     <br/>
@@ -25,9 +21,9 @@
     </div>
 
     <div class="form-group">
-      <label for="wageree_username">With:</label><br/>
+      <%= f.label :wageree_lookup, "With:" %>
       <div class="input-group">
-       <input type="text" class="form-control" placeholder="Who?" name="wageree_username" id="wageree_username" value="<%=User.find(@wager.wageree_id).username if @wager.wageree_id%>">
+        <%= f.text_field :wageree_lookup, :placeholder => "Who?" %>
         <span class="input-group-addon question">?</span>
       </div>
       <div class="wager-notes">
