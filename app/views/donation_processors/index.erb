@@ -15,7 +15,7 @@
 <tbody>
 <%@distributions.each do |distribution| %>
       <tr>
-        <td><%= full_name(distribution.user) %></td>
+        <td><%= distribution.show_appropriate_name %></td>
         <td><%= distribution.charity.name %></td>
         <td>$<%= distribution.amount / 100%></td>
         <td><%= timezone_adjusted_datetime(distribution.created_at) %></td>
@@ -24,7 +24,7 @@
           <td><%= distribution.check_number%></td>
           <td><%= timezone_adjusted_datetime(distribution.date_cut)%></td>
       <% else %>
-          <td><%=link_to "Cut Check", new_donation_processor_path(distribution_id: distribution.id), method: :get %>  </td>
+          <td><%=link_to "Cut Check", new_donation_processor_path(distribution_id: distribution.id), method: :get, class: "check-cutter" %>  </td>
           <td></td>
         <% end %>
       </tr>

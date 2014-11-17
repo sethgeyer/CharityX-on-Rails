@@ -15,5 +15,11 @@ class Distribution < ActiveRecord::Base
   end
 
 
-
+  def show_appropriate_name
+    if anonymous?
+      "Anonymous"
+    else
+      "#{user.first_name} #{user.last_name}"
+    end
+  end
 end

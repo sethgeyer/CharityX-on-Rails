@@ -1,5 +1,7 @@
 <div id="new_distributions">
 
+  <div class="container-fluid">
+
   <h3>Give to a Charity</h3>
 
   <%if @distribution.errors.full_messages.any?%>
@@ -23,10 +25,19 @@
     </div>
 
     <div class="form-group">
+
+      <%= f.check_box :anonymous, id: "distribution_anonymous"%>
+      <%= f.label :anonymous, " Make as an Anonymous Donor" %>
+    </div>
+
+
+    <div class="form-group">
       <%= f.submit "Submit", class: "button button-submit", data: {disable_with: "Please Wait...", confirm: "You are about to distribute funds to a charity.  Please confirm the information is correct?"} %>
       <%= link_to "Cancel", user_dashboard_path %>
     </div>
 
   <% end %>
+
+  </div>
 
 </div>

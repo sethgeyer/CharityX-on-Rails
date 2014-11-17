@@ -10,7 +10,7 @@
     <% @deposits.each do |deposit| %>
       <tr>
         <td>$<%= deposit.amount / 100 %></td>
-        <td><%= deposit.created_at %></td>
+        <td><%= timezone_adjusted_datetime(deposit.created_at) %></td>
 
       </tr>
     <% end %>

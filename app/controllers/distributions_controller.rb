@@ -22,7 +22,7 @@ class DistributionsController < ApplicationController
 
       @distribution = kenny_loggins.distributions.new(charity_id: params[:distribution][:charity_id])
       @distribution.amount = amount_converted_to_pennies(distribution_amount_in_dollars)
-
+      @distribution.anonymous = true if params[:distribution][:anonymous] == "1"
       if kenny_loggins.insufficient_funds_for(distribution_amount_in_dollars, "available")
         @distribution.amount = kenny_loggins.maximum_dollars_available
         @distribution.errors.add(:amount, "You don't have sufficient funds for the size of this distribution.  Unless you fund your account, the maximum you can distribute is $#{kenny_loggins.maximum_dollars_available}")

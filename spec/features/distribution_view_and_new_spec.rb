@@ -52,6 +52,7 @@ feature "View Index and Create Distributions" do
       expect(page.find("#deposits")).to have_content("$40")
       expect(page.find("#distributions")).to have_content("$30")
       expect(page.find("#net_amount")).to have_content("$10")
+
     end
 
     scenario "#I can not distribute more dollars than are currently available in my account" do
@@ -59,6 +60,28 @@ feature "View Index and Create Distributions" do
       expect(page).to have_css("#new_distributions")
       expect(page).to have_content("You don't have sufficient funds for the size of this distribution.  Unless you fund your account, the maximum you can distribute is $40")
     end
+
+    scenario "I should be able to make an anonymous distribution" do
+      within(page.find("#distribute-funds")) {click_link "+"}
+      fill_in "Amount", with: 10
+      select "United Way", from: "Charity"
+      find(:css, "#distribution_anonymous").set(true)
+      click_on "Submit"
+      click_on "Logout"
+      create_admin("Jennifer")
+      visit "/"
+      login_user("jennifer")
+      click_on "Process Donations"
+      expect(page).to have_content("Anonymous")
+      click_on "Cut Check"
+      expect(page).to have_selector("input[value='Anonymous']")
+
+
+
+
+    end
+
+
 
   end
 

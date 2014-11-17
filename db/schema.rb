@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141117181904) do
+ActiveRecord::Schema.define(version: 20141117203512) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 20141117181904) do
     t.integer  "check_number"
     t.datetime "date_cut"
     t.string   "cut_by"
+    t.boolean  "anonymous"
   end
 
   create_table "non_registered_wagerees", force: true do |t|

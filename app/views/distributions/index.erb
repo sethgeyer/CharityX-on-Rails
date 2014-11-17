@@ -1,17 +1,23 @@
 <div id="index_distributions">
 
-  <table>
+  <table class="table table-bordered">
     <thead>
     <tr>
+      <th>From</th>
       <th>Amount</th>
       <th>Charity</th>
+      <th>Date</th>
+
     </tr>
     </thead>
     <tbody>
     <% @distributions.each do |distribution| %>
       <tr>
+        <td><%= distribution.show_appropriate_name %></td>
         <td>$<%= distribution.amount / 100 %></td>
         <td><%= distribution.charity.name %></td>
+        <td><%= timezone_adjusted_datetime(distribution.created_at) %></td>
+
       </tr>
     <% end %>
     </tbody>
