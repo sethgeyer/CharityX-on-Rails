@@ -21,5 +21,11 @@ class WagerMailer < ActionMailer::Base
     mail(to: @wageree.email, subject: "#{@wager.user.username} wants to bet...")
   end
 
+  def send_wager_acceptance_email(wager)
+    @wager = wager
+    @wagerer = wager.user
+    mail(to: @wagerer.email, subject: "Your wager has been accepted!")
+  end
+
 
 end

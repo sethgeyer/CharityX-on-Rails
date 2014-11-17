@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+</head>
+<body>
+
+
+
+<p><%="#{User.find(@wager.wageree_id).username} has accepted your wager."%></p>
+
+<div>Wager: <%=@wager.title%></div>
+<div>Amount: <%=@wager.amount / 100%></div>
+<div>Details: <%=@wager.details%></div>
+<div>Date: <%=@wager.date_of_wager%></div>
+
+
+</body>
+</html>

@@ -4,17 +4,17 @@ module ApplicationHelper
     "#{user.first_name} #{user.last_name}"
   end
 
-  def timezone_adjusted_datetime(utc_time)
-    "#{utc_time.in_time_zone(kenny_loggins.timezone).strftime("%a %e-%b-%y %l:%M %p")} (loc)"
+  def timezone_adjusted_datetime(utc_time, user = kenny_loggins)
+    "#{utc_time.in_time_zone(user.timezone).strftime("%a %e-%b-%y %l:%M %p")} (loc)"
   end
 
 
-  def timezone_adjusted_date(utc_time)
-    "#{utc_time.in_time_zone(kenny_loggins.timezone).strftime("%a %e-%b-%y")}"
+  def timezone_adjusted_date(utc_time, user = kenny_loggins)
+    "#{utc_time.in_time_zone(user.timezone).strftime("%a %e-%b-%y")}"
   end
 
-  def timezone_adjusted_clock(utc_time)
-    "#{utc_time.in_time_zone(kenny_loggins.timezone).strftime("%l:%M %p")} (loc)"
+  def timezone_adjusted_clock(utc_time, user = kenny_loggins)
+    "#{utc_time.in_time_zone(user.timezone).strftime("%l:%M %p")} (loc)"
   end
 
 

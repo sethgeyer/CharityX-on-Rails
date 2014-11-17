@@ -96,6 +96,7 @@ class WagersController < ApplicationController
       else
         wager.wageree_id = kenny_loggins.id if wager.wageree_id == nil
         wager.status = "accepted"
+        WagerMailer.send_wager_acceptance_email(wager).deliver
         Chip.set_status_to_wagered(kenny_loggins.id, wager.amount) if wager.save!
         flash[outcome_update_symbol(wager_id)] = "You have accepted this wager."
       end
