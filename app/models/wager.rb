@@ -82,8 +82,8 @@ class Wager < ActiveRecord::Base
     dollar_amount * 100
   end
 
-  def create_as_a_duplicate_of_an_original_wager?(original_wager_id_provided, kenny_loggins)
-    rematch_wager = Wager.find(original_wager_id_provided)
+  def duplicate_of(original_wager_id, kenny_loggins)
+    rematch_wager = Wager.find(original_wager_id)
 
     if rematch_wager.user == kenny_loggins || rematch_wager.wageree_id == kenny_loggins.id
       self.title = rematch_wager.title
