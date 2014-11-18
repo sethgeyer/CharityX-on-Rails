@@ -25,7 +25,7 @@ class WagersController < ApplicationController
       flash[:notice] = @wager.notice
       redirect_to user_dashboard_path
     else
-      @remaining_games = SportsGame.remaining_game
+      @remaining_games = SportsGame.remaining_games
       render :new
     end
   end
