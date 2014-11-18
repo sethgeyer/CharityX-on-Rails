@@ -24,13 +24,18 @@ class User < ActiveRecord::Base
   end
 
 
-  before_save :downcase_email
+  before_validation :downcase_email, :downcase_username
 
   private
 
   def downcase_email
     self.email.downcase!
   end
+
+  def downcase_username
+      self.username.downcase!
+  end
+
 
 
 

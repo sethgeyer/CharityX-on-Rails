@@ -67,4 +67,27 @@ feature "visitor registration" do
     expect(page).to have_content("already exists")
   end
 
+  context "a username already exists" do
+    before(:each) do
+      @user = create_user("Stephen")
+    end
+
+    scenario "visitor fills in registration form using an UPCASED non-unique username" do
+      visit "/users/new"
+      within(page.find(".registration")) { fill_in "First name", with: "Stephen" }
+      within(page.find(".registration")) { fill_in "Last name", with: "Geyer" }
+      within(page.find(".registration")) { fill_in "Username", with: "STEPHEN" }
+      within(page.find(".registration")) { fill_in "Email", with: "STEPHENY@gmail.com" }
+      within(page.find(".registration")) { fill_in "Password", with: "password" }
+      within(page.find(".registration")) { click_on "Submit" }
+      expect(page).to have_css("#new_users")
+      expect(page).to have_content("Username is not unique.  Please select another.")
+    end
+
+
+
+  end
+
+
+
 end

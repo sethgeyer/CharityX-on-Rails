@@ -29,7 +29,7 @@ feature "View and Create a Proposed Wagers" do
     expect(page).to have_content("All wagers must be in increments of $#{Chip::CHIP_VALUE}.")
   end
 
-  scenario "As a user I can create a proposed wager" do
+  scenario "As a user I can create a proposed wager using the wageree's username" do
     visit "/"
     login_user("Stephen")
     within(page.find("#wager-funds")) {click_link "+"}
@@ -38,7 +38,7 @@ feature "View and Create a Proposed Wagers" do
     fill_in "wager[date_of_wager]", with: DateTime.now + 1.week
     fill_in "wager_details", with: "Game to 21, standard rules apply"
     fill_in "wager_amount", with: 10
-    fill_in "With:", with: "alexander"
+    fill_in "With:", with: "alexander@gmail.com"
     click_on "Submit"
     expect(page.find("#wagers_table")).to have_content("Ping Pong Match")
     expect(page.find("#wagers_table")).to have_content(10)
@@ -54,6 +54,104 @@ feature "View and Create a Proposed Wagers" do
     expect(page.find("#wagers")).to have_content(10)
     expect(page.find("#net_amount")).to have_content(30)
   end
+
+  scenario "As a user I can create a proposed wager using the wageree's upcased username" do
+    visit "/"
+    login_user("Stephen")
+    within(page.find("#wager-funds")) {click_link "+"}
+
+    fill_in "wager_title", with: "Ping Pong Match between S & A"
+    fill_in "wager[date_of_wager]", with: DateTime.now + 1.week
+    fill_in "wager_details", with: "Game to 21, standard rules apply"
+    fill_in "wager_amount", with: 10
+    fill_in "With:", with: "ALEXANDER"
+    click_on "Submit"
+    expect(page.find("#wagers_table")).to have_content("Ping Pong Match")
+    expect(page.find("#wagers_table")).to have_content(10)
+    expect(page.find("#wagers_table")).not_to have_content(1000)
+    expect(page.find("#wagers_table")).to have_content("alexander")
+    expect(page.find("#wagers_table")).to have_content("I bet alexander")
+    expect(page.find("#wagers_table")).to have_content("w/wageree")
+    expect(page.find("#wagers_table")).not_to have_button("Shake on it!")
+    expect(page.find("#wagers_table")).not_to have_button("No Thx!")
+    expect(page.find("#wagers_table")).not_to have_button("I Lost") # _______________________
+
+    expect(page.find("#wagers_table")).to have_link("Withdraw")
+    expect(page.find("#wagers")).to have_content(10)
+    expect(page.find("#net_amount")).to have_content(30)
+  end
+
+
+
+
+
+
+
+
+  scenario "As a user I can create a proposed wager using the wageree's email" do
+    visit "/"
+    login_user("Stephen")
+    within(page.find("#wager-funds")) {click_link "+"}
+
+    fill_in "wager_title", with: "Ping Pong Match between S & A"
+    fill_in "wager[date_of_wager]", with: DateTime.now + 1.week
+    fill_in "wager_details", with: "Game to 21, standard rules apply"
+    fill_in "wager_amount", with: 10
+    fill_in "With:", with: "alexander@gmail.com"
+    click_on "Submit"
+    expect(page.find("#wagers_table")).to have_content("Ping Pong Match")
+    expect(page.find("#wagers_table")).to have_content(10)
+    expect(page.find("#wagers_table")).not_to have_content(1000)
+    expect(page.find("#wagers_table")).to have_content("alexander")
+    expect(page.find("#wagers_table")).to have_content("I bet alexander")
+    expect(page.find("#wagers_table")).to have_content("w/wageree")
+    expect(page.find("#wagers_table")).not_to have_button("Shake on it!")
+    expect(page.find("#wagers_table")).not_to have_button("No Thx!")
+    expect(page.find("#wagers_table")).not_to have_button("I Lost") # _______________________
+
+    expect(page.find("#wagers_table")).to have_link("Withdraw")
+    expect(page.find("#wagers")).to have_content(10)
+    expect(page.find("#net_amount")).to have_content(30)
+    click_on "Logout"
+    login_user("Alexander")
+    expect(page).to have_content("Ping Pong Match")
+  end
+
+  scenario "As a user I can create a proposed wager using the wageree's upcased email" do
+    visit "/"
+    login_user("Stephen")
+    within(page.find("#wager-funds")) {click_link "+"}
+
+    fill_in "wager_title", with: "Ping Pong Match between S & A"
+    fill_in "wager[date_of_wager]", with: DateTime.now + 1.week
+    fill_in "wager_details", with: "Game to 21, standard rules apply"
+    fill_in "wager_amount", with: 10
+    fill_in "With:", with: "ALEXANDER@GMAIL.COM"
+    click_on "Submit"
+    expect(page.find("#wagers_table")).to have_content("Ping Pong Match")
+    expect(page.find("#wagers_table")).to have_content(10)
+    expect(page.find("#wagers_table")).not_to have_content(1000)
+    expect(page.find("#wagers_table")).to have_content("alexander")
+    expect(page.find("#wagers_table")).to have_content("I bet alexander")
+    expect(page.find("#wagers_table")).to have_content("w/wageree")
+    expect(page.find("#wagers_table")).not_to have_button("Shake on it!")
+    expect(page.find("#wagers_table")).not_to have_button("No Thx!")
+    expect(page.find("#wagers_table")).not_to have_button("I Lost") # _______________________
+
+    expect(page.find("#wagers_table")).to have_link("Withdraw")
+    expect(page.find("#wagers")).to have_content(10)
+    expect(page.find("#net_amount")).to have_content(30)
+    click_on "Logout"
+    login_user("Alexander")
+    expect(page).to have_content("Ping Pong Match")
+  end
+
+
+
+
+
+
+
 
   scenario "As a user I can not create a proposed wager w/out a date" do
     visit "/"

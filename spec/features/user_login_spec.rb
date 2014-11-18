@@ -27,12 +27,28 @@ feature "visitor login" do
       expect(page).to have_css("#show_dashboards")
     end
 
+    scenario "user can log in using their UPCASED username" do
+      fill_in "Username", with: "STEPHEN"
+      fill_in "Password", with: "password"
+      click_on "Login"
+      click_on "Dashboard"
+      expect(page).to have_css("#show_dashboards")
+    end
+
     scenario "user can log in using their email" do
       fill_in "Username", with: "stephen@gmail.com"
       fill_in "Password", with: "password"
       click_on "Login"
       expect(page).to have_css("#show_dashboards")
     end
+
+    scenario "user can log in using their UPCASED email" do
+      fill_in "Username", with: "STEPHEN@gmail.com"
+      fill_in "Password", with: "password"
+      click_on "Login"
+      expect(page).to have_css("#show_dashboards")
+    end
+
 
   end
 

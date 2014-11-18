@@ -62,7 +62,7 @@ describe Chip do
   describe "#change_status_to_wager" do
     before(:each) do
       Chip.convert_currency_to_chips(@user.id, 20000, "2014-07-12", "available" )
-      @wageree = User.create(email: "a@gmail.com", password:"pong")
+      @wageree = User.create(email: "a@gmail.com", username: "adelaide", password:"pong")
 
     end
     it "changes the status of the chips to wagered" do

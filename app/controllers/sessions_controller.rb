@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    @user = User.find_by(username: params[:user][:username]) || User.find_by(email: params[:user][:username].downcase)
+    @user = User.find_by(username: params[:user][:username].downcase) || User.find_by(email: params[:user][:username].downcase)
     if @user && @user.authenticate(params[:user][:password])
       session[:user_id] = @user.id
       flash[:notice] = "Welcome #{@user.username}"

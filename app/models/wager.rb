@@ -106,7 +106,7 @@ class Wager < ActiveRecord::Base
   end
 
   def self.find_the_proposed_wageree(wageree_username_or_email)
-    found_user = User.find_by(username: wageree_username_or_email) || User.find_by(email: wageree_username_or_email)
+    found_user = User.find_by(username: wageree_username_or_email.downcase) || User.find_by(email: wageree_username_or_email.downcase)
     if found_user
       found_user
     elsif wageree_username_or_email.include?("@")
