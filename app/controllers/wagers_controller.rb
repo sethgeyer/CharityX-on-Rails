@@ -102,10 +102,10 @@ class WagersController < ApplicationController
 
   def assign_the_win_if_outcome_is_determined(action, wager_id)
     wager = Wager.where(id: wager_id, status: "accepted").first
-    if action == "I Won"
+    if action == "I Won" && wager
       wager.assign_the_win(kenny_loggins, wager)
       wager.save!
-    elsif action == "I Lost"
+    elsif action == "I Lost"  && wager
       wager.assign_the_loss(kenny_loggins, wager)
       Chip.sweep_the_pot(kenny_loggins, wager) if wager.save!
     end
@@ -113,7 +113,7 @@ class WagersController < ApplicationController
 
   def check_outcome_of_game(action, wager_id)
     wager = Wager.where(id: wager_id, status: "accepted").first
-    if action == "Check Outcome"
+    if action == "Check Outcome" && wager
 
       # game_id = wager.id
       selected_winner_id = wager.selected_winner_id
