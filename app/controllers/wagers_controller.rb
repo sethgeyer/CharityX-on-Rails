@@ -1,4 +1,7 @@
 class WagersController < ApplicationController
+  #TODO: get rid of me, we need this for the timezone_adjusted_clock
+  include ApplicationHelper
+
   def new
     if kenny_loggins.insufficient_funds_for(Chip::CHIP_VALUE, "available")
       flash[:notice] = "Your account has a $0 balance.  You must fund your account before you can wager."
@@ -6,6 +9,7 @@ class WagersController < ApplicationController
     end
 
     @wager = CreateWager.new({kenny_loggins: kenny_loggins}, params[:pwid])
+    @wager.time_of_wager = timezone_adjusted_clock(DateTime.now.beginning_of_hour + 3.hours) 
     @remaining_games = SportsGame.where('date > ?', DateTime.now.utc)
 
     render :new
@@ -23,8 +27,6 @@ class WagersController < ApplicationController
       redirect_to user_dashboard_path
     else
       @remaining_games = SportsGame.where('date > ?', DateTime.now.utc)
-      @date_of_wager = @wager.date_of_wager
-      @time_of_wager = @wager.time_of_wager
       render :new
     end
   end
