@@ -18,7 +18,6 @@ class WagersController < ApplicationController
         kenny_loggins: kenny_loggins,
       }.merge(allowed_params)
     )
-
     if @wager.save
       flash[:notice] = @wager.notice
       redirect_to user_dashboard_path

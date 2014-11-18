@@ -5,16 +5,17 @@
     <p class="errors">Your wager can not be completed</p>
     <br/>
     <br/>
-  <%end%>
+  <% end %>
 
 
-  <%=form_for @wager, url: user_wagers_path, html: {class: "form-horizontal col-xs-12 col-md-3"}, role:"form"  do |f|%>
+  <%= form_for @wager, url: user_wagers_path, html: {class: "form-horizontal col-xs-12 col-md-3"}, role: "form" do |f| %>
 
     <div class="form-group">
-      <%=f.label :amount, "I want to bet:"%><br/>
-      <%=f.text_field :amount, class:"form-control", placeholder:"How Much? (in $#{Chip::CHIP_VALUE} increments)"%>
+      <%= f.label :amount, "I want to bet:" %>
+      <br/>
+      <%= f.text_field :amount, class: "form-control", placeholder: "How Much? (in $#{Chip::CHIP_VALUE} increments)" %>
       <div class="errors">
-        <div class="errors"><%=@wager.errors[:amount].first if @wager.errors[:amount].any? %></div>
+        <div class="errors"><%= @wager.errors[:amount].first if @wager.errors[:amount].any? %></div>
 
       </div>
 
@@ -23,79 +24,77 @@
     <div class="form-group">
       <%= f.label :wageree_lookup, "With:" %>
       <div class="input-group">
-        <%= f.text_field :wageree_lookup, :placeholder => "Who?", class:"form-control" %>
+        <%= f.text_field :wageree_lookup, :placeholder => "Who?", class: "form-control" %>
         <span class="input-group-addon question">?</span>
       </div>
       <div class="wager-notes">
-          <b>You have 3 options here:</b>
-          <div class="color-notes"><b>Leave blank</b> to create a public wager that any one can accept.</div>
-          <div class="plain-notes"><b>Input a registered user's username or email</b> to assign the wager to a specific person.</div>
-          <div class="color-notes"><b>Put in a non-registered friend's email.</b>  Upon submission, an email will be sent to your friend asking them to join Charity-x and accept your wager.</div>
+        <b>You have 3 options here:</b>
+
+        <div class="color-notes"><b>Leave blank</b> to create a public wager that any one can accept.</div>
+        <div class="plain-notes"><b>Input a registered user's username or email</b> to assign the wager to a specific
+          person.
+        </div>
+        <div class="color-notes"><b>Put in a non-registered friend's email.</b> Upon submission, an email will be sent
+          to your friend asking them to join Charity-x and accept your wager.
+        </div>
       </div>
 
     </div>
 
 
-
-
-
     <div class="form-group">
-      <%=f.label :title, "That: " %><br/>
-      <%=f.text_field :title, class:"form-control wager-input", placeholder:"The bet"%>
-      <%= f.hidden_field :game_uuid, class: "game-id-container"%>
-      <%= f.hidden_field :selected_winner_id, class: "selected-winner-container"%>
+      <%= f.label :title, "That: " %>
+      <br/>
+      <%= f.text_field :title, class: "form-control wager-input", placeholder: "The bet" %>
+      <%= f.hidden_field :game_uuid, class: "game-id-container" %>
+      <%= f.hidden_field :selected_winner_id, class: "selected-winner-container" %>
 
 
-      <div class="errors"><%=@wager.errors[:title].first if @wager.errors[:title].any? %></div>
+      <div class="errors"><%= @wager.errors[:title].first if @wager.errors[:title].any? %></div>
 
       <!-- Button trigger modal -->
       <div style="margin: 3px">
-      or select an NFL Game <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">Find a Game</button>
+        or select an NFL Game
+        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">Find a Game
+        </button>
       </div>
     </div>
 
 
     <div class="form-group">
-        <div style="display:inline; padding-left:0px;" class="col-xs-7">
-          <%= f.label :date_of_wager, "Date:" %>
-          <%= f.text_field :date_of_wager, class: "form-control wager-date-input" %>
-        </div>
-        <div style="display:inline; padding-left: 0px; padding-right:0px"  class="col-xs-5">
-          <%= f.label :time_of_wager, "Time:" %>
-          <%= text_field_tag :time_of_wager, @time_of_wager || timezone_adjusted_clock(DateTime.now.beginning_of_hour + 3.hours) , class: "form-control wager-time-input" %>
-        </div>
+      <div style="display:inline; padding-left:0px;" class="col-xs-7">
+        <%= f.label :date_of_wager, "Date:" %>
+        <%= f.text_field :date_of_wager, class: "form-control wager-date-input" %>
+      </div>
+      <div style="display:inline; padding-left: 0px; padding-right:0px" class="col-xs-5">
+        <%= f.label :time_of_wager, "Time:" %>
+        <%= text_field_tag :time_of_wager, @time_of_wager || timezone_adjusted_clock(DateTime.now.beginning_of_hour + 3.hours), class: "form-control wager-time-input" %>
+      </div>
       <div class="errors"><%= @wager.errors[:date_of_wager].first if @wager.errors[:date_of_wager].any? %></div>
     </div>
 
     <script type="text/javascript">
-          $(function () {
-            $('.wager-date-input').pickadate()
-            $('.wager-time-input').pickatime()
+      $(function () {
+        $('.wager-date-input').pickadate({format: 'ddd dd-mmm-yyyy'})
+        $('.wager-time-input').pickatime()
 
-          });
-        </script>
-
-
-
-
-
-
-
-
+      });
+    </script>
 
 
     <div class="form-group">
-      <%=f.label :details, "Details:" %><br/>
-      <%=f.text_area :details, class:"form-control wager-details-input"%>
+      <%= f.label :details, "Details:" %>
+      <br/>
+      <%= f.text_area :details, class: "form-control wager-details-input" %>
     </div>
 
     <div class="form-group">
-      <%=f.submit "Submit", class:"button button-submit", data: { disable_with: "Please Wait...", confirm: "You are about to create a wager.  Is the information correct?" }%>
-      <%=link_to "Cancel", user_dashboard_path%>
+      <%= f.submit "Submit", class: "button button-submit", data: {disable_with: "Please Wait...", confirm: "You are about to create a wager.  Is the information correct?"} %>
+      <%= link_to "Cancel", user_dashboard_path %>
     </div>
 
 
-  <%end%>
+  <% end %>
 
 
 
@@ -105,23 +104,25 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
           <h4 class="modal-title" id="myModalLabel">Pick the Winner</h4>
         </div>
         <div class="modal-body">
           <% @remaining_games.each do |game| %>
-            <% if game.week != @remaining_games[@remaining_games.index(game) - 1].week%>
+            <% if game.week != @remaining_games[@remaining_games.index(game) - 1].week %>
               <br/>
-              <div class="week-name"><%= "Week #{game.week} "%></div>
+
+              <div class="week-name"><%= "Week #{game.week} " %></div>
               <br/>
             <% end %>
-            <div class="game-container" data-game-id="<%=game.uuid%>" data-game-date="<%=timezone_adjusted_date(game.date)%>" data-game-time="<%=timezone_adjusted_clock(game.date)%>" data-vs-team-id="<%=game.vs_id%>" data-home-team-id="<%=game.home_id%>" data-game-location="<%=game.venue%>" data-game-week="<%=game.week%>" data-game-temperature="<%=game.temperature%>" data-game-condition="<%=game.condition%>">
-              <%=link_to game.full_visitor_name, "" , "data-team-id" => game.vs_id, class:"team-name" %> vs.
-              <%=link_to game.full_home_name, "", "data-team-id" => game.home_id, class:"team-name"%>
-              <div class= "game-date"><%=timezone_adjusted_datetime(game.date)%></div>
-              <div> <%="Location: #{game.venue} "%></div>
+            <div class="game-container" data-game-id="<%= game.uuid %>" data-game-date="<%= timezone_adjusted_date(game.date) %>" data-game-time="<%= timezone_adjusted_clock(game.date) %>" data-vs-team-id="<%= game.vs_id %>" data-home-team-id="<%= game.home_id %>" data-game-location="<%= game.venue %>" data-game-week="<%= game.week %>" data-game-temperature="<%= game.temperature %>" data-game-condition="<%= game.condition %>">
+              <%= link_to game.full_visitor_name, "", "data-team-id" => game.vs_id, class: "team-name" %> vs.
+              <%= link_to game.full_home_name, "", "data-team-id" => game.home_id, class: "team-name" %>
+              <div class="game-date"><%= timezone_adjusted_datetime(game.date) %></div>
+              <div> <%= "Location: #{game.venue} " %></div>
 
-              <div> <%="Forecast: #{game.temperature}, #{game.condition}" if game.temperature%></div>
+              <div> <%= "Forecast: #{game.temperature}, #{game.condition}" if game.temperature %></div>
               <hr/>
             </div>
           <% end %>
@@ -132,7 +133,6 @@
       </div>
     </div>
   </div>
-
 
 
   <!--.strftime("%b %d, %Y")-->
