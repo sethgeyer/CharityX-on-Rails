@@ -132,61 +132,61 @@ feature "Create a sport wager" do
 
     context "The outcome of the sportwager has been determined and the wagerer won" do
       before(:each) do
-        game_one = SportsGamesOutcome.new({ "status"=> "closed", "home_team"=> {"id" => "NE", "points"=>50}, "away_team"=> {"id" => "DEN", "points"=>25}})
-        allow(SportsGamesOutcome).to receive(:get_final_score).and_return(game_one)
+        game_one = SportsGamesOutcome.create!(status: "closed", home_id: "NE", home_score: 5, vs_id: "DEN", vs_score: 25)
+        allow(SportsDataCollector).to receive(:get_final_score).and_return(game_one)
       end
-  #
-  #     scenario "A winning wagerer sees that they won the wager" do
-  #       visit user_dashboard_path
-  #
-  #       click_on "Check Outcome"
-  #       expect(page).to have_content("I Won!")
-  #       expect(page).to have_link("Rematch?")
-  #
-  #     end
-  #
-  #     scenario "A losing wageree sees that they lost the wager" do
-  #       click_on "Logout"
-  #       login_user ("Alexander")
-  #       visit user_dashboard_path
-  #       click_on "Check Outcome"
-  #       expect(page).to have_content("I Lost!")
-  #       expect(page).to have_link("Rematch?")
-  #
-  #     end
-  #
+
+      scenario "A winning wagerer sees that they won the wager" do
+        visit user_dashboard_path
+
+        click_on "Check Outcome"
+        expect(page).to have_content("I Won!")
+        expect(page).to have_link("Rematch?")
+
+      end
+
+      scenario "A losing wageree sees that they lost the wager" do
+        click_on "Logout"
+        login_user ("Alexander")
+        visit user_dashboard_path
+        click_on "Check Outcome"
+        expect(page).to have_content("I Lost!")
+        expect(page).to have_link("Rematch?")
+
+      end
+
     end
-  #
-  #   context "The outcome of the sportwager has been determined and the wagerer lost" do
-  #     before(:each) do
-  #       game_one = SportsGamesOutcome.new({ "status"=> "closed", "home_team"=> {"id" => "NE", "points"=>25}, "away_team"=> {"id" => "DEN", "points"=>5}})
-  #       allow(SportsGamesOutcome).to receive(:get_final_score).and_return(game_one)
-  #     end
-  #
-  #
-  #     scenario "A losing wagerer sees that they lost the wager" do
-  #       visit user_dashboard_path
-  #
-  #       click_on "Check Outcome"
-  #       expect(page).to have_content("I Lost!")
-  #       expect(page).to have_link("Rematch")
-  #
-  #     end
-  #
-  #     scenario "A winning wageree sees that they won the wager" do
-  #       click_on "Logout"
-  #       login_user ("Alexander")
-  #       visit user_dashboard_path
-  #       click_on "Check Outcome"
-  #       expect(page).to have_content("I Won!")
-  #       expect(page).to have_link("Rematch?")
-  #
-  #     end
-  #
-  #
-  #   end
-  #
-  #
+
+    context "The outcome of the sportwager has been determined and the wagerer lost" do
+      before(:each) do
+        game_one = SportsGamesOutcome.create!(status: "closed", home_id: "NE", home_score: 25, vs_id: "DEN", vs_score: 5)
+        allow(SportsDataCollector).to receive(:get_final_score).and_return(game_one)
+      end
+
+
+      scenario "A losing wagerer sees that they lost the wager" do
+        visit user_dashboard_path
+
+        click_on "Check Outcome"
+        expect(page).to have_content("I Lost!")
+        expect(page).to have_link("Rematch")
+
+      end
+
+      scenario "A winning wageree sees that they won the wager" do
+        click_on "Logout"
+        login_user ("Alexander")
+        visit user_dashboard_path
+        click_on "Check Outcome"
+        expect(page).to have_content("I Won!")
+        expect(page).to have_link("Rematch?")
+
+      end
+
+
+    end
+
+
   end
 
 
