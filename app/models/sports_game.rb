@@ -1,7 +1,8 @@
 class SportsGame < ActiveRecord::Base
 
-
-
+  def self.remaining_games
+    where('date > ?', DateTime.now.utc)
+  end
 
 
   # def self.get_final_score(week_number, vs_id, home_id)

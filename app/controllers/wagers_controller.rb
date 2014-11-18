@@ -10,7 +10,7 @@ class WagersController < ApplicationController
 
     @wager = CreateWager.new({kenny_loggins: kenny_loggins}, params[:pwid])
     @wager.time_of_wager = timezone_adjusted_clock(DateTime.now.beginning_of_hour + 3.hours) 
-    @remaining_games = SportsGame.where('date > ?', DateTime.now.utc)
+    @remaining_games = SportsGame.remaining_games
 
     render :new
   end
@@ -26,7 +26,7 @@ class WagersController < ApplicationController
       flash[:notice] = @wager.notice
       redirect_to user_dashboard_path
     else
-      @remaining_games = SportsGame.where('date > ?', DateTime.now.utc)
+      @remaining_games = SportsGame.remaining_game
       render :new
     end
   end
