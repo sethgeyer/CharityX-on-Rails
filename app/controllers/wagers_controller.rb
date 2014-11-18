@@ -2,14 +2,13 @@ class WagersController < ApplicationController
   def new
     if kenny_loggins.insufficient_funds_for(Chip::CHIP_VALUE, "available")
       flash[:notice] = "Your account has a $0 balance.  You must fund your account before you can wager."
-      redirect_to user_dashboard_path
-    else
-      @wager = CreateWager.new({kenny_loggins: kenny_loggins}, params[:pwid])
-
-      @remaining_games = SportsGame.where('date > ?', DateTime.now.utc)
-
-      render :new
+      redirect_to user_dashboard_path and return
     end
+
+    @wager = CreateWager.new({kenny_loggins: kenny_loggins}, params[:pwid])
+    @remaining_games = SportsGame.where('date > ?', DateTime.now.utc)
+
+    render :new
   end
 
   def create
