@@ -18,6 +18,7 @@ class UpdateWager
     end
   end
 
+
   private
 
   def lock_down_wager_if_accepted(action, wager_id)
@@ -41,10 +42,9 @@ class UpdateWager
     end
   end
 
-
-
   def assign_the_win_if_outcome_is_determined(action, wager_id)
     wager = Wager.where(id: wager_id, status: "accepted").first
+
     if action == "I Won" && wager
       wager.assign_the_win(kenny_loggins, wager)
       wager.save!
