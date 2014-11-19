@@ -12,23 +12,10 @@ class UpdateWager
     ActiveRecord::Base.transaction do
       Wager.cancel_wager_if_wager_declined(update_action, wager_id)
       check_outcome_of_game(update_action, wager_id)
-      assign_the_win_if_outcome_is_determined(update_action, wager_id)
     end
   end
-
 
   private
-  def assign_the_win_if_outcome_is_determined(action, wager_id)
-    wager = Wager.where(id: wager_id, status: "accepted").first
-
-    if action == "I Won" && wager
-      wager.assign_the_win(kenny_loggins, wager)
-      wager.save!
-    elsif action == "I Lost"  && wager
-      wager.assign_the_loss(kenny_loggins, wager)
-      Chip.sweep_the_pot(kenny_loggins, wager) if wager.save!
-    end
-  end
 
   def check_outcome_of_game(action, wager_id)
     wager = Wager.where(id: wager_id, status: "accepted").first
@@ -49,7 +36,7 @@ class UpdateWager
                   else
                     User.find(wager.user_id)
                   end
-          wager.assign_the_loss(loser, wager)
+          wager.assign_the_loss(loser)
           Chip.sweep_the_pot(loser, wager) if wager.save!
           wager.details = "#{game_outcome.vs_id}: #{game_outcome.vs_score} #{game_outcome.home_id}: #{game_outcome.home_score} QTR:#{game_outcome.quarter}-Time:#{game_outcome.clock} "
         else

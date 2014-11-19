@@ -14,27 +14,27 @@ class Wager < ActiveRecord::Base
         wager
       end
     end
+
     @wagers.select { |wager| wager != nil }
   end
 
-
-  def assign_the_win(kenny_loggins, wager)
-    if kenny_loggins.id == wager.user_id
-      wager.wagerer_outcome = "I Won"
+  def assign_the_win(winner)
+    if winner == user
+      self.wagerer_outcome = "I Won"
     else
-      wager.wageree_outcome = "I Won"
+      self.wageree_outcome = "I Won"
     end
   end
 
-  def assign_the_loss(loser, wager)
-    if loser.id == wager.user_id
-      wager.wagerer_outcome = "I Lost"
-      wager.winner_id = wager.wageree_id
-    else
-      wager.wageree_outcome = "I Lost"
-      wager.winner_id = wager.user_id
-    end
-    wager.status = "completed"
+  def assign_the_loss(loser)
+    self.winner_id = if loser == user
+                       wageree_id
+                     else
+                       user_id
+                     end
+
+    self.wageree_outcome = "I Lost"
+    self.status = "completed"
   end
 
 

@@ -340,17 +340,22 @@ feature "View and Create a Proposed Wagers" do
     before(:each) do
       create_an_existing_accepted_wager("Stephen", "Alexander", 10)
     end
+
     scenario "A wagerer, can identify that he won the wager" do
       visit "/"
+
       login_user("Stephen")
       click_on "I Won"
+
       expect(page).to have_content("Awaiting Confirmation")
     end
 
     scenario "A wageree, can identify that he won the wager" do
       visit "/"
+
       login_user("Alexander")
       click_on "I Won"
+
       expect(page).to have_content("Awaiting Confirmation")
     end
 

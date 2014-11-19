@@ -35,6 +35,27 @@ class WagersController < ApplicationController
     UpdateWager.new(
       params.merge(flash: flash, kenny_loggins: kenny_loggins)
     ).save!
+
+    redirect_to user_dashboard_path(anchor: "wager-bucket-#{params[:id]}")
+  end
+
+  def win
+    wager = Wager.find_by(id: params[:id], status: "accepted")
+    wager.assign_the_win(kenny_loggins)
+    wager.save!
+
+    redirect_to user_dashboard_path(anchor: "wager-bucket-#{params[:id]}")
+  end
+
+  def loss
+    wager = Wager.find_by(id: params[:id], status: "accepted")
+
+    ActiveRecord::Base.transaction do
+      wager.assign_the_loss(kenny_loggins)
+      wager.save!
+      Chip.sweep_the_pot(kenny_loggins, wager)
+    end
+
     redirect_to user_dashboard_path(anchor: "wager-bucket-#{params[:id]}")
   end
 
@@ -42,7 +63,6 @@ class WagersController < ApplicationController
     AcceptWager.new(wager_id: params[:id], flash: flash, kenny_loggins: kenny_loggins).save!
     redirect_to user_dashboard_path(anchor: "wager-bucket-#{params[:id]}")
   end
-
   
   def destroy
     wager = Wager.find_by(id: params[:id], status: "w/wageree")

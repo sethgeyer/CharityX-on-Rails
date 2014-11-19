@@ -14,6 +14,8 @@ Rails.application.routes.draw do
     resources :wagers, :only => [:new, :create, :update, :destroy] do
       member do
         post :accept
+        post :win
+        post :loss
       end
     end
     resources :wager_view_preferences, :only => [:create]
