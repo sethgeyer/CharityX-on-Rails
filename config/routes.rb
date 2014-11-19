@@ -4,16 +4,18 @@ Rails.application.routes.draw do
   delete "/logout", to: "sessions#destroy", as: "logout"
   post "/login", to: "sessions#create", as: "login"
 
-  resources :users, only: [:new, :create] do
-
-  end
+  resources :users, only: [:new, :create]
 
   resource :user do
     resource :profile, :only => [:edit, :update]
     resource :dashboard, :only => [:show]
     resources :deposits, :only => [:index, :new, :create]
     resources :distributions, :only => [:index, :new, :create]
-    resources :wagers, :only => [:new, :create, :update, :destroy]
+    resources :wagers, :only => [:new, :create, :update, :destroy] do
+      member do
+        post :accept
+      end
+    end
     resources :wager_view_preferences, :only => [:create]
     resource :giving_summary, :only => [:show]
   end

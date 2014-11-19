@@ -484,18 +484,23 @@ feature "View and Create a Proposed Wagers" do
       visit "/"
       login_user("Stephen")
       create_a_public_wager("Stephen", "Alexander", "Michael")
+
       expect(page).to have_css("#show_dashboards")
       expect(page).to have_content("No username was provided.  Your wager is listed in the public wagers section")
       expect(page).to have_content("Public Ping Pong")
+
       click_on "Logout"
       login_user("Alexander")
+      
       expect(page.find("#public-wagers")).to have_content("Public Ping Pong")
+
       click_on "Shake on it!"
-      expect(page.find("#wagers")).to have_content("$10")
-      expect(page.find("#wagers")).not_to have_content("$1000")
-      expect(page.find("#wagered-chips")).to have_content("Chips:#{10 / Chip::CHIP_VALUE}")
-      expect(page.find("#net_amount")).to have_content(90)
-      expect(page.find("#net-chips")).to have_content("Chips:#{90 / Chip::CHIP_VALUE}")
+
+      expect(find("#wagers")).to have_content("$10")
+      expect(find("#wagers")).not_to have_content("$1000")
+      expect(find("#wagered-chips")).to have_content("Chips:#{10 / Chip::CHIP_VALUE}")
+      expect(find("#net_amount")).to have_content(90)
+      expect(find("#net-chips")).to have_content("Chips:#{90 / Chip::CHIP_VALUE}")
     end
 
     context "User wants to solicit a non-registered-friend to join the site by proposing a wager to the friend"

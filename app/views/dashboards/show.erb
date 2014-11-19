@@ -1,274 +1,273 @@
 <div id="show_dashboards">
-<div class="container">
+  <div class="container">
 
-<div class="row">
-  <h3>Activity</h3>
-</div>
+    <div class="row">
+      <h3>Activity</h3>
+    </div>
 
-<div class="row">
-  <div class="col-md-6">
+    <div class="row">
+      <div class="col-md-6">
 
-    <div class="blue-bordered row">
-      <div id="fund-my-account" class="header col-xs-7">
-        Deposits
-        <%= link_to "+", new_user_deposit_path, class: "round-button no-decoration" %>
-      </div>
-      <div id="deposits" class="contents col-xs-5">
-        $<%= @dashboard.sum_of_deposits(kenny_loggins) %>
+        <div class="blue-bordered row">
+          <div id="fund-my-account" class="header col-xs-7">
+            Deposits
+            <%= link_to "+", new_user_deposit_path, class: "round-button no-decoration" %>
+          </div>
+          <div id="deposits" class="contents col-xs-5">
+            $<%= @dashboard.sum_of_deposits(kenny_loggins) %>
+          </div>
+        </div>
+
+        <div class="blue-bordered row">
+          <div id="wager-funds" class="header col-xs-7">
+            Active Wagers
+            <%= link_to "+", new_user_wager_path, class: "round-button no-decoration" %>
+          </div>
+          <div id="wagers" class="contents col-xs-5">
+            $<%= @dashboard.sum_of_wagered(kenny_loggins) %>
+          </div>
+        </div>
+
+        <div class=" blue-bordered row">
+          <div id="distribute-funds" class=" header col-xs-7">
+            Distributions
+            <%= link_to "+", new_user_distribution_path, class: "round-button no-decoration" %>
+          </div>
+          <div id="distributions" class="contents col-xs-5">
+            $<%= @dashboard.sum_of_distributions(kenny_loggins) %>
+          </div>
+        </div>
+
+        <div class=" blue-bordered row">
+          <div class=" header col-xs-7">
+            Winnings
+          </div>
+          <div id="winnings" class="contents col-xs-5">
+            $<%= @dashboard.sum_of_winnings(kenny_loggins) %>
+          </div>
+        </div>
+
+        <div class=" blue-bordered net-amount row">
+          <div class="header col-xs-7">
+            Account Balance
+          </div>
+          <div id="net_amount" class="contents col-xs-5">
+            <b>$<%= @dashboard.sum_of_net_amount(kenny_loggins) %></b>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <div class="blue-bordered row">
-      <div id="wager-funds" class="header col-xs-7">
-        Active Wagers
-        <%= link_to "+", new_user_wager_path, class: "round-button no-decoration" %>
-      </div>
-      <div id="wagers" class="contents col-xs-5">
-        $<%= @dashboard.sum_of_wagered(kenny_loggins) %>
-      </div>
-    </div>
-
-    <div class=" blue-bordered row">
-      <div id="distribute-funds" class=" header col-xs-7">
-        Distributions
-        <%= link_to "+", new_user_distribution_path, class: "round-button no-decoration" %>
-      </div>
-      <div id="distributions" class="contents col-xs-5">
-        $<%= @dashboard.sum_of_distributions(kenny_loggins) %>
-      </div>
-    </div>
-
-    <div class=" blue-bordered row">
-      <div class=" header col-xs-7">
-        Winnings
-      </div>
-      <div id="winnings" class="contents col-xs-5">
-        $<%= @dashboard.sum_of_winnings(kenny_loggins) %>
-      </div>
-    </div>
-
-    <div class=" blue-bordered net-amount row">
-      <div class="header col-xs-7">
-        Account Balance
-      </div>
-      <div id="net_amount" class="contents col-xs-5">
-        <b>$<%= @dashboard.sum_of_net_amount(kenny_loggins) %></b>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<br/>
+    <br/>
 
 
-<div class='row'>
-  <div class="col-md-8">
+    <div class='row'>
+      <div class="col-md-8">
 
-    <% if @dashboard.registered_wagers(kenny_loggins).count > 0 %>
+        <% if @dashboard.registered_wagers(kenny_loggins).count > 0 %>
 
-      <div class="row">
-        <h3>Wagers</h3>
-      </div>
+          <div class="row">
+            <h3>Wagers</h3>
+          </div>
 
+          <div id="wagers_table" class="row">
+            <% @dashboard.registered_wagers(kenny_loggins).each do |registered_wager| %>
 
+              <div class="wager-border" id="wager-bucket-<%= registered_wager.id %>" data-attribute-status=<%= registered_wager.status %> data-attribute-date=<%= (registered_wager.date_of_wager - DateTime.now.utc).to_i %>>
 
+                <div class="wager-title">
+                  <div class="expand-icon glyphicon glyphicon-th-list"></div>
+                  <% if registered_wager.status == "completed" || registered_wager.status == "declined" || registered_wager.status == "expired" %>
+                    <div id='archive-button' class="delete-icon glyphicon glyphicon-remove-sign" data-id=<%= registered_wager.id %>></div>
+                  <% else %>
+                    <div></div>
+                  <% end %>
 
-
-
-      <div id="wagers_table" class="row">
-        <% @dashboard.registered_wagers(kenny_loggins).each do |registered_wager| %>
-
-          <div class="wager-border" id="wager-bucket-<%= registered_wager.id %>" data-attribute-status=<%= registered_wager.status %> data-attribute-date=<%= (registered_wager.date_of_wager - DateTime.now.utc).to_i %>>
-
-            <div class="wager-title">
-              <div class="expand-icon glyphicon glyphicon-th-list"></div>
-              <% if registered_wager.status == "completed" || registered_wager.status == "declined" || registered_wager.status == "expired" %>
-                <div id='archive-button' class="delete-icon glyphicon glyphicon-remove-sign" data-id=<%= registered_wager.id %>></div>
-              <% else %>
-                <div></div>
-              <% end %>
-
-              <div class="title-text">
-                <% if kenny_loggins == registered_wager.user %>
-                  <div>
-                    <%= "I bet #{registered_wager.identify_the_wageree} $#{registered_wager.amount / 100} that:" %>
+                  <div class="title-text">
+                    <% if kenny_loggins == registered_wager.user %>
+                      <div>
+                        <%= "I bet #{registered_wager.identify_the_wageree} $#{registered_wager.amount / 100} that:" %>
+                      </div>
+                      <div class="wager-show">
+                        <%= "#{registered_wager.title}" %>
+                      </div>
+                    <% else %>
+                      <div>
+                        <%= "#{User.find_by(id: registered_wager.user.id).username} bet me $#{registered_wager.amount / 100} that:" %>
+                      </div>
+                      <div class="wager-show">
+                        <%= "#{registered_wager.title}" %>
+                      </div>
+                    <% end %>
                   </div>
-                  <div class="wager-show">
-                    <%= "#{registered_wager.title}" %>
-                  </div>
-                <% else %>
-                  <div>
-                    <%= "#{User.find_by(id: registered_wager.user.id).username} bet me $#{registered_wager.amount / 100} that:" %>
-                  </div>
-                  <div class="wager-show">
-                    <%= "#{registered_wager.title}" %>
-                  </div>
+
+                </div>
+
+                <div class="wager-details">
+                  Date: <%= timezone_adjusted_datetime(registered_wager.date_of_wager) %> |
+                  Status: <%= registered_wager.status %>
+                  <br/>
+                  <i><%= registered_wager.show_wager_details_if_present %></i>
+                </div>
+
+                <div class="wager-actions">
+                  <% if registered_wager.status == "completed" %>
+                    <div class="outcome">
+                      <%= registered_wager.identify_current_user_outcome(kenny_loggins) %>
+                      <%= SportsGamesOutcome.display_outcome(registered_wager.game_uuid)%>
+                    </div>
+                    <%= link_to "Rematch?", new_user_wager_path(pwid: registered_wager) %>
+                  <% elsif registered_wager.status == "expired" %>
+                    <div class="outcome">
+                      Wager Expired Before It Was Accepted |
+                    </div>
+                    <%= link_to "Reissue?", new_user_wager_path(pwid: registered_wager) %>
+                  <% elsif registered_wager.status == "declined" %>
+                    <div class="outcome">
+                      Wager Not Accepted |
+                    </div>
+                    <%= link_to "Revise?", new_user_wager_path(pwid: registered_wager) %>
+                  <% else %>
+
+                    <% if kenny_loggins.id == registered_wager.user_id %>
+                      <% if registered_wager.status == 'w/wageree' %>
+                        <div class="button button-withdraw">
+                          <%= link_to "Withdraw Unaccepted Wager", user_wager_path(registered_wager), {method: :delete, class: "no-decoration", data: {confirm: "You are about to withdraw your wager.  Are you sure?"}} %>
+                        </div>
+                      <% elsif registered_wager.status == "declined" %>
+                      <% elsif registered_wager.status == "accepted" && registered_wager.wagerer_outcome == "I Won" %>
+                        Awaiting Confirmation from Wageree
+                      <% else %>
+                        <%= form_for registered_wager, url: user_wager_path(registered_wager) do |f| %>
+                          <% if registered_wager.wager_type == "SportsWager" %>
+
+                            <%= f.submit "Check Outcome", class: "button button-check", data: {disable_with: "Please Wait..."} %>
+                          <% else %>
+
+                            <%= f.submit "I Won", class: "button button-won", data: {disable_with: "Please Wait...", confirm: "You are about to register your win.  Are you sure?"} %>
+                            <%= f.submit "I Lost", class: "button button-lost", data: {disable_with: "Please Wait...", confirm: "You are about to register your loss.  Are you sure?"} %>
+                          <% end %>
+                        <% end %>
+                      <% end %>
+                    <% else %>
+
+                      <div>
+                        <% if registered_wager.status == 'w/wageree' %>
+                          <%= form_for registered_wager, url: accept_user_wager_path(registered_wager), :method => :post do |f| %>
+                            <%= f.submit "Shake on it!", class: "button button-shake", data: {disable_with: "Please Wait...", confirm: "You are about to accept a wager.  Are you sure?"} %>
+                          <% end %>
+
+                          <%= form_for registered_wager, url: user_wager_path(registered_wager) do |f| %>
+                            <%= f.submit "No Thx!", class: "button button-no", data: {disable_with: "Please Wait...", confirm: "You are about to decline a wager.  Are you sure?"} %>
+                          <% end %>
+                        <% elsif registered_wager.status == "declined" %>
+                        <% elsif registered_wager.status == "accepted" && registered_wager.wageree_outcome == "I Won" %>
+                          Awaiting Confirmation from Wagerer
+                        <% else %>
+                          <% if registered_wager.wager_type == "SportsWager" %>
+
+                            <%= form_for registered_wager, url: user_wager_path(registered_wager) do |f| %>
+                              <%= f.submit "Check Outcome", class: "button button-check", data: {disable_with: "Please Wait..."} %>
+                            <% end %>
+
+                          <% else %>
+                            <%= form_for registered_wager, url: user_wager_path(registered_wager) do |f| %>
+                              <%= f.submit "I Won", class: "button button-won", data: {disable_with: "Please Wait...", confirm: "You are about to register your win.  Are you sure?"} %>
+
+                              <%= f.submit "I Lost", class: "button button-lost", data: {disable_with: "Please Wait...", confirm: "You are about to register your loss.  Are you sure?"} %>
+                            <% end %>
+                          <% end %>
+
+                        <% end %>
+                      </div>
+                  <% end %>
+            <% end %>
+                </div>
+                <% if flash[:"update-#{registered_wager.id}"] %>
+                  <div class="outcome-update"><%= flash[:"update-#{registered_wager.id}"] %></div>
                 <% end %>
               </div>
 
+
+        <% end %>
+
+          </div>
+          <br/>
+
+          <% end %>
+
+
+
+
+          <% if @dashboard.public_wagers(kenny_loggins).count > 0 %>
+            <div class="row">
+              <h3>Public Wagers</h3>
             </div>
 
-            <div class="wager-details">
-              Date: <%= timezone_adjusted_datetime(registered_wager.date_of_wager) %> |
-              Status: <%= registered_wager.status %>
-              <br/>
-              <i><%= registered_wager.show_wager_details_if_present %></i>
-            </div>
+            <div id="public-wagers" class="row">
+              <% @dashboard.public_wagers(kenny_loggins).each do |public_wager| %>
+                <div class="wager-border" id="wager-bucket-<%= public_wager.id %>" data-attribute-status=<%= public_wager.status %> data-attribute-date=<%= (public_wager.date_of_wager - DateTime.now.utc).to_i %>>
 
-            <div class="wager-actions">
-              <% if registered_wager.status == "completed" %>
-                <div class="outcome">
-                  <%= registered_wager.identify_current_user_outcome(kenny_loggins) %>
-                  <%= SportsGamesOutcome.display_outcome(registered_wager.game_uuid)%>
-                </div>
-                <%= link_to "Rematch?", new_user_wager_path(pwid: registered_wager) %>
-              <% elsif registered_wager.status == "expired" %>
-                <div class="outcome">
-                  Wager Expired Before It Was Accepted |
-                </div>
-                <%= link_to "Reissue?", new_user_wager_path(pwid: registered_wager) %>
-              <% elsif registered_wager.status == "declined" %>
-                <div class="outcome">
-                  Wager Not Accepted |
-                </div>
-                <%= link_to "Revise?", new_user_wager_path(pwid: registered_wager) %>
-              <% else %>
-
-                <% if kenny_loggins.id == registered_wager.user_id %>
-                  <% if registered_wager.status == 'w/wageree' %>
-                    <div class="button button-withdraw">
-                      <%= link_to "Withdraw Unaccepted Wager", user_wager_path(registered_wager), {method: :delete, class: "no-decoration", data: {confirm: "You are about to withdraw your wager.  Are you sure?"}} %>
+                  <div class="wager-title">
+                    <div class="expand-icon glyphicon glyphicon-th-list"></div>
+                    <!--<div class="outcome-flag"></div>-->
+                    <div id='archive-button' class="delete-icon glyphicon glyphicon-remove-sign" data-id=<%= public_wager.id %>></div>
+                    <div class="title-text">
+                      <div>
+                        <%= "#{User.find_by(id: public_wager.user_id).username} bet the Public $#{public_wager.amount / 100} that:" %>
+                      </div>
+                      <div class="wager-show">
+                        <%= "#{public_wager.title}" %>
+                      </div>
                     </div>
-                  <% elsif registered_wager.status == "declined" %>
-                  <% elsif registered_wager.status == "accepted" && registered_wager.wagerer_outcome == "I Won" %>
-                    Awaiting Confirmation from Wageree
-                  <% else %>
-                    <%= form_for registered_wager, url: user_wager_path(registered_wager) do |f| %>
-                      <% if registered_wager.wager_type == "SportsWager" %>
 
-                        <%= f.submit "Check Outcome", class: "button button-check", data: {disable_with: "Please Wait..."} %>
-                      <% else %>
+                  </div>
 
-                        <%= f.submit "I Won", class: "button button-won", data: {disable_with: "Please Wait...", confirm: "You are about to register your win.  Are you sure?"} %>
-                        <%= f.submit "I Lost", class: "button button-lost", data: {disable_with: "Please Wait...", confirm: "You are about to register your loss.  Are you sure?"} %>
+                  <div class="wager-details">
+                    Date: <%= timezone_adjusted_datetime(public_wager.date_of_wager) %> |
+                    Status: <%= public_wager.status %>
+                    <br/>
+                    <i><%= public_wager.show_wager_details_if_present %></i>
+                  </div>
+
+                  <div class="wager-actions">
+                    <% if public_wager.status == "expired" %>
+                      <div class="outcome">
+                        Wager Expired Before It Was Accepted
+                      </div>
+                    <% else %>
+                      <%= form_for public_wager, url: accept_user_wager_path(public_wager), :method => :post do |f| %>
+                        <%= f.submit "Shake on it!", class: "button button-pub-shake", data: {disable_with: "Please Wait...", confirm: "You are about to accept a wager.  Are you sure?"} %>
                       <% end %>
                     <% end %>
+                  </div>
+                  <% if flash[:"update-#{public_wager.id}"] %>
+                    <div class="outcome-update"><%= flash[:"update-#{public_wager.id}"] %></div>
                   <% end %>
-                <% else %>
-                  <%= form_for registered_wager, url: user_wager_path(registered_wager) do |f| %>
-                    <div>
-                      <% if registered_wager.status == 'w/wageree' %>
-                        <%= f.submit "Shake on it!", class: "button button-shake", data: {disable_with: "Please Wait...", confirm: "You are about to accept a wager.  Are you sure?"} %>
-
-
-                        <%= f.submit "No Thx!", class: "button button-no", data: {disable_with: "Please Wait...", confirm: "You are about to decline a wager.  Are you sure?"} %>
-                      <% elsif registered_wager.status == "declined" %>
-                      <% elsif registered_wager.status == "accepted" && registered_wager.wageree_outcome == "I Won" %>
-                        Awaiting Confirmation from Wagerer
-                      <% else %>
-                        <% if registered_wager.wager_type == "SportsWager" %>
-
-                          <%= f.submit "Check Outcome", class: "button button-check", data: {disable_with: "Please Wait..."} %>
-                        <% else %>
-
-                          <%= f.submit "I Won", class: "button button-won", data: {disable_with: "Please Wait...", confirm: "You are about to register your win.  Are you sure?"} %>
-
-                          <%= f.submit "I Lost", class: "button button-lost", data: {disable_with: "Please Wait...", confirm: "You are about to register your loss.  Are you sure?"} %>
-                        <% end %>
-
-                      <% end %>
-                    </div>
-                  <% end %>
-                <% end %>
+                </div>
               <% end %>
-            </div>
-            <% if flash[:"update-#{registered_wager.id}"] %>
-            <div class="outcome-update"><%= flash[:"update-#{registered_wager.id}"] %></div>
-            <% end %>
-              </div>
-
-
-        <% end %>
-
-      </div>
-      <br/>
-
-    <% end %>
-
-
-
-
-    <% if @dashboard.public_wagers(kenny_loggins).count > 0 %>
-
-      <div class="row">
-        <h3>Public Wagers</h3>
-      </div>
-
-      <div id="public-wagers" class="row">
-        <% @dashboard.public_wagers(kenny_loggins).each do |public_wager| %>
-          <div class="wager-border" id="wager-bucket-<%= public_wager.id %>" data-attribute-status=<%= public_wager.status %> data-attribute-date=<%= (public_wager.date_of_wager - DateTime.now.utc).to_i %>>
-
-            <div class="wager-title">
-              <div class="expand-icon glyphicon glyphicon-th-list"></div>
-              <!--<div class="outcome-flag"></div>-->
-              <div id='archive-button' class="delete-icon glyphicon glyphicon-remove-sign" data-id=<%= public_wager.id %>></div>
-              <div class="title-text">
-                <div>
-                  <%= "#{User.find_by(id: public_wager.user_id).username} bet the Public $#{public_wager.amount / 100} that:" %>
-                </div>
-                <div class="wager-show">
-                  <%= "#{public_wager.title}" %>
-                </div>
-              </div>
 
             </div>
 
-            <div class="wager-details">
-              Date: <%= timezone_adjusted_datetime(public_wager.date_of_wager) %> |
-              Status: <%= public_wager.status %>
-              <br/>
-              <i><%= public_wager.show_wager_details_if_present %></i>
-            </div>
 
-            <div class="wager-actions">
-              <% if public_wager.status == "expired" %>
-                <div class="outcome">
-                  Wager Expired Before It Was Accepted
-                </div>
-              <% else %>
-                <%= form_for public_wager, url: user_wager_path(public_wager) do |f| %>
-                  <%= f.submit "Shake on it!", class: "button button-pub-shake", data: {disable_with: "Please Wait...", confirm: "You are about to accept a wager.  Are you sure?"} %>
-                <% end %>
-              <% end %>
-            </div>
-            <% if flash[:"update-#{public_wager.id}"] %>
-              <div class="outcome-update"><%= flash[:"update-#{public_wager.id}"] %></div>
-            <% end %>
+
+
+            <br/>
+          <% end %>
+
+
+
+          <div>Logged in as: <%= kenny_loggins.username %></div>
+
+          <div id="chip-count">
+            <b>CHIP COUNT</b>
+
+            <div id="dist-chips">DISTRIBUTED Chips:<%= @dashboard.chip_count(kenny_loggins, "distributed") %></div>
+            <div id="wagered-chips">WAGERS Chips:<%= @dashboard.chip_count(kenny_loggins, "wagered") %></div>
+            <div id="net-chips">NET Chips:<%= @dashboard.chip_count(kenny_loggins, "available") %></div>
           </div>
-        <% end %>
-
       </div>
-
-
-
-
-      <br/>
-
-    <% end %>
-
-
-
-    <div>Logged in as: <%= kenny_loggins.username %></div>
-
-    <div id="chip-count">
-      <b>CHIP COUNT</b>
-
-      <div id="dist-chips">DISTRIBUTED Chips:<%= @dashboard.chip_count(kenny_loggins, "distributed") %></div>
-      <div id="wagered-chips">WAGERS Chips:<%= @dashboard.chip_count(kenny_loggins, "wagered") %></div>
-      <div id="net-chips">NET Chips:<%= @dashboard.chip_count(kenny_loggins, "available") %></div>
     </div>
   </div>
-</div>
-</div>
 </div>
