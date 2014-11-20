@@ -97,11 +97,12 @@ class Wager < ActiveRecord::Base
     end
   end
 
-  def self.cancel_wager_if_wager_declined(action, wager_id)
-    wager = Wager.where(id: wager_id).where(status: "w/wageree").first
-    if action == "No Thx!" && wager
-      wager.status = "declined"
-      Chip.set_status_to_available(wager.user_id, wager.amount) if wager.save!
+  def cancel!
+    self.status = "declined"
+
+    transaction do
+      self.save!
+      Chip.set_status_to_available(user_id, amount)
     end
   end
 

@@ -161,7 +161,7 @@
                             <%= f.submit "Shake on it!", class: "button button-shake", data: {disable_with: "Please Wait...", confirm: "You are about to accept a wager.  Are you sure?"} %>
                           <% end %>
 
-                          <%= form_for registered_wager, url: user_wager_path(registered_wager) do |f| %>
+                          <%= form_for registered_wager, url: cancellation_user_wager_path(registered_wager), method: :post do |f| %>
                             <%= f.submit "No Thx!", class: "button button-no", data: {disable_with: "Please Wait...", confirm: "You are about to decline a wager.  Are you sure?"} %>
                           <% end %>
                         <% elsif registered_wager.status == "declined" %>

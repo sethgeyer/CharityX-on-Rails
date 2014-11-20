@@ -9,10 +9,7 @@ class UpdateWager
   end
 
   def save!
-    ActiveRecord::Base.transaction do
-      Wager.cancel_wager_if_wager_declined(update_action, wager_id)
-      check_outcome_of_game(update_action, wager_id)
-    end
+    check_outcome_of_game(update_action, wager_id)
   end
 
   private
@@ -20,7 +17,6 @@ class UpdateWager
   def check_outcome_of_game(action, wager_id)
     wager = Wager.where(id: wager_id, status: "accepted").first
     if action == "Check Outcome" && wager
-      # game_id = wager.id
       selected_winner_id = wager.selected_winner_id
 
       game_outcome = SportsDataCollector.get_final_score(wager.game_week, wager.vs_id, wager.home_id, wager.game_uuid)

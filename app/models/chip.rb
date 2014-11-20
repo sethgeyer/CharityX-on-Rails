@@ -84,7 +84,4 @@ class Chip < ActiveRecord::Base
       losers_chips = Chip.reassign_to_winner(kenny_loggins.id, wager.user_id, wager.amount )
     end
   end
-
-
-
 end

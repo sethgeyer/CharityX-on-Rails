@@ -59,6 +59,13 @@ class WagersController < ApplicationController
     redirect_to user_dashboard_path(anchor: "wager-bucket-#{params[:id]}")
   end
 
+  def cancellation
+    wager = Wager.where(id: params[:id]).where(status: "w/wageree").first
+    wager.cancel!
+
+    redirect_to user_dashboard_path(anchor: "wager-bucket-#{params[:id]}")
+  end
+
   def accept
     AcceptWager.new(wager_id: params[:id], flash: flash, kenny_loggins: kenny_loggins).save!
     redirect_to user_dashboard_path(anchor: "wager-bucket-#{params[:id]}")
